@@ -1,11 +1,15 @@
-addons:
-  apt:
-    packages:
-      - hugo 
+language: go
 
-# Build the website
+os:
+  - linux
+
+matrix:
+  allow_failures:
+    - go: tip
+  fast_finish: true
+
 script:
-  - hugo
+  - ./hugo
 
 # Deploy to GitHub pages
 deploy:
