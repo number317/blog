@@ -1,21 +1,24 @@
-language: go
+language: python
+sudo: true
+dist: trusty
+python:
+  - "3.5.2"
+branches:
+  - master
+  - gh-pages
 
-os:
-  - linux
-
-matrix:
-  allow_failures:
-    - go: tip
-  fast_finish: true
+install:
+  - sudo apt-get --yes install snapd
+  - sudo snap install hugo
 
 script:
-  - ./hugo
+  - /snap/bin/hugo 
 
-# Deploy to GitHub pages
-deploy:
-  provider: pages
-  skip_cleanup: true
-  local_dir: public
-  github_token: $GH_TOKEN
-  on:
-    branch: master
+after_script: 
+  - cd ./public
+  - git init
+  - git config user.name "cheon"
+  - git config user.email "cheon0112358d@gmail.com"
+  - git add . 
+  - git commit -m "Update docs"
+  - git push --force --quiet "https://${GH_TOKEN}@github.com/number317/myBlog.git" master:gh-pages
