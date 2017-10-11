@@ -9,7 +9,7 @@ pygmentsstyle       = "bw"
 pygmentscodefences  = true
 
 [params]
-  sitename = "cheon's blog'"
+  sitename = "cheon's blog"
 
 [[menu.main]]
     name = "Home"
