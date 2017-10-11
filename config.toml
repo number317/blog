@@ -1,4 +1,19 @@
 baseURL = "https://number317.github.io/myBlog/"
-languageCode = "en-us"
 title = "cheon's blog"
-theme = "robust"
+theme = "simple"
+author = "cheon"
+canonifyurls = true
+languagecode = "en"
+
+pygmentsstyle       = "bw"
+pygmentscodefences  = true
+
+[params]
+  sitename = "cheon's blog'"
+
+[[menu.main]]
+    name = "Home"
+    url  = "https://number317.github.io/myBlog"
+[[menu.main]]
+    name = "Projects"
+    url  = "https://github.com/number317"
