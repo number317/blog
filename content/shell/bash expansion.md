@@ -134,7 +134,7 @@ patterm  被扩展为一个模式，就像路径扩展中一样。parameter  被
 $(command)
 ```
 
-    还有
+还有
 
 ```
 `command`
