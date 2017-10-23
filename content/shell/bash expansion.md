@@ -1,8 +1,10 @@
----
-title: "Bash Expansion"
-date: 2017-10-13T13:43:35+08:00
-draft: false
----
++++
+title = "Bash Expansion"
+date = 2017-10-13T13:43:35+08:00
+draft = false
+tags = ["shell"]
+categories = ["linux"]
++++
 
 # bash 扩展
 

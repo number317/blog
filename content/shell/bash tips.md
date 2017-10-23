@@ -1,10 +1,10 @@
----
-title: "Bash Tips"
-date: 2017-10-10T11:20:29+08:00
-draft: false
-tags: ["shell"]
-categories: ["linux"]
----
++++
+title = "Bash Tips"
+date = 2017-10-10T11:20:29+08:00
+draft = false
+tags = ["shell"]
+categories = ["linux"]
++++
 
 
 # bash 代码规范建议
