@@ -12,6 +12,8 @@ categories = ["software"]
 
 cas插件使用[tyl3k/cas_sso](https://github.com/tyl3k/cas_sso.git)，在`discourse.yml`中添加`git clone https://github.com/tyl3k/cas_sso.git`:
 
+<!--more-->
+
 ```
 hooks:
   after_code:

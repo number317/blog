@@ -1,6 +1,6 @@
 +++
 title = "Discourse Digest"
-date = 2017-10-18T19:27:59+08:00
+date = 2017-10-24T19:27:59+08:00
 draft = false
 tags = ["discourse"]
 categories = ["software"]
@@ -11,6 +11,8 @@ categories = ["software"]
 - discourse 版本：v1.9.0.beta12 +49
 - discourse 域名: [http://eco.hand-china.com/community](http://eco.hand-china.com/community)
 - 详细情况：discourse 配置好二级域名后，摘要邮件中取消订阅链接错误
+
+<!--more-->
 
 # 解决方法
 

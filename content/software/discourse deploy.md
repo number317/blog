@@ -13,6 +13,8 @@ categories = ["software"]
 - 目标：以容器的方式部署discourse到网站的二级域名，如[http://eco.hand-china.com/community/](http://eco.hand-china.com/community/)
 - 架构：1个postgres数据库，1个redis数据库，1个discourse服务器
 
+<!--more-->
+
 ## 部署步骤
 
 按照官方的建议，采用官方提供的脚本来构建镜像。
