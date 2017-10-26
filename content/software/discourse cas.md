@@ -38,10 +38,10 @@ hooks:
 
 以管理员帐号进入discourse设置界面:
 
-![进入设置界面](./hand/images/discourse_cas_img1.png)
+![进入设置界面](/software/images/discourse_cas_img1.png)
 
 
-![cas设置](./hand/images/discourse_cas_img2.png)
+![cas设置](/software/images/discourse_cas_img2.png)
 
 - cas sso url: https://login.hand-china.com/sso
 - cas sso host: login.hand-china.com
@@ -52,5 +52,5 @@ hooks:
 
 退出登录后，点击登录，可以看到有cas登录选项的按钮：
 
-![cas登录](./hand/images/discourse_cas_img3.png)
+![cas登录](/software/images/discourse_cas_img3.png)
 

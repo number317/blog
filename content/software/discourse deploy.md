@@ -185,6 +185,6 @@ categories = ["software"]
 
         按照提示输入邮箱和密码，即可创建拥有管理员权限的帐号
 
-        ![管理员帐号创建](./hand/images/discourse_deploy_img1.png)
+        ![管理员帐号创建](/software/images/discourse_deploy_img1.png)
     
 8.  在浏览器中输入服务器ip地址加80端口即可访问discourse，可用创建好的帐号登录。
