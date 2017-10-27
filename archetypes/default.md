@@ -1,6 +1,6 @@
 +++
 title = "{{ replace .TranslationBaseName "-" " " | title }}"
-date = linux{{ .Date }2
+date = {{ .Date }}
 draft = false
 tags = ["tags"]
 categories = ["categories"]

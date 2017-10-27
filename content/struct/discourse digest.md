@@ -3,7 +3,7 @@ title = "Discourse Digest"
 date = 2017-10-24T19:27:59+08:00
 draft = false
 tags = ["discourse"]
-categories = ["software"]
+categories = ["struct"]
 +++
 
 # 问题说明
