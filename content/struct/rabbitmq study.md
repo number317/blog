@@ -145,6 +145,70 @@ ii
 
    ![查看集群状态](/struct/images/rabbitmq_study_img2.png)
 
-**注意**
+## 重启节点
 
-*该方法是通过修改容器的`/etc/hosts`文件来确保三个节点能够互相访问的，重启之后容器的`/etc/hosts`文件会刷新，因此集群节点的连接会失败，建议使用docker-compose，openshift之类的工具或平台。*
+节点可以在任何时候加入集群和停止，即使节点奔溃也是可以的，两种情况下集群仍然可以继续工作，节点重新启动后，集群会自动将它加入。尝试停止rabbit节点：
+
+```bash
+rabbitmqctl stop_app
+```
+
+查看集群状态：
+
+```bash
+root@rabbit-slave1:/# rabbitmqctl cluster_status
+Cluster status of node 'rabbit@rabbit-slave1'
+[{nodes,[{disc,[rabbit@rabbit,'rabbit@rabbit-slave1',
+                'rabbit@rabbit-slave2']}]},
+ {running_nodes,['rabbit@rabbit-slave2','rabbit@rabbit-slave1']},
+ {cluster_name,<<"rabbit@rabbit">>},
+ {partitions,[]},
+ {alarms,[{'rabbit@rabbit-slave2',[]},{'rabbit@rabbit-slave1',[]}]}]
+```
+
+启动rabbit节点：
+
+```bash
+rabbitmqctl start_app
+```
+
+再次查看集群状态：
+
+```bash
+root@rabbit-slave1:/# rabbitmqctl cluster_status
+Cluster status of node 'rabbit@rabbit-slave1'
+[{nodes,[{disc,[rabbit@rabbit,'rabbit@rabbit-slave1',
+                'rabbit@rabbit-slave2']}]},
+ {running_nodes,[rabbit@rabbit,'rabbit@rabbit-slave2','rabbit@rabbit-slave1']},
+ {cluster_name,<<"rabbit@rabbit">>},
+ {partitions,[]},
+ {alarms,[{rabbit@rabbit,[]},
+          {'rabbit@rabbit-slave2',[]},
+          {'rabbit@rabbit-slave1',[]}]}]
+root@rabbit-slave1:/#
+```
+
+可以看到rabbit节点自动加入了集群
+
+## 删除节点
+
+如果一个节点不再是集群的一部分，它需要被完全移除。例如移除rabbit节点，将它恢复成独立的服务。首先要停止 RabbitMQ 应用，重置节点，然后重启 RabbitMQ 应用。
+
+```bash
+rabbitmqctl stop_app
+rabbitmqctl reset
+rabbitmqctl start_app
+```
+
+我们也可以远程移除一个节点，这是有用的，例如我们需要移除一个没有响应的节点。我们演示在rabbit-slave2上移除rabbit-slave1节点:
+
+```bash
+root@rabbit-slave1:/# rabbitmqctl stop_app
+root@rabbit-slave2:/# rabbitmqctl forget_cluster_node rabbit@rabbit-slave1
+```
+
+## 注意事项
+
+该方法是通过修改容器的`/etc/hosts`文件来确保三个节点能够互相访问的，重启容器之后容器的`/etc/hosts`文件会刷新，因此集群节点的连接会失败，建议使用docker-compose，openshift之类的工具或平台。
+
+当整个集群关闭时，最后关闭的节点应最先启动，如果不是，这个节点会等待30s让最后的硬盘节点启动，然后启动失败。如果最后一个关闭的节点无法被唤醒，它可以用`forget_cluster_node`命令从集群中移除。如果所有集群节点都以同时和不受控制的方式停止，可以在一个节点上使用`force_boot`命令使其再次可引导。
