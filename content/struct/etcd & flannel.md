@@ -47,28 +47,6 @@ end
 在该配置文件的目录下执行`vagrant up`启动两台测试用虚拟机
 
 ## 通用配置
-3. 安装docker：
-
-    ```bash
-3. 安装docker：
-
-    ```bash
-    sudo yum install -y docker
-    ```
-
-4. 安装flannel：
-
-    ```bash
-    sudo yum install -y flannel
-    ```
-    sudo yum install -y docker
-    ```
-
-4. 安装flannel：
-
-    ```bash
-    sudo yum install -y flannel
-    ```
 
 **以下操作在node1和node2上都需要配置**
 

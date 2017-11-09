@@ -57,7 +57,6 @@ Bash 可以认为是系统编程级的 JavaScript。虽然在某些时候，使�
  * 对于简单的条件判断，请使用`&&`和`||`。
  * 不要害怕使用`printf`，它比`echo`更加强大。
  * 把`then`，`do`等放在同一行，而不是换一行。
- * Skip `[[ ... ]]` in your if-expression if you can test for exit code instead.
  * 如果可以测试退出代码，在你的if表达式中跳过`[[ ... ]]`。
  * 使用`.sh`或`.bash`扩展名如果一个文件要被用于included/sourced。不要在可执行脚本中使用。
  * 把复杂的`sed`，`perl`等代码放在一个名字有意义的函数下。
