@@ -153,5 +153,5 @@ end
     sudo docker run -it ubuntu:14.04
     ```
 
-2. 在两个容器中互相ping对方ip，如果配置成功，则应该能ping通。否则请检查配置是否有错误，尤其思flannel配置网卡。
+2. 在两个容器中互相ping对方ip，如果配置成功，则应该能ping通。否则请检查配置是否有错误，尤其是flannel配置网卡。
     
