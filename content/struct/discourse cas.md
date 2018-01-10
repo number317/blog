@@ -14,7 +14,7 @@ cas插件使用[tyl3k/cas_sso](https://github.com/tyl3k/cas_sso.git)，在`disco
 
 <!--more-->
 
-```
+```yaml
 hooks:
   after_code:
     - exec:
@@ -28,7 +28,7 @@ hooks:
 
 修改好配置文件后重新构建discourse镜像:
 
-```
+```bash
 ./launcher rebuild discourse
 ```
 

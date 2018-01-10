@@ -73,7 +73,7 @@ end
 
 2. 修改etcd的配置文件`/etc/etcd/etcd.conf`为如下内容，修改前可以先备份原来的配置文件：
 
-    ```
+    ```conf
     ETCD_NAME=master
     ETCD_DATA_DIR="/var/lib/etcd/default.etcd"
     ETCD_LISTEN_CLIENT_URLS="http://0.0.0.0:2379,http://0.0.0.0:4001"
@@ -102,7 +102,7 @@ end
 
 6. 修改flannel的配置文件`/etc/sysconfig/flanneld`为如下内容，修改前可以先备份原来的配置文件：
 
-    ```
+    ```conf
     FLANNEL_ETCD="http://192.168.12.101:2379"
     FLANNEL_ETCD_KEY="/atomic.io/network"
     FLANNEL_OPTIONS="--iface=enp0s8"
@@ -129,7 +129,7 @@ end
 
 1. 修改flannel的配置文件`/etc/sysconfig/flanneld`为如下内容，修改前可以先备份原来的配置文件：
 
-    ```
+    ```conf
     FLANNEL_ETCD="http://192.168.12.101:2379"
     FLANNEL_ETCD_KEY="/atomic.io/network"
     FLANNEL_OPTIONS="--iface=enp0s8"

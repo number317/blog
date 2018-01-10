@@ -26,7 +26,7 @@ categories = ["struct"]
 
 3. 编辑`digest.html.erb`文件，找到如下内容:
 
-    ```
+    ```ruby
     <div dir="<%= rtl? ? 'rtl' : 'ltr' %>" class='footer'>
     <%=raw(t 'user_notifications.digest.unsubscribe',
             site_link: html_site_link(@anchor_color),
@@ -39,7 +39,7 @@ categories = ["struct"]
 
     整段内容替换好后如下:
 
-    ```
+    ```ruby
     <div dir="<%= rtl? ? 'rtl' : 'ltr' %>" class='footer'>
     <%=raw(t 'user_notifications.digest.unsubscribe',
             site_link: html_site_link(@anchor_color),
