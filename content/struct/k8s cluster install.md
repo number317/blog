@@ -10,10 +10,10 @@ categories = ["struct"]
 
 ## 集群说明
 
-集群共有四个节点，一个master节点，三个子节点，系统均为centos-7.2。
+集群共有四个节点，一个master节点，四个子节点，其中一个节点即是master节点，也是node节点，系统均为centos-7.2。
 
 ```conf
-k8s-node1      192.168.12.81       master
+k8s-node1      192.168.12.81       master, node
 k8s-node2      192.168.12.82       node
 k8s-node3      192.168.12.83       node
 k8s-node4      192.168.12.84       node
@@ -123,22 +123,25 @@ end
     KUBE_API_ARGS=""
     ```
 
-3. 启动etcd、kube-apiserver、kube-controller-manager、kube-scheduler等服务，并设置开机启动。
+3. 启动etcd、kube-apiserver、kube-controller-manager、kube-scheduler、docker等服务，并设置开机启动。
 
     ```bash
-    for service in etcd kube-apiserver kube-controller-manager kube-scheduler; do systemctl restart $service;systemctl enable $service;systemctl status $service ; done
+    for service in etcd kube-apiserver kube-controller-manager kube-scheduler docker; do systemctl restart $service;systemctl enable $service;systemctl status $service ; done
     ```
 
 # node 节点配置
 
-登录到各个node节点上，执行以下操作。
+登录到各个node节点上（包括即作为master也作为node的k8s-node1节点），执行以下操作。
 
 1. 为flannel网络指定etcd服务，修改/etc/sysconfig/flanneld文件:
 
     ```conf
     FLANNEL_ETCD="http://192.168.12.81:2379"
     FLANNEL_ETCD_KEY="/atomic.io/network"
+    FLANNEL_OPTIONS="--iface=enp0s8"
     ```
+
+    etcd和flannel用于配置容器的跨主机通信，具体见[etcd & flannel](./struct/etcd--flannel/)
 
 2. 修改/etc/kubernetes/config文件:
 
@@ -174,9 +177,10 @@ end
 ```bash
 kubectl get nodes
 NAME            STATUS    AGE
+192.168.12.81   Ready     22h
 192.168.12.82   Ready     22h
 192.168.12.83   Ready     22h
 192.168.12.84   Ready     22h
 ```
 
-看到其他节点的状态是ready说明集群已经搭建成功。
+看到节点的状态是ready说明集群已经搭建成功。
