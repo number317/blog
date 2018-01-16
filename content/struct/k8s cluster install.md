@@ -48,7 +48,7 @@ Vagrant.configure("2") do |config|
                 ansible.playbook = "playbook.yml"
                 ansible.groups = {
                 "master" => ["k8s-node1"],
-                "nodes" => (2..4).map {|j| "k8s-node#{j}"},
+                "nodes" => (1..4).map {|j| "k8s-node#{j}"},
             }
             end
         end
@@ -77,8 +77,6 @@ end
         name={{item}}
         state=latest
       with_items:
-        - vim
-        - docker
         - etcd
         - kubernetes-master
       become: true
@@ -90,13 +88,14 @@ end
         state=latest
       with_items:
         - vim
+        - bash-completion
         - docker
         - flannel
         - kubernetes-node
       become: true
 ```
 
-上面的playbook定义了一些任务，分别是关闭了所有虚拟机的防火墙；在master节点上安装了vim，docker，etcd，kubernetes-master等软件；在node节点上安装了vim，docker，flannel，kubernetes-node等软件。运行`vagrant up`启动定义好的四个虚拟机。
+上面的playbook定义了一些任务，分别是关闭了所有虚拟机的防火墙；在master节点上安装了etcd，kubernetes-master等软件；在node节点上安装了vim，bash-completion，docker，flannel，kubernetes-node等软件。运行`vagrant up`启动定义好的四个虚拟机。
 
 # master 节点配置
 
