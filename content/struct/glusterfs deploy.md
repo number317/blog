@@ -2,8 +2,8 @@
 title = "Glusterfs Deploy"
 date = 2018-01-09T10:09:35+08:00
 draft = false
-tags = ["tags"]
-categories = ["categories"]
+tags = ["glusterfs"]
+categories = ["struct"]
 +++
 
 # glusterfs centos 部署
