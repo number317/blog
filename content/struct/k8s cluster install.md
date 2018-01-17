@@ -159,9 +159,11 @@ end
     #这里的KUBELET_HOSTNAME是该node的ip地址
     KUBELET_HOSTNAME="--hostname-override=192.168.12.82"
     KUBELET_API_SERVER="--api-servers=http://192.168.12.81:8080"
-    KUBELET_POD_INFRA_CONTAINER="--pod-infra-container-image=registry.access.redhat.com/rhel7/pod-infrastructure:latest"
+    KUBELET_POD_INFRA_CONTAINER="--pod-infra-container-image=registry.cn-hangzhou.aliyuncs.com/architect/pod-infrastructure"
     KUBELET_ARGS=""
     ```
+
+    这里的`KUBELET_POD_INFRA_CONTAINER`默认的镜像需要翻墙，这里改成了阿里云的镜像，便于下载。
 
 4. 在所有Node节点上启动kube-proxy,kubelet,docker,flanneld等服务，并设置开机启动。
 
