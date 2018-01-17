@@ -1,12 +1,12 @@
 +++
-title = "K8s Cluster Install"
+title = "K8s Cluster Deploy"
 date = 2017-12-04T09:19:26+08:00
 draft = false
 tags = ["k8s"]
 categories = ["struct"]
 +++
 
-# vagrant kubernetes 集群安装
+# vagrant kubernetes 集群部署
 
 ## 集群说明
 
@@ -185,3 +185,68 @@ NAME            STATUS    AGE
 ```
 
 看到节点的状态是ready说明集群已经搭建成功。
+
+# 配置dashboard
+
+部署文件dashboard.yml如下：
+
+```yml
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: kubernetes-dashboard-v1.7.1
+  namespace: kube-system
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        k8s-app: kubernetes-dashboard
+        version: v1.7.1
+        kubernetes.io/cluster-service: "true"
+    spec:
+      containers:
+      - name: kubernetes-dashboard
+        image: registry.cn-hangzhou.aliyuncs.com/google-containers/kubernetes-dashboard-amd64
+        resources:
+          limits:
+            cpu: 100m
+            memory: 50Mi
+          requests:
+            cpu: 100m
+            memory: 50Mi
+        ports:
+        - containerPort: 9090
+        args:
+         -  --apiserver-host=http://192.168.12.81:8080
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 9090
+          initialDelaySeconds: 30
+          timeoutSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubernetes-dashboard
+  namespace: kube-system
+  labels:
+    k8s-app: kubernetes-dashboard
+    kubernetes.io/cluster-service: "true"
+spec:
+  selector:
+    k8s-app: kubernetes-dashboard
+  ports:
+  - port: 80
+    targetPort: 9090
+```
+
+在master节点192.168.12.81上执行
+
+```bash
+kubectl apply -f dashboard.yml
+```
+
+等待pod部署好后，访问`192.168.12.81:8080/ui`即可看到dashboard的界面。
