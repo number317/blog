@@ -6,7 +6,9 @@ tags = ["tomcat"]
 categories = ["solved"]
 +++
 
-# tomcat 部署war包出错
+# tomcat部署war包出错
+
+## 错误1
 
 错误日志如下：
 
@@ -35,3 +37,13 @@ tomcat.util.scan.DefaultJarScanner.jarsToSkip=\,*
 ```
 
 设置不扫描jar包
+
+## 错误2
+
+在运行日志里查看不到错误，可以在logs目录下查看localhost.xxx文件，发现报错如下：
+
+```
+java.lang.NoSuchMethodError: org.springframework.aop.framework.AopProxyUtils.getSingletonTarget(Ljava/lang/Object;)Ljava/lang/Object;
+```
+
+这种错误通常由jar包冲突导致，可以在项目里执行`mvn dependency:tree`查看项目的依赖情况，在上述的日志中，发现是`springframework.aop`这个出错，直接查找`aop`关键字，查看依赖后发现有两个jar包依赖于`spring-aop`，分别是`spring-context.jar:4.3.11.RELEASE`依赖于`spring-aop.jar:4.3.11.RELEASE`;`spring-jms.jar:4.3.6.RELEASE`依赖于`spring-aop.jar:4.3.6.RELEASE`，可以明显的看到4.3.6和4.3.11版本冲突了，这里将4.3.6版本修改为4.3.11版本后部署成功。
