@@ -42,7 +42,7 @@ tomcat.util.scan.DefaultJarScanner.jarsToSkip=\,*
 
 在运行日志里查看不到错误，可以在logs目录下查看localhost.xxx文件，发现报错如下：
 
-```
+```log
 java.lang.NoSuchMethodError: org.springframework.aop.framework.AopProxyUtils.getSingletonTarget(Ljava/lang/Object;)Ljava/lang/Object;
 ```
 
