@@ -12,7 +12,7 @@ categories = ["solved"]
 
 在`~/.local/share/mime/packages`目录下创建`text-markdown.xml`文件，内容如下
 
-```
+```xml
 <?xml version="1.0"?>
 <mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
   <mime-type type="text/plain">
@@ -25,4 +25,4 @@ categories = ["solved"]
 
 然后执行`update-mime-database ~/.local/share/mime`
 
-完成后即可用firefox打开markdown文件。若想要查看markdown的渲染效果，可以安装markdown的插件，如markdown viewer webext等
+完成后即可用firefox打开markdown文件。若想要查看markdown的渲染效果，可以安装markdown的插件，如markdow viewer webext等
