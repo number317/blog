@@ -6,6 +6,13 @@ tags = ["docker"]
 categories = ["solved"]
 +++
 
+| name | command |
+| :--- | ------: |
+| redis | `docker run -d -p 6379:6379 redis` |
+| nginx | `docker run -d --name nginx -v /path/nginx.conf:/etc/nginx.conf -v /path/html/:/usr/share/nginx/html nginx` |
+| mysql | `docker run -d -p 8006:3306 -e MYSQL_ROOT_PASSWORD="admin" -e MYSQL_USER="test" MYSQL_PASSWORD="admin" -v /root/mysql/cnf/:/etc/mysql/ -v /root/mysql/dataDir:/var/lib/mysql mysql:5.7` |
+| phpmyAdmin | `docker run --name myadmin -d -e PMA_ARBITRARY=1 -p 8080:80 phpmyadmin/phpmyadmin` |
+
 # 单节点redis
 
 ## docker

@@ -1,4 +1,3 @@
-
 +++
 title = "Rabbitmq Hello World"
 date = 2017-10-26T17:17:47+08:00

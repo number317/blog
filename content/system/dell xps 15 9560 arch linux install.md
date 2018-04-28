@@ -1,6 +1,6 @@
 +++
-title = "Dell XPS 15 9560 Arch Linux Install"
-date = 2018-03-28T10:18:00+08:00
+title = "Dell Xps 15 9560 Arch Linux Install"
+date = 2018-03-28T10:18:12+08:00
 draft = true
 tags = ["archlinux, xps15, 9560"]
 categories = ["system"]
