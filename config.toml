@@ -13,7 +13,7 @@ pygmentscodefences  = true
 
 [[menu.main]]
     name = "Home"
-    url  = "https://number317.github.io/blog"
+    url  = "https://number317.github.io"
 [[menu.main]]
     name = "Projects"
     url  = "https://github.com/number317"
