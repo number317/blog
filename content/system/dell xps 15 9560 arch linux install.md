@@ -62,7 +62,7 @@ nvme0n1                   259:0    0   477G  0 disk
     └─entropy--vg0-backup 254:4    0    10G  0 lvm   
 ```
 
-1. 磁盘创建两个分区，一个分区用于`/boot`，另一个分区用于安装系统。
+磁盘创建两个分区，一个分区用于`/boot`，另一个分区用于安装系统。
 
 ```bash
 cgdisk /dev/nvm0n1
