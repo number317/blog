@@ -76,7 +76,7 @@ Bash 可以认为是系统编程级的 JavaScript。虽然在某些时候，使�
    * 尤其是 [http://wiki.bash-hackers.org/scripting/newbie_traps](http://wiki.bash-hackers.org/scripting/newbie_traps)
  * [http://tldp.org/LDP/abs/html/](http://tldp.org/LDP/abs/html/)
  * 交互式Bash的提示: [http://samrowe.com/wordpress/advancing-in-the-bash-shell/](http://samrowe.com/wordpress/advancing-in-the-bash-shell/)
- * 用于参考, [Google's Bash styleguide](http://google-styleguide.googlecode.com/svn/trunk/shell.xml)
+ * 用于参考, [Google's Bash styleguide](https://google.github.io/styleguide/shell.xml)
  * [shellcheck](https://github.com/koalaman/shellcheck)
 
 ## 例子

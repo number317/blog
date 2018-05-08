@@ -1,7 +1,7 @@
 +++
 title = "Tcp Ip"
 date = 2018-04-26T15:37:41+08:00
-draft = false
+draft = true
 tags = ["network"]
 categories = ["system"]
 +++
@@ -37,3 +37,5 @@ OSI(Open System Interconnection) 开放系统互联模型是由ISO(International
 ### 传输层(Transport Layer)
 
 传输层提供可靠的数据传输服务，它检测路由器丢弃的包，然后产生一个重传请求，能够将乱序收到的数据包重新排序。
+
+### 会话层(Session Layer)
