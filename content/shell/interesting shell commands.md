@@ -34,11 +34,14 @@ $ nc -u localhost 8125
 
 ```bash
 curl -OL https://github.com/cmderdev/cmder/releases/download/v1.3.2/cmder.zip
+curl -Ss "https://store.docker.com/api/content/v1/repositories/public/library/$@/tags?page_size=25&page=1" | jq '."results"[]["name"]' | sort -r
+curl -X POST -H "Content-Type: application/json" -H "Authorization: Basic YWRtaW46YWRtaW4xMjM=" 'http://localhost:8081/service/siesta/rest/v1/script/' \
+         -d '{ "name": "updateAnonymousAccess", "type": "groovy", "content": "security.setAnonymousAccess(Boolean.valueOf(args))" }'
 ```
 
-`-O` 以原文件名字保存
-`-L` 重定向跟踪
-`-C` 断点续传，`-C -` ，自动检测断点
+第一行命令用于下载文件：`-O` 以原文件名字保存，`-L` 重定向跟踪，`-C` 断点续传，`-C -`自动检测断点
+第二行命令用于获取docker镜像的tag：`-S` 显示错误信息，`-s` 静默模式，`jq` 命令行的json处理工具
+第三行命令用于发送POST请求：`-H`指定请求头，`-d`指定请求参数，这里是json格式，也可以将数据写入文件，通过`-d@data.json` 的形式来传递数据
 
 ```bash
 $ cat -n file.txt
