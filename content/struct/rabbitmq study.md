@@ -66,6 +66,8 @@ RabbitMQ 节点和客户端工具(如 rabbitmqctl)使用 cookie 来检测节点�
 
 ## 集群记录
 
+### 手动部署
+
 1. 启动独立的节点
 
     通过将已存在的 RabbitMQ 节点重新配置到集群中来生成集群。第一步是在所有节点上以正常方式启动 RabbitMQ：
@@ -93,7 +95,7 @@ RabbitMQ 节点和客户端工具(如 rabbitmqctl)使用 cookie 来检测节点�
 
 4. 修改`/etc/hosts`文件，将以下内容写入所有节点的`/etc/hosts`文件：
 
-    ```
+    ```conf
     172.17.0.2  rabbit   rabbit
     172.17.0.3  rabbit-slave1   rabbit-slave1
     172.17.0.4  rabbit-slave1   rabbit-slave1
@@ -122,7 +124,7 @@ RabbitMQ 节点和客户端工具(如 rabbitmqctl)使用 cookie 来检测节点�
     rabbitmqctl join_cluster rabbit@rabbit-slave1
     rabbitmqctl start_app
     ```
-ii
+
     我们选择将rabbit-slave2加入rabbit-slave1节点，这里演示了选择哪个节点无所谓，提供一个在线的节点就足以将新节点加入集群。
 
 8. 再次查看集群状态，应该可以看到集群中有三个节点：
@@ -144,6 +146,68 @@ ii
    或者进入网页管理界面也可以看到三个节点在集群中：
 
    ![查看集群状态](/struct/images/rabbitmq_study_img2.png)
+
+### 通过配置文件部署
+
+1. 配置文件示例`cluster-rabbitmq.conf`：
+
+    ```conf
+    loopback_users.guest = false
+    listeners.tcp.default = 5672
+    hipe_compile = false
+
+    cluster_partition_handling = pause_if_all_down
+    cluster_partition_handling.pause_if_all_down.recover = autoheal
+    cluster_partition_handling.pause_if_all_down.nodes.1 = rabbit@rabbitmq-node1
+    cluster_partition_handling.pause_if_all_down.nodes.2 = rabbit@rabbitmq-node2
+    cluster_formation.peer_discovery_backend = rabbit_peer_discovery_classic_config
+    cluster_formation.classic_config.nodes.1 = rabbit@rabbitmq-node1
+    cluster_formation.classic_config.nodes.2 = rabbit@rabbitmq-node2
+    cluster_formation.node_type = disc
+
+    collect_statistics = fine
+    ```
+
+2. 启动容器脚本：
+
+```bash
+#!/bin/bash
+docker run -d \
+    -h rabbitmq-node1 \
+    -e TZ=Asia/Shanghai \
+    -e RABBITMQ_ERLANG_COOKIE='helloworld' \
+    -v $HOME/Docker/rabbitmq/conf/cluster-rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf \
+    -v $HOME/Docker/rabbitmq/data/node1:/var/lib/rabbitmq/mnesia:rw \
+    --add-host rabbitmq-node1:172.17.0.3 \
+    --add-host rabbitmq-node2:172.17.0.4 \
+    --add-host rabbitmq-node3:172.17.0.5 \
+    --name rabbitmq-node1 \
+    rabbitmq:3-management
+
+docker run -d \
+    -h rabbitmq-node2 \
+    -e TZ=Asia/Shanghai \
+    -e RABBITMQ_ERLANG_COOKIE='helloworld' \
+    -v $HOME/Docker/rabbitmq/conf/cluster-rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf \
+    -v $HOME/Docker/rabbitmq/data/node2:/var/lib/rabbitmq/mnesia:rw \
+    --add-host rabbitmq-node1:172.17.0.3 \
+    --add-host rabbitmq-node2:172.17.0.4 \
+    --add-host rabbitmq-node3:172.17.0.5 \
+    --name rabbitmq-node2 \
+    rabbitmq:3-management
+
+docker run -d \
+    -h rabbitmq-node3 \
+    -e TZ=Asia/Shanghai \
+    -e RABBITMQ_ERLANG_COOKIE='helloworld' \
+    -v $HOME/Docker/rabbitmq/conf/cluster-rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf \
+    -v $HOME/Docker/rabbitmq/data/node3:/var/lib/rabbitmq/mnesia:rw \
+    --add-host rabbitmq-node1:172.17.0.3 \
+    --add-host rabbitmq-node2:172.17.0.4 \
+    --add-host rabbitmq-node3:172.17.0.5 \
+    --name rabbitmq-node3 \
+    rabbitmq:3-management
+```
 
 ## 重启节点
 
