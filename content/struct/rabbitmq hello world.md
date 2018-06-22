@@ -8,79 +8,59 @@ categories = ["struct"]
 
 # Hello World
 
-我们将用Java写两个简单的程序，一个生产者发送一条信息，一个消费者接受并打印信息。图中的"P"指代生产者，"C"指代消费者，中间的盒子指代一个队列——RabbitMQ 的一个消息缓存。
+我们将用python写两个简单的程序，一个生产者发送一条信息，一个消费者接受并打印信息。图中的"P"指代生产者，"C"指代消费者，中间的盒子指代一个队列——RabbitMQ 的一个消息缓存。
 
 <!--more-->
 
 ![Hello World 架构图](/struct/images/rabbitmq_hello_world_img1.png)
 
-生产者Send.java:
+生产者send.py:
 
-```java
-import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.Channel;
+```python
+#!/usr/bin/env python
 
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
+import pika
 
-public class Send {
-    private final static String QUEUE_NAME = "hello";
+connection = pika.BlockingConnection(pika.ConnectionParameters('172.17.0.2', credentials=pika.PlainCredentials('guest', 'guest')))
+channel = connection.channel()
 
-    public static void main(String[] args) throws IOException, TimeoutException {
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
-        factory.setUsername("admin");
-        factory.setPassword("admin");
-        Connection connection = factory.newConnection();
-        Channel channel = connection.createChannel();
-        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-        String message = "Hello World!";
-        channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
-        System.out.println("[x] Sent '" + message + "'");
-        channel.close();
-        connection.close();
-    }
-}
+channel.queue_declare(queue='hello')
+
+channel.basic_publish(
+        exchange='',
+        routing_key='hello',
+        body='Hello World!'
+        )
+
+print(" [x] Sent 'Helllo World!'")
+
+connection.close()
 ```
 
-消费者Recv.java:
+消费者receive.py:
 
-```java
-import com.rabbitmq.client.*;
+```python
+#!/usr/bin/env python
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.concurrent.TimeoutException;
+import pika
 
-public class Recv {
 
-    private final static String QUEUE_NAME = "hello";
+connection = pika.BlockingConnection(pika.ConnectionParameters('172.17.0.2', credentials=pika.PlainCredentials('guest', 'guest')))
+channel = connection.channel()
 
-    public static void main(String[] argv) throws IOException, TimeoutException {
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
-        factory.setUsername("admin");
-        factory.setPassword("admin");
-        Connection connection = factory.newConnection();
-        Channel channel = connection.createChannel();
+channel.queue_declare(queue='hello')
 
-        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-        System.out.println(" [*] Waiting for message. To exit press CTRL+C");
+def callback(ch, method, properties, body):
+    print(" [x] Received %r" % body)
 
-        Consumer consumer = new DefaultConsumer(channel) {
-            @Override
+channel.basic_consume(
+        callback,
+        queue='hello',
+        no_ack=True
+        )
 
-            public void handleDelivery(String consumerTag, Envelope envelope,
-                                       AMQP.BasicProperties properties, byte[] body) throws UnsupportedEncodingException {
-                String message = new String(body, "UTF-8");
-                System.out.println(" [x] Received '" + message + "'");
-            }
-        };
-
-        channel.basicConsume(QUEUE_NAME, true, consumer);
-    }
-}
+print(' [*] Waiting for message. To exit press CTRL+C')
+channel.start_consuming()
 ```
 
 如果想要查看 RabbitMQ 中有什么队列，队列中有多少信息，可以通过`rabbitmqctl`来查看：

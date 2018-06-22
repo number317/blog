@@ -9,17 +9,18 @@ categories = ["struct"]
 # RabbitMQ docker 运行
 
 ```bash
-docker run -d -p 15672:15672 -p 5672:5672 --hostname rabbit --name rabbit -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin rabbitmq:3-management
+docker run -d -p 15672:15672 -p 5672:5672 --hostname rabbit --name rabbit -e TZ=Asia/Shanghai -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin rabbitmq:3-management
 ```
 
 <!--more-->
 
 - 5672端口：RabbitMQ 的端口
 - 15672端口：RabbitMQ web 端管理工具的端口
-- RABBITMQ_DEFAULT_USER：RabbitMQ 登录的用户名
-- RABBITMQ_DEFAULT_PASS：RabbitMQ 登录的密码
+- RABBITMQ\_DEFAULT\_USER：RabbitMQ 登录的用户名
+- RABBITMQ\_DEFAULT\_PASS：RabbitMQ 登录的密码
+- TZ: 设置容器的时区
 
-启动成功后，访问`localhost:15672`即可访问管理界面
+启动成功后，访问`localhost:15672`即可访问管理界面，可以看到这是一个简单的单节点rabbitmq
 
 ![RabbitMQ 管理界面](/struct/images/rabbitmq_study_img1.png)
 
@@ -170,7 +171,7 @@ RabbitMQ 节点和客户端工具(如 rabbitmqctl)使用 cookie 来检测节点�
     collect_statistics = fine
     ```
 
-2. 启动容器脚本：
+2. 通过容器启动三个rabbitmq节点，启动容器脚本：
 
 ```bash
 #!/bin/bash
@@ -211,9 +212,113 @@ docker run -d \
     rabbitmq:3-management
 ```
 
+这次启动的时候没有指定默认的用户和密码，会使用`guest:guest`用作默认的用户名和密码，并且在配置文件中指定了`loopback_users.guest = false`配置，能允许guest用户从任何网络地址登录(默认只允许从localhost登录)
+
+## 客户端连接集群
+
+不同的客户端可能有不同的支持，大多数客户端库支持接受列表参数来连接集群，如果一个节点失效，客户端可以重新连接另一个节点，恢复拓扑结构并继续操作。如果客户端不支持连接多个节点，可以为集群添加负载均衡，如haproxy，客户端只需要连接haproxy的代理地址即可。
+
+## haproxy 配置
+
+配置文件`haproxy.cfg`：
+
+```cfg
+global
+    maxconn         4000
+    user            root
+    group           root
+    log             127.0.0.1 local0
+    log             127.0.0.1 local1 notice
+    daemon
+
+    ca-base         /etc/ssl/certs
+    crt-base        /etc/ssl/private
+
+    ssl-default-bind-ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+    ssl-default-bind-options no-sslv3
+
+defaults
+    log             global
+    mode            http
+    option          dontlognull
+    timeout connect 5000
+    timeout client  50000
+    timeout server  50000
+    option          httpclose
+    option          httplog
+    option          redispatch
+    timeout connect 10000
+    maxconn         60000
+    retries         3
+    errorfile       400 /usr/local/etc/haproxy/errors/400.http
+    errorfile       403 /usr/local/etc/haproxy/errors/403.http
+    errorfile       408 /usr/local/etc/haproxy/errors/408.http
+    errorfile       500 /usr/local/etc/haproxy/errors/500.http
+    errorfile       502 /usr/local/etc/haproxy/errors/502.http
+    errorfile       503 /usr/local/etc/haproxy/errors/503.http
+    errorfile       504 /usr/local/etc/haproxy/errors/504.http
+
+listen http_front
+    bind            0.0.0.0:1080
+    stats refresh   30s
+    stats uri       /haproxy?stats
+    stats realm     Haproxy Manager
+    stats auth      admin:admin
+
+listen rabbitmq_admin
+    bind            0.0.0.0:15672
+    server          rabbtmq-node1 172.17.0.3:15672
+    server          rabbtmq-node2 172.17.0.4:15672
+    server          rabbtmq-node3 172.17.0.5:15672
+
+listen rabbitmq_cluster
+    bind            0.0.0.0:5672
+    option          tcplog
+    mode            tcp
+    timeout         client 3h
+    timeout         server 3h
+    option          clitcpka
+    balance         roundrobin
+    server          rabbitmq-node1 172.17.0.3:5672 check inter 5s rise 2 fall 3
+    server          rabbitmq-node2 172.17.0.4:5672 check inter 5s rise 2 fall 3
+    server          rabbitmq-node3 172.17.0.5:5672 check inter 5s rise 2 fall 3
+```
+
+启动haproxy容器：
+
+```bash
+docker run -d \
+           -v $HOME/Docker/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:rw \
+           --name haproxy \
+           haproxy
+```
+
+客户端连接示例，以python为例，连接只需设置haproxy的ip和端口：
+
+```python
+#!/usr/bin/env python
+
+import pika
+
+connection = pika.BlockingConnection(pika.ConnectionParameters('172.17.0.6', 5672, credentials=pika.PlainCredentials('guest', 'guest')))
+channel = connection.channel()
+
+channel.queue_declare(queue='hello')
+
+channel.basic_publish(
+        exchange='',
+        routing_key='hello',
+        body='Hello World!'
+        )
+
+print(" [x] Sent 'Helllo World!'")
+
+connection.close()
+```
+
 ## 重启节点
 
-节点可以在任何时候加入集群和停止，即使节点奔溃也是可以的，两种情况下集群仍然可以继续工作，节点重新启动后，集群会自动将它加入。尝试停止rabbit节点：
+节点可以在任何时候加入集群和停止，即使节点崩溃也是可以的，两种情况下集群仍然可以继续工作，节点重新启动后，集群会自动将它加入。尝试停止rabbit节点：
 
 ```bash
 rabbitmqctl stop_app
