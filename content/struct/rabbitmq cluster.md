@@ -1,5 +1,5 @@
 +++
-title = "Rabbitmq Study"
+title = "Rabbitmq Cluster"
 date = 2017-10-26T16:28:26+08:00
 draft = false
 tags = ["rabbitmq"]
@@ -160,9 +160,11 @@ RabbitMQ 节点和客户端工具(如 rabbitmqctl)使用 cookie 来检测节点�
     cluster_partition_handling.pause_if_all_down.recover = autoheal
     cluster_partition_handling.pause_if_all_down.nodes.1 = rabbit@rabbitmq-node1
     cluster_partition_handling.pause_if_all_down.nodes.2 = rabbit@rabbitmq-node2
+    cluster_partition_handling.pause_if_all_down.nodes.3 = rabbit@rabbitmq-node3
     cluster_formation.peer_discovery_backend = rabbit_peer_discovery_classic_config
     cluster_formation.classic_config.nodes.1 = rabbit@rabbitmq-node1
     cluster_formation.classic_config.nodes.2 = rabbit@rabbitmq-node2
+    cluster_formation.classic_config.nodes.3 = rabbit@rabbitmq-node3
     cluster_formation.node_type = disc
 
     collect_statistics = fine
