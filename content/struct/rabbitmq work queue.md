@@ -14,102 +14,56 @@ categories = ["struct"]
 
 <!--more-->
 
-NewTask.java:
+new\_task.py:
 
-```java
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
+```py
+#!/usr/bin/env python
 
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
+import sys
+import pika
 
-public class NewTask {
+connection = pika.BlockingConnection(pika.ConnectionParameters('172.17.0.6', 5672, credentials=pika.PlainCredentials('guest', 'guest')))
+channel = connection.channel()
 
-    private final static String QUEUE_NAME = "hello";
+channel.queue_declare(queue='hello')
 
-    private static String joinStrings(String[] strings, String delimiter) {
-        int length = strings.length;
-        if (length == 0) return "";
-        StringBuilder words = new StringBuilder(strings[0]);
-        for (int i = 1; i < length; i++) {
-            words.append(delimiter).append(strings[i]);
-        }
-        return words.toString();
-    }
+message = ' '.join(sys.argv[1:]) or "Hello World"
+channel.basic_publish(
+        exchange='',
+        routing_key='hello',
+        body=message
+        )
+print(" [x] Sent %r" % message)
 
-    private static String getMessage(String[] strings) {
-        if (strings.length < 1) return "Hello World!";
-        return joinStrings(strings, " ");
-    }
-
-    public static void main(String[] argv) throws IOException, TimeoutException {
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
-        factory.setUsername("admin");
-        factory.setPassword("admin");
-        Connection connection = factory.newConnection();
-        Channel channel = connection.createChannel();
-        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-        String message = getMessage(argv);
-        channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
-        System.out.println("[x] Sent '" + message + "'");
-        channel.close();
-        connection.close();
-    }
-}
+connection.close()
 ```
 
-Worker.java:
+worker.py:
 
-```java
-import com.rabbitmq.client.*;
+```py
+#!/usr/bin/env python
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.concurrent.TimeoutException;
+import pika
+import time
 
-public class Worker {
+connection = pika.BlockingConnection(pika.ConnectionParameters('172.17.0.6', 5672, credentials=pika.PlainCredentials('guest', 'guest')))
+channel = connection.channel()
 
-    private final static String QUEUE_NAME = "hello";
+channel.queue_declare(queue='hello')
 
-    private static void doWork(String task) throws InterruptedException {
-        for (char ch: task.toCharArray()) {
-            if (ch == '.') Thread.sleep(1000);
-        }
-    }
+def callback(ch, method, properties, body):
+    print(" [x] Received %r" % body)
+    time.sleep(body.count(b'.'))
+    print(" [x] Done")
 
-    public static void main(String[] argv) throws IOException, TimeoutException {
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
-        factory.setUsername("admin");
-        factory.setPassword("admin");
-        Connection connection = factory.newConnection();
-        Channel channel = connection.createChannel();
+channel.basic_consume(
+        callback,
+        queue='hello',
+        no_ack=True
+        )
 
-        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-        System.out.println(" [*] Waiting for message. To exit press CTRL+C");
-
-        final Consumer consumer = new DefaultConsumer(channel) {
-            @Override
-
-            public void handleDelivery(String consumerTag, Envelope envelope,
-                                       AMQP.BasicProperties properties, byte[] body) throws UnsupportedEncodingException {
-                String message = new String(body, "UTF-8");
-                System.out.println(" [x] Received '" + message + "'");
-                try {
-                    doWork(message);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } finally {
-                    System.out.println(" [x] Done");
-                }
-            }
-        };
-        boolean autoAck = true;
-        channel.basicConsume(QUEUE_NAME, autoAck, consumer);
-    }
-}
+print(' [*] Waiting for message. To exit press CTRL+C')
+channel.start_consuming()
 ```
 
 ## 轮询分派
@@ -118,37 +72,176 @@ public class Worker {
 
 首先，同时运行两个worker实例，他们都会从队列中获取信息。然后多次运行newtask，发送多条信息。
 
+运行`new_task.py`使程序一直发送消息：
+
+```bash
+=> i=0; while true; do ./new_task.py message-"$i.."; i=$((i+1)); sleep 2; done
+ [x] Sent 'message-0..'
+ [x] Sent 'message-1..'
+ [x] Sent 'message-2..'
+ [x] Sent 'message-3..'
+ [x] Sent 'message-4..'
+ [x] Sent 'message-5..'
+ [x] Sent 'message-6..'
+ [x] Sent 'message-7..'
+```
+
+开启两个worker实例进行消费，可以看到如下结果：
+
+work1:
+
+```bash
+=> ./worker.py
+ [*] Waiting for message. To exit press CTRL+C
+ [x] Received b'message-0..'
+ [x] Done
+ [x] Received b'message-2..'
+ [x] Done
+ [x] Received b'message-4..'
+ [x] Done
+ [x] Received b'message-6..'
+ [x] Done
+```
+
+work2:
+
+```bash
+=> ./worker.py
+ [*] Waiting for message. To exit press CTRL+C
+ [x] Received b'message-1..'
+ [x] Done
+ [x] Received b'message-3..'
+ [x] Done
+ [x] Received b'message-5..'
+ [x] Done
+ [x] Received b'message-7..'
+ [x] Done
+```
+
 观察结果可以发现，默认情况下，RabbitMQ 将会逐次发送信息给下一个消费者，第一条信息给第一个消费者，第二条信息给第二个消费者……平均下来，每个消费者会获得同样数目的信息。这种分派的方式称为轮询。
 
 ## 信息确认
 
 完成一个任务会花费几秒。你可能想要知道如果其中一个消费者开始一个任务并在做了一部分时中断将会发生什么。以我们目前的代码，一旦 RabbitMQ 递送了一个信息给消费者，它将立即标记这条信息为可删除的。在这种情况下，如果你杀死一个消费者我们会丢失它正在处理的信息。我们也会丢失所有分派给这个消费者但还没有处理的信息。
 
+还是以两个消费者为例：
+
+work1:
+
+```bash
+=> ./worker.py
+ [*] Waiting for message. To exit press CTRL+C
+ [x] Received b'message-0..'
+ [x] Done
+ [x] Received b'message-2..'
+ [x] Done
+ [x] Received b'message-4..'
+^CTraceback (most recent call last):
+  File "./worker.py", line 43, in <module>
+    channel.start_consuming()
+  File "/home/cheon/Docker/python/site-packages/pika/adapters/blocking_connection.py", line 1822, in start_consuming
+    self.connection.process_data_events(time_limit=None)
+  File "/home/cheon/Docker/python/site-packages/pika/adapters/blocking_connection.py", line 758, in process_data_events
+    self._dispatch_channel_events()
+  File "/home/cheon/Docker/python/site-packages/pika/adapters/blocking_connection.py", line 521, in _dispatch_channel_events
+    impl_channel._get_cookie()._dispatch_events()
+  File "/home/cheon/Docker/python/site-packages/pika/adapters/blocking_connection.py", line 1445, in _dispatch_events
+    evt.body)
+  File "./worker.py", line 33, in callback
+    time.sleep(body.count(b'.'))
+KeyboardInterrupt
+```
+
+work2:
+
+```bash
+=> ./worker.py
+ [*] Waiting for message. To exit press CTRL+C
+ [x] Received b'message-1..'
+ [x] Done
+ [x] Received b'message-3..'
+ [x] Done
+ [x] Received b'message-5..'
+ [x] Done
+ [x] Received b'message-6..'
+ [x] Done
+```
+
+在第一个消费者处理message-4的时候将进程杀死，发现message-4直接丢失了，并没有发给另一个消费者。
+
 但我们不想丢失任何任务。如果一个消费者中断，我们希望任务被递送给另一个消费者。为了确保信息不会丢失，RabbitMQ 支持信息确认(message acknoledgments)。一个 ack 被消费者发送给 RabbitMQ 告诉它一条信息已经被接收并处理了，RabbitMQ 可以删除它了。
 
 如果一个消费者中断(它的频道被关闭，连接被关闭，或者TCP连接丢失)并且没有发送一个 ack，RabbitMQ 将会理解为这个信息没有被完全处理好，并且重新队列它。如果此时有其他的消费者在线，它会很快地将信息递送给另一个消费者。这样可以保证没有信息丢失，即使一个消费者意外中断。
 
-手动消息确认(Manual message acknowledgements)默认被打开。在之前的例子例子中，我们通过`autoAck=true`选项来关闭了它。现在设置`autoAck=false`并且发送一个消息确认：
+手动消息确认(Manual message acknowledgements)默认被打开。在之前的例子例子中，我们通过`autoAck=true`选项来关闭了它。现在设置为手动消息确认（恢复默认设置）并且发送一个消息确认，修改后的消费者代码如下：
 
-```java
-channel.basicQos(1); // accept only one unack-ed message at a time (see below)
+```py
+#!/usr/bin/env python
 
-final Consumer consumer = new DefaultConsumer(channel) {
-  @Override
-  public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-    String message = new String(body, "UTF-8");
+import pika
+import time
 
-    System.out.println(" [x] Received '" + message + "'");
-    try {
-      doWork(message);
-    } finally {
-      System.out.println(" [x] Done");
-      channel.basicAck(envelope.getDeliveryTag(), false);
-    }
-  }
-};
-boolean autoAck = false;
-channel.basicConsume(TASK_QUEUE_NAME, autoAck, consumer);
+connection = pika.BlockingConnection(pika.ConnectionParameters('172.17.0.6', 5672, credentials=pika.PlainCredentials('guest', 'guest')))
+channel = connection.channel()
+
+channel.queue_declare(queue='hello')
+
+def callback(ch, method, properties, body):
+    print(" [x] Received %r" % body)
+    time.sleep(body.count(b'.'))
+    print(" [x] Done")
+    ch.basic_ack(delivery_tag=method.delivery_tag)
+
+channel.basic_consume(
+        callback,
+        queue='hello'
+        )
+
+print(' [*] Waiting for message. To exit press CTRL+C')
+channel.start_consuming()
+```
+
+依旧使用上面的例子：
+
+work1:
+
+```bash
+=> ./worker.py
+ [*] Waiting for message. To exit press CTRL+C
+ [x] Received b'message-0..'
+ [x] Done
+ [x] Received b'message-2..'
+ [x] Done
+ [x] Received b'message-4..'
+^CTraceback (most recent call last):
+  File "./worker.py", line 43, in <module>
+    channel.start_consuming()
+  File "/home/cheon/Docker/python/site-packages/pika/adapters/blocking_connection.py", line 1822, in start_consuming
+    self.connection.process_data_events(time_limit=None)
+  File "/home/cheon/Docker/python/site-packages/pika/adapters/blocking_connection.py", line 758, in process_data_events
+    self._dispatch_channel_events()
+  File "/home/cheon/Docker/python/site-packages/pika/adapters/blocking_connection.py", line 521, in _dispatch_channel_events
+    impl_channel._get_cookie()._dispatch_events()
+  File "/home/cheon/Docker/python/site-packages/pika/adapters/blocking_connection.py", line 1445, in _dispatch_events
+    evt.body)
+  File "./worker.py", line 33, in callback
+    time.sleep(body.count(b'.'))
+KeyboardInterrupt
+```
+
+work2:
+
+```bash
+=> ./worker.py
+ [*] Waiting for message. To exit press CTRL+C
+ [x] Received b'message-1..'
+ [x] Done
+ [x] Received b'message-3..'
+ [x] Done
+ [x] Received b'message-4..'
+ [x] Done
+ [x] Received b'message-5..'
+ [x] Done
 ```
 
 使用这个代码可以确保即使你在一个消费者处理信息时用CTRL+C杀死它，信息也不会丢失。在消费者中断之后，所有未被确认的信息将会被重新递送。
@@ -167,26 +260,25 @@ rabbitmqctl list_queues name messages_ready messages_unacknowledged
 
 首先，需要确保 RabbitMQ 不会丢失队列信息。为了达到这个目的，我们需要声明队列是持久化的：
 
-```java
-boolean durable = true;
-channel.queueDeclare("hello", durable, false, false, null);
+```py
+channel.queue_declare(queue='hello', durable=True)
 ```
 
 虽然这个命令是正确的，但是它在我们当前的设置中不会生效。因为我们已经定义了一个名为`hello`的非持久化队列，RabbitMQ 不允许用不同的参数重新定义一个已存在的队列，并且会返回一个错误。但是有一个很方便的变通方案，我们可以定义一个名字不同的队列，例如`task_queue`：
 
-```java
-boolean durable = true;
-channel.queueDeclare("task_queue", durable, false, false, null);
+```py
+channel.queue_declare(queue='task_queue', durable=True)
 ```
 
-`queueDeclare`的改变需要应用到生产者和消费者的代码中。现在我们已经确保`task_queue`队列不会丢失了即使 RabbitMQ 重启。我们还需要标记信息是持久化的——通过设置`MessageProperties`的值为`PERSISTENT_TEXT_PLAIN`：
+`queue_declare`的改变需要应用到生产者和消费者的代码中。现在我们已经确保`task_queue`队列不会丢失了即使 RabbitMQ 重启。我们还需要标记信息是持久化的——通过设置`delivery_mode`的值为`2`：
 
-```java
-import com.rabbitmq.client.MessageProperties;
-
-channel.basicPublish("", "task_queue",
-            MessageProperties.PERSISTENT_TEXT_PLAIN,
-            message.getBytes());
+```py
+channel.basic_publish(
+        exchange='',
+        routing_key='task_queue',
+        body=message,
+        properties=pika.BasicProperties(delivery_mode=2)
+        )
 ```
 
 *信息持久化的注意点*
@@ -197,15 +289,104 @@ channel.basicPublish("", "task_queue",
 
 你可能注意到了分派工作并不是像我们预想的那样工作。例如有两个消费者，所有的奇数信息都是大规模的而偶数信息都是轻量的，那么一个消费者会很繁忙而另一个几乎不做任何工作。RabbitMQ 不知道这一点仍然均匀地分派信息。这是因为 RabbitMQ 只是分派进入到队列中的信息，它不查看消费者还有多少未确认的信息，它只是盲目地将第n条信息发送给第n个消费者。
 
-为了改变这一点，我们可以使用`basicQos`方法的`prefetchCount=1`设置。这个设置告诉 RabbitMQ 不要同时给一个消费者超过一条的信息。换句话说，不要分派一条新的信息给一个消费者直到它处理完并确认了之前的信息。作为代替，RabbitMQ 会分派这条信息给下一个不忙的消费者。
+为了改变这一点，我们可以使用`basic.qos`方法的`prefetch_count=1`设置。这个设置告诉 RabbitMQ 不要同时给一个消费者超过一条的信息。换句话说，不要分派一条新的信息给一个消费者直到它处理完并确认了之前的信息。作为代替，RabbitMQ 会分派这条信息给下一个不忙的消费者。
 
 ![合理分派](/struct/images/rabbitmq_work_queue_img2.png)
 
-```java
-int prefetchCount = 1;
-channel.basicQos(prefetchCount);
+最终的代码如下
+
+new\_task.py:
+
+```py
+#!/usr/bin/env python
+
+import sys
+import pika
+
+connection = pika.BlockingConnection(pika.ConnectionParameters('172.17.0.6', 5672, credentials=pika.PlainCredentials('guest', 'guest')))
+channel = connection.channel()
+
+channel.queue_declare(queue='task_queue', durable=True)
+channel.basic_qos(prefetch_count=1)
+
+message = ' '.join(sys.argv[1:]) or "Hello World!"
+channel.basic_publish(
+        exchange='',
+        routing_key='task_queue',
+        body=message,
+        properties=pika.BasicProperties(delivery_mode=2)
+        )
+
+print(" [x] Sent %r" % message)
+connection.close()
 ```
 
-使用消息确认和`prefetchCount`可以设置好一个工作队列。持久化选项可以让任务存活即使 RabbitMQ 重启。
+worker.py:
 
-获取更多`channel`和`MessageProperties`方法的信息，可以查阅[JavaDocs online](http://www.rabbitmq.com/releases/rabbitmq-java-client/current-javadoc/overview-summary.html)
+```py
+#!/usr/bin/env python
+
+import pika
+import time
+
+connection = pika.BlockingConnection(pika.ConnectionParameters('172.17.0.6', 5672, credentials=pika.PlainCredentials('guest', 'guest')))
+channel = connection.channel()
+
+channel.queue_declare(queue='task_queue', durable=True)
+channel.basic_qos(prefetch_count=1)
+print(' [*] Waiting for message. To exit press CTRL+C')
+
+def callback(ch, method, properties, body):
+    print(" [x] Received %r" % body)
+    time.sleep(body.count(b'.'))
+    print(" [x] Done")
+    ch.basic_ack(delivery_tag=method.delivery_tag)
+
+channel.basic_qos(prefetch_count=1)
+channel.basic_consume(
+        callback,
+        queue='task_queue'
+        )
+
+channel.start_consuming()
+```
+
+两个消费者：
+
+work1:
+
+```bash
+=> ./worker.py
+ [*] Waiting for message. To exit press CTRL+C
+ [x] Received b'message-0..'
+ [x] Done
+ [x] Received b'message-2..'
+ [x] Done
+ [x] Received b'message-3.......'
+ [x] Done
+ [x] Received b'message-6..'
+ [x] Done
+ [x] Received b'message-7.......'
+ [x] Done
+ [x] Received b'message-10..'
+ [x] Done
+```
+
+work2:
+
+```bash
+=> ./worker.py
+ [*] Waiting for message. To exit press CTRL+C
+ [x] Received b'message-1.......'
+ [x] Done
+ [x] Received b'message-4..'
+ [x] Done
+ [x] Received b'message-5.......'
+ [x] Done
+ [x] Received b'message-8..'
+ [x] Done
+ [x] Received b'message-9.......'
+ [x] Done
+```
+
+使用消息确认和`prefetch_count`可以设置好一个工作队列。持久化选项可以让任务存活即使 RabbitMQ 重启。
