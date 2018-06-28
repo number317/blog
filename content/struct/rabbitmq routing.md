@@ -1,6 +1,6 @@
 +++
 title = "Rabbitmq Routing"
-date = 2018-06-26T01:26:49Z
+date = 2017-10-28T01:26:49Z
 draft = false
 tags = ["rabbitmq"]
 categories = ["struct"]
