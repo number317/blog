@@ -73,6 +73,8 @@ shell 脚本中\`\`和`$()`用于命令替换，`${}`用于变量替换，变量
 ```bash
 sed -i -e "s/profiler.collector.ip=172.20.0.219/profiler.collector.ip=localhost/" -e "/profiler.collector.ip=/a profiler.jvm.vendor.name=Oracle" -e "s/profiler.sampling.rate=20/profiler.sampling.rate=1/" pinpoint.config
 sed -i 1d pinpoint.config
+sed -i "1d;3d" test.txt
+sed -i "1,3d" test.txt
 ```
 
 `-i`直接修改文件
@@ -80,6 +82,8 @@ sed -i 1d pinpoint.config
 `s/pattern/changer/`修改匹配
 `/pattern/a \line1\nline2`在匹配项后添加行，`\n`分行
 `/pattern/i \line`在匹配项前添加行
+`1d;3d`删除第一行和第三行
+`1,3d`删除第一到三行
 
 ```bash
 xrandr -s 1366x768
@@ -129,3 +133,9 @@ $ A=1;echo $A;( A=2; );echo $A
 seq 100
 ```
 用于生成一个1~100的序列
+
+```bash
+ansible -i hosts all -m shell -a "free | sed '1d;3d' | awk '{print \$3/\$2}'" | grep -v SUCCESS | awk '{sum += $1;} END {print $sum/NR}'
+```
+
+该命令可以用于计算集群机器的平均空闲内存的百分比，用到了`sed`，`awk`，`grep`等linux常用的文本处理工具。需要注意的是在ansible里使用awk时，变量需要用`\`转义`$`
