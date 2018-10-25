@@ -139,3 +139,9 @@ ansible -i hosts all -m shell -a "free | sed '1d;3d' | awk '{print \$3/\$2}'" | 
 ```
 
 该命令可以用于计算集群机器的平均空闲内存的百分比，用到了`sed`，`awk`，`grep`等linux常用的文本处理工具。需要注意的是在ansible里使用awk时，变量需要用`\`转义`$`
+
+```bash
+ansible -i inventory/hosts all -m copy -a "src=/etc/yum.repos.d/Centos-7.repo backup=yes dest=/etc/yum.repos.d"
+```
+
+ansible copy 模块可用于将本机文件分发到其他节点
