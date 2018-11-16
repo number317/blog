@@ -1,3 +1,4 @@
 public/
 .idea/
 blog.iml
+*.DS_Store
