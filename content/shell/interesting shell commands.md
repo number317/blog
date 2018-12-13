@@ -145,3 +145,14 @@ ansible -i inventory/hosts all -m copy -a "src=/etc/yum.repos.d/Centos-7.repo ba
 ```
 
 ansible copy 模块可用于将本机文件分发到其他节点
+
+```bash
+usage(){
+	cat <<-EOF
+		usage
+		EOF
+}
+usage
+```
+
+bash 的 here document 可以用tab来缩进，注意必须是tab，不能是空格。

@@ -84,10 +84,10 @@ cryptsetup open /dev/nvme0n1p2 luks
 ```bash
 pvcreate /dev/mapper/luks
 vgcreate entropy-vg0 /dev/mapper/luks
-lvcreate -L 250G vg0 --name home
-lvcreate -L 150G vg0 --name root
-lvcreate -L 16G vg0 --name swap
-lvcreate -L 10G vg0 --name backup
+lvcreate -L 250G entropy-vg0 --name home
+lvcreate -L 150G entropy-vg0 --name root
+lvcreate -L 16G entropy-vg0 --name swap
+lvcreate -L 10G entropy-vg0 --name backup
 ```
 
 `home`用于挂载`home`目录，`root`用于挂载根目录，`swap`用于交换空间，`backup`用于备份系统，必要时可还原。
@@ -260,6 +260,7 @@ mkinitcpio -p linux
 
 ```bash
 bootctl --path=/boot install
+pacman -S intel-ucode
 ```
 
 首先我们需要在/boot/loader/entries文件夹中创建名为arch.conf的配置文件，添加如下内容：
@@ -284,7 +285,7 @@ default arch
 ### 安装连接wifi所需工具
 
 ```bash
-pacman -S iw dialog wpa_supplicant
+pacman -S dialog wpa_supplicant
 ```
 
 ### 退出chroot并重启
@@ -295,6 +296,77 @@ reboot
 ```
 
 能正常重启说明系统已经安装完成
+
+## 桌面安裝
+
+### 驱动安装
+
+* 声卡
+
+  ```bash
+  pacman -S pulseaudio
+  ```
+
+* 显卡
+
+  ```bash
+  pacman -S xf86-video-intel
+  ```
+
+* 触摸板可用libinput和synaptics，这里采用libinput。
+
+### 常用软件安装
+
+* xorg
+
+  ```bash
+  pacman -S xorg-server xorg-xinit
+  ```
+
+* 窗口管理器
+
+  ```bash
+  pacman -S herbstluftwm dzen2
+  ```
+
+* 窗口合成器
+
+  ```bash
+  pacman -S compton
+  ```
+
+* 启动器
+
+  ```bash
+  pacman -S dmenu
+  ```
+
+* 终端
+
+  ```bash
+  pacman -S rxvt-unicode
+  ```
+
+* 常用工具
+
+  ```bash
+  pacman -S git gvim gdb \
+            neofetch feh scrot \
+            slock xautolock \
+            docker \
+            ranger zathura zathura-pdf-mupdf \
+            w3m p7zip tree irssi \
+            mplayer mpd mpc \
+            firefox thunderbird libreoffice\
+            openssh sshpass openvpn \
+            xorg-xset xorg-xbacklight xorg-xrandr xorg-xprop
+  ```
+
+### 软件配置
+
+系统的dotfile存放在了[github](http://github.com/number317/dotfile.git)上，针对各软件的HiDPI等设置可以参考[archwiki](https://wiki.archlinux.org/index.php/HiDPI)，遇见其他一些问题也可以通过archwiki来查找解决方案。
+
+![neofetch](/system/images/xps15_img1.jpg)
 
 参考文档：
 
