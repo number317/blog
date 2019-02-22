@@ -77,26 +77,26 @@ sed -i "1d;3d" test.txt
 sed -i "1,3d" test.txt
 ```
 
-`-i`直接修改文件
-`-e`指定多个匹配项
-`s/pattern/changer/`修改匹配
-`/pattern/a \line1\nline2`在匹配项后添加行，`\n`分行
-`/pattern/i \line`在匹配项前添加行
-`1d;3d`删除第一行和第三行
-`1,3d`删除第一到三行
+`-i` 直接修改文件
+`-e` 指定多个匹配项
+`s/pattern/changer/` 修改匹配
+`/pattern/a \line1\nline2` 在匹配项后添加行，`\n` 分行
+`/pattern/i \line` 在匹配项前添加行
+`1d;3d` 删除第一行和第三行
+`1,3d` 删除第一到三行
 
 ```bash
 xrandr -s 1366x768
 ```
 
-`xrandr`用于强制修改分辨率，可以用`xrandr`命令列出可用的分辨率
+`xrandr` 用于强制修改分辨率，可以用 `xrandr` 命令列出可用的分辨率
 
 ```bash
 $ nohup command > run.log 2>&1 &
 $ nohup command &> run.log &
 ```
 
-`nohup ... &`可以将程序后台运行，`&>`可以将标准输出和错误输出都重定向到文件中，`2>&1`表示将错误输出重定向到标准输出。
+`nohup ... &`可以将程序后台运行，`&>`可以将标准输出和错误输出都重定向到文件中，`2>&1` 表示将错误输出重定向到标准输出。
 
 ```bash
 $ telnet towel.blinkenlights.nl
@@ -116,7 +116,7 @@ for code in {0..255};do
 done
 ```
 
-在终端中输出256色的色块
+在终端中输出 256 色的色块
 
 ```bash
 $ A=1;echo $A;{ A=2; };echo $A
@@ -132,13 +132,13 @@ $ A=1;echo $A;( A=2; );echo $A
 ```bash
 seq 100
 ```
-用于生成一个1~100的序列
+用于生成一个 1~100 的序列
 
 ```bash
 ansible -i hosts all -m shell -a "free | sed '1d;3d' | awk '{print \$3/\$2}'" | grep -v SUCCESS | awk '{sum += $1;} END {print $sum/NR}'
 ```
 
-该命令可以用于计算集群机器的平均空闲内存的百分比，用到了`sed`，`awk`，`grep`等linux常用的文本处理工具。需要注意的是在ansible里使用awk时，变量需要用`\`转义`$`
+该命令可以用于计算集群机器的平均空闲内存的百分比，用到了 `sed`，`awk`，`grep` 等 linux 常用的文本处理工具。需要注意的是在 ansible 里使用 awk 时，变量需要用`\`转义`$`
 
 ```bash
 ansible -i inventory/hosts all -m copy -a "src=/etc/yum.repos.d/Centos-7.repo backup=yes dest=/etc/yum.repos.d"
@@ -155,4 +155,56 @@ usage(){
 usage
 ```
 
-bash 的 here document 可以用tab来缩进，注意必须是tab，不能是空格。
+bash 的 here document 可以用 tab 来缩进，注意必须是 tab，不能是空格。
+
+```bash
+exec $SHELL -l
+```
+
+重载shell而无需退出
+
+```bash
+disown -a && exit
+```
+
+退出 shell 并保持子进程运行
+
+```bash
+history | \
+awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | \
+grep -v "./" | \
+column -c3 -s " " -t | \
+sort -nr | nl |  head -n 20
+```
+
+列出最常使用的命令
+
+```bash
+cp filename{,.orig}
+```
+
+快速拷贝一份文件
+
+```bash
+>filename
+```
+
+清空一个文件
+
+```bash
+rm !(*.foo|*.bar|*.baz)
+```
+
+删除不匹配的文件
+
+```bash
+rename foo bar foo*.txt 
+```
+
+`rename` 命令用于批量重命名文件，上述命令将 foo 替换为 bar，如 foo1.txt → bar1.txt，使用 `-nv` 参数可以 dry-run
+
+```bash
+printf "%`tput cols`s" | tr ' ' '#'
+```
+
+输出一整行的 `#`
