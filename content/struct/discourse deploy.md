@@ -10,7 +10,7 @@ categories = ["struct"]
 
 ## 部署说明
 
-- 目标：以容器的方式部署discourse到网站的二级域名，如[http://eco.hand-china.com/community/](http://eco.hand-china.com/community/)
+- 目标：以容器的方式部署discourse到网站的二级域名，如 `http://test.test.com/community/`
 - 架构：1个postgres数据库，1个redis数据库，1个discourse服务器
 
 <!--more-->
@@ -47,17 +47,17 @@ env:
 volumes:
   # 挂载数据卷
   - volume:
-        host: /u01/hep-discourse/shared/postgresql
+        host: /path/to/postgresql
         guest: /shared
   - volume:
-        host: /u01/hep-discourse/shared/postgresql/log/var-log
+        host: /path/to/postgresql/log/var-log
         guest: /var/log
 
 hooks:
   after_postgres:
     - exec:
         stdin: |
-          alter user discourse with password 'Handhand300170';
+          alter user discourse with password 'test';
         cmd: su - postgres -c 'psql discourse'
 
         raise_on_fail: false
@@ -79,10 +79,10 @@ env:
 
 volumes:
   - volume:
-        host: /u01/hep-discourse/shared/redis
+        host: /path/to/redis
         guest: /shared
   - volume:
-        host: /u01/hep-discourse/shared/redis/log/var-log
+        host: /path/to/redis/log/var-log
         guest: /var/log
 ```
 
@@ -138,13 +138,13 @@ env:
 
 volumes:
   - volume:
-      host: /u01/hep-discourse/shared/web-only
+      host: /path/to/web-only
       guest: /shared
   - volume:
-      host: /u01/hep-discourse/shared/web-only/log/var-log
+      host: /path/to/web-only/log/var-log
       guest: /var/log
   - volume:
-      host: /u01/hep-discourse/shared/web-only/asserts
+      host: /path/to/web-only/asserts
       guest: /var/www/discourse/public/assets
 
 hooks:
