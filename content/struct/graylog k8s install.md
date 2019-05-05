@@ -14,6 +14,8 @@ graylog是一个日志聚合工具，用于统一展示应用日志。这里基�
 
 mongodb 在服务中用于存储graylog的配置信息。以下是部署文件（没有进行数据持久化操作）：
 
+<details>
+<summary>mongodb deploy</summary>
 ```yaml
 # {{{ deploy
 ---
@@ -79,11 +81,14 @@ status:
   loadBalancer: {}
 # }}}
 ```
+</details>
 
 ## elasticsearch 部署
 
 elasticsearch 在服务中用于存储日志数据。以下是部署文件（没有进行数据持久化操作）：
 
+<details>
+<summary>es deploy</summary>
 ```yaml
 # {{{ deploy
 ---
@@ -170,6 +175,7 @@ status:
   loadBalancer: {}
 # }}}
 ```
+</details>
 
 注意这里es用太新的版本可能会导致graylog启动报错。
 
@@ -177,6 +183,8 @@ status:
 
 部署文件：
 
+<details>
+<summary>graylog deploy</summary>
 ```yaml
 # {{{ deploy
 ---
@@ -784,6 +792,7 @@ spec:
           servicePort: 9000
 # }}}
 ```
+</details>
 
 注意把部署文件中的域名替换为合适的域名。
 

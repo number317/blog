@@ -67,6 +67,9 @@ spec:
 
 rocketbot-ui 属于可选配置，配置文件如下：
 
+<details>
+<summary>rocketbot-ui 部署文件</summary>
+
 ```yaml
 ---
 apiVersion: apps/v1
@@ -134,6 +137,8 @@ spec:
           servicePort: 80
         path: /
 ```
+
+</details>
 
 ## 接入 Java 应用
 

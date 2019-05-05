@@ -19,6 +19,8 @@ categories = ["struct"]
 
 vagrant配置文件：
 
+<details>
+<summary>Vagrantfile</summary>
 ```ruby
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
@@ -43,12 +45,13 @@ Vagrant.configure(2) do |config|
     end
 end
 ```
+</details>
 
 在该配置文件的目录下执行`vagrant up`启动两台测试用虚拟机
 
 ## 通用配置
 
-**以下操作在node1和node2上都需要配置**
+**以下操作在 node1 和 node2 上都需要配置**
 
 1. 关闭，禁用防火墙：
 

@@ -10,6 +10,8 @@ categories = ["struct"]
 
 修改~/.m2/settings.xml内容如下：
 
+<details>
+<summary>mvn config</summary>
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
@@ -44,9 +46,12 @@ categories = ["struct"]
 
 </settings>
 ```
+</details>
 
-在项目的pom.xml文件中添加如下内容：
+在项目的 pom.xml 文件中添加如下内容：
 
+<details>
+<summary>pom config</summary>
 ```xml
 <distributionManagement>
     <snapshotRepository>
@@ -108,6 +113,7 @@ categories = ["struct"]
     </pluginRepository>
 </pluginRepositories>
 ```
+</details>
 
 # 向 nexus 中部署 snapshot 版本的包
 

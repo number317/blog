@@ -46,13 +46,13 @@ master4   Ready                         308d
 master5   Ready                         31d
 ```
 
-节点已经ready，再将其设置为可调度的：
+节点已经 ready，再将其设置为可调度的：
 
 ```bash
 $ openshift admin manage-node node1 --schedulable=true
 ```
 
-# 疏散Pods
+# 疏散 Pods
 
 标记节点不可调度:
 
@@ -66,7 +66,7 @@ $ openshift admin manage-node <node> --schedulable=false
 $ oadm manage-node <node1> <node2> --evacuate --dry-run [--pod-selector=<pod_selector>]
 ```
 
-疏散Pods:
+疏散 Pods:
 
 ```bash
 $ oadm drain <node1> <node2>
@@ -78,7 +78,7 @@ $ oadm drain <node1> <node2>
 $ oadm drain <node1> <node2> --force
 ```
 
-## 删除node调度
+## 删除 node 调度
 
 ```bash
 $ oc delete node <node>

@@ -47,8 +47,10 @@ kubectl label node <nodename> node-role.kubernetes.io/middleware=""
 
 这样在执行`kubectl get node`命令的时候可以清楚地看到哪三台是用于部署中间件的节点：
 
+<details>
+<summary>kubectl get node</summary>
+
 ```bash
-[appuser@zdztvura01 ~]$ kubectl get node
 NAME          STATUS    ROLES             AGE       VERSION
 node1         Ready     master            186d      v1.8.5
 node2         Ready     node              60d       v1.8.5
@@ -69,6 +71,8 @@ node16        Ready     node              4d        v1.8.5
 node17        Ready     node              123d      v1.8.5
 node18        Ready     node              123d      v1.8.5
 ```
+
+</details>
 
 为节点添加污点：
 
@@ -116,6 +120,8 @@ systemctl restart kubelet
 
 修改redis的deployement配置：
 
+<details>
+<summary> redis deployment </summary>
 ```yaml
  apiVersion: extensions/v1beta1
  kind: Deployment
@@ -182,6 +188,7 @@ systemctl restart kubelet
        maxUnavailable: 1
        maxSurge: 1
 ```
+</details>
 
 这里添加了注解`security.alpha.kubernetes.io/unsafe-sysctls: net.core.somaxconn=2000`，设置最大连接数为2000，同时还添加了`nodeSelector`和`tolerations`用于选择部署节点。
 
