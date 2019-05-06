@@ -1,8 +1,8 @@
----
-title: "Ansible Variables"
-date: 2018-05-25T03:06:47Z
-draft: false
----
++++
+title = "Ansible Variables"
+date = 2018-05-25T03:06:47Z
+draft = false
++++
 
 # ansible 变量
 
