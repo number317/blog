@@ -140,7 +140,7 @@ spec:
 
 </details>
 
-## 接入 Java 应用
+## Java 应用接入 agent
 
 将 Java 应用接入 skywalking 需要下载对应版本的 agent，比如上面部署的版本是 6.0.0-GA，那么就在 skywalking 的 [release](https://github.com/apache/skywalking/releases) 页面找到对应的版本下载（如果版本对应不上通常会报错）。下载完解压可以找到一个 agent 目录。修改 `agent/config/agent.config` 配置文件，一般主要修改四个配置：
 
@@ -154,6 +154,18 @@ spec:
 ```bash
 java $JAVA_OPTS -javaagent:/agent/skywalking-agent.jar -jar app.jar
 ```
+
+## Tomcat 接入 agent
+
+在 catalina.sh 启动脚本中添加以下命令：
+
+```
+if [[ $ENABLE_SKAGENT == true ]]; then
+    CATALINA_OPTS="$CATALINA_OPTS -javaagent:/agent/skywalking-agent.jar"; export CATALINA_OPTS
+fi
+```
+
+这里添加了条件判断是为了在容器中使用时可以方便地通过环境变量来控制是否启用 skywalking。
 
 ## 添加 oracle 数据库插件
 
