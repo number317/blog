@@ -7,10 +7,11 @@
     <meta name="MobileOptimized" content="320">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="no-referrer">
-    <base href="{{ .Site.BaseURL }}">
     {{ if .Site.Params.description }}<meta name="description" content="{{ .Site.Params.description }}">{{ end }}
 
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400' rel='stylesheet' type='text/css'>
+    {{ if not .Site.Params.disableWebFonts }}
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400' rel='stylesheet' type='text/css'>
+    {{ end }}
 
     <link rel="icon" type="image/png" href="/favicon_16x16.png" sizes="16x16">
     <link rel="icon" type="image/png" href="/favicon_32x32.png" sizes="32x32">

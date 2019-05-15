@@ -5,11 +5,10 @@ author = "cheon"
 canonifyurls = true
 languagecode = "en"
 
-pygmentsstyle       = "bw"
-pygmentscodefences  = true
-
 [params]
   sitename = "cheon's blog"
+  description = "Welcome to cheon's blog."
+  disableWebFonts = false
 
 [[menu.main]]
     name = "Home"
