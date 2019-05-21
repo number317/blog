@@ -16,7 +16,7 @@ SonarQube 用于代码质量分析，可以检测出代码的 bug，代码异味
 
 在[下载页](https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip)下载 linux 版的 build wrapper，解压出来应该有两个可执行文件。
 
-```
+```bash
 build-wrapper-linux-x86/
 ├── build-wrapper-linux-x86-32
 ├── build-wrapper-linux-x86-64
@@ -30,7 +30,7 @@ build-wrapper-linux-x86/
 
 在[下载页](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner)找到对应的平台，下载压缩包。解压后得到如下目录：
 
-```
+```bash
 sonar-scanner-3.3.0.1492-linux
 ├── bin
 ├── conf

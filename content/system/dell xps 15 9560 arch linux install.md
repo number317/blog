@@ -301,66 +301,50 @@ reboot
 
 ### 驱动安装
 
-* 声卡
+*   声卡
 
-  ```bash
-  pacman -S pulseaudio
-  ```
+        pacman -S pulseaudio
 
-* 显卡
+*   显卡
 
-  ```bash
-  pacman -S xf86-video-intel
-  ```
+        pacman -S xf86-video-intel
 
-* 触摸板可用libinput和synaptics，这里采用libinput。
+*   触摸板可用libinput和synaptics，这里采用libinput。
 
 ### 常用软件安装
 
 * xorg
 
-  ```bash
-  pacman -S xorg-server xorg-xinit
-  ```
+        pacman -S xorg-server xorg-xinit
 
 * 窗口管理器
 
-  ```bash
-  pacman -S herbstluftwm dzen2
-  ```
+        pacman -S herbstluftwm dzen2
 
 * 窗口合成器
 
-  ```bash
-  pacman -S compton
-  ```
+        pacman -S compton
 
 * 启动器
 
-  ```bash
-  pacman -S dmenu
-  ```
+        pacman -S dmenu
 
 * 终端
 
-  ```bash
-  pacman -S rxvt-unicode
-  ```
+        pacman -S rxvt-unicode
 
 * 常用工具
 
-  ```bash
-  pacman -S git gvim gdb \
-            neofetch feh scrot \
-            slock xautolock \
-            docker \
-            ranger zathura zathura-pdf-mupdf \
-            w3m p7zip tree irssi \
-            mplayer mpd mpc \
-            firefox thunderbird libreoffice\
-            openssh sshpass openvpn \
-            xorg-xset xorg-xbacklight xorg-xrandr xorg-xprop
-  ```
+        pacman -S git gvim gdb \
+                  neofetch feh scrot \
+                  slock xautolock \
+                  docker \
+                  ranger zathura zathura-pdf-mupdf \
+                  w3m p7zip tree irssi \
+                  mplayer mpd mpc \
+                  firefox thunderbird libreoffice\
+                  openssh sshpass openvpn \
+                  xorg-xset xorg-xbacklight xorg-xrandr xorg-xprop
 
 ### 软件配置
 
@@ -370,8 +354,8 @@ reboot
 
 参考文档：
 
-[内核参数](https://wiki.archlinux.org/index.php/Kernel_parameters#systemd-boot)
-
-[前人安装经验](https://github.com/grobgl/arch-linux-setup/blob/master/install.txt)
-
-[9560 archwiki](https://wiki.archlinux.org/index.php/Dell_XPS_15_9560#Suspend_and_Hibernate)
+> [内核参数](https://wiki.archlinux.org/index.php/Kernel_parameters#systemd-boot)
+> 
+> [前人安装经验](https://github.com/grobgl/arch-linux-setup/blob/master/install.txt)
+> 
+> [9560 archwiki](https://wiki.archlinux.org/index.php/Dell_XPS_15_9560#Suspend_and_Hibernate)

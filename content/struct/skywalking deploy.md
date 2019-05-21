@@ -159,7 +159,7 @@ java $JAVA_OPTS -javaagent:/agent/skywalking-agent.jar -jar app.jar
 
 在 catalina.sh 启动脚本中添加以下命令：
 
-```
+```bash
 if [[ $ENABLE_SKAGENT == true ]]; then
     CATALINA_OPTS="$CATALINA_OPTS -javaagent:/agent/skywalking-agent.jar"; export CATALINA_OPTS
 fi
