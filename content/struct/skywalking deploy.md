@@ -2,8 +2,8 @@
 title = "Skywalking Deploy"
 date = 2019-04-25T09:16:15Z
 draft = false
-tags = ["tags"]
-categories = ["categories"]
+tags = ["aop"]
+categories = ["struct"]
 +++
 
 # skywalking 部署

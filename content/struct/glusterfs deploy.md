@@ -2,7 +2,7 @@
 title = "Glusterfs Deploy"
 date = 2018-01-09T10:09:35+08:00
 draft = false
-tags = ["glusterfs"]
+tags = ["fs"]
 categories = ["struct"]
 +++
 

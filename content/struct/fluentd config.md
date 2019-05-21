@@ -2,7 +2,7 @@
 title = "Fluentd Config"
 date = 2018-01-05T10:14:58+08:00
 draft = false
-tags = ["fluentd"]
+tags = ["log", "monitor"]
 categories = ["struct"]
 +++
 

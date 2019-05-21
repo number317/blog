@@ -2,7 +2,7 @@
 title = "Graylog K8s Install"
 date = 2018-11-14T16:20:50+08:00
 draft = false
-tags = ["graylog"]
+tags = ["log", "k8s"]
 categories = ["struct"]
 +++
 

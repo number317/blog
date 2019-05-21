@@ -2,8 +2,8 @@
 title = "Docker Graph Migrate"
 date = 2019-05-14T11:33:12Z
 draft = false
-tags = ["tags"]
-categories = ["categories"]
+tags = ["docker"]
+categories = ["struct"]
 +++
 
 # docker 目录迁移

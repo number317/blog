@@ -2,6 +2,8 @@
 title = "Ansible Variables"
 date = 2018-05-25T03:06:47Z
 draft = false
+tags = ["ansible"]
+categories = ["struct"]
 +++
 
 # ansible 变量

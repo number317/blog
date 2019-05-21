@@ -1,8 +1,8 @@
 +++
-title = "LVM Intro"
+title = "Lvm Intro"
 date = 2018-01-26T15:27:50+08:00
 draft = false
-tags = ["LVM"]
+tags = ["lvm"]
 categories = ["system"]
 +++
 

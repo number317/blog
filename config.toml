@@ -1,14 +1,21 @@
 baseURL = "https://www.cheon.site/blog/"
 title = "cheon's blog"
-theme = "simple"
+theme = "aloha"
 author = "cheon"
 canonifyurls = true
 languagecode = "en"
+paginate = 8
+pygmentsCodefences = true
+pygmentsUseClasses = false
+#https://help.farbox.com/pygments.html
+pygmentsStyle = "algol_nu"
+pygmentsCodefencesGuessSyntax = true
 
 [params]
-  sitename = "cheon's blog"
-  description = "Welcome to cheon's blog."
-  disableWebFonts = false
+    sitename = "cheon's blog"
+    description = "Aloha! Welcome to cheon's blog."
+    disableWebFonts = false
+    showSummary = false
 
 [[menu.main]]
     name = "Home"
@@ -16,3 +23,17 @@ languagecode = "en"
 [[menu.main]]
     name = "Projects"
     url  = "https://github.com/number317"
+    
+[privacy]
+  [privacy.disqus]
+    disable = true
+  [privacy.googleAnalytics]
+    disable = true
+  [privacy.instagram]
+    disable = true
+  [privacy.twitter]
+    disable = true
+  [privacy.vimeo]
+    disable = true
+  [privacy.youtube]
+    disable = true

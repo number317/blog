@@ -2,7 +2,7 @@
 title = "Redis Somaxconn"
 date = 2018-08-13T03:07:55Z
 draft = false
-tags = ["redis, kubernetes"]
+tags = ["redis", "kubernetes"]
 categories = ["solved"]
 +++
 
@@ -123,70 +123,70 @@ systemctl restart kubelet
 <details>
 <summary> redis deployment </summary>
 ```yaml
- apiVersion: extensions/v1beta1
- kind: Deployment
- metadata:
-   name: openapi-redis-dev
- spec:
-   replicas: 1
-   selector:
-     matchLabels:
-       app: openapi-redis-dev
-   template:
-     metadata:
-       annotations:
-         security.alpha.kubernetes.io/unsafe-sysctls: net.core.somaxconn=2000
-       labels:
-         app: openapi-redis-dev
-     spec:
-       nodeSelector:
-         middleware: "true"
-       tolerations:
-         - effect: NoSchedule
-           key: middleware
-           operator: Exists
-       containers:
-         - name: openapi-redis-dev
-           image: 'registry.saas.crland.com.cn/tools/redis
-           command:
-           - /bin/sh
-           - -c
-           - redis-server /usr/local/etc/redis/redis.conf
-           ports:
-             - containerPort: 6379
-               protocol: TCP
-           resources:
-             limits:
-               cpu: '2000m'
-               memory: 256Mi
-             requests:
-               cpu: 10m
-               memory: 64Mi
-           terminationMessagePath: /dev/termination-log
-           imagePullPolicy: Always
-           volumeMounts:
-             - name: redis-data
-               mountPath: /var/lib/redis
-             - name: redis-conf
-               mountPath: /usr/local/etc/redis/redis.conf
-               subPath: redis.conf
-       restartPolicy: Always
-       terminationGracePeriodSeconds: 30
-       dnsPolicy: ClusterFirst
-       securityContext: {}
-       volumes:
-         - name: redis-data
-           persistentVolumeClaim:
-             claimName: openapi-redis-dev
-         - name: redis-conf
-           configMap:
-             defaultMode: 420
-             name: openapi-redis-dev-config
-   strategy:
-     type: RollingUpdate
-     rollingUpdate:
-       maxUnavailable: 1
-       maxSurge: 1
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: openapi-redis-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openapi-redis-dev
+  template:
+    metadata:
+      annotations:
+        security.alpha.kubernetes.io/unsafe-sysctls: net.core.somaxconn=2000
+      labels:
+        app: openapi-redis-dev
+    spec:
+      nodeSelector:
+        middleware: "true"
+      tolerations:
+        - effect: NoSchedule
+          key: middleware
+          operator: Exists
+      containers:
+        - name: openapi-redis-dev
+          image: 'registry.saas.crland.com.cn/tools/redis
+          command:
+          - /bin/sh
+          - -c
+          - redis-server /usr/local/etc/redis/redis.conf
+          ports:
+            - containerPort: 6379
+              protocol: TCP
+          resources:
+            limits:
+              cpu: '2000m'
+              memory: 256Mi
+            requests:
+              cpu: 10m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: redis-data
+              mountPath: /var/lib/redis
+            - name: redis-conf
+              mountPath: /usr/local/etc/redis/redis.conf
+              subPath: redis.conf
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: openapi-redis-dev
+        - name: redis-conf
+          configMap:
+            defaultMode: 420
+            name: openapi-redis-dev-config
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
 ```
 </details>
 

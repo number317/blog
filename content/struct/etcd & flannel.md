@@ -2,7 +2,7 @@
 title = "Etcd & Flannel"
 date = 2017-11-01T17:58:29+08:00
 draft = false
-tags = ["etcd","flannel"]
+tags = ["etcd", "flannel"]
 categories = ["struct"]
 +++
 
