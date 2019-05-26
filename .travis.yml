@@ -1,17 +1,15 @@
-language: python
-python:
-  - "3.5.2"
+dist: trusty
 branches:
   - master
   - gh-pages
 
 install:
   - wget https://github.com/gohugoio/hugo/releases/download/v0.55.6/hugo_0.55.6_Linux-64bit.tar.gz
-  - tar -xzvf hugo_0.55.6_Linux-64bit.tar.gz && mv hugo /usr/bin/
+  - tar -xzvf hugo_0.55.6_Linux-64bit.tar.gz && mv hugo /tmp/
 
 script:
   - git submodule add https://github.com/number317/aloha.git themes/aloha
-  - /usr/bin/hugo 
+  - /tmp/hugo 
 
 after_script: 
   - cd ./public
