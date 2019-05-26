@@ -3,7 +3,7 @@ title = "Graylog Sidecar"
 date = 2018-11-14T17:24:04+08:00
 draft = false
 tags = ["log"]
-categories = ["categories"]
+categories = ["struct"]
 +++
 
 # graylog sidecar 部署配置

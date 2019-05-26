@@ -3,7 +3,7 @@ title = "Vps Openvpn"
 date = 2018-04-28T15:22:21+08:00
 draft = false
 tags = ["vpn"]
-categories = ["categories"]
+categories = ["system"]
 +++
 
 # VPS OpenVPN 翻墙教程
