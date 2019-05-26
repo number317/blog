@@ -6,11 +6,12 @@ branches:
   - gh-pages
 
 install:
-  - sudo apt-get --yes install snapd
-  - sudo snap install hugo
+  - wget https://github.com/gohugoio/hugo/releases/download/v0.55.6/hugo_0.55.6_Linux-64bit.tar.gz
+  - tar -xzvf hugo_0.55.6_Linux-64bit.tar.gz && mv hugo /usr/bin/
 
 script:
-  - /snap/bin/hugo 
+  - git submodule add https://github.com/number317/aloha.git themes/aloha
+  - /usr/bin/hugo 
 
 after_script: 
   - cd ./public

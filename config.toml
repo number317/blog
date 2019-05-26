@@ -5,6 +5,7 @@ author = "cheon"
 canonifyurls = true
 languagecode = "en"
 paginate = 8
+enableGitInfo = true
 pygmentsCodefences = true
 pygmentsUseClasses = false
 #https://help.farbox.com/pygments.html
@@ -20,9 +21,19 @@ pygmentsCodefencesGuessSyntax = true
 [[menu.main]]
     name = "Home"
     url  = "https://www.cheon.site"
+    weight = 1
+[[menu.main]]
+    name = "Categories"
+    url  = "/categories"
+    weight = 2
+[[menu.main]]
+    name = "Tags"
+    url  = "/categories"
+    weight = 3
 [[menu.main]]
     name = "Projects"
     url  = "https://github.com/number317"
+    weight = 4
     
 [privacy]
   [privacy.disqus]

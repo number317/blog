@@ -208,3 +208,10 @@ printf "%`tput cols`s" | tr ' ' '#'
 ```
 
 输出一整行的 `#`
+
+```bash
+timeout 1 bash -c "echo > /dev/tcp/$ip/$port"
+echo $?
+```
+
+用于检测端口是否畅通，输出 0 说明端口畅通，否则不通。udp 同理
