@@ -8,7 +8,7 @@ install:
   - tar -xzvf hugo_0.55.6_Linux-64bit.tar.gz && mv hugo /tmp/
 
 script:
-  - git submodule add https://github.com/number317/aloha.git themes/aloha
+  - git submodule add -f https://github.com/number317/aloha.git themes/aloha
   - /tmp/hugo 
 
 after_script: 
