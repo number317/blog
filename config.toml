@@ -28,7 +28,7 @@ pygmentsCodefencesGuessSyntax = true
     weight = 2
 [[menu.main]]
     name = "Tags"
-    url  = "/categories"
+    url  = "/tags"
     weight = 3
 [[menu.main]]
     name = "Projects"
