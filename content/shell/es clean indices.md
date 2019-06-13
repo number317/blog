@@ -1,6 +1,6 @@
 +++
 title = "Es Clean Indices"
-date = 2019-06-12T08:00:30Z
+date = 2019-06-12T16:00:30+08:00
 draft = false
 tags = ["es", "curl"]
 categories = ["shell"]

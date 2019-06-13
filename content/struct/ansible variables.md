@@ -1,6 +1,6 @@
 +++
 title = "Ansible Variables"
-date = 2018-05-25T03:06:47Z
+date = 2018-05-25T11:06:47+08:00
 draft = false
 tags = ["ansible"]
 categories = ["struct"]

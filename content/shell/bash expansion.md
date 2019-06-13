@@ -2,8 +2,8 @@
 title = "Bash Expansion"
 date = 2017-10-13T13:43:35+08:00
 draft = false
-tags = ["shell"]
-categories = ["linux"]
+tags = ["bash"]
+categories = ["shell"]
 +++
 
 # bash 扩展

@@ -2,7 +2,7 @@
 title = "Interesting Shell Commands"
 date = 2018-04-25T18:16:49+08:00
 draft = false
-tags = ["shell"]
+tags = ["bash"]
 categories = ["shell"]
 +++
 
@@ -39,8 +39,8 @@ curl -X POST -H "Content-Type: application/json" -H "Authorization: Basic YWRtaW
          -d '{ "name": "updateAnonymousAccess", "type": "groovy", "content": "security.setAnonymousAccess(Boolean.valueOf(args))" }'
 ```
 
-第一行命令用于下载文件：`-O` 以原文件名字保存，`-L` 重定向跟踪，`-C` 断点续传，`-C -`自动检测断点
-第二行命令用于获取docker镜像的tag：`-S` 显示错误信息，`-s` 静默模式，`jq` 命令行的json处理工具
+第一行命令用于下载文件：`-O` 以原文件名字保存，`-L` 重定向跟踪，`-C` 断点续传，`-C -`自动检测断点  
+第二行命令用于获取docker镜像的tag：`-S` 显示错误信息，`-s` 静默模式，`jq` 命令行的json处理工具  
 第三行命令用于发送POST请求：`-H`指定请求头，`-d`指定请求参数，这里是json格式，也可以将数据写入文件，通过`-d@data.json` 的形式来传递数据
 
 ```bash
@@ -56,8 +56,8 @@ curl -u admin:admin "http://grafana.saas.hand-china.com/api/admin/settings" 2>/d
 curl -u admin:admin "http://grafana.saas.hand-china.com/api/admin/settings" 2>/dev/null | jq.[]
 ```
 
-`yajl`软件包，`json_reformat`命令可以将标准输出的json内容格式化，以便于阅读
-python的json.tool模块也可用于json格式化
+`yajl`软件包，`json_reformat`命令可以将标准输出的json内容格式化，以便于阅读  
+python的json.tool模块也可用于json格式化  
 `jq`有更加强大的功能，不仅可以格式化json，还可以从json中取出相应字段。
 
 ```bash
@@ -211,7 +211,14 @@ printf "%`tput cols`s" | tr ' ' '#'
 
 ```bash
 timeout 1 bash -c "echo > /dev/tcp/$ip/$port"
-echo $?
+[[ $? -eq 0 ]] || echo $ip $protocol $port
 ```
 
-用于检测端口是否畅通，输出 0 说明端口畅通，否则不通。udp 同理
+用于检测端口是否畅通，不通则输出 ip、协议、端口。udp 同理
+
+```bash
+mysqldump --set-gtid-purged=off --default-character-set=utf8 -u${mysql_user} -p"${mysql_password}" -h${mysql_host} --databases ${mysql_database} > ./backup-$(date +%Y%m%d).sql
+mysql -u${mysql_user} -p"${mysql_password}" -h${mysql_host} ${mysql_database} < ./backup-$(date +%Y%m%d).sql
+```
+
+上述命令用于备份/恢复 mysql 数据库
