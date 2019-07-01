@@ -95,8 +95,7 @@ devices:
 ```
   cluster:
     id:     b358e8f9-3ffa-438b-8b38-38f9f5468d12
-    health: HEALTH_WARN
-            clock skew detected on mon.VM_48_62_centos, mon.VM_48_83_centos
+    health: HEALTH_OK
  
   services:
     mon: 3 daemons, quorum VM_48_51_centos,VM_48_62_centos,VM_48_83_centos (age 2d)
@@ -108,4 +107,176 @@ devices:
     objects: 0 objects, 0 B
     usage:   3.0 GiB used, 294 GiB / 297 GiB avail
     pgs:     
+```
+
+# kubernetes 配置 ceph
+
+创建 RBD pool:
+
+```bash
+ceph osd pool create kube 128
+```
+
+授权 kube 用户:
+
+```bash
+ceph auth get-or-create client.kube mon 'allow r' osd 'allow class-read, allow rwx pool=kube' -o ceph.client.kube.keyring
+ceph auth get client.kube
+```
+
+创建 ceph secret:
+
+```bash
+ceph auth get-key client.admin | base64
+ceph auth get-key client.kube | base64
+kubectl apply -f ceph-kube-secret.yml
+```
+
+<details>
+    <summary>ceph-kube-secret.yml</summary>
+
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ceph
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ceph-admin-secret
+  namespace: ceph
+type: kubernetes.io/rbd
+data:
+  key: QVFEVGdBOWQ4bDA1TUJBQWhnamFJNHd6QzROVXJyR1J3RnlPWnc9PQ==
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ceph-kube-secret
+  namespace: ceph
+type: kubernetes.io/rbd
+data:
+  key: QVFBVWJ4VmRYbHNwS3hBQUxJSDdQWmxlalk5WW10Rm5DRnQwU2c9PQ==
+```
+</details>
+
+创建动态 RBD StorageClass:
+
+```yaml
+kubectl apply -f ceph-kube-secret.yaml
+```
+
+<details>
+    <summary>ceph-storageclass.yaml</summary>
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ceph-rbd
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: kubernetes.io/rbd
+parameters:
+  monitors: 192.168.0.10:6789,192.168.0.11:6789,192.168.0.12:6789
+  adminId: admin
+  adminSecretName: ceph-admin-secret
+  adminSecretNamespace: ceph
+  pool: kube
+  userId: kube
+  userSecretName: ceph-kube-secret
+  fsType: xfs
+  imageFormat: "2"
+  imageFeatures: "layering"
+```
+</details>
+
+创建 pvc:
+
+```bash
+kubectl apply -f ceph-pvc.yaml -n ceph
+```
+
+<details>
+    <summary>ceph-pvc.yaml</summary>
+```
+kind: PersistentVolumeClaim
+metadata:
+  name: ceph-pvc
+  namespace: ceph
+spec:
+  storageClassName: ceph-rbd
+  accessModes:
+     - ReadOnlyMany
+  resources:
+    requests:
+      storage: 1Gi
+```
+</details>
+
+查看 pvc 的状态发现一直是 pending，describe 查看 pvc 事件，发现报错:
+
+```
+rbd: create volume failed, err: executable file not found in $PATH
+```
+
+结合日志查阅资料发现是在 kube-controller-manager 的 pod 容器中没有 rbd 命令。具体可以查看 [github issue](https://github.com/kubernetes/kubernetes/issues/38923)
+
+可以通过安装 [external-storage](https://github.com/kubernetes-incubator/external-storage) 插件来解决。克隆下来后路径如下:
+
+```
+ceph
+└── rbd
+    └── deploy
+        ├── non-rbac
+        │   └── deployment.yaml
+        ├── rbac
+        │   ├── clusterrolebinding.yaml
+        │   ├── clusterrole.yaml
+        │   ├── deployment.yaml
+        │   ├── rolebinding.yaml
+        │   ├── role.yaml
+        │   └── serviceaccount.yaml
+        └── README.md
+```
+
+由于部署 k8s 集群的时候启用了 rbac，所以我们用 rbac 目录下的部署文件。将 `clusterrolebinding.yaml` 和 `rolebingding.yaml` 的 namespace 修改为 ceph，然后部署:
+
+```bash
+kubectl apply -f rbac -n ceph
+```
+
+等到部署完成后，修改 storageClass 的配置，把 `provisioner: kubernetes.io/rbd` 更改为 `provisioner: ceph.com/rbd`，重新部署。等待创建完成，重新部署 pvc，发现已经可以绑定了。查看 pvc 发现也已经创建了。
+
+到 ceph 的 monitor 节点上，执行如下命令:
+
+```bash
+rbd ls -p kube
+rbd info kubernetes-dynamic-pvc-10321857-9952-11e9-aac5-0a580ae9419b -p kube
+```
+
+可以获取到 image 的详细信息，说明 ceph 确实被使用了。
+
+创建一个 pod 进行测试，发现也可以创建成功。
+
+```yml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: rbd-dyn-pvc-pod
+  name: ceph-rbd-dyn-pv-pod2
+spec:
+  containers:
+  - name: ceph-rbd-dyn-pv-busybox2
+    image: busybox
+    command: ["sleep", "60000"]
+    volumeMounts:
+    - name: ceph-dyn-rbd-vol1
+      mountPath: /mnt/ceph-dyn-rbd-pvc/busybox
+      readOnly: false
+  volumes:
+  - name: ceph-dyn-rbd-vol1
+    persistentVolumeClaim:
+      claimName: ceph-pvc
 ```
