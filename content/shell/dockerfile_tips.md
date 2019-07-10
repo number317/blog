@@ -47,6 +47,13 @@ categories = ["shell"]
   docker build -t imagename . --build-arg HTTP_PROXY=http://ip:port --build-arg HTTPS_PROXY=http://ip:port
   ```
 
+* `apt-get` 命令可以通过以下参数临时设置代理:
+
+  ```
+  RUN apt update -o Acquire::http::proxy="http://ip:port" -o Acquire::https::proxy="http://ip:port" && \
+      apt install --yes curl -o Acquire::http::proxy="http://ip:port" -o Acquire::https::proxy="http://ip:port"
+  ```
+
 * 镜像设置北京时间，可以安装`tzdata`软件包，再设置`/etc/localtime`:
 
   ```
