@@ -51,7 +51,8 @@ ceph 官方提供了 ansible 的安装脚本 [ceph-ansible](https://github.com/c
 这里将 192.168.0.10 作为用于执行 ansible-playbook 的节点。在这个节点上需要配置到另外5台服务器的 ssh 免密码登录（也可以在 hosts 文件中配置密码）。并安装一些依赖:
 
 ```bash
-yum install -y ansible epel-release centos-release-ceph-nautilus centos-release-openstack-stein
+yum install -y ansible epel-release python2-pip
+pip install -r requirements.txt
 ```
 
 配置 `site.yml` 配置文件，将没用到的 hosts 注释:
@@ -68,16 +69,17 @@ yum install -y ansible epel-release centos-release-ceph-nautilus centos-release-
 ```yaml
 cluster: ceph
 
-ceph_origin: distro
-ceph_repository: local
-ceph_stable_release: nautilus
-ceph_stable: true
+centos_package_dependencies:
+  - epel-release
+  - libselinux-python
+ceph_origin: repository
+ceph_repository: community
 ceph_mirror: http://mirrors.163.com/ceph
 ceph_stable_key: http://mirrors.163.com/ceph/keys/release.asc
 ceph_stable_repo: "{{ ceph_mirror }}/rpm-{{ ceph_stable_release }}"
-ceph_stable_redhat_distro: el7
+ceph_stable_release: nautilus
+ceph_stable: true
 fetch_directory: ~/ceph-ansible-keys
-
 monitor_interface: eth0
 public_network: 192.168.0.0/24
 cluster_network: "{{ public_network }}"
@@ -90,7 +92,7 @@ devices:
   - /dev/vdb
 ```
 
-配置好可以运行 `ansible-playbook -i hosts site.ym;`。等待 ceph 安装完毕。安装完成后执行 `ceph -s` 可以看到如下输出:
+配置好可以运行 `ansible-playbook -i hosts site.yml;`。等待 ceph 安装完毕。安装完成后执行 `ceph -s` 可以看到如下输出:
 
 ```
   cluster:
