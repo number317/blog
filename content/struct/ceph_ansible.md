@@ -282,3 +282,39 @@ spec:
     persistentVolumeClaim:
       claimName: ceph-pvc
 ```
+
+# ceph 配置 dashboard
+
+启用模块：
+
+```bash
+ceph mgr enable dashboard
+```
+
+创建证书：
+
+```bash
+ceph dashboard create-self-signed-cert
+```
+
+重启：
+
+```bash
+ceph mgr disable dashboard
+ceph mgr enable dashboard
+```
+
+配置 ip，端口：
+
+```bash
+ceph config set mgr mgr/dashboard/server_addr $IP
+ceph config set mgr mgr/dashboard/server_port $PORT
+```
+
+注意 ip 是 active monitor 节点的 ip
+
+创建用户：
+
+```bash
+ceph dashboard ac-user-create <username> <password> administrator
+```
