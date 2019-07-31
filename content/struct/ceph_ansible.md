@@ -22,7 +22,7 @@ Ceph 将数据存储为逻辑存储池中的对象。利用 [CRUSH](http://docs.
 
 # ceph-ansible
 
-ceph 官方提供了 ansible 的安装脚本 [ceph-ansible](https://github.com/ceph/ceph-ansible.git)。将项目克隆到本地，可以看到最新的温度版本是`stable-4.0`。根据集群要求准备了6台服务器。部署 OSDs 的节点需要一块额外的磁盘用作存储。ansible 的 hosts 文件如下所示:
+ceph 官方提供了 ansible 的安装脚本 [ceph-ansible](https://github.com/ceph/ceph-ansible.git)。将项目克隆到本地，可以看到最新的稳定版本是`stable-4.0`。根据集群要求准备了6台服务器。部署 OSDs 的节点需要一块额外的磁盘用作存储。ansible 的 hosts 文件如下所示:
 
 ```
 [all]
@@ -113,6 +113,27 @@ devices:
 
 # kubernetes 配置 ceph
 
+## 客户端节点配置
+
+k8s 节点安装 ceph 客户端，注意版本要和服务端的一致。添加 ceph 的源，将以下内容写入到 `/etc/yum.repo.d/ceph.repo`:
+
+```bash
+[ceph]
+name=Ceph noarch packages
+baseurl=http://mirrors.163.com/ceph/rpm-nautilus/el7/x86_64/
+enabled=1
+gpgcheck=1
+type=rpm-md
+gpgkey=http://mirrors.163.com/ceph/keys/release.asc
+```
+
+再执行下列命令来安装:
+
+```bash
+yum clean all && yum makecache
+yum install -y ceph-common
+```
+
 创建 RBD pool:
 
 ```bash
@@ -125,6 +146,10 @@ ceph osd pool create kube 128
 ceph auth get-or-create client.kube mon 'allow r' osd 'allow class-read, allow rwx pool=kube' -o ceph.client.kube.keyring
 ceph auth get client.kube
 ```
+
+将生成的 keyring 文件放到 k8s 节点的 `/etc/ceph/` 目录下
+
+## 创建 storageclass
 
 创建 ceph secret:
 
@@ -259,8 +284,10 @@ rbd info kubernetes-dynamic-pvc-10321857-9952-11e9-aac5-0a580ae9419b -p kube
 
 可以获取到 image 的详细信息，说明 ceph 确实被使用了。
 
-创建一个 pod 进行测试，发现也可以创建成功。
+创建一个 pod 进行测试，发现 pod 一直处于 `container creating` 的状态。
 
+<details>
+<summary>pod.yml</summary>
 ```yml
 apiVersion: v1
 kind: Pod
@@ -282,6 +309,35 @@ spec:
     persistentVolumeClaim:
       claimName: ceph-pvc
 ```
+</details>
+
+查看 pod 事件，发现如下报错:
+
+```
+MountVolume.WaitForAttach failed for volume "pvc-ec2aa2a2-b290-11e9-998e-5254003f0e66" : rbd: map failed exit status 110, rbd output: rbd: sysfs write failed
+In some cases useful info is found in syslog - try "dmesg | tail".
+rbd: map failed: (110) Connection timed out
+```
+
+在 pod 所在节点执行命令 `dmesg | tail`，发现如下报错:
+
+
+```
+[260542.633436] libceph: mon1 10.107.36.4:6789 feature set mismatch, my 106b84a842a42 < server's 40106b84a842a42, missing 400000000000000
+[260542.638039] libceph: mon1 10.107.36.4:6789 missing required protocol features
+[260552.602373] libceph: mon2 10.107.36.12:6789 feature set mismatch, my 106b84a842a42 < server's 40106b84a842a42, missing 400000000000000
+[260552.606904] libceph: mon2 10.107.36.12:6789 missing required protocol features
+[260562.618453] libceph: mon0 10.107.36.21:6789 feature set mismatch, my 106b84a842a42 < server's 40106b84a842a42, missing 400000000000000
+[260562.623014] libceph: mon0 10.107.36.21:6789 missing required protocol features
+```
+
+查阅资料发现这个错误和内核的特性有关，可以升级内核至4.5以上。也可以通过设置 ceph 来解决，具体可以查看 [https://k2r2bai.com/2018/02/11/ceph/luminous-crush-issue/](https://k2r2bai.com/2018/02/11/ceph/luminous-crush-issue/)
+
+这里通过调整 ceph 配置来解决:
+
+```bash
+ceph osd crush tunables hammer
+```
 
 # ceph 配置 dashboard
 
@@ -300,8 +356,8 @@ ceph dashboard create-self-signed-cert
 重启：
 
 ```bash
-ceph mgr disable dashboard
-ceph mgr enable dashboard
+ceph mgr module disable dashboard
+ceph mgr module enable dashboard
 ```
 
 配置 ip，端口：
