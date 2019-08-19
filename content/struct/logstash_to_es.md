@@ -72,6 +72,7 @@ input {
         topics_pattern => "spring-boot-demo"
         consumer_threads => 3
         decorate_events => true
+        auto_offset_reset => "earliest"
     }
 }
 
@@ -141,6 +142,7 @@ input {
         topics_pattern => "spring-boot-demo"
         consumer_threads => 3
         decorate_events => true
+        auto_offset_reset => "earliest"
     }
 }
 
