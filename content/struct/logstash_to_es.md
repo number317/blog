@@ -178,3 +178,55 @@ output {
 </details>
 
 根据配置可以预测，ES 的索引应为 `spring-boot-demo-spring-app1-demo-2019-07-04`。
+
+运行一段时间后，项目组有新的需求，需要将日志各个字段解析以便于做统计分析。这里就需要修改`grok`的正则。并且由于一个topic中有多个应用的日志，每个应用的日志格式可能不一样，所以可以写多个正则表达式，匹配不到就用下一个正则。测试 grok 正则可以用[grok debugger](grokdebug.herokuapp.com)网站。
+
+最终的配置:
+
+```
+input {
+    kafka {
+        id => "spring-boot-demo"
+        bootstrap_servers => "192.168.0.107:9092"
+        group_id => "spring-boot-demo"
+        topics_pattern => "spring-boot-demo"
+        consumer_threads => 3
+        decorate_events => true
+        auto_offset_reset => "earliest"
+    }
+}
+
+filter {
+    ruby {
+        code => "event.set('timestamp', event.get('@timestamp').time.localtime)"
+    }
+    ruby {
+        code => "event.set('@timestamp', event.get('timestamp'))"
+    }
+
+    mutate {
+        remove_field => ["timestamp"]
+    }
+
+    grok {
+        match => {
+            "message" => ["\[(?<index_name>[A-Za-z\-_0-9]*)\] (?<date>[0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}.[0-9]{3}) (?<level>[A-Z]*) \[[^ ]*\] \- \[[^ ]*\] \[(?<api_id>[^ ]*)\] \[(?<request_addr>[^,]*),(?<request_start>[0-9]*),(?<request_end>[0-9]*),(?<response_time>[0-9]*)\] (?<status>[0-9]*) : (?<request_and_response>.*)","\[(?<index_name>[a-zA-Z\-1-9]*)\]"]
+        }
+    }
+
+    mutate {
+        convert => ["response_time", "integer"]
+    }
+}
+
+output {
+    stdout{
+    }
+    elasticsearch {
+       hosts => "http://192.168.0.112:9200"
+       index => "%{[@metadata][kafka][topic]}-%{index_name}-%{+YYYY-MM-dd}"
+    }
+}
+```
+
+注意配置中正则解析结束后还将`response_time`做了数据类型转化，专成了整数类型，便于分析。

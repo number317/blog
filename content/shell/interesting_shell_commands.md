@@ -222,3 +222,10 @@ mysql -u${mysql_user} -p"${mysql_password}" -h${mysql_host} ${mysql_database} < 
 ```
 
 上述命令用于备份/恢复 mysql 数据库
+
+```bash
+screen -S sessionName
+screen -A -x sessionName
+```
+
+上述命令可以在多个终端间共享会话。`-A` 设置窗口大小为当前终端。
