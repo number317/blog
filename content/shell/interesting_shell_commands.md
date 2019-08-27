@@ -51,9 +51,9 @@ $ nl file.txt
 两个命令都可以显示文本内容并在行首加上行号，`nl`默认会忽略空行，而`cat`不会
 
 ```bash
-curl -u admin:admin "http://grafana.saas.hand-china.com/api/admin/settings" 2>/dev/null | json_reformat
-curl -u admin:admin "http://grafana.saas.hand-china.com/api/admin/settings" 2>/dev/null | python -m json.tool
-curl -u admin:admin "http://grafana.saas.hand-china.com/api/admin/settings" 2>/dev/null | jq.[]
+curl -u admin:admin "http://grafana.test.com/api/admin/settings" 2>/dev/null | json_reformat
+curl -u admin:admin "http://grafana.test.com/api/admin/settings" 2>/dev/null | python -m json.tool
+curl -u admin:admin "http://grafana.test.com/api/admin/settings" 2>/dev/null | jq.[]
 ```
 
 `yajl`软件包，`json_reformat`命令可以将标准输出的json内容格式化，以便于阅读  
