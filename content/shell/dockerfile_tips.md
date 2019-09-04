@@ -38,7 +38,10 @@ categories = ["shell"]
   * node:
 
   ```
-  RUN npm install --registry=https://registry.npm.taobao.org
+  RUN npm install --registry=https://registry.npm.taobao.org \
+      && npm config set phantomjs_cdnurl https://npm.taobao.org/dist/phantomjs \
+      && npm config set chromedriver_cdnurl http://cdn.npm.taobao.org/dist/chromedriver \
+      && npm config set sass_binary_site http://npm.taobao.org/mirrors/node-sass
   ```
 
 * 构建镜像时如果需要代理，可以配置以下参数：
