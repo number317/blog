@@ -29,6 +29,12 @@ categories = ["shell"]
   RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
   ```
 
+  * debian:
+
+  ```
+  curl -L "https://mirrors.ustc.edu.cn/repogen/conf/debian-https-4-buster" -o /etc/apt/sources.list
+  ```
+
   * centos:
 
   ```

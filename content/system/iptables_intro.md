@@ -67,13 +67,13 @@ categories = ["system"]
 ## 查看规则
 
 ```bash
-# iptables -nvL --line-number
+iptables -nvL --line-number
 ```
 
 显示当前规则，没有指定表，默认使用filter表。`-n` 以端口号数字形式显示，`-v` 显示详细信息，`-- line-number` 显示规则的行号
 
 ```bash
-# iptables -t nat -S
+iptables -t nat -S
 ```
 
 以保存的格式列出nat表当前规则，个人认为，用`-S`选项查看规则更清晰
@@ -81,19 +81,19 @@ categories = ["system"]
 ## filter 表 INPUT 链
 
 ```bash
-# iptables -t filter -A INPUT -s 172.17.0.2 -j DROP
+iptables -t filter -A INPUT -s 172.17.0.2 -j DROP
 ```
 
 `-A` append 追加规则，来自172.17.0.2的包全部丢弃
 
 ```bash
-# iptables -I INPUT -p tcp --dport 22 -j ACCEPT
+iptables -I INPUT -p tcp --dport 22 -j ACCEPT
 ```
 
 `-I` insert 插入规则，允许ssh远程连接
 
 ```bash
-# iptables -P INPUT DROP
+iptables -P INPUT DROP
 ```
 
 `-P` policy 设置内置链的默认策略，ACCEPT或DROP
@@ -101,19 +101,19 @@ categories = ["system"]
 ## filter 表 OUTPUT 链
 
 ```bash
-# iptables -t filter -I OUTPUT 3 -o docker0 -j REJECT
+iptables -t filter -I OUTPUT 3 -o docker0 -j REJECT
 ```
 
 REJECT会返回信息，DROP直接丢弃，无返回信息，主机无法访问容器环境
 
 ```bash
-# iptables -I OUTPUT -d www.baidu.com -j REJECT
+iptables -I OUTPUT -d www.baidu.com -j REJECT
 ```
 
 让主机无法访问www.baidu.com这个地址
 
 ```bash
-# iptables -I OUTPUT -d www.baidu.com -p icmp -j DROP
+iptables -I OUTPUT -d www.baidu.com -p icmp -j DROP
 ```
 
 让主机无法ping通www.baidu.com，但可以访问
@@ -121,19 +121,19 @@ REJECT会返回信息，DROP直接丢弃，无返回信息，主机无法访问�
 ## filter 表 FORWARD 链
 
 ```bash
-# iptables -A FORWARD -s 172.17.0.2 -d 172.17.0.3 -j DROP
+iptables -A FORWARD -s 172.17.0.2 -d 172.17.0.3 -j DROP
 ```
 
 禁止来自172.17.0.2的数据发送给172.17.0.3
 
 ```bash
-# iptables -I FORWARD -i docker0 -o docker0 -j DROP
+iptables -I FORWARD -i docker0 -o docker0 -j DROP
 ```
 
 禁止容器间互相访问
 
 ```bash
-# iptables -I FORWARD -i docker0 -o wlp2s0 -p tcp --dport 80 -j DROP
+iptables -I FORWARD -i docker0 -o wlp2s0 -p tcp --dport 80 -j DROP
 ```
 
 禁止容器访问外网http协议的网站，但可以访问https协议的网站
@@ -141,23 +141,39 @@ REJECT会返回信息，DROP直接丢弃，无返回信息，主机无法访问�
 ## nat 表转发
 
 ```bash
-# iptables -t nat -A OUTPUT -p tcp --dport 1080 -j DNAT --to-dest 127.0.0.1:8000
+iptables -t nat -A OUTPUT -p tcp --dport 1080 -j DNAT --to-dest 127.0.0.1:8000
 ```
 
 使用nat表的OUTPUT链来做本地端口转发，使用tcp协议，目的端口是1080的流量全都转发到8000端口
 
 ```bash
-# iptables -t nat -I PREROUTING -p tcp -d 192.168.0.110 --dport 1080 -j DNAT --to-dest 192.168.0.110:8000
+iptables -t nat -I PREROUTING -p tcp -d 192.168.0.110 --dport 1080 -j DNAT --to-dest 192.168.0.110:8000
 ```
 
 使用nat表的PREROUTING链来令远程访问本地1080端口的流量转发到本地的8000端口
 
 ```bash
-# iptables -t nat -I PREROUTING -p tcp --dport 8080 -j DNAT --to-dest 10.0.52.190:8030
+iptables -t nat -I PREROUTING -p tcp --dport 8080 -j DNAT --to-dest 10.0.52.190:8030
 ```
 
 ```bash
-# iptables -t nat -I POSTROUTING -d 10.0.52.190 -p tcp --dport 8030 -j SNAT --to-source 10.72.19.213
+iptables -t nat -I POSTROUTING -d 10.0.52.190 -p tcp --dport 8030 -j SNAT --to-source 10.72.19.213
 ```
 
 通过PREROUTING和POSTROUTING链来做正向代理
+
+## 具体使用场景
+
+在使用 iptables 之前，要先确保 iptables 服务已经启用，`systemctl start iptables.service`
+
+* 容器运行时未暴露端口，又想让别人能通过本机 ip 访问到服务（假设本机 ip 是 10.72.19.213， 容器 ip 是 172.17.0.2）
+
+  ```
+  iptables -t nat -I PREROUTING -p tcp --dport 8080 -j DNAT --to-dest 172.17.0.2:8080
+  ```
+  
+  ```
+  iptables -t nat -I POSTROUTING -d 172.17.0.2 -p tcp --dport 8080 -j SNAT --to-source 10.72.19.213
+  ```
+
+  上面两条规则设置的效果是从别的机器上访问 10.72.19.213:8080 会被转发到 172.17.0.2:8080，也就是容器里的服务。不过只能从别的机器上访问才有效。
