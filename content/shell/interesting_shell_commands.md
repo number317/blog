@@ -229,3 +229,9 @@ screen -A -x sessionName
 ```
 
 上述命令可以在多个终端间共享会话。`-A` 设置窗口大小为当前终端。
+
+```bash
+ssh -fNg -D 8081 appuser@192.168.0.101 -p 22
+```
+
+ 上述命令将创建 ssh 隧道，本地监听 8081 端口，配合浏览器插件 Proxy Switch Omega 即可实现翻墙。

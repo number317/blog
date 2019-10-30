@@ -80,7 +80,7 @@ kubectl taint node node1 test="true":NoSchedule
 
 ## 选择节点部署 pod
 
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -96,3 +96,43 @@ spec:
     disktype: ssd
     kubernetes.io/hostname: node1
 ```
+
+## init 容器
+
+init 容器在应用程序容器启动前运行，用来包含一些应用镜像中不存在的实用工具或安装脚本。
+
+* 比如可以用于等待一个 Service 创建成功，通过类似如下 shell 命令：
+
+```bash
+until nslookup myservice; do echo waiting for myservice, sleep 10; done;
+```
+
+* 将 Pod 注册到远程服务器，通过在命令中调用 API，类似如下：
+
+```bash
+curl -X POST http://$MANAGEMENT_SERVICE_HOST:$MANAGERMENT_SERVICE_PORT/registr -d 'instance=$(<POD_NAME>)&ip=$(<POD_IP>)'
+```
+
+<details>
+<summary>pod.yaml</summary>
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app: myapp
+spec:
+  containers:
+  - name: myapp-container
+    image: busybox
+    command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+  initContainers:
+  - name: init-myservice
+    image: busybox
+    command: ['sh', '-c', 'until nslookup myservice; do echo waiting for myservice; sleep 2; done;']
+  - name: init-mydb
+    image: busybox
+    command: ['sh', '-c', 'until nslookup mydb; do echo waiting for mydb; sleep 2; done;']
+```
+</details>
