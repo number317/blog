@@ -166,6 +166,8 @@ genfstab -L /mnt >> /mnt/etc/fstab
 /dev/mapper/entropy--vg0-swap   none            swap            defaults        0 0
 ```
 
+如果 `/usr` 配置了单独的分区，需要将 /usr 分区最后一项配置设为 0 0。并且在 Hooks 里添加 usr 模块。
+
 SSD的参数优化具体可以参考[archwiki](https://wiki.archlinux.org/index.php/Solid_State_Drive)
 
 ### 切换到新系统
