@@ -124,7 +124,7 @@ c 命令行程序中的参数处理是很常见的需求，要做到这点我们
 可以看到 `--width` 选项需要一个数字作为参数。使用 `--width` 选项而不提供参数是错误的，可以有多种方式为 `--width` 选项提供参数:
 
 <details>
-<summary> run </summary>
+<summary> `folder` </summary>
 
     echo "hello there" | fold -w3
     hel

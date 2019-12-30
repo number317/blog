@@ -12,6 +12,11 @@ pygmentsUseClasses = false
 pygmentsStyle = "algol_nu"
 pygmentsCodefencesGuessSyntax = true
 
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
 [params]
     sitename = "cheon's blog"
     description = "Aloha! Welcome to cheon's blog."
