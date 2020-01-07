@@ -1,7 +1,7 @@
 +++
 title = "Vue Note"
 date = 2019-12-23T09:32:34+08:00
-draft = false
+draft = true
 tags = ["vue"]
 categories = ["frontend"]
 +++

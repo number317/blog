@@ -1,7 +1,7 @@
 +++
 title = "Centos Install Choerodon Offline"
 date = 2019-11-19T10:19:51+08:00
-draft = false
+draft = true
 tags = ["choerodon", "offline", "k8s", "ansible"]
 categories = ["solved"]
 +++

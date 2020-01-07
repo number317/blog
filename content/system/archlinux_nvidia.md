@@ -3,7 +3,7 @@ title = "Archlinux Nvidia"
 date = 2019-09-29T14:07:53+08:00
 draft = false
 tags = ["system"]
-categories = ["archlinux"]
+categories = ["system"]
 +++
 
 # Table of Contents
