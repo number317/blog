@@ -73,10 +73,10 @@ start.sh:
 ```bash
 #!/bin/bash
 
-crland-set(){
-    ip route add 10.0.6/24 via 10.72.19.254
-    ip route add 10.0.52/24 via 10.72.19.254
-    ip route add 10.79.21/24 via 10.72.19.254
+router-set(){
+    ip route add 192.0.6/24 via 192.72.19.254
+    ip route add 192.0.52/24 via 192.72.19.254
+    ip route add 192.79.21/24 via 192.72.19.254
 }
 
 dns-set(){
@@ -85,7 +85,7 @@ dns-set(){
 
 main(){
     if netctl list | grep \* | grep -q Employ; then
-        crland-set
+        router-set
     fi
     dns-set
     echo start!
@@ -98,10 +98,10 @@ stop.sh:
 
 ```bash
 #!/bin/bash
-crland-clear(){
-    ip route delete 10.0.6/24 via 10.72.19.254
-    ip route delete 10.0.52/24 via 10.72.19.254
-    ip route delete 10.79.21/24 via 10.72.19.254
+router-clear(){
+    ip route delete 192.0.6/24 via 192.72.19.254
+    ip route delete 192.0.52/24 via 192.72.19.254
+    ip route delete 192.79.21/24 via 192.72.19.254
 }
 
 dns-clear(){
@@ -110,7 +110,7 @@ dns-clear(){
 
 main(){
     if netctl list | grep \* | grep -q Employ; then
-        crland-clear
+        router-clear
     fi
     dns-clear
     echo stop!
