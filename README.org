@@ -1,5 +1,5 @@
 * README
 
-[[https://www.travis-ci.org/number317/blog][[[https://www.travis-ci.org/number317/blog.svg?branch=master]]]]
+[[https://www.travis-ci.org/number317/blog.svg?branch=master][https://www.travis-ci.org/number317/blog.svg?branch=master]]
 
 LEVEL UP!
