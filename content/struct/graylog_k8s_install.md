@@ -211,7 +211,7 @@ spec:
             defaultMode: 420
       containers:
         - name: graylog
-          image: registry.saas.crland.com.cn/tools/graylog:2.4
+          image: www.private.com/tools/graylog:2.4
           ports:
             - containerPort: 9000
               protocol: TCP

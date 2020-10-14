@@ -104,7 +104,7 @@ sysctl -p
 
 ```conf
 [Service]
-Environment="KUBELET_EXTRA_ARGS=--pod-infra-container-image=registry.saas.crland.com.cn/google_containers/pause-amd64:3.0 --fail-swap-on=false --hostname-override=zdztvura16 --eviction-hard=memory.available<1024Mi,nodefs.available<10Gi,imagefs.available<10Gi --eviction-minimum-reclaim=memory.available=500Mi,nodefs.available=5Gi,imagefs.available=5Gi --eviction-pressure-transition-period=5m0s --system-reserved=cpu=100m,memory=2Gi --experimental-allowed-unsafe-sysctls='net.core.somaxconn'"
+Environment="KUBELET_EXTRA_ARGS=--pod-infra-container-image=www.private.com/google_containers/pause-amd64:3.0 --fail-swap-on=false --hostname-override=zdztvura16 --eviction-hard=memory.available<1024Mi,nodefs.available<10Gi,imagefs.available<10Gi --eviction-minimum-reclaim=memory.available=500Mi,nodefs.available=5Gi,imagefs.available=5Gi --eviction-pressure-transition-period=5m0s --system-reserved=cpu=100m,memory=2Gi --experimental-allowed-unsafe-sysctls='net.core.somaxconn'"
 Environment="KUBELET_DNS_ARGS=--cluster-dns=10.233.0.10 --cluster-domain=cluster.local"
 Environment="KUBELET_CADVISOR_ARGS=--cadvisor-port=4194"
 ```
@@ -147,7 +147,7 @@ spec:
           operator: Exists
       containers:
         - name: openapi-redis-dev
-          image: 'registry.saas.crland.com.cn/tools/redis
+          image: 'www.private.com/tools/redis
           command:
           - /bin/sh
           - -c
