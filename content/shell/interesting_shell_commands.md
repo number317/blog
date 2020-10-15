@@ -39,8 +39,8 @@ curl -X POST -H "Content-Type: application/json" -H "Authorization: Basic YWRtaW
          -d '{ "name": "updateAnonymousAccess", "type": "groovy", "content": "security.setAnonymousAccess(Boolean.valueOf(args))" }'
 ```
 
-第一行命令用于下载文件：`-O` 以原文件名字保存，`-L` 重定向跟踪，`-C` 断点续传，`-C -`自动检测断点  
-第二行命令用于获取docker镜像的tag：`-S` 显示错误信息，`-s` 静默模式，`jq` 命令行的json处理工具  
+第一行命令用于下载文件：`-O` 以原文件名字保存，`-L` 重定向跟踪，`-C` 断点续传，`-C -`自动检测断点
+第二行命令用于获取docker镜像的tag：`-S` 显示错误信息，`-s` 静默模式，`jq` 命令行的json处理工具
 第三行命令用于发送POST请求：`-H`指定请求头，`-d`指定请求参数，这里是json格式，也可以将数据写入文件，通过`-d@data.json` 的形式来传递数据
 
 ```bash
@@ -56,8 +56,8 @@ curl -u admin:admin "http://grafana.test.com/api/admin/settings" 2>/dev/null | p
 curl -u admin:admin "http://grafana.test.com/api/admin/settings" 2>/dev/null | jq.[]
 ```
 
-`yajl`软件包，`json_reformat`命令可以将标准输出的json内容格式化，以便于阅读  
-python的json.tool模块也可用于json格式化  
+`yajl`软件包，`json_reformat`命令可以将标准输出的json内容格式化，以便于阅读
+python的json.tool模块也可用于json格式化
 `jq`有更加强大的功能，不仅可以格式化json，还可以从json中取出相应字段。
 
 ```bash
@@ -234,4 +234,4 @@ screen -A -x sessionName
 ssh -fNg -D 8081 appuser@192.168.0.101 -p 22
 ```
 
- 上述命令将创建 ssh 隧道，本地监听 8081 端口，配合浏览器插件 Proxy Switch Omega 即可实现翻墙。
+ 上述命令将创建 ssh 隧道，本地监听 8081 端口，配合浏览器插件 Proxy Switch Omega 即可实现翻墙。这个需要服务器的 ssh 开启 `GatewayPorts yes` 的配置。
