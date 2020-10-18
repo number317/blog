@@ -85,7 +85,7 @@ make
   }
 #+end_src
 
-[[file: /struct/images/emqx_backend_mysql_1.png][diff]]
+[[/struct/images/emqx_backend_mysql_1.png]]
 
 修改完成后重新编译，打开 =localhost:18083= 的插件栏可以看到 =buildrun_emqx_backend_mysql= 插件。
 
@@ -216,7 +216,7 @@ backend.mysql.query_timeout = 10s
 
 在 dashboard 插件栏点击启用 =buildrun_emqx_backend_mysql= 即可启用成功
 
-[[file: /struct/images/emqx_backend_mysql_2.png][enable mysql plugin]]
+[[/struct/images/emqx_backend_mysql_2.png]]
 
 ** 反编译 =emqx_backend_mysql= 插件
 =emqx_backend_mysql= 插件只有在企业版的 =emqx= 中才有，而且不开源，但经过测试发现可以反编译该插件来获取源代码
