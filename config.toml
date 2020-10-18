@@ -1,0 +1,55 @@
+baseURL = "https://www.cheon.site/blog/"
+title = "cheon's blog"
+theme = "aloha"
+author = "cheon"
+canonifyurls = true
+languagecode = "en"
+paginate = 10
+enableGitInfo = true
+pygmentsCodefences = true
+pygmentsUseClasses = false
+#https://help.farbox.com/pygments.html
+pygmentsStyle = "algol_nu"
+pygmentsCodefencesGuessSyntax = true
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[params]
+    sitename = "cheon's blog"
+    description = "Aloha! Welcome to cheon's blog."
+    disableWebFonts = true
+    showSummary = true
+
+[[menu.main]]
+    name = "Home"
+    url  = "https://www.cheon.site"
+    weight = 1
+[[menu.main]]
+    name = "Categories"
+    url  = "/categories"
+    weight = 2
+[[menu.main]]
+    name = "Tags"
+    url  = "/tags"
+    weight = 3
+[[menu.main]]
+    name = "Projects"
+    url  = "https://github.com/number317"
+    weight = 4
+    
+[privacy]
+  [privacy.disqus]
+    disable = true
+  [privacy.googleAnalytics]
+    disable = true
+  [privacy.instagram]
+    disable = true
+  [privacy.twitter]
+    disable = true
+  [privacy.vimeo]
+    disable = true
+  [privacy.youtube]
+    disable = true

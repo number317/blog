@@ -1,0 +1,6 @@
+public/
+.idea/
+themes/*
+blog.iml
+*.DS_Store
+hugo
