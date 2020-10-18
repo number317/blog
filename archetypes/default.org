@@ -1,8 +1,9 @@
 #+title: {{ replace .TranslationBaseName "_" " " | title}}
+#+summary: article summary
 #+author: cheon
 #+email: cheon0112358d@gmail.com
 #+date: {{ .Date }}
 #+publishdate: {{ .Date }}
-#+tags[]: tags
-#+categories[]: categories
+#+tags: tags
+#+categories: categories
 #+draft: true

@@ -1,10 +1,11 @@
 #+title: Emqx Backend Mysql
+#+summary: 关于 emqx 的编译，插件的构建，官方 emqx_backend_mysql 插件的获取
 #+author: cheon
 #+email: cheon0112358d@gmail.com
 #+date: 2020-10-16T17:04:16+08:00
-#+tags[]: iot emqx
-#+categories[]: struct
-#+draft: true
+#+tags: iot emqx
+#+categories: struct
+#+draft: false
 
 * emqx mysql 插件
 
@@ -84,7 +85,7 @@ make
   }
 #+end_src
 
-[[file:http://minio.gobuildrun.com/knowledgebase-service/13f84bdb-772d-4350-8d29-be96431ce5ae/blob.png]]
+[[file: /struct/images/emqx_backend_mysql_1.png][diff]]
 
 修改完成后重新编译，打开 =localhost:18083= 的插件栏可以看到 =buildrun_emqx_backend_mysql= 插件。
 
@@ -215,7 +216,8 @@ backend.mysql.query_timeout = 10s
 
 在 dashboard 插件栏点击启用 =buildrun_emqx_backend_mysql= 即可启用成功
 
-[[file:http://minio.gobuildrun.com/knowledgebase-service/f0c50f8a-a34e-4a3d-a53b-0415ddf9d2a5/blob.png]]
+[[file: /struct/images/emqx_backend_mysql_2.png][enable mysql plugin]]
+
 ** 反编译 =emqx_backend_mysql= 插件
 =emqx_backend_mysql= 插件只有在企业版的 =emqx= 中才有，而且不开源，但经过测试发现可以反编译该插件来获取源代码
 首先获取 =emqx-ee= 版本，从 docker 容器中获取编译后的插件
