@@ -1,6 +1,6 @@
 language: generic
 branches:
-  - master
+  - main
   - gh-pages
 
 install:
@@ -18,4 +18,4 @@ after_script:
   - git config user.email "cheon0112358d@gmail.com"
   - git add . 
   - git commit -m "Update docs"
-  - git push --force --quiet "https://${GH_TOKEN}@github.com/number317/blog.git" master:gh-pages
+  - git push --force --quiet "https://${GH_TOKEN}@github.com/number317/blog.git" main:gh-pages
