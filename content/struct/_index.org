@@ -1,0 +1,8 @@
+#+title: 学海无涯
+#+url: /categories/struct/
+#+author: cheon
+#+email: cheon0112358d@gmail.com
+#+date: 2020-09-04T14:55:56+08:00
+#+draft: false
+
+扶朕起来，朕还能学。I'm fine orz.
