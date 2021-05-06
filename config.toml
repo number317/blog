@@ -3,6 +3,7 @@ title = "cheon's blog"
 theme = "aloha"
 author = "cheon"
 canonifyurls = true
+uglyurls = false
 languagecode = "en"
 paginate = 10
 enableGitInfo = true
@@ -39,7 +40,7 @@ pygmentsCodefencesGuessSyntax = true
     name = "Projects"
     url  = "https://github.com/number317"
     weight = 4
-    
+
 [privacy]
   [privacy.disqus]
     disable = true

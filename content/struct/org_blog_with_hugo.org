@@ -1,6 +1,5 @@
 #+title: Org Blog With Hugo
 #+summary: 用 hugo 和 emacs org 格式来构建博客
-#+url: /struct/org_blog_with_hugo.html
 #+author: cheon
 #+email: cheon0112358d@gmail.com
 #+date: 2020-09-14T20:03:07+08:00
@@ -23,16 +22,16 @@
 在 =archetypes= 目录下创建 =default.org= 文件，之后在用 =hugo new test.org= 的时候就会使用改文件为原型。文件内容具体如下：
 
 #+begin_src org
-#+title: {{ replace .TranslationBaseName "_" " " | title}}
-#+summary: article summary
-#+url: /url.html
-#+author: cheon
-#+email: cheon0112358d@gmail.com
-#+date: {{ .Date }}
-#+publishdate: {{ .Date }}
-#+tags: tags
-#+categories: categories
-#+draft: true
+  ,#+title: {{ replace .TranslationBaseName "_" " " | title}}
+  ,#+summary: article summary
+  ,#+url: /url.html
+  ,#+author: cheon
+  ,#+email: cheon0112358d@gmail.com
+  ,#+date: {{ .Date }}
+  ,#+publishdate: {{ .Date }}
+  ,#+tags: tags
+  ,#+categories: categories
+  ,#+draft: true
 #+end_src
 
 参数解析：
@@ -116,8 +115,78 @@ $3
 
 ** 图片路径
 
-写文档插入图片也是不可缺少的。通常我会把图片放到和文档同级的目录中，然后在文档里直接用相对路径引用。这样 =hugo= 默认渲染出来的文档图片可以展示，但是在 =github= 上图片会找不到，因为相对路径里没有。所以在头信息里面修改了文档的默认生成地址。这样在 =github= 上也能正确显示图片。
+写文档插入图片也是不可缺少的。通常我会把图片放到和文档同级的目录中，然后在文档里直接用相对路径引用，这样在 =github= 上也能正确显示图片。
+
+文件和图片的目录结构如下：
+
+#+begin_src bash
+  ./content/post/
+  ├── _index.org
+  ├── post1.org
+  ├── post2.org
+  ├── post3.org
+  └── images
+     ├── post1_1.png
+     ├── post1_2.png
+     └── post2_1.jpg
+
+  1 directory, 7 files
+#+end_src
+
+*** 旧版 hugo
+
+在 =hugo v0.81.0= 之前，需要在 org 文档的头信息中添加 =url= 信息来修改默认生成的地址，以便在编译之后能找到对应的图片，例如
+
+#+begin_src org
+  ,#+url: /post/post1.html
+#+end_src
+
+这种情况下，编译出的目录结构如下：
+
+#+begin_src bash
+  ./post/
+  ├── index.html
+  ├── index.xml
+  ├── post1.html
+  ├── post2.html
+  ├── post3.html
+  ├── images
+  │   ├── post1_1.png
+  │   ├── post2_2.png
+  │   └── post2_1.jpg
+  └── page
+      └── 1
+          └── index.html
+
+  3 directories, 9 files
+#+end_src
+
+*** 新版 hugo
+
+在 =hugo v0.81.0= 以及之后，使用的 =go-org= 依赖升级到了 =v1.4.0= 版本，使用相对路径的引用都会默认加上 =../= 前缀，所以用默认生成的地址就可以了，而不需要在文档的头信息中添加 =url= 信息，具体可以查看该 [[https://github.com/gohugoio/hugo/pull/8111][pull request]] 。
+
+[[./images/org_blog_with_hugo_2.jpg]]
+
+这种情况下，编译出的目录结构如下：
+
+#+begin_src bash
+  ./struct/
+  ├── post1
+  │   └── index.html
+  ├── post2
+  │   └── index.html
+  ├── post3
+  │   └── index.html
+  └── images
+      ├── post1_1.png
+      ├── post1_2.png
+      └── post2_1.jpg
+
+  4 directories, 6 files
+#+end_src
 
 图片测试：
 
 [[./images/org_blog_with_hugo_1.jpg]]
+
+如果上面的图片还能看到，说明当前的 =hugo= 还能使用这种方法，否则需要去看看是否有改动再另行调整。

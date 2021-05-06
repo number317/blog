@@ -1,6 +1,5 @@
 #+title: {{ replace .TranslationBaseName "_" " " | title}}
 #+summary: article summary
-#+url: /url.html
 #+author: cheon
 #+email: cheon0112358d@gmail.com
 #+date: {{ .Date }}
