@@ -1,5 +1,6 @@
 #+title: Org Blog With Hugo
 #+summary: 用 hugo 和 emacs org 格式来构建博客
+#+url: /struct/org_blog_with_hugo.html
 #+author: cheon
 #+email: cheon0112358d@gmail.com
 #+date: 2020-09-14T20:03:07+08:00
@@ -133,12 +134,12 @@ $3
   1 directory, 7 files
 #+end_src
 
-*** 旧版 hugo
+*** hugo version < 0.81.0 
 
 在 =hugo v0.81.0= 之前，需要在 org 文档的头信息中添加 =url= 信息来修改默认生成的地址，以便在编译之后能找到对应的图片，例如
 
 #+begin_src org
-  ,#+url: /post/post1.html
+  #+url: /post/post1.html
 #+end_src
 
 这种情况下，编译出的目录结构如下：
@@ -161,7 +162,7 @@ $3
   3 directories, 9 files
 #+end_src
 
-*** 新版 hugo
+*** hugo version >= 0.81.0 
 
 在 =hugo v0.81.0= 以及之后，使用的 =go-org= 依赖升级到了 =v1.4.0= 版本，使用相对路径的引用都会默认加上 =../= 前缀，所以用默认生成的地址就可以了，而不需要在文档的头信息中添加 =url= 信息，具体可以查看该 [[https://github.com/gohugoio/hugo/pull/8111][pull request]] 。
 
@@ -184,6 +185,12 @@ $3
 
   4 directories, 6 files
 #+end_src
+
+*** hugo version >= 0.83.0
+
+经过测试，hugo 在 [[https://github.com/gohugoio/hugo/releases/tag/v0.83.0][0.83.0]] 版本将 go-org 依赖升级到了 v1.5.0 后，使用相对路径的引用都会默认加上 =../= 前缀这个特性已经没了。
+
+也没见到哪里有说明，那就恢复成原来的改写 url 方式吧。这导致我不太想用 hugo 了，变动太频繁，有空自己搭建一个博客框架。
 
 图片测试：
 

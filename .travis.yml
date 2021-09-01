@@ -4,8 +4,8 @@ branches:
   - gh-pages
 
 install:
-  - wget https://github.com/gohugoio/hugo/releases/download/v0.82.1/hugo_0.82.1_Linux-64bit.tar.gz
-  - tar -xzvf hugo_0.82.1_Linux-64bit.tar.gz && mv hugo /tmp/
+  - wget https://github.com/gohugoio/hugo/releases/download/v0.87.0/hugo_0.87.0_Linux-64bit.tar.gz
+  - tar -xzvf hugo_0.87.0_Linux-64bit.tar.gz && mv hugo /tmp/
 
 script:
   - git submodule add -f https://github.com/number317/aloha.git themes/aloha

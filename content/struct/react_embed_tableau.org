@@ -1,5 +1,6 @@
 #+title: React Embed Tableau
 #+summary: 在 react 中嵌入 tableau server 的图表
+#+url: /struct/react_embed_tableau.html
 #+author: cheon
 #+email: cheon0112358d@gmail.com
 #+date: 2020-11-22T20:03:34+08:00

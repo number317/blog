@@ -1,5 +1,6 @@
 #+title: Emqx Backend Mysql
 #+summary: 关于 emqx 的编译，插件的构建，官方 emqx_backend_mysql 插件的获取
+#+url: /struct/emqx_backend_mysql.html
 #+author: cheon
 #+email: cheon0112358d@gmail.com
 #+date: 2020-10-16T17:04:16+08:00
