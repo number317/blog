@@ -1,5 +1,5 @@
 [author]
-    image = "https://www.cheon.site/images/author.jpg"
+    image = "https://number317.github.io/images/author.jpg"
     description = "Life is dance we all have to do."
 [github]
     url  = "https://github.com/number317/aloha.git"
@@ -7,5 +7,5 @@
     address = "cheon0112358d@gmail.com"
     subject = "blog's feedback"
 [wechat]
-    qrsrc = "https://www.cheon.site/images/wechat.jpg"
+    qrsrc = "https://number317.github.io/images/wechat.jpg"
 
