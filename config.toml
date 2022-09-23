@@ -26,7 +26,7 @@ pygmentsCodefencesGuessSyntax = true
 
 [[menu.main]]
     name = "Home"
-    url  = "https://www.cheon.site"
+    url  = "https://number317.github.io"
     weight = 1
 [[menu.main]]
     name = "Categories"
