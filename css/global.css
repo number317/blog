@@ -1,0 +1,59 @@
+html {
+    font-size: 100%;
+}
+
+body {
+    text-align: left;
+    padding: 2rem;
+    margin: 0 auto;
+    border: 0;
+    max-width: 50rem;
+    font-family: 'Old Standard TT', 'Noto Sans SC', sans-serif;
+    word-wrap: break-word;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+h2 {
+    font-size: 1.6rem;
+    font-weight: 400;
+}
+
+h3 {
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.page-item {
+    display: inline-block;
+}
+
+img {
+    max-width: 100%;
+    max-height: 400px;
+    display: block;
+    border:none;
+}
+
+.tags {
+    padding: 0;
+}
+
+.tags li {
+    list-style: none;
+    display: inline-block;
+    background: #f6f6f6;
+    padding: 0 5px;
+}
+
+.tags li:hover {
+    background: #ffffff;
+}

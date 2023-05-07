@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8">
+    <meta name="description" content=Aloha!&#32;Welcome&#32;to&#32;cheon&#39;s&#32;blog.>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="apple-touch-icon" sizes= "76x76" href=https://number317.github.io/blog/img/apple-touch-icon.png>
+    <link rel="icon" href=https://number317.github.io/blog/img/pen.svg>
+    <link rel="stylesheet" href=https://number317.github.io/blog/css/global.css>
+    <link rel="stylesheet" href=https://number317.github.io/blog/css/nav.css>
+    <link rel="stylesheet" href=https://number317.github.io/blog/css/header.css>
+    <link rel="stylesheet" href=https://number317.github.io/blog/css/index.css>
+    <link rel="stylesheet" href=https://number317.github.io/blog/css/list.css>
+    <link rel="stylesheet" href=https://number317.github.io/blog/css/single.css>
+    <link rel="stylesheet" href=https://number317.github.io/blog/css/footer.css>
+    
+    <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel="stylesheet">
+    
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <title>cheon&#39;s blog</title>
+
+</head>
+<body><section id="header">
+    <ul id="menus">
+    
+    <li class="menu"><a href="https://number317.github.io"><span>Home</span></a></li>
+    
+    <li class="menu"><a href="https://number317.github.io/blog/categories"><span>Categories</span></a></li>
+    
+    <li class="menu"><a href="https://number317.github.io/blog/tags"><span>Tags</span></a></li>
+    
+    <li class="menu"><a href="https://github.com/number317"><span>Projects</span></a></li>
+    
+    </ul>
+    <h1 id="title"><a href="https://number317.github.io/blog/">cheon&#39;s blog</a></h1>
+</section>
+<ul id="nav">
+
+
+
+
+
+
+<li>
+    »
+    <a href="https://number317.github.io/blog/">
+    
+    cheon&#39;s blog
+    
+    </a>
+</li>
+
+
+<li>
+    »
+    <a href="https://number317.github.io/blog/categories/frontend/">
+    
+    frontend
+    
+    
+    </a>
+</li>
+
+
+<li class="active">
+    »
+    <a href="https://number317.github.io/blog/frontend/react_native_launcher.html">
+    
+    React Native Launcher
+    
+    </a>
+</li>
+
+</ul>
+
+<div id="content">
+<main id="main">
+  <h1>React Native Launcher</h1>
+  <time>Last updated Sun May 7, 2023</time>
+  <div>
+      <aside>
+          <h2>Table of Content</h1>
+          <nav id="TableOfContents">
+<ul>
+<li><a href="#headline-1">React Native Launcher</a>
+<ul>
+<li><a href="#headline-2">启动器需求</a>
+</li>
+<li><a href="#headline-3">技术选型</a>
+</li>
+<li><a href="#headline-4">框架搭建</a>
+</li>
+<li><a href="#headline-5">启动器配置</a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+      </aside>
+      <article id="content">
+          
+<div id="outline-container-headline-1" class="outline-2">
+<h2 id="headline-1">
+React Native Launcher
+</h2>
+<div id="outline-text-headline-1" class="outline-text-2">
+<p>
+多年前买的 Kindle Paperwhite3 刷了 android4.4 的系统，没有找到专门为阅读器适配的启动器，身为程序员，那就自己开发一个。</p>
+<div id="outline-container-headline-2" class="outline-3">
+<h3 id="headline-2">
+启动器需求
+</h3>
+<div id="outline-text-headline-2" class="outline-text-3">
+<ul>
+<li>
+<p>阅读相关</p>
+<ul>
+<li>能展示指定目录的书籍</li>
+<li>书籍可以展示自定义的封面</li>
+<li>可以展示目录</li>
+<li>可以支持 txt, epub, pdf 格式的书籍</li>
+<li>txt 可以自动拆分章节</li>
+</ul>
+</li>
+<li>
+<p>应用相关</p>
+<ul>
+<li>可以展示系统安装的应用</li>
+<li>可以隐藏指定应用</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-3" class="outline-3">
+<h3 id="headline-3">
+技术选型
+</h3>
+<div id="outline-text-headline-3" class="outline-text-3">
+<p>
+涉及到复杂计算，如处理 txt 章节，计算渲染文本，存储书籍数据之类的都用 android 原生来实现；
+涉及到 UI 绘制的部分，都采用 react-native 来实现。这样可以兼顾开发效率和运行效率。</p>
+<p>
+习惯了前端热加载，之前有在原生 android 应用里调试样式，感觉实在是太麻烦了。</p>
+</div>
+</div>
+<div id="outline-container-headline-4" class="outline-3">
+<h3 id="headline-4">
+框架搭建
+</h3>
+<div id="outline-text-headline-4" class="outline-text-3">
+<p>
+react-native 最新版本已经不支持 android4.4 了，查看了<a href="https://www.npmjs.com/package/react-native/v/0.63.5">历史版本</a>，发现 0.63.5 支持 android4.1：</p>
+<div class="src src-bash">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npx react-native init BookLauncher --version 0.63.5</span></span></code></pre></div>
+</div>
+<p>
+项目初始化完成后，启动项目：</p>
+<div class="src src-bash">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="font-weight:bold;font-style:italic">cd</span> BookLauncher
+</span></span><span style="display:flex;"><span>npm run start</span></span></code></pre></div>
+</div>
+<p>
+将 kindle 通过 usb 连接上电脑，确保 <code class="verbatim">adb devices -l</code> 可以看到设备后，另开终端运行 android 端应用：</p>
+<div class="src src-bash">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm run android</span></span></code></pre></div>
+</div>
+<p>
+在 kindle 真机上启动后会发现如下报错：
+<img src="./images/react_native_launcher_1.png" alt="./images/react_native_launcher_1.png" title="./images/react_native_launcher_1.png" /></p>
+<p>
+在启动日志里也能看到报错：
+<img src="./images/react_native_launcher_2.png" alt="./images/react_native_launcher_2.png" title="./images/react_native_launcher_2.png" /></p>
+<p>
+从红框标出的错误中可以明确看到是 <code class="verbatim">adb reverse</code> 命令执行失败了，导致在 kindle 上访问不到 <code class="verbatim">js server localhost:8081</code> 。</p>
+<p>
+实际上这是 kindle 访问不到电脑上的 <code class="verbatim">js server</code> 导致的报错。正常情况下 <code class="verbatim">adb reverse tcp:8081 tcp:8081</code> 正常运行后会将 kindle 主机上的 <code class="verbatim">localhost:8081</code> 代理到电脑上的 <code class="verbatim">localhost:8081</code> 从而能正常访问 <code class="verbatim">js server</code> 。</p>
+<p>
+点击 <code class="verbatim">RELOAD</code> 按钮可以看到一些解决提示：
+<img src="./images/react_native_launcher_3.png" alt="./images/react_native_launcher_3.png" title="./images/react_native_launcher_3.png" /></p>
+<p>
+由于 android4.4 不支持 <code class="verbatim">adb reverse</code> 命令（该命令需要 android5.0 及以上才能支持。），我们只能采用提示中的最后一种方案：</p>
+<ol>
+<li>将电脑和 kindle 连接上同一 WIFI 网络，使他们都处于同一个局域网内，这样可以相互访问到</li>
+<li>在 kindle 的 react-native 应用页面，通过摇晃设备打开 <code class="verbatim">Dev setting</code> 页面，将电脑的 <code class="verbatim">js server</code> 的地址填入即可</li>
+</ol>
+<p>在实际操作中发现摇晃设备并不能用，应该是 kindle 缺少传感器无法检测到晃动。但我们可以使用 adb 来模拟晃动事件：</p>
+<div class="src src-bash">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>adb shell input keyevent 82</span></span></code></pre></div>
+</div>
+<p>
+<img src="./images/react_native_launcher_4.png" alt="./images/react_native_launcher_4.png" title="./images/react_native_launcher_4.png" /></p>
+<p>
+点击 <code class="verbatim">Settings</code> 菜单，再点击 <code class="verbatim">Debug server host &amp; port for device</code> 菜单，输入电脑上的 <code class="verbatim">js server</code> 地址（ip:port），点击确定。重新编译运行后就可以看到应用正常运行了。</p>
+<p>
+<img src="./images/react_native_launcher_5.png" alt="./images/react_native_launcher_5.png" title="./images/react_native_launcher_5.png" /></p>
+<p>
+至此开发框架就可以了，接下来就是正常的开发流程。</p>
+</div>
+</div>
+<div id="outline-container-headline-5" class="outline-3">
+<h3 id="headline-5">
+启动器配置
+</h3>
+<div id="outline-text-headline-5" class="outline-text-3">
+<p>
+编辑 <code class="verbatim">android/app/src/main/AndroidManifest.xml</code> 文件，在 <code class="verbatim">intent-filter</code> 标签下添加如下内容：</p>
+<div class="src src-xml">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span>  &lt;category android:name=<span style="color:#666;font-style:italic">&#34;android.intent.category.HOME&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>  &lt;category android:name=<span style="color:#666;font-style:italic">&#34;android.intent.category.DEFAULT&#34;</span> /&gt;</span></span></code></pre></div>
+</div>
+<details>
+<summary>现在 <code>AndroidManifest.xml</code> 内容如下：</summary>
+<div class="src src-xml">
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span>&lt;manifest xmlns:android=<span style="color:#666;font-style:italic">&#34;http://schemas.android.com/apk/res/android&#34;</span>
+</span></span><span style="display:flex;"><span>  package=<span style="color:#666;font-style:italic">&#34;com.booklauncher&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    &lt;uses-permission android:name=<span style="color:#666;font-style:italic">&#34;android.permission.INTERNET&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    &lt;application
+</span></span><span style="display:flex;"><span>      android:name=<span style="color:#666;font-style:italic">&#34;.MainApplication&#34;</span>
+</span></span><span style="display:flex;"><span>      android:label=<span style="color:#666;font-style:italic">&#34;@string/app_name&#34;</span>
+</span></span><span style="display:flex;"><span>      android:icon=<span style="color:#666;font-style:italic">&#34;@mipmap/ic_launcher&#34;</span>
+</span></span><span style="display:flex;"><span>      android:roundIcon=<span style="color:#666;font-style:italic">&#34;@mipmap/ic_launcher_round&#34;</span>
+</span></span><span style="display:flex;"><span>      android:allowBackup=<span style="color:#666;font-style:italic">&#34;false&#34;</span>
+</span></span><span style="display:flex;"><span>      android:theme=<span style="color:#666;font-style:italic">&#34;@style/AppTheme&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;activity
+</span></span><span style="display:flex;"><span>        android:name=<span style="color:#666;font-style:italic">&#34;.MainActivity&#34;</span>
+</span></span><span style="display:flex;"><span>        android:label=<span style="color:#666;font-style:italic">&#34;@string/app_name&#34;</span>
+</span></span><span style="display:flex;"><span>        android:configChanges=<span style="color:#666;font-style:italic">&#34;keyboard|keyboardHidden|orientation|screenSize|uiMode&#34;</span>
+</span></span><span style="display:flex;"><span>        android:launchMode=<span style="color:#666;font-style:italic">&#34;singleTask&#34;</span>
+</span></span><span style="display:flex;"><span>        android:windowSoftInputMode=<span style="color:#666;font-style:italic">&#34;adjustResize&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;intent-filter&gt;
+</span></span><span style="display:flex;"><span>            &lt;action android:name=<span style="color:#666;font-style:italic">&#34;android.intent.action.MAIN&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>            &lt;category android:name=<span style="color:#666;font-style:italic">&#34;android.intent.category.LAUNCHER&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>            &lt;category android:name=<span style="color:#666;font-style:italic">&#34;android.intent.category.HOME&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>            &lt;category android:name=<span style="color:#666;font-style:italic">&#34;android.intent.category.DEFAULT&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>        &lt;/intent-filter&gt;
+</span></span><span style="display:flex;"><span>      &lt;/activity&gt;
+</span></span><span style="display:flex;"><span>      &lt;activity android:name=<span style="color:#666;font-style:italic">&#34;com.facebook.react.devsupport.DevSettingsActivity&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>    &lt;/application&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;/manifest&gt;</span></span></code></pre></div>
+</div>
+</details>
+<p>
+这样配置后重新编译启动应用，再点击 <code class="verbatim">Home</code> 键返回桌面便可以看到让你选择桌面程序了</p>
+<p>
+<img src="./images/react_native_launcher_6.png" alt="./images/react_native_launcher_6.png" title="./images/react_native_launcher_6.png" /></p>
+</div>
+</div>
+</div>
+</div>
+
+      </article>
+  </div>
+</main>
+
+<div>
+    <h4 id="signature">
+        Thu Apr 27, 2023
+        
+            cheon
+        
+    </h4>
+    
+    
+    <ul class="tags">
+        
+            <li> <a href="https://number317.github.io/blog/tags/react-native">react-native,</a> </li>
+        
+            <li> <a href="https://number317.github.io/blog/tags/android">android,</a> </li>
+        
+            <li> <a href="https://number317.github.io/blog/tags/kindle">kindle,</a> </li>
+        
+            <li> <a href="https://number317.github.io/blog/tags/eink">eink</a> </li>
+        
+    </ul>
+    
+    <ul class="related">
+        
+            <li><a class="previous" href="https://number317.github.io/blog/frontend/web_rtsp_play.html"> Web Rtsp Play</a></li>
+        
+        
+    </ul>
+</div>
+
+        </div><section id="footer">
+
+<div id="author">
+    <h2>About Author</h2>
+    <hr>
+    <img src=https://number317.github.io/images/author.jpg></img>
+    <p>Life is dance we all have to do.</p>
+</div>
+<ul id="link">
+    <li><a href=https://github.com/number317/aloha.git target="_blank"><i class="fa fa-github" alt="github"></i></a></li>
+    <li><a href="mailto:cheon0112358d@gmail.com?subject=blog%27s%20feedback" target="_blank"><i class="fa fa-envelope" alt="email"></i></a></li>
+    <li id="wechat"><i class="fa fa-wechat"></i></li>
+    <img class="qrcode" src=https://number317.github.io/images/wechat.jpg>
+</ul>
+</section>
+</body>
+</html>

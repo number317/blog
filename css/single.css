@@ -1,0 +1,111 @@
+#main time {
+    color: #b3b3b3;
+}
+
+#signature {
+    text-align: right;
+}
+
+.related {
+    list-style: none;
+    text-align: justify;
+    text-align-last: justify;
+    padding: 0;
+    margin: 0;
+}
+
+.related li {
+    display: inline-block;
+}
+
+.previous::before {
+    content: "«";
+}
+
+.next::after {
+    content: "»";
+}
+
+#content hr {
+    border: 1px solid #f6f6f6;
+}
+
+#content table {
+    overflow: auto;
+    min-width: 50%;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+#content table th,
+#content table td {
+    border: 1px solid #d8d8d8;
+    padding: 5px;
+}
+
+pre {
+    font-family: 'Fira Mono', monospace;
+    border: 1px solid #d8d8d8;
+    border-radius: 3px;
+    max-width: 100%;
+    overflow: auto;
+    scrollbar-width: none;
+    padding: 5px;
+    font-size: 0.9rem;
+    line-height: 120%;
+}
+
+code {
+    font-family: 'Fira Mono', monospace;
+}
+
+#content img {
+    margin: 0 auto;
+}
+
+#content kbd {
+    background-color: #fafbfc;
+    border: 1px solid #c6cbd1;
+    border-bottom-color: #959da5;
+    border-radius: 3px;
+    box-shadow: inset 0 -1px 0 #959da5;
+    color: #444d56;
+    display: inline-block;
+    line-height: 100%;
+    padding: 3px 5px;
+    font-style: normal;
+    vertical-align: middle;
+}
+
+#content blockquote {
+    margin: 0;
+    padding: 0 5px 0 5px;
+}
+
+#content blockquote > * {
+    padding: 0 2rem;
+    list-style-position: inside;
+}
+
+#content blockquote::before {
+    content: "「";
+    font-style: normal;
+    display: block;
+    text-align: left;
+}
+
+#content blockquote::after {
+    content: "」";
+    font-style: normal;
+    display: block;
+    text-align: right;
+}
+
+#content .task-list {
+    list-style: none;
+    padding: 0;
+}
+
+#content a:hover {
+    text-decoration: underline;
+}
