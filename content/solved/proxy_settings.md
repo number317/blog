@@ -6,16 +6,6 @@ tags = ["proxy"]
 categories = ["solved"]
 +++
 
-# Table of Contents
-<!-- vim-markdown-toc GitLab -->
-
-+ [常见代理设置](#常见代理设置)
-    * [git](#git)
-    * [npm](#npm)
-    * [pip](#pip)
-
-<!-- vim-markdown-toc -->
-
 # 常见代理设置
 
 ## git
@@ -63,6 +53,18 @@ npm config set registry https://registry.npm.taobao.org
 registry=https://registry.npm.taobao.org
 ```
 
+pathonjs
+
+```bash
+npm install --phantomjs_cdnurl=http://npm.taobao.org/dist/phantomjs/
+```
+
+electron
+
+```bash
+npm install --electron_cdnurl=https://npm.taobao.org/mirrors/electron
+```
+
 删除代理:
 
 ```bash
@@ -76,9 +78,9 @@ npm config delete registry
 ```
 [global]
 timeout = 6000
-index-url = http://pypi.douban.com/simple/
+index-url = https://mirrors.ustc.edu.cn/pypi/simple/
 [install]
 use-mirrors = true
-mirrors = http://pypi.douban.com/simple/
-trusted-host = pypi.douban.com
+mirrors = https://mirrors.ustc.edu.cn/pypi/simple/
+trusted-host = mirrors.ustc.edu.cn
 ```

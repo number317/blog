@@ -63,7 +63,8 @@ logstash 配置:
 
 <details>
 <summary>logstash.conf</summary>
-```
+
+```conf
 input {
     kafka {
         id => "spring-boot-demo"
@@ -133,7 +134,8 @@ output {
 
 <details>
 <summary>logstash.conf</summary>
-```
+
+```conf
 input {
     kafka {
         id => "spring-boot-demo"

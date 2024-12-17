@@ -195,7 +195,8 @@ kubectl apply -f ceph-kube-secret.yaml
 ```
 
 <details>
-    <summary>ceph-storageclass.yaml</summary>
+<summary>ceph-storageclass.yaml</summary>
+
 ```yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -225,8 +226,9 @@ kubectl apply -f ceph-pvc.yaml -n ceph
 ```
 
 <details>
-    <summary>ceph-pvc.yaml</summary>
-```
+<summary>ceph-pvc.yaml</summary>
+
+```yaml
 kind: PersistentVolumeClaim
 metadata:
   name: ceph-pvc
@@ -288,7 +290,8 @@ rbd info kubernetes-dynamic-pvc-10321857-9952-11e9-aac5-0a580ae9419b -p kube
 
 <details>
 <summary>pod.yml</summary>
-```yml
+
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:

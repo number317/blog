@@ -235,3 +235,23 @@ ssh -fNg -D 8081 appuser@192.168.0.101 -p 22
 ```
 
  上述命令将创建 ssh 隧道，本地监听 8081 端口，配合浏览器插件 Proxy Switch Omega 即可实现翻墙。这个需要服务器的 ssh 开启 `GatewayPorts yes` 的配置。
+
+ ```bash
+ jp2a test.png
+ ```
+
+将图片转换为 ascii 字符画，archlinux 上需要按照 jp2a 包
+
+```bash
+convert color.png -colorspace Gray gray.png
+convert gray.png -monochrome two.png
+```
+
+第一个命令将图片转化为灰度
+第二个命令将图片二值化
+
+```bash
+echo "hello worlc" | curl -F 'f:1=<-' ix.io
+```
+
+在线剪切板，会返回一个链接

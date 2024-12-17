@@ -1,8 +1,9 @@
-baseURL = "https://www.cheon.site/blog/"
+baseURL = "https://number317.github.io/blog/"
 title = "cheon's blog"
 theme = "aloha"
 author = "cheon"
 canonifyurls = true
+uglyurls = false
 languagecode = "en"
 paginate = 10
 enableGitInfo = true
@@ -21,11 +22,11 @@ pygmentsCodefencesGuessSyntax = true
     sitename = "cheon's blog"
     description = "Aloha! Welcome to cheon's blog."
     disableWebFonts = false
-    showSummary = false
+    showSummary = true
 
 [[menu.main]]
     name = "Home"
-    url  = "https://www.cheon.site"
+    url  = "https://number317.github.io"
     weight = 1
 [[menu.main]]
     name = "Categories"
@@ -39,7 +40,7 @@ pygmentsCodefencesGuessSyntax = true
     name = "Projects"
     url  = "https://github.com/number317"
     weight = 4
-    
+
 [privacy]
   [privacy.disqus]
     disable = true

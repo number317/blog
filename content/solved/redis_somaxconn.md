@@ -122,6 +122,7 @@ systemctl restart kubelet
 
 <details>
 <summary> redis deployment </summary>
+
 ```yaml
 apiVersion: extensions/v1beta1
 kind: Deployment

@@ -21,6 +21,7 @@ vagrant配置文件：
 
 <details>
 <summary>Vagrantfile</summary>
+
 ```ruby
 # -*- mode: ruby -*-
 # vi: set ft=ruby :

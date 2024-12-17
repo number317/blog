@@ -25,6 +25,7 @@ vagrant 的 box 可选用 bento/centos-7.2:
 
 <details>
 <summary>Vagrantfile</summary>
+
 ```ruby
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
@@ -63,6 +64,7 @@ end
 
 <details>
 <summary>playbook</summary>
+
 ```yaml
 ---
 - hosts: all
@@ -198,6 +200,7 @@ NAME            STATUS    AGE
 
 <details>
 <summary>dashboard deploy</summary>
+
 ```yml
 ---
 apiVersion: extensions/v1beta1

@@ -6,47 +6,18 @@ tags = ["library"]
 categories = ["c"]
 +++
 
-# Table of Contents
-
-1.  [GNU Argp 库](#orga87ae77)
-    1.  [前置知识](#org35b9baa)
-        1.  [从一个示例开始](#org04f03df)
-        2.  [命令行参数](#org2ee364e)
-        3.  [选项的参数](#org09e2c5f)
-    2.  [step0: 第一个 argp 程序](#orga58fb28)
-    3.  [step1: 短选项](#org5160012)
-    4.  [step2: 选项参数](#org7d255da)
-    5.  [step3: 长选项](#org4b6cffa)
-    6.  [step4: 可选项](#orgf0f8ac6)
-    7.  [step5: 别名](#org80f9f9d)
-    8.  [step6: 回调自身](#orgd3f09ca)
-    9.  [step7: 参数支持](#orgc912c26)
-    10. [step8: 隐藏选项](#org7164976)
-    11. [step9: 完善说明](#org4c6f6b6)
-    12. [step10: 选项组](#orgc31acea)
-    13. [step11: 调用库](#org68f9698)
-
-
-<a id="orga87ae77"></a>
-
 # GNU Argp 库
 
 c 命令行程序中的参数处理是很常见的需求，要做到这点我们可以用 GNU 的标准库 argp，大部分 GNU 组件都用这个库来解析参数。
 
-
-<a id="org35b9baa"></a>
-
 ## 前置知识
-
-
-<a id="org04f03df"></a>
 
 ### 从一个示例开始
 
 先来看一个例子:
 
 <details>
-<summary> `sum --help` </summary>
+<summary> <code>sum --help</code> </summary>
 
     sum --help
     Usage: sum [OPTION]... [FILE]...
@@ -66,9 +37,6 @@ c 命令行程序中的参数处理是很常见的需求，要做到这点我们
 </details>
 
 这是一个调用 `--help` 选项常见的输出。受到 BNF 影响， `[]` 意味着是可选的项， `...` 意味着是可重复的项。因此上面的输出意味着 `sum` 命令可以有 0 个或多个选项，可以有 0 个或多个文件。
-
-
-<a id="org2ee364e"></a>
 
 ### 命令行参数
 
@@ -92,15 +60,12 @@ c 命令行程序中的参数处理是很常见的需求，要做到这点我们
 
 `--` 的使用在 argp 库中是默认的处理行为。
 
-
-<a id="org09e2c5f"></a>
-
 ### 选项的参数
 
 和程序一样，选项（通常是长选项）也可以有参数。参数可以是强制参数，可选参数，或者没有参数:
 
 <details>
-<summary> `fold --help` </summary>
+<summary> <code>fold --help</code> </summary>
 
     fold --help
     Usage: fold [OPTION]... [FILE]...
@@ -124,7 +89,7 @@ c 命令行程序中的参数处理是很常见的需求，要做到这点我们
 可以看到 `--width` 选项需要一个数字作为参数。使用 `--width` 选项而不提供参数是错误的，可以有多种方式为 `--width` 选项提供参数:
 
 <details>
-<summary> `folder` </summary>
+<summary> <code>folder</code> </summary>
 
     echo "hello there" | fold -w3
     hel
@@ -154,9 +119,6 @@ c 命令行程序中的参数处理是很常见的需求，要做到这点我们
     -k, --keep-going            Keep going when some targets can't be made.
 
 需要值得注意的地方是这种类型的选项可以和 `-k` 一起使用，但不能是 `-k` 在 `-j` 之后。即 make -kj 可以正常工作，但 make -jk 不能。因为这里的 k 被认为是 -j 的参数，而 k 作为 j 的参数是不合法的，它明显不是个数字。
-
-
-<a id="orga58fb28"></a>
 
 ## step0: 第一个 argp 程序
 
@@ -205,15 +167,12 @@ step0.c:
 3.  对于系统不识别的选项做了错误处理
 4.  用 `--` 说明命令行的选项结束
 
-
-<a id="org5160012"></a>
-
 ## step1: 短选项
 
 为之前的程序添加一个 `-d` 选项，是程序在屏幕上打印一个 `.` :
 
 <detail>
-<summary> `step1.c` </summary>
+<summary> <code>step1.c</code> </summary>
 
     #include <argp.h>
     #include <stdio.h>
@@ -270,15 +229,12 @@ step0.c:
 
 </details>
 
-
-<a id="org7d255da"></a>
-
 ## step2: 选项参数
 
 现在为 `-d` 选项添加一个参数，好让程序输出更多的 `.` 而不是一个。
 
 <details>
-<summary> `step2.c` </summary>
+<summary> <code>step2.c</code> </summary>
 
     #include <stdio.h>
     #include <stdlib.h>
@@ -338,15 +294,12 @@ step0.c:
 
 </details>
 
-
-<a id="org4b6cffa"></a>
-
 ## step3: 长选项
 
 现在为 `-d` 选项添加一个等价的长选项 `--dot` 。
 
 <details>
-<summary> `step3.c` </summary>
+<summary> <code>step3.c</code> </summary>
 
     #include <stdio.h>
     #include <stdlib.h>
@@ -420,15 +373,12 @@ step0.c:
       -?, --help                 Give this help list
           --usage                Give a short usage message
 
-
-<a id="orgf0f8ac6"></a>
-
 ## step4: 可选项
 
 现在将 `--dot` 的 `NUM` 参数设置为可选的。
 
 <details>
-<summary> `step4.c` </summary>
+<summary> <code>step4.c</code> </summary>
 
     #include <stdio.h>
     #include <stdlib.h>
@@ -493,13 +443,10 @@ step0.c:
 
 最后两个例子可能不符合预期，这是因为长选项配合可选参数需要一个 `=` 放在选项和参数之间，如果没有，参数会被认为是程序的参数，而不是选项的参数。带有可选参数的短选项不能连起来用。第二个 `d` 被认为是第一个 `d` 的参数， `atoi` 将 `-d` 转换为 `0` 。
 
-
-<a id="org80f9f9d"></a>
-
 ## step5: 别名
 
 <details>
-<summary> `step5.c` </summary>
+<summary> <code>step5.c</code> </summary>
 
     #include <stdio.h>
     #include <stdlib.h>
@@ -540,39 +487,36 @@ step0.c:
 
 <details>
 <summary>编译运行</summary>
+<code>
+make step5
 
-    make step5
-    
-    ./step5 --help
-    Usage: step5 [OPTION...]
-    
-      -d, --dot[=NUM], --period[=NUM]
-                                 Show some dots on the screen
-      -?, --help                 Give this help list
-          --usage                Give a short usage message
-    
-    ./step5 --usage
-    Usage: step5 [-?] [-d[NUM]] [--dot[=NUM]] [--period[=FOO]] [--help] [--usage]
-    
-    ./step5 --period
-    .
-    
-    ./step5 --period=4
-    ....
+./step5 --help
+Usage: step5 [OPTION...]
 
+  -d, --dot[=NUM], --period[=NUM]
+                             Show some dots on the screen
+  -?, --help                 Give this help list
+      --usage                Give a short usage message
+
+./step5 --usage
+Usage: step5 [-?] [-d[NUM]] [--dot[=NUM]] [--period[=FOO]] [--help] [--usage]
+
+./step5 --period
+.
+
+./step5 --period=4
+....
+</code>
 </details>
 
 可以看到 `FOO` 和 `Bar` 被正确地忽略了，没有在 help 信息中显示出来。新的长选项 `--period` 出现在 `--dot=` 选项旁因为它们是完全等价的。
-
-
-<a id="orgd3f09ca"></a>
 
 ## step6: 回调自身
 
 现在为程序添加一个长选项 `--ellipsis` 用于在屏幕输出 3 个点。功能上等价于 `--dot=3` :
 
 <details>
-<summary> `step6.c` </summary>
+<summary> <code>step6.c</code> </summary>
 
     #include <stdio.h>
     #include <stdlib.h>
@@ -615,7 +559,6 @@ step0.c:
 
 <details>
 <summary>编译运行</summary>
-
     make step6
     
     ./step6 --help
@@ -634,25 +577,20 @@ step0.c:
     
     ./step6 --dot 3
     ...
-
 </details>
 
 由于 `--ellipsis` 没有参数，所以无法为它创建一个别名。
-
-
-<a id="orgc912c26"></a>
 
 ## step7: 参数支持
 
 现在为程序添加对一到四个参数的支持。如果程序没有获得足够的参数，将会报错。
 
 <details>
-<summary> `step7.c` </summary>
+<summary> <code>step7.c</code> </summary>
 
     #include <stdio.h>
     #include <stdlib.h>
     #include <argp.h>
-    
     static int parse_opt(int key, char *arg, struct argp_state *state) {
         int *arg_count = state->input;
         switch(key) {
@@ -750,15 +688,12 @@ argp 也追踪目前为止已经处理了多少个参数，这个信息存放在
 
 当在命令最后带上 `--ellipsis` 长参数时， `...` 会先输出。这是因为 argp 默认行为是先解析选项，再解析参数。如果想要改变，可以向 `argp_parse` 函数的第四个参数传递 `ARGP_IN_ORDER` 。
 
-
-<a id="org7164976"></a>
-
 ## step8: 隐藏选项
 
 这里要将程序改造成莫尔斯密码的程序，会添加 `--dash` 选项，改造 `--ellipsis` 选项。并且选项在 help 和 usage 信息中被隐藏。程序不再接收任何参数。
 
 <details>
-<summary> `step8` </summary>
+<summary> <code>step8</code> </summary>
 
     #include <stdio.h>
     #include <stdlib.h>
@@ -843,13 +778,10 @@ argp 也追踪目前为止已经处理了多少个参数，这个信息存放在
 
 </details>
 
-
-<a id="org4c6f6b6"></a>
-
 ## step9: 完善说明
 
 <details>
-<summary> `step9` </summary>
+<summary> <code>step9</code> </summary>
 
     #include <stdio.h>
     #include <argp.h>
@@ -983,15 +915,12 @@ argp 也追踪目前为止已经处理了多少个参数，这个信息存放在
 
 许多命令有许多不同的 usage 行，如 `ln` 命令有 4 种用法。argp 使处理这种情况变得容易。
 
-
-<a id="orgc31acea"></a>
-
 ## step10: 选项组
 
 将 `--dash` 和 `--dot` 选项放到自己的组中可以使帮助信息的可读性更高。
 
 <details>
-<summary> `step10` </summary>
+<summary> <code>step10</code> </summary>
 
     #include <stdio.h>
     #include <argp.h>
@@ -1119,15 +1048,12 @@ argp 也追踪目前为止已经处理了多少个参数，这个信息存放在
 
 `--SOS` 选项也出现在了其他帮助信息中，因为默认选项也有 -1 的组值。
 
-
-<a id="org68f9698"></a>
-
 ## step11: 调用库
 
 可能有两个程序并且希望他们有相同的选项，argp 让这个实现变得简单，不需要复制代码。对于程序员而言，将程序中的函数压缩成一个库好让别的应用使用 api 来构建新应用。很多情况下 api 有一些配置元素，甚至是配置文件。程序员需要收集这些信息然后传递给 api。
 
 <details>
-<summary> `dotdash.c` </summary>
+<summary> <code>dotdash.c</code> </summary>
 
     #include "dotdash.h"
     static int parse_opt(int key, char *arg, struct argp_state *state) {

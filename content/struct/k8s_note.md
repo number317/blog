@@ -115,6 +115,7 @@ curl -X POST http://$MANAGEMENT_SERVICE_HOST:$MANAGERMENT_SERVICE_PORT/registr -
 
 <details>
 <summary>pod.yaml</summary>
+
 ```yaml
 apiVersion: v1
 kind: Pod

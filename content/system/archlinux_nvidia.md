@@ -6,14 +6,6 @@ tags = ["system"]
 categories = ["system"]
 +++
 
-# Table of Contents
-
-1.  [ArchLinux 配置 nvidia 独立显卡](#org9a903ad)
-2.  [firefox webgl 配置独立显卡](#orgd2bf049)
-
-
-<a id="org9a903ad"></a>
-
 # ArchLinux 配置 nvidia 独立显卡
 
 按照 [PRIME Render Offload](https://download.nvidia.com/XFree86/Linux-x86_64/435.21/README/primerenderoffload.html) 文档，安装新版本的 nvidia 驱动和 xorg，新版本的 xorg 安装包可以从 [arch-xorg-server](https://gitlab.freedesktop.org/aplattner/arch-xorg-server) 构建。
@@ -28,111 +20,111 @@ categories = ["system"]
 
 <details>
 <summary>xorg.conf</summary>
-```
-Section "ServerLayout"
-        Identifier     "X.org Configured"
-        Screen      0  "Screen0" 0 0
-        #Screen      1  "Screen1" RightOf "Screen0"
-        InputDevice    "Mouse0" "CorePointer"
-        InputDevice    "Keyboard0" "CoreKeyboard"
-        Option         "AllowNVIDIAGPUScreens"
-EndSection
 
-Section "Files"
-        ModulePath   "/usr/lib/xorg/modules"
-        ModulePath   "/usr/lib/modules/extramodules-ARCH"
-        FontPath     "/usr/share/fonts/TTF"
-        FontPath     "/usr/share/fonts/adobe-source-code-pro"
-EndSection
+    Section "ServerLayout"
+            Identifier     "X.org Configured"
+            Screen      0  "Screen0" 0 0
+            #Screen      1  "Screen1" RightOf "Screen0"
+            InputDevice    "Mouse0" "CorePointer"
+            InputDevice    "Keyboard0" "CoreKeyboard"
+            Option         "AllowNVIDIAGPUScreens"
+    EndSection
+    
+    Section "Files"
+            ModulePath   "/usr/lib/xorg/modules"
+            ModulePath   "/usr/lib/modules/extramodules-ARCH"
+            FontPath     "/usr/share/fonts/TTF"
+            FontPath     "/usr/share/fonts/adobe-source-code-pro"
+    EndSection
+    
+    Section "Module"
+            Load  "glx"
+            Load  "nvidia-drm"
+    EndSection
+    
+    Section "InputDevice"
+            Identifier  "Keyboard0"
+            Driver      "kbd"
+    EndSection
+    
+    Section "InputDevice"
+            Identifier  "Mouse0"
+            Driver      "mouse"
+            Option	    "Protocol" "auto"
+            Option	    "Device" "/dev/input/mice"
+            Option	    "ZAxisMapping" "4 5 6 7"
+    EndSection
+    
+    Section "Monitor"
+            Identifier   "Monitor0"
+            VendorName   "Monitor Vendor"
+            ModelName    "Monitor Model"
+    EndSection
+    
+    Section "Device"
+            ### Available Driver options are:-
+            ### Values: <i>: integer, <f>: float, <bool>: "True"/"False",
+            ### <string>: "String", <freq>: "<f> Hz/kHz/MHz",
+            ### <percent>: "<f>%"
+            ### [arg]: arg optional
+            #Option     "SWcursor"           	# [<bool>]
+            #Option     "kmsdev"             	# <str>
+            #Option     "ShadowFB"           	# [<bool>]
+            #Option     "AccelMethod"        	# <str>
+            #Option     "PageFlip"           	# [<bool>]
+            #Option     "ZaphodHeads"        	# <str>
+            #Option     "DoubleShadow"       	# [<bool>]
+            Option      "RenderAccel"               "1"
+            Option      "DPMS"                      "1"
+            Option      "RegistryDwords"            "EnableBrightnessControl=1"
+            Identifier  "Card0"
+            Driver      "modesetting"
+            BusID       "PCI:0:2:0"
+    EndSection
+    
+    Section "Device"
+            Identifier  "Card1"
+            Driver      "nvidia"
+            BusID       "PCI:1:0:0"
+            Option      "RenderAccel"               "1"
+            Option      "DPMS"                      "1"
+            Option      "RegistryDwords"            "EnableBrightnessControl=1"
+            Option      "RegistryDwords"            "PowerMizerLevelAC=0x3"
+            Option      "RegistryDwords"            "PowerMizerLevel=0x2"
+            Option      "RegistryDwords"            "PerfLevelSrc=0x3333"
+            Option      "OnDemandVBlankInterrupts"  "1"
+    EndSection
+    
+    Section "Screen"
+            Identifier "Screen0"
+            Device     "Card0"
+            Monitor    "Monitor0"
+            SubSection "Display"
+                    Viewport   0 0
+                    Depth     1
+            EndSubSection
+            SubSection "Display"
+                    Viewport   0 0
+                    Depth     4
+            EndSubSection
+            SubSection "Display"
+                    Viewport   0 0
+                    Depth     8
+            EndSubSection
+            SubSection "Display"
+                    Viewport   0 0
+                    Depth     15
+            EndSubSection
+            SubSection "Display"
+                    Viewport   0 0
+                    Depth     16
+            EndSubSection
+            SubSection "Display"
+                    Viewport   0 0
+                    Depth     24
+            EndSubSection
+    EndSection
 
-Section "Module"
-        Load  "glx"
-        Load  "nvidia-drm"
-EndSection
-
-Section "InputDevice"
-        Identifier  "Keyboard0"
-        Driver      "kbd"
-EndSection
-
-Section "InputDevice"
-        Identifier  "Mouse0"
-        Driver      "mouse"
-        Option	    "Protocol" "auto"
-        Option	    "Device" "/dev/input/mice"
-        Option	    "ZAxisMapping" "4 5 6 7"
-EndSection
-
-Section "Monitor"
-        Identifier   "Monitor0"
-        VendorName   "Monitor Vendor"
-        ModelName    "Monitor Model"
-EndSection
-
-Section "Device"
-        ### Available Driver options are:-
-        ### Values: <i>: integer, <f>: float, <bool>: "True"/"False",
-        ### <string>: "String", <freq>: "<f> Hz/kHz/MHz",
-        ### <percent>: "<f>%"
-        ### [arg]: arg optional
-        #Option     "SWcursor"           	# [<bool>]
-        #Option     "kmsdev"             	# <str>
-        #Option     "ShadowFB"           	# [<bool>]
-        #Option     "AccelMethod"        	# <str>
-        #Option     "PageFlip"           	# [<bool>]
-        #Option     "ZaphodHeads"        	# <str>
-        #Option     "DoubleShadow"       	# [<bool>]
-        Option      "RenderAccel"               "1"
-        Option      "DPMS"                      "1"
-        Option      "RegistryDwords"            "EnableBrightnessControl=1"
-        Identifier  "Card0"
-        Driver      "modesetting"
-        BusID       "PCI:0:2:0"
-EndSection
-
-Section "Device"
-        Identifier  "Card1"
-        Driver      "nvidia"
-        BusID       "PCI:1:0:0"
-        Option      "RenderAccel"               "1"
-        Option      "DPMS"                      "1"
-        Option      "RegistryDwords"            "EnableBrightnessControl=1"
-        Option      "RegistryDwords"            "PowerMizerLevelAC=0x3"
-        Option      "RegistryDwords"            "PowerMizerLevel=0x2"
-        Option      "RegistryDwords"            "PerfLevelSrc=0x3333"
-        Option      "OnDemandVBlankInterrupts"  "1"
-EndSection
-
-Section "Screen"
-        Identifier "Screen0"
-        Device     "Card0"
-        Monitor    "Monitor0"
-        SubSection "Display"
-                Viewport   0 0
-                Depth     1
-        EndSubSection
-        SubSection "Display"
-                Viewport   0 0
-                Depth     4
-        EndSubSection
-        SubSection "Display"
-                Viewport   0 0
-                Depth     8
-        EndSubSection
-        SubSection "Display"
-                Viewport   0 0
-                Depth     15
-        EndSubSection
-        SubSection "Display"
-                Viewport   0 0
-                Depth     16
-        EndSubSection
-        SubSection "Display"
-                Viewport   0 0
-                Depth     24
-        EndSubSection
-EndSection
-```
 </details>
 
 安装好软件后需要重启电脑，开启桌面后执行 `xrandr --listproviders` ，应该可以看到如下结果:

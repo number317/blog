@@ -12,6 +12,7 @@ categories = ["struct"]
 
 <details>
 <summary>mvn config</summary>
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
@@ -52,6 +53,7 @@ categories = ["struct"]
 
 <details>
 <summary>pom config</summary>
+
 ```xml
 <distributionManagement>
     <snapshotRepository>

@@ -68,7 +68,7 @@ nvme0n1                   259:0    0   477G  0 disk
 cgdisk /dev/nvm0n1
 ```
 
-输入命令后按照提示进行分区。通常`/boot`分区512M就够用了，剩下的分区都用于系统安装。
+输入命令后按照提示进行分区。通常`/boot`分区512M就够用了，用 `ef00`, 剩下的分区都用于系统安装。
 
 ### 加密磁盘
 
@@ -135,7 +135,7 @@ swapon /dev/mapper/entropy--vg0-swap
 ### 安装基本系统
 
 ```bash
-pacstrap /mnt base base-devel
+pacstrap /mnt base base-devel linux linux-firmware
 ```
 
 ### 生成fstab
@@ -288,6 +288,19 @@ default arch
 
 ```bash
 pacman -S dialog wpa_supplicant
+```
+
+/etc/iwd/main.conf
+```
+[General]
+EnableNetworkConfiguration=true
+[Network]
+NameResolvingService=systemd
+```
+
+```
+systemctl enable iwd
+systemctl enable systemd-resolved
 ```
 
 ### 退出chroot并重启

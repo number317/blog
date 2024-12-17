@@ -43,10 +43,10 @@ hooks:
 
 ![cas设置](/struct/images/discourse_cas_img2.png)
 
-- cas sso url: https://login.hand-china.com/sso
-- cas sso host: login.hand-china.com
+- cas sso url: https://login.xxx.com/sso
+- cas sso host: login.xxx.com
 - cas sso service validate url: /p3/serviceValidate
-- cas sso email domain: hand-china.com
+- cas sso email domain: xxx.com
 - cas sso user auto create: 不勾选
 - cas sso user approved: 不勾选
 
