@@ -1,5 +1,5 @@
 # README
 
-[![Build Status](https://www.travis-ci.org/number317/blog.svg?branch=master)](https://www.travis-ci.org/number317/blog)
+[![CI Status](https://github.com/number317/blog/actions/workflows/action.yml/badge.svg)](https://github.com/number317/blog/actions/workflows/action.yml)
 
 LEVEL UP!
