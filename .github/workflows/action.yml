@@ -1,10 +1,9 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: GitHub Pages
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
 
@@ -24,17 +23,18 @@ jobs:
         with:
           hugo-version: 'latest'
 
-      - name: pull repo
-        uses: actions/checkout@main
+      - name: pull
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
 
-      - name: build and push
-        run: |
-          git submodule add -f https://github.com/number317/aloha.git themes/aloha
-          hugo --minify
+      - name: build
+        run: hugo --minify
 
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main'
         with:
-          github_token: ${{ secrets.BLOG_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
