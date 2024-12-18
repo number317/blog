@@ -1,25 +1,65 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ansible on cheon's blog</title><link>https://number317.github.io/blog/tags/ansible/</link><description>Recent content in Ansible on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 14 Jun 2019 01:21:26 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/ansible/index.xml" rel="self" type="application/rss+xml"/><item><title>Ansible Variables</title><link>https://number317.github.io/blog/struct/ansible_variables/</link><pubDate>Fri, 25 May 2018 11:06:47 +0800</pubDate><guid>https://number317.github.io/blog/struct/ansible_variables/</guid><description>&lt;h1 id="ansible-变量">ansible 变量&lt;/h1>
 &lt;p>ansible 变量以&lt;code>[A-Za-z]&lt;/code>开头，可以包含下划线&lt;code>_&lt;/code>和数字&lt;code>[0-9]&lt;/code>，标准是全部使用小写字母。在清单(inventory)文件里，变量使用&lt;code>=&lt;/code>赋值，如：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ini" data-lang="ini">&lt;span style="display:flex;">&lt;span>foo=&lt;span style="color:#666;font-style:italic">bar&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>在剧本(playbook)或变量文件里，变量用&lt;code>:&lt;/code>赋值，如：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>foo: bar
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="playbook-variables">Playbook Variables&lt;/h2>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-06ad47d8e64bd28de537b62ff85357c4">foo=bar&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-06ad47d8e64bd28de537b62ff85357c4', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>在剧本(playbook)或变量文件里，变量用&lt;code>:&lt;/code>赋值，如：&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-e1dcf98b4c823827be0a0524052ae95a">foo: bar&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-e1dcf98b4c823827be0a0524052ae95a', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;h2 id="playbook-variables">Playbook Variables&lt;/h2>
 &lt;p>变量可以在使用&lt;code>ansible-playbook&lt;/code>时通过命令行参数&lt;code>--extra-vars&lt;/code>选项传递：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ansible-playbook example.yml --extra-vars &lt;span style="color:#666;font-style:italic">&amp;#34;foo=bar&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>也可以在参数中传递json，yaml格式的数据，甚至是json和yaml文件，就像&lt;code>--extra-vars &amp;quot;@even_more_vars.json&amp;quot;&lt;/code>或者&lt;code>--extra-vars &amp;quot;@even_more_vars.yml&amp;quot;&lt;/code>，但这种方式不建议使用。&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-484feec47e4bd8de85f27c7697db1e53">ansible-playbook example.yml --extra-vars &amp;#34;foo=bar&amp;#34;&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-484feec47e4bd8de85f27c7697db1e53', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>也可以在参数中传递json，yaml格式的数据，甚至是json和yaml文件，就像&lt;code>--extra-vars &amp;quot;@even_more_vars.json&amp;quot;&lt;/code>或者&lt;code>--extra-vars &amp;quot;@even_more_vars.yml&amp;quot;&lt;/code>，但这种方式不建议使用。&lt;/p>
 &lt;p>变量可以直接在playbook中的&lt;code>vars&lt;/code>部分定义：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-weight:bold;font-style:italic">---&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- hosts: example
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vars:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> foo: bar
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> tasks:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#888;font-style:italic"># Prints &amp;#34;Variable &amp;#39;foo&amp;#39; is set to bar&amp;#34;.&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - debug: msg=&amp;#34;Variable &amp;#39;foo&amp;#39; is set to {{ foo }}&amp;#34;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>变量也可以在单独的文件中定义，然后在playbook中通过&lt;code>vars_files&lt;/code>引用：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># Main playbook file.&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- hosts: example
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vars_files:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - vars.yml
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> tasks:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	- debug: msg=&amp;#34;Variable &amp;#39;foo&amp;#39; is set to {{ foo }}&amp;#34;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>和playbook同目录下的&lt;code>vars.yml&lt;/code>：&lt;/p></description></item></channel></rss>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-5fe217b69094bcd77d05ab7dcd671912">---
+- hosts: example
+ vars:
+ foo: bar
+ tasks:
+ # Prints &amp;#34;Variable &amp;#39;foo&amp;#39; is set to bar&amp;#34;.
+ - debug: msg=&amp;#34;Variable &amp;#39;foo&amp;#39; is set to {{ foo }}&amp;#34;&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-5fe217b69094bcd77d05ab7dcd671912', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>变量也可以在单独的文件中定义，然后在playbook中通过&lt;code>vars_files&lt;/code>引用：&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-6327da43f56ba52e80cfb4227542efe9"># Main playbook file.
+- hosts: example
+ vars_files:
+ - vars.yml
+ tasks:
+	- debug: msg=&amp;#34;Variable &amp;#39;foo&amp;#39; is set to {{ foo }}&amp;#34;&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-6327da43f56ba52e80cfb4227542efe9', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>和playbook同目录下的&lt;code>vars.yml&lt;/code>：&lt;/p></description></item></channel></rss>

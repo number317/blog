@@ -1,86 +1,86 @@
-<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel=stylesheet><link href=//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
+<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel=stylesheet><link href=https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><script src=https://number317.github.io/blog/js/single.js></script><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
 <a href=https://number317.github.io/blog/>cheon's blog</a></li><li>»
 <a href=https://number317.github.io/blog/struct/>struct</a></li><li class=active>»
-<a href=https://number317.github.io/blog/struct/glusterfs_deploy/>Glusterfs Deploy</a></li></ul><div id=content><main id=main><h1>Glusterfs Deploy</h1><time>Last updated Fri Jun 14, 2019</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents><ul><li><a href=#虚拟机配置>虚拟机配置</a></li><li><a href=#格式化并挂载分区>格式化并挂载分区</a></li><li><a href=#安装并配置glusterfs>安装并配置GlusterFS</a></li></ul></nav></aside><article id=content><h1 id=glusterfs-centos-部署>glusterfs centos 部署</h1><p>GlusterFS是一个开源的分布式文件系统，这里部署它主要为了解决文件存储的单点问题。</p><h2 id=虚拟机配置>虚拟机配置</h2><p>此处采用vagrant部署centos的虚拟机三台，box可以采用bento/centos7.2，配置文件如下：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ruby data-lang=ruby><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>Vagrant</span>.configure(<span style=color:#666;font-style:italic>&#34;2&#34;</span>) <span style=font-weight:700>do</span> |config|
-</span></span><span style=display:flex><span>    (1..3).each <span style=font-weight:700>do</span> |i|
-</span></span><span style=display:flex><span>        config.vm.define <span style=color:#666;font-style:italic>&#34;gluster-node</span><span style=color:#666;font-style:italic>#{</span>i<span style=color:#666;font-style:italic>}</span><span style=color:#666;font-style:italic>&#34;</span> <span style=font-weight:700>do</span> |node|
-</span></span><span style=display:flex><span>            file_to_disk = <span style=color:#666;font-style:italic>&#34;tmp/gluster_node</span><span style=color:#666;font-style:italic>#{</span>i<span style=color:#666;font-style:italic>}</span><span style=color:#666;font-style:italic>_disk.vdi&#34;</span>
-</span></span><span style=display:flex><span>            node.vm.box = <span style=color:#666;font-style:italic>&#34;centos-7.2&#34;</span>
-</span></span><span style=display:flex><span>            node.vm.hostname = <span style=color:#666;font-style:italic>&#34;gluster-node</span><span style=color:#666;font-style:italic>#{</span>i<span style=color:#666;font-style:italic>}</span><span style=color:#666;font-style:italic>&#34;</span>
-</span></span><span style=display:flex><span>            n = 100 +i
-</span></span><span style=display:flex><span>            node.vm.network <span style=color:#666;font-style:italic>&#34;private_network&#34;</span>, <span style=color:#666;font-style:italic>ip</span>: <span style=color:#666;font-style:italic>&#34;192.168.12.</span><span style=color:#666;font-style:italic>#{</span>n<span style=color:#666;font-style:italic>}</span><span style=color:#666;font-style:italic>&#34;</span>
-</span></span><span style=display:flex><span>            node.vm.provider <span style=color:#666;font-style:italic>&#34;virtualbox&#34;</span> <span style=font-weight:700>do</span> |vb|
-</span></span><span style=display:flex><span>                <span style=font-weight:700>unless</span> <span style=color:#666;font-weight:700;font-style:italic>File</span>.exist?(file_to_disk)
-</span></span><span style=display:flex><span>                    vb.customize [<span style=color:#666;font-style:italic>&#39;createhd&#39;</span>, <span style=color:#666;font-style:italic>&#39;--filename&#39;</span>, file_to_disk, <span style=color:#666;font-style:italic>&#39;--size&#39;</span>, 10 * 1024]
-</span></span><span style=display:flex><span>                    vb.customize [<span style=color:#666;font-style:italic>&#39;storageattach&#39;</span>, <span style=color:#666;font-style:italic>:id</span>, <span style=color:#666;font-style:italic>&#39;--storagectl&#39;</span>, <span style=color:#666;font-style:italic>&#39;SATA Controller&#39;</span>, <span style=color:#666;font-style:italic>&#39;--port&#39;</span>, 1, <span style=color:#666;font-style:italic>&#39;--device&#39;</span>, 0, <span style=color:#666;font-style:italic>&#39;--type&#39;</span>, <span style=color:#666;font-style:italic>&#39;hdd&#39;</span>, <span style=color:#666;font-style:italic>&#39;--medium&#39;</span>, file_to_disk]
-</span></span><span style=display:flex><span>                <span style=font-weight:700>end</span>
-</span></span><span style=display:flex><span>                vb.name = <span style=color:#666;font-style:italic>&#34;gluster-node</span><span style=color:#666;font-style:italic>#{</span>i<span style=color:#666;font-style:italic>}</span><span style=color:#666;font-style:italic>&#34;</span>
-</span></span><span style=display:flex><span>                vb.cpus = 1
-</span></span><span style=display:flex><span>                vb.memory = 1024
-</span></span><span style=display:flex><span>            <span style=font-weight:700>end</span>
-</span></span><span style=display:flex><span>        <span style=font-weight:700>end</span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>end</span>
-</span></span><span style=display:flex><span><span style=font-weight:700>end</span>
-</span></span></code></pre></div><p>该配置文件根据官方<a href=http://docs.gluster.org/en/latest/Quick-Start-Guide/Quickstart/>quick start</a>文档，为虚拟机配置了第二磁盘，用于GlusterFS存储，大小为10G。</p><h2 id=格式化并挂载分区>格式化并挂载分区</h2><p>以下步骤需要在三台虚拟机上都执行一遍，为了方便操作，切换到root用户：</p><ol><li><p>为磁盘创建分区</p><p>通过<code>vagrant ssh</code>命令进入到任意一个节点，执行<code>lsblk</code>命令应该能查看到类似以下输出：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>[root@gluster-node1 ~]<span style=color:#888;font-style:italic># lsblk</span>
-</span></span><span style=display:flex><span>NAME            MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
-</span></span><span style=display:flex><span>sda               8:0    0   40G  0 disk
-</span></span><span style=display:flex><span>├─sda1            8:1    0  500M  0 part /boot
-</span></span><span style=display:flex><span>└─sda2            8:2    0 39.5G  0 part
-</span></span><span style=display:flex><span>  ├─centos-root 253:0    0 37.5G  0 lvm  /
-</span></span><span style=display:flex><span>  └─centos-swap 253:1    0    2G  0 lvm  [SWAP]
-</span></span><span style=display:flex><span>sdb               8:16   0   10G  0 disk
-</span></span></code></pre></div><p>可以看到第二块磁盘sdb没有分区，我们应该先分区:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>[root@gluster-node1 ~]<span style=color:#888;font-style:italic># parted /dev/sdb</span>
-</span></span><span style=display:flex><span>GNU Parted 3.1
-</span></span><span style=display:flex><span>Using /dev/sdb
-</span></span><span style=display:flex><span>Welcome to GNU Parted! Type <span style=color:#666;font-style:italic>&#39;help&#39;</span> to view a list of commands.
-</span></span><span style=display:flex><span>(parted) mklabel gpt
-</span></span><span style=display:flex><span>(parted) mkpart primary xfs 1M 100%
-</span></span><span style=display:flex><span>(parted) quit
-</span></span><span style=display:flex><span>Information: You may need to update /etc/fstab.
-</span></span></code></pre></div><p>这里使用<code>parted</code>命令进行操作，为sdb磁盘创建了gpt分区表，并将所有空间分给了xfs格式的主分区，执行完以上操作后再次执行<code>lsblk</code>命令应该能查看到类似以下输出：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>[root@gluster-node1 ~]<span style=color:#888;font-style:italic># lsblk</span>
-</span></span><span style=display:flex><span>NAME            MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
-</span></span><span style=display:flex><span>sda               8:0    0   40G  0 disk
-</span></span><span style=display:flex><span>├─sda1            8:1    0  500M  0 part /boot
-</span></span><span style=display:flex><span>└─sda2            8:2    0 39.5G  0 part
-</span></span><span style=display:flex><span>  ├─centos-root 253:0    0 37.5G  0 lvm  /
-</span></span><span style=display:flex><span>  └─centos-swap 253:1    0    2G  0 lvm  [SWAP]
-</span></span><span style=display:flex><span>sdb               8:16   0   10G  0 disk
-</span></span><span style=display:flex><span>└─sdb1            8:17   0   10G  0 part
-</span></span></code></pre></div></li><li><p>格式化并挂载新建分区</p><p>将分区格式化为xfs格式：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>[root@gluster-node1 ~]<span style=color:#888;font-style:italic># mkfs.xfs -i size=512 /dev/sdb1</span>
-</span></span><span style=display:flex><span>meta-data=/dev/sdb1              <span style=color:#666;font-weight:700;font-style:italic>isize</span>=512    <span style=color:#666;font-weight:700;font-style:italic>agcount</span>=4, <span style=color:#666;font-weight:700;font-style:italic>agsize</span>=655232 <span style=color:#666;font-weight:700;font-style:italic>blks</span>
-</span></span><span style=display:flex><span>         =                       <span style=color:#666;font-weight:700;font-style:italic>sectsz</span>=512   <span style=color:#666;font-weight:700;font-style:italic>attr</span>=2, <span style=color:#666;font-weight:700;font-style:italic>projid32bit</span>=<span style=color:#666;font-weight:700;font-style:italic>1</span>
-</span></span><span style=display:flex><span>         =                       <span style=color:#666;font-weight:700;font-style:italic>crc</span>=0        <span style=color:#666;font-weight:700;font-style:italic>finobt</span>=0
-</span></span><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>data</span>     =                       <span style=color:#666;font-weight:700;font-style:italic>bsize</span>=4096   <span style=color:#666;font-weight:700;font-style:italic>blocks</span>=2620928, <span style=color:#666;font-weight:700;font-style:italic>imaxpct</span>=<span style=color:#666;font-weight:700;font-style:italic>25</span>
-</span></span><span style=display:flex><span>         =                       <span style=color:#666;font-weight:700;font-style:italic>sunit</span>=0      <span style=color:#666;font-weight:700;font-style:italic>swidth</span>=0 blks
-</span></span><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>naming</span>   =version 2              <span style=color:#666;font-weight:700;font-style:italic>bsize</span>=4096   ascii-ci=0 <span style=color:#666;font-weight:700;font-style:italic>ftype</span>=0
-</span></span><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>log</span>      =internal log           <span style=color:#666;font-weight:700;font-style:italic>bsize</span>=4096   <span style=color:#666;font-weight:700;font-style:italic>blocks</span>=2560, <span style=color:#666;font-weight:700;font-style:italic>version</span>=<span style=color:#666;font-weight:700;font-style:italic>2</span>
-</span></span><span style=display:flex><span>         =                       <span style=color:#666;font-weight:700;font-style:italic>sectsz</span>=512   <span style=color:#666;font-weight:700;font-style:italic>sunit</span>=0 blks, lazy-count=1
-</span></span><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>realtime</span> =none                   <span style=color:#666;font-weight:700;font-style:italic>extsz</span>=4096   <span style=color:#666;font-weight:700;font-style:italic>blocks</span>=0, <span style=color:#666;font-weight:700;font-style:italic>rtextents</span>=0
-</span></span></code></pre></div><p>创建挂载点：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>[root@gluster-node1 ~]<span style=color:#888;font-style:italic># mkdir -p /data/brick1</span>
-</span></span></code></pre></div><p>将挂载信息写入<code>/etc/fstab</code>以便重启虚拟机之后能够自动挂载：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>[root@gluster-node1 ~]<span style=color:#888;font-style:italic># echo &#39;/dev/sdb1 /data/brick1 xfs defaults 1 2&#39; &gt;&gt; /etc/fstab</span>
-</span></span></code></pre></div><p>挂载分区：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>[root@gluster-node1 ~]<span style=color:#888;font-style:italic># mount /dev/sdb1 /data/brick1</span>
-</span></span></code></pre></div></li></ol><h2 id=安装并配置glusterfs>安装并配置GlusterFS</h2><p>以下操作需要再所有节点上执行：</p><ol><li><p>安装GlusterFS：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>[root@gluster-node1 ~]<span style=color:#888;font-style:italic># yum install centos-release-gluster</span>
-</span></span><span style=display:flex><span>[root@gluster-node1 ~]<span style=color:#888;font-style:italic># yum install glusterfs-server</span>
-</span></span></code></pre></div></li><li><p>启动GlusterFS管理进程，并查看进程状态：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>[root@gluster-node1 ~]<span style=color:#888;font-style:italic># systemctl enable glusterd</span>
-</span></span><span style=display:flex><span>[root@gluster-node1 ~]<span style=color:#888;font-style:italic># systemctl start glusterd</span>
-</span></span><span style=display:flex><span>[root@gluster-node1 ~]<span style=color:#888;font-style:italic># systemctl status glusterd</span>
-</span></span><span style=display:flex><span>● glusterd.service - GlusterFS, a clustered file-system server
-</span></span><span style=display:flex><span>Loaded: loaded (/usr/lib/systemd/system/glusterd.service; disabled; vendor preset: disabled)
-</span></span><span style=display:flex><span>Active: active (running) since Tue 2018-01-09 11:40:59 UTC; 24s ago
-</span></span><span style=display:flex><span>Process: 12252 <span style=color:#666;font-weight:700;font-style:italic>ExecStart</span>=/usr/sbin/glusterd -p /var/run/glusterd.pid --log-level <span style=color:#666;font-weight:700;font-style:italic>$LOG_LEVEL</span> <span style=color:#666;font-weight:700;font-style:italic>$GLUSTERD_OPTIONS</span> (<span style=color:#666;font-weight:700;font-style:italic>code</span>=exited, <span style=color:#666;font-weight:700;font-style:italic>status</span>=0/SUCCESS)
-</span></span><span style=display:flex><span>Main PID: 12253 (glusterd)
-</span></span><span style=display:flex><span>CGroup: /system.slice/glusterd.service
-</span></span><span style=display:flex><span>└─12253 /usr/sbin/glusterd -p /var/run/glusterd.pid --log-level INFO
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>Jan 09 11:40:59 gluster-node1 systemd[1]: Starting GlusterFS, a clustered file-system server...
-</span></span><span style=display:flex><span>Jan 09 11:40:59 gluster-node1 systemd[1]: Started GlusterFS, a clustered file-system server.
-</span></span><span style=display:flex><span>Jan 09 11:41:15 gluster-node1 systemd[1]: Started GlusterFS, a clustered file-system server.
-</span></span></code></pre></div></li><li><p>配置防火墙</p><p>各个节点上的gluster进程需要能够互相交流，为了简化配置，在每个节点上设置防火墙来接收来自其他节点的路由：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>iptables -I INPUT -p all -s &lt;ip-address&gt; -j ACCEPT
-</span></span></code></pre></div><p>在实际操作中将命令中的<ip-address>替换为其他节点的ip地址。</p></li><li><p>配置信任池</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>gluster peer probe &lt;server-address&gt;
-</span></span></code></pre></div><p>这里的<server-address>可以是ip地址，也可以是hostname。当使用hostname时，需要先在/etc/hosts文件中配置好其他节点的ip地址和主机名。一旦信任池被建立，只有池中的成员可以添加新的服务器到信任池中。可以通过以下命令查看：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>gluster peer status
-</span></span></code></pre></div></li><li><p>设置GlusterFS卷</p><p>在每个节点上创建以下目录：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mkdir -p /data/brick1/gv0
-</span></span></code></pre></div><p>在任意节点执行以下命令来创建、启动卷：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>[root@gluster-node1 ~]<span style=color:#888;font-style:italic># gluster volume create gv0 replica 3 gluster-node1:/data/brick1/gv0 gluster-node2:/data/brick1/gv0 gluster-node3:/data/brick1/gv0</span>
-</span></span></code></pre></div></li></ol><p>volume create: gv0: success: please start the volume to access data
+<a href=https://number317.github.io/blog/struct/glusterfs_deploy/>Glusterfs Deploy</a></li></ul><div id=content><main id=main><h1>Glusterfs Deploy</h1><time>Last updated Fri Jun 14, 2019</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents><ul><li><a href=#虚拟机配置>虚拟机配置</a></li><li><a href=#格式化并挂载分区>格式化并挂载分区</a></li><li><a href=#安装并配置glusterfs>安装并配置GlusterFS</a></li></ul></nav></aside><article id=content><h1 id=glusterfs-centos-部署>glusterfs centos 部署</h1><p>GlusterFS是一个开源的分布式文件系统，这里部署它主要为了解决文件存储的单点问题。</p><h2 id=虚拟机配置>虚拟机配置</h2><p>此处采用vagrant部署centos的虚拟机三台，box可以采用bento/centos7.2，配置文件如下：</p><div class="code-block code-block-container-indented"><pre><code id=code-0dbaa6085bc2e658d20f713b5fc0fdcc>Vagrant.configure(&#34;2&#34;) do |config|
+    (1..3).each do |i|
+        config.vm.define &#34;gluster-node#{i}&#34; do |node|
+            file_to_disk = &#34;tmp/gluster_node#{i}_disk.vdi&#34;
+            node.vm.box = &#34;centos-7.2&#34;
+            node.vm.hostname = &#34;gluster-node#{i}&#34;
+            n = 100 &#43;i
+            node.vm.network &#34;private_network&#34;, ip: &#34;192.168.12.#{n}&#34;
+            node.vm.provider &#34;virtualbox&#34; do |vb|
+                unless File.exist?(file_to_disk)
+                    vb.customize [&#39;createhd&#39;, &#39;--filename&#39;, file_to_disk, &#39;--size&#39;, 10 * 1024]
+                    vb.customize [&#39;storageattach&#39;, :id, &#39;--storagectl&#39;, &#39;SATA Controller&#39;, &#39;--port&#39;, 1, &#39;--device&#39;, 0, &#39;--type&#39;, &#39;hdd&#39;, &#39;--medium&#39;, file_to_disk]
+                end
+                vb.name = &#34;gluster-node#{i}&#34;
+                vb.cpus = 1
+                vb.memory = 1024
+            end
+        end
+    end
+end</code></pre><button class=copy-code-button onclick='copyCode("code-0dbaa6085bc2e658d20f713b5fc0fdcc",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>该配置文件根据官方<a href=http://docs.gluster.org/en/latest/Quick-Start-Guide/Quickstart/>quick start</a>文档，为虚拟机配置了第二磁盘，用于GlusterFS存储，大小为10G。</p><h2 id=格式化并挂载分区>格式化并挂载分区</h2><p>以下步骤需要在三台虚拟机上都执行一遍，为了方便操作，切换到root用户：</p><ol><li><p>为磁盘创建分区</p><p>通过<code>vagrant ssh</code>命令进入到任意一个节点，执行<code>lsblk</code>命令应该能查看到类似以下输出：</p><div class="code-block code-block-container-indented"><pre><code id=code-631b1e89e5cc7ce743d3439fd8f00c19>[root@gluster-node1 ~]# lsblk
+NAME            MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda               8:0    0   40G  0 disk
+├─sda1            8:1    0  500M  0 part /boot
+└─sda2            8:2    0 39.5G  0 part
+  ├─centos-root 253:0    0 37.5G  0 lvm  /
+  └─centos-swap 253:1    0    2G  0 lvm  [SWAP]
+sdb               8:16   0   10G  0 disk</code></pre><button class=copy-code-button onclick='copyCode("code-631b1e89e5cc7ce743d3439fd8f00c19",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>可以看到第二块磁盘sdb没有分区，我们应该先分区:</p><div class="code-block code-block-container-indented"><pre><code id=code-8228d1f8e715fdf362abb3aba79618a9>[root@gluster-node1 ~]# parted /dev/sdb
+GNU Parted 3.1
+Using /dev/sdb
+Welcome to GNU Parted! Type &#39;help&#39; to view a list of commands.
+(parted) mklabel gpt
+(parted) mkpart primary xfs 1M 100%
+(parted) quit
+Information: You may need to update /etc/fstab.</code></pre><button class=copy-code-button onclick='copyCode("code-8228d1f8e715fdf362abb3aba79618a9",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>这里使用<code>parted</code>命令进行操作，为sdb磁盘创建了gpt分区表，并将所有空间分给了xfs格式的主分区，执行完以上操作后再次执行<code>lsblk</code>命令应该能查看到类似以下输出：</p><div class="code-block code-block-container-indented"><pre><code id=code-a20fae3c3fba081053f7c895159b6ea9>[root@gluster-node1 ~]# lsblk
+NAME            MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda               8:0    0   40G  0 disk
+├─sda1            8:1    0  500M  0 part /boot
+└─sda2            8:2    0 39.5G  0 part
+  ├─centos-root 253:0    0 37.5G  0 lvm  /
+  └─centos-swap 253:1    0    2G  0 lvm  [SWAP]
+sdb               8:16   0   10G  0 disk
+└─sdb1            8:17   0   10G  0 part</code></pre><button class=copy-code-button onclick='copyCode("code-a20fae3c3fba081053f7c895159b6ea9",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></li><li><p>格式化并挂载新建分区</p><p>将分区格式化为xfs格式：</p><div class="code-block code-block-container-indented"><pre><code id=code-2f2221cead73d11d005910a5301ca282>[root@gluster-node1 ~]# mkfs.xfs -i size=512 /dev/sdb1
+meta-data=/dev/sdb1              isize=512    agcount=4, agsize=655232 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=0        finobt=0
+data     =                       bsize=4096   blocks=2620928, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=0
+log      =internal log           bsize=4096   blocks=2560, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0</code></pre><button class=copy-code-button onclick='copyCode("code-2f2221cead73d11d005910a5301ca282",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>创建挂载点：</p><div class="code-block code-block-container-indented"><pre><code id=code-8043cc57019aed96036ca6e70178a5f3>[root@gluster-node1 ~]# mkdir -p /data/brick1</code></pre><button class=copy-code-button onclick='copyCode("code-8043cc57019aed96036ca6e70178a5f3",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>将挂载信息写入<code>/etc/fstab</code>以便重启虚拟机之后能够自动挂载：</p><div class="code-block code-block-container-indented"><pre><code id=code-c9b38cf99e4ede41f001ddaafe380465>[root@gluster-node1 ~]# echo &#39;/dev/sdb1 /data/brick1 xfs defaults 1 2&#39; &gt;&gt; /etc/fstab</code></pre><button class=copy-code-button onclick='copyCode("code-c9b38cf99e4ede41f001ddaafe380465",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>挂载分区：</p><div class="code-block code-block-container-indented"><pre><code id=code-ab3cd3b7409a6b6c22e90f36ac6863fb>[root@gluster-node1 ~]# mount /dev/sdb1 /data/brick1</code></pre><button class=copy-code-button onclick='copyCode("code-ab3cd3b7409a6b6c22e90f36ac6863fb",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></li></ol><h2 id=安装并配置glusterfs>安装并配置GlusterFS</h2><p>以下操作需要再所有节点上执行：</p><ol><li><p>安装GlusterFS：</p><div class="code-block code-block-container-indented"><pre><code id=code-0dfcd7a3a8736576e24389cc3fee218d>[root@gluster-node1 ~]# yum install centos-release-gluster
+[root@gluster-node1 ~]# yum install glusterfs-server</code></pre><button class=copy-code-button onclick='copyCode("code-0dfcd7a3a8736576e24389cc3fee218d",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></li><li><p>启动GlusterFS管理进程，并查看进程状态：</p><div class="code-block code-block-container-indented"><pre><code id=code-d190f1c134c922e78fce02bec0e40ff0>[root@gluster-node1 ~]# systemctl enable glusterd
+[root@gluster-node1 ~]# systemctl start glusterd
+[root@gluster-node1 ~]# systemctl status glusterd
+● glusterd.service - GlusterFS, a clustered file-system server
+Loaded: loaded (/usr/lib/systemd/system/glusterd.service; disabled; vendor preset: disabled)
+Active: active (running) since Tue 2018-01-09 11:40:59 UTC; 24s ago
+Process: 12252 ExecStart=/usr/sbin/glusterd -p /var/run/glusterd.pid --log-level $LOG_LEVEL $GLUSTERD_OPTIONS (code=exited, status=0/SUCCESS)
+Main PID: 12253 (glusterd)
+CGroup: /system.slice/glusterd.service
+└─12253 /usr/sbin/glusterd -p /var/run/glusterd.pid --log-level INFO
+
+Jan 09 11:40:59 gluster-node1 systemd[1]: Starting GlusterFS, a clustered file-system server...
+Jan 09 11:40:59 gluster-node1 systemd[1]: Started GlusterFS, a clustered file-system server.
+Jan 09 11:41:15 gluster-node1 systemd[1]: Started GlusterFS, a clustered file-system server.</code></pre><button class=copy-code-button onclick='copyCode("code-d190f1c134c922e78fce02bec0e40ff0",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></li><li><p>配置防火墙</p><p>各个节点上的gluster进程需要能够互相交流，为了简化配置，在每个节点上设置防火墙来接收来自其他节点的路由：</p><div class="code-block code-block-container-indented"><pre><code id=code-d233ddcc57e6cb175de0cbcd62997be2>iptables -I INPUT -p all -s &lt;ip-address&gt; -j ACCEPT</code></pre><button class=copy-code-button onclick='copyCode("code-d233ddcc57e6cb175de0cbcd62997be2",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>在实际操作中将命令中的<ip-address>替换为其他节点的ip地址。</p></li><li><p>配置信任池</p><div class="code-block code-block-container-indented"><pre><code id=code-8d3bd3dff72e562af9f43c77f6a6d6a0>gluster peer probe &lt;server-address&gt;</code></pre><button class=copy-code-button onclick='copyCode("code-8d3bd3dff72e562af9f43c77f6a6d6a0",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>这里的<server-address>可以是ip地址，也可以是hostname。当使用hostname时，需要先在/etc/hosts文件中配置好其他节点的ip地址和主机名。一旦信任池被建立，只有池中的成员可以添加新的服务器到信任池中。可以通过以下命令查看：</p><div class="code-block code-block-container-indented"><pre><code id=code-a308eab5e0f79b461a7498119ca3e1c3>gluster peer status</code></pre><button class=copy-code-button onclick='copyCode("code-a308eab5e0f79b461a7498119ca3e1c3",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></li><li><p>设置GlusterFS卷</p><p>在每个节点上创建以下目录：</p><div class="code-block code-block-container-indented"><pre><code id=code-9154bf70a4a6daacc410c226c3f01e76>mkdir -p /data/brick1/gv0</code></pre><button class=copy-code-button onclick='copyCode("code-9154bf70a4a6daacc410c226c3f01e76",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>在任意节点执行以下命令来创建、启动卷：</p><div class="code-block code-block-container-indented"><pre><code id=code-6d8a46e68896c2ed2ce89f071ee84991>[root@gluster-node1 ~]# gluster volume create gv0 replica 3 gluster-node1:/data/brick1/gv0 gluster-node2:/data/brick1/gv0 gluster-node3:/data/brick1/gv0</code></pre><button class=copy-code-button onclick='copyCode("code-6d8a46e68896c2ed2ce89f071ee84991",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></li></ol><p>volume create: gv0: success: please start the volume to access data
 [root@gluster-node1 ~]# gluster volume start gv0
 volume start: gv0: success
 ```</p><pre><code>上述创建卷的命令指定了卷的类型是&quot;replica&quot;，GlusterFS支持的卷有多种，其中有3种基础卷：
@@ -114,21 +114,21 @@ performance.client-io-threads: off
 ```
 
 看到`Status: Started`字样，说明卷已经启动。
-</code></pre><ol start=6><li><p>测试GlusterFS卷</p><p>在集群外的一台测试机上连接已经部署好的GlusterFS集群，需要先安装客户端软件：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>[root@prometheus ~]<span style=color:#888;font-style:italic># yum install -y gulsterfs glusterfs-fuse</span>
-</span></span></code></pre></div><p>并且将GlusterFS集群各个节点的ip和hostname信息写入/etc/hosts文件：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>[root@prometheus ~]<span style=color:#888;font-style:italic># cat /etc/hosts</span>
-</span></span><span style=display:flex><span>127.0.0.1	prometheus	prometheus
-</span></span><span style=display:flex><span>127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
-</span></span><span style=display:flex><span>::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
-</span></span><span style=display:flex><span>192.168.12.101	gluster-node1
-</span></span><span style=display:flex><span>192.168.12.102	gluster-node2
-</span></span><span style=display:flex><span>192.168.12.103	gluster-node3
-</span></span></code></pre></div><p>挂载远程GlusterFS卷：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>[root@prometheus ~]<span style=color:#888;font-style:italic># mount -t glusterfs gluster-node1:/gv0 /mnt</span>
-</span></span></code></pre></div><p>也可以选择挂载其他节点的卷，效果都一样。在/mnt文件夹中创建一个测试文件test.txt：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>[root@prometheus mnt]<span style=color:#888;font-style:italic># touch test.txt</span>
-</span></span></code></pre></div><p>在GlusterFS集群的每个节点中，都应该能看到test.txt文件的存在：</p><p>gluster-node1节点：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>[root@gluster-node1 ~]<span style=color:#888;font-style:italic># ls /data/brick1/gv0/</span>
-</span></span><span style=display:flex><span>test.txt
-</span></span></code></pre></div><p>gluster-node2节点：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>[root@gluster-node2 ~]<span style=color:#888;font-style:italic># ls /data/brick1/gv0/</span>
-</span></span><span style=display:flex><span>test.txt
-</span></span></code></pre></div><p>gluster-node3节点：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>[root@gluster-node3 ~]<span style=color:#888;font-style:italic># ls /data/brick1/gv0/</span>
-</span></span><span style=display:flex><span>test.txt
-</span></span></code></pre></div></li></ol></article></div></main><div><h4 id=signature>Tue Jan 9, 2018
+</code></pre><ol start=6><li><p>测试GlusterFS卷</p><p>在集群外的一台测试机上连接已经部署好的GlusterFS集群，需要先安装客户端软件：</p><div class="code-block code-block-container-indented"><pre><code id=code-0d91a6593c94b6d0b1bbc0d5721d97ee>[root@prometheus ~]# yum install -y gulsterfs glusterfs-fuse</code></pre><button class=copy-code-button onclick='copyCode("code-0d91a6593c94b6d0b1bbc0d5721d97ee",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>并且将GlusterFS集群各个节点的ip和hostname信息写入/etc/hosts文件：</p><div class="code-block code-block-container-indented"><pre><code id=code-82919e142382154e7a4ff889c2638592>[root@prometheus ~]# cat /etc/hosts
+127.0.0.1	prometheus	prometheus
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+192.168.12.101	gluster-node1
+192.168.12.102	gluster-node2
+192.168.12.103	gluster-node3</code></pre><button class=copy-code-button onclick='copyCode("code-82919e142382154e7a4ff889c2638592",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>挂载远程GlusterFS卷：</p><div class="code-block code-block-container-indented"><pre><code id=code-21924691f186415ee8972e0282ac7011>[root@prometheus ~]# mount -t glusterfs gluster-node1:/gv0 /mnt</code></pre><button class=copy-code-button onclick='copyCode("code-21924691f186415ee8972e0282ac7011",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>也可以选择挂载其他节点的卷，效果都一样。在/mnt文件夹中创建一个测试文件test.txt：</p><div class="code-block code-block-container-indented"><pre><code id=code-e8fe28592ba15b959e55420655b1b0e0>[root@prometheus mnt]# touch test.txt</code></pre><button class=copy-code-button onclick='copyCode("code-e8fe28592ba15b959e55420655b1b0e0",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>在GlusterFS集群的每个节点中，都应该能看到test.txt文件的存在：</p><p>gluster-node1节点：</p><div class="code-block code-block-container-indented"><pre><code id=code-30a25fb7a8a95c6e74090d1e6dabe035>[root@gluster-node1 ~]# ls /data/brick1/gv0/
+test.txt</code></pre><button class=copy-code-button onclick='copyCode("code-30a25fb7a8a95c6e74090d1e6dabe035",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>gluster-node2节点：</p><div class="code-block code-block-container-indented"><pre><code id=code-cd0cd8341ca0accded40b3fcc900ed35>[root@gluster-node2 ~]# ls /data/brick1/gv0/
+test.txt</code></pre><button class=copy-code-button onclick='copyCode("code-cd0cd8341ca0accded40b3fcc900ed35",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>gluster-node3节点：</p><div class="code-block code-block-container-indented"><pre><code id=code-50fb7fbf58f393114d7e4361aa4f3b39>[root@gluster-node3 ~]# ls /data/brick1/gv0/
+test.txt</code></pre><button class=copy-code-button onclick='copyCode("code-50fb7fbf58f393114d7e4361aa4f3b39",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></li></ol></article></div></main><div><h4 id=signature>Tue Jan 9, 2018
 cheon</h4><ul class=tags><li><a href=https://number317.github.io/blog/tags/fs>fs</a></li></ul><ul class=related><li><a class=previous href=https://number317.github.io/blog/struct/fluentd_config/>Fluentd Config</a></li><li><a class=next href=https://number317.github.io/blog/struct/ansible_variables/>Ansible Variables</a></li></ul></div></div><section id=footer><div id=author><h2>About Author</h2><hr><img src=https://number317.github.io/images/author.jpg></img><p>Life is dance we all have to do.</p></div><ul id=link><li><a href=https://github.com/number317/aloha.git target=_blank><i class="fa fa-github" alt=github></i></a></li><li><a href="mailto:cheon0112358d@gmail.com?subject=blog%27s%20feedback" target=_blank><i class="fa fa-envelope" alt=email></i></a></li><li id=wechat><i class="fa fa-wechat"></i></li><img class=qrcode src=https://number317.github.io/images/wechat.jpg></ul></section></body></html>

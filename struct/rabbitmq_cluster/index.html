@@ -1,194 +1,194 @@
-<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel=stylesheet><link href=//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
+<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel=stylesheet><link href=https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><script src=https://number317.github.io/blog/js/single.js></script><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
 <a href=https://number317.github.io/blog/>cheon's blog</a></li><li>»
 <a href=https://number317.github.io/blog/struct/>struct</a></li><li class=active>»
-<a href=https://number317.github.io/blog/struct/rabbitmq_cluster/>Rabbitmq Cluster</a></li></ul><div id=content><main id=main><h1>Rabbitmq Cluster</h1><time>Last updated Fri Jun 14, 2019</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents><ul><li><a href=#复制>复制</a></li><li><a href=#主机名解析要求>主机名解析要求</a></li><li><a href=#集群生成>集群生成</a></li><li><a href=#故障处理>故障处理</a></li><li><a href=#磁盘和内存节点>磁盘和内存节点</a></li><li><a href=#节点间的验证>节点间的验证</a></li><li><a href=#集群记录>集群记录</a><ul><li><a href=#手动部署>手动部署</a></li><li><a href=#通过配置文件部署>通过配置文件部署</a></li></ul></li><li><a href=#客户端连接集群>客户端连接集群</a></li><li><a href=#haproxy-配置>haproxy 配置</a></li><li><a href=#重启节点>重启节点</a></li><li><a href=#删除节点>删除节点</a></li><li><a href=#注意事项>注意事项</a></li></ul></nav></aside><article id=content><h1 id=rabbitmq-docker-运行>RabbitMQ docker 运行</h1><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>docker run -d -p 15672:15672 -p 5672:5672 --hostname rabbit --name rabbit -e <span style=color:#666;font-weight:700;font-style:italic>TZ</span>=Asia/Shanghai -e <span style=color:#666;font-weight:700;font-style:italic>RABBITMQ_DEFAULT_USER</span>=admin -e <span style=color:#666;font-weight:700;font-style:italic>RABBITMQ_DEFAULT_PASS</span>=admin rabbitmq:3-management
-</span></span></code></pre></div><ul><li>5672端口：RabbitMQ 的端口</li><li>15672端口：RabbitMQ web 端管理工具的端口</li><li>RABBITMQ_DEFAULT_USER：RabbitMQ 登录的用户名</li><li>RABBITMQ_DEFAULT_PASS：RabbitMQ 登录的密码</li><li>TZ: 设置容器的时区</li></ul><p>启动成功后，访问<code>localhost:15672</code>即可访问管理界面，可以看到这是一个简单的单节点rabbitmq</p><p><img src=https://number317.github.io/blog/struct/images/rabbitmq_study_img1.png alt="RabbitMQ 管理界面"></p><h1 id=rabbitmq-docker-集群搭建>RabbitMQ docker 集群搭建</h1><h2 id=复制>复制</h2><p>所有 RabbitMQ 操作所需要的数据/状态需要复制到所有的节点上。一个例外是消息队列，默认只存在于一个节点，虽然他们可以在所有节点上访问到。要复制队列到所有节点上，请查看<a href=http://www.rabbitmq.com/ha.html>高可用</a>文档。</p><h2 id=主机名解析要求>主机名解析要求</h2><p>RabbitMQ 节点通过域名来互相访问，因此集群中的所有节点能够互相访问域名。域名解析可以使用任何标准的 OS-provided 方式：</p><ul><li>DNS 记录</li><li>本地文件(如<code>/etc/hosts</code>)</li></ul><p>在严格的环境中，DNS记录或主机文件修改受限制，Erlang VM可以配置为使用备用主机名解析方法，例如备用DNS服务器，本地文件，非标准主机文件位置，或混合的方法。这些方法可以与标准的OS主机名解析方法一致。</p><h2 id=集群生成>集群生成</h2><p>集群可以用多种方式生成：</p><ul><li>用<code>rabbitmqctl</code>人为生成(例如在开发环境)</li><li>在<a href=http://www.rabbitmq.com/configure.html>配置文件</a>中声明集群节点</li><li>通过<a href=https://github.com/rabbitmq/rabbitmq-autocluster/>rabbitmq-autocluster</a>(一个插件)来构建</li></ul><p>群集的组成可以动态地改变。所有 RabbitMQ 开始运行在单个节点上，这些节点可以连接成群集，然后再次转回单个节点。</p><h2 id=故障处理>故障处理</h2><p>RabbitMQ 容忍单个节点的失败。节点可以随意启动和停止，只要他们可以联系在关机时已知的成员节点</p><h2 id=磁盘和内存节点>磁盘和内存节点</h2><p>一个节点可以是硬盘节点(disk node)或内存节点(RAM node)。大多数情况下你想要所有的节点都是硬盘节点；内存节点是一个特殊的情况，可以用于提高集群的性能，当有疑问时，使用硬盘节点。</p><h2 id=节点间的验证>节点间的验证</h2><p>RabbitMQ 节点和客户端工具(如 rabbitmqctl)使用 cookie 来检测节点间是否允许交流。对于两个能够互相交流的节点来说，他们必须有相同的 Erlang cookie。这个 cookie 只是一个字母组成的字符串。只要你喜欢，它可以很短。每一个集群节点都应该有相同的 cookie。</p><p>当 RabbitMQ 服务启动时，Erlang 虚拟机会自动创建一个随机的 cookie 文件。最简单的方法是允许一个节点创建该文件，然后将该文件复制到其他所有节点。</p><p>在 Unix 系统中，cookie文件一般存在于<code>/var/lib/rabbitmq/.erlang.cookie</code>或<code>$HOME/.erlang.cookie</code>。</p><h2 id=集群记录>集群记录</h2><h3 id=手动部署>手动部署</h3><ol><li><p>启动独立的节点</p><p>通过将已存在的 RabbitMQ 节点重新配置到集群中来生成集群。第一步是在所有节点上以正常方式启动 RabbitMQ：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>docker run -d -p 15672:15672 -p 5672:5672 --hostname rabbit --name rabbit -e <span style=color:#666;font-weight:700;font-style:italic>RABBITMQ_DEFAULT_USER</span>=admin -e <span style=color:#666;font-weight:700;font-style:italic>RABBITMQ_DEFAULT_PASS</span>=admin rabbitmq:3-management
-</span></span><span style=display:flex><span>docker run -d --hostname rabbit-slave1 --name rabbit-slave1 -e <span style=color:#666;font-weight:700;font-style:italic>RABBITMQ_DEFAULT_USER</span>=admin -e <span style=color:#666;font-weight:700;font-style:italic>RABBITMQ_DEFAULT_PASS</span>=admin rabbitmq:3-management
-</span></span><span style=display:flex><span>docker run -d --hostname rabbit-slave2 --name rabbit-slave2 -e <span style=color:#666;font-weight:700;font-style:italic>RABBITMQ_DEFAULT_USER</span>=admin -e <span style=color:#666;font-weight:700;font-style:italic>RABBITMQ_DEFAULT_PASS</span>=admin rabbitmq:3-management
-</span></span></code></pre></div></li><li><p>复制cookie文件</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>docker cp rabbit:/var/lib/rabbitmq/.erlang.cookie .
-</span></span><span style=display:flex><span>docker cp .erlang.cookie rabbit-slave1:/var/lib/rabbitmq/
-</span></span><span style=display:flex><span>docker cp .erlang.cookie rabbit-slave2:/var/lib/rabbitmq/
-</span></span></code></pre></div></li><li><p>重启修改过cookie的节点</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>docker restart rabbit-slave1
-</span></span><span style=display:flex><span>docker restart rabbit-slave2
-</span></span></code></pre></div></li><li><p>修改<code>/etc/hosts</code>文件，将以下内容写入所有节点的<code>/etc/hosts</code>文件：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>172.17.0.2  rabbit   rabbit
-</span></span><span style=display:flex><span>172.17.0.3  rabbit-slave1   rabbit-slave1
-</span></span><span style=display:flex><span>172.17.0.4  rabbit-slave1   rabbit-slave1
-</span></span></code></pre></div></li><li><p>查看当前所有节点的集群状态：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>rabbitmqctl cluster_status
-</span></span></code></pre></div></li><li><p>将rabbit-slave1节点加入集群，在rabbit-salve1上执行：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>rabbitmqctl stop_app
-</span></span><span style=display:flex><span>rabbitmqctl join_cluster rabbit@rabbit
-</span></span><span style=display:flex><span>rabbitmqctl start_app
-</span></span></code></pre></div><p>加入集群会隐式复位节点，从而删除先前在该节点上存在的所有资源数据。</p></li><li><p>将rabbit-slave2节点加入同一个集群，在rabbit-slave2上执行：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>rabbitmqctl stop_app
-</span></span><span style=display:flex><span>rabbitmqctl join_cluster rabbit@rabbit-slave1
-</span></span><span style=display:flex><span>rabbitmqctl start_app
-</span></span></code></pre></div><p>我们选择将rabbit-slave2加入rabbit-slave1节点，这里演示了选择哪个节点无所谓，提供一个在线的节点就足以将新节点加入集群。</p></li><li><p>再次查看集群状态，应该可以看到集群中有三个节点：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>root@rabbit:/# rabbitmqctl cluster_status
-</span></span><span style=display:flex><span>Cluster status of node rabbit@rabbit
-</span></span><span style=display:flex><span>[{nodes,[{disc,[rabbit@rabbit,<span style=color:#666;font-style:italic>&#39;rabbit@rabbit-slave1&#39;</span>,
-</span></span><span style=display:flex><span>                <span style=color:#666;font-style:italic>&#39;rabbit@rabbit-slave2&#39;</span>]}]},
-</span></span><span style=display:flex><span> {running_nodes,[<span style=color:#666;font-style:italic>&#39;rabbit@rabbit-slave2&#39;</span>,<span style=color:#666;font-style:italic>&#39;rabbit@rabbit-slave1&#39;</span>,rabbit@rabbit]},
-</span></span><span style=display:flex><span> {cluster_name,&lt;&lt;<span style=color:#666;font-style:italic>&#34;rabbit@rabbit&#34;</span>&gt;&gt;},
-</span></span><span style=display:flex><span> {partitions,[]},
-</span></span><span style=display:flex><span> {alarms,[{<span style=color:#666;font-style:italic>&#39;rabbit@rabbit-slave2&#39;</span>,[]},
-</span></span><span style=display:flex><span>          {<span style=color:#666;font-style:italic>&#39;rabbit@rabbit-slave1&#39;</span>,[]},
-</span></span><span style=display:flex><span>          {rabbit@rabbit,[]}]}]
-</span></span><span style=display:flex><span>root@rabbit:/#
-</span></span></code></pre></div><p>或者进入网页管理界面也可以看到三个节点在集群中：</p><p><img src=https://number317.github.io/blog/struct/images/rabbitmq_study_img2.png alt=查看集群状态></p></li></ol><h3 id=通过配置文件部署>通过配置文件部署</h3><ol><li><p>配置文件示例<code>cluster-rabbitmq.conf</code>：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>loopback_users.guest = false
-</span></span><span style=display:flex><span>listeners.tcp.default = 5672
-</span></span><span style=display:flex><span>hipe_compile = false
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>cluster_partition_handling = pause_if_all_down
-</span></span><span style=display:flex><span>cluster_partition_handling.pause_if_all_down.recover = autoheal
-</span></span><span style=display:flex><span>cluster_partition_handling.pause_if_all_down.nodes.1 = rabbit@rabbitmq-node1
-</span></span><span style=display:flex><span>cluster_partition_handling.pause_if_all_down.nodes.2 = rabbit@rabbitmq-node2
-</span></span><span style=display:flex><span>cluster_partition_handling.pause_if_all_down.nodes.3 = rabbit@rabbitmq-node3
-</span></span><span style=display:flex><span>cluster_formation.peer_discovery_backend = rabbit_peer_discovery_classic_config
-</span></span><span style=display:flex><span>cluster_formation.classic_config.nodes.1 = rabbit@rabbitmq-node1
-</span></span><span style=display:flex><span>cluster_formation.classic_config.nodes.2 = rabbit@rabbitmq-node2
-</span></span><span style=display:flex><span>cluster_formation.classic_config.nodes.3 = rabbit@rabbitmq-node3
-</span></span><span style=display:flex><span>cluster_formation.node_type = disc
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>collect_statistics = fine
-</span></span></code></pre></div></li><li><p>通过容器启动三个rabbitmq节点，启动容器脚本：</p></li></ol><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#888;font-weight:700>#!/bin/bash
-</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700></span>docker run -d <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    -h rabbitmq-node1 <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    -e <span style=color:#666;font-weight:700;font-style:italic>TZ</span>=Asia/Shanghai <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    -e <span style=color:#666;font-weight:700;font-style:italic>RABBITMQ_ERLANG_COOKIE</span>=<span style=color:#666;font-style:italic>&#39;helloworld&#39;</span> <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    -v <span style=color:#666;font-weight:700;font-style:italic>$HOME</span>/Docker/rabbitmq/conf/cluster-rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    -v <span style=color:#666;font-weight:700;font-style:italic>$HOME</span>/Docker/rabbitmq/data/node1:/var/lib/rabbitmq/mnesia:rw <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    --add-host rabbitmq-node1:172.17.0.3 <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    --add-host rabbitmq-node2:172.17.0.4 <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    --add-host rabbitmq-node3:172.17.0.5 <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    --name rabbitmq-node1 <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    rabbitmq:3-management
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>docker run -d <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    -h rabbitmq-node2 <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    -e <span style=color:#666;font-weight:700;font-style:italic>TZ</span>=Asia/Shanghai <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    -e <span style=color:#666;font-weight:700;font-style:italic>RABBITMQ_ERLANG_COOKIE</span>=<span style=color:#666;font-style:italic>&#39;helloworld&#39;</span> <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    -v <span style=color:#666;font-weight:700;font-style:italic>$HOME</span>/Docker/rabbitmq/conf/cluster-rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    -v <span style=color:#666;font-weight:700;font-style:italic>$HOME</span>/Docker/rabbitmq/data/node2:/var/lib/rabbitmq/mnesia:rw <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    --add-host rabbitmq-node1:172.17.0.3 <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    --add-host rabbitmq-node2:172.17.0.4 <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    --add-host rabbitmq-node3:172.17.0.5 <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    --name rabbitmq-node2 <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    rabbitmq:3-management
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>docker run -d <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    -h rabbitmq-node3 <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    -e <span style=color:#666;font-weight:700;font-style:italic>TZ</span>=Asia/Shanghai <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    -e <span style=color:#666;font-weight:700;font-style:italic>RABBITMQ_ERLANG_COOKIE</span>=<span style=color:#666;font-style:italic>&#39;helloworld&#39;</span> <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    -v <span style=color:#666;font-weight:700;font-style:italic>$HOME</span>/Docker/rabbitmq/conf/cluster-rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    -v <span style=color:#666;font-weight:700;font-style:italic>$HOME</span>/Docker/rabbitmq/data/node3:/var/lib/rabbitmq/mnesia:rw <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    --add-host rabbitmq-node1:172.17.0.3 <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    --add-host rabbitmq-node2:172.17.0.4 <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    --add-host rabbitmq-node3:172.17.0.5 <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    --name rabbitmq-node3 <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>    rabbitmq:3-management
-</span></span></code></pre></div><p>这次启动的时候没有指定默认的用户和密码，会使用<code>guest:guest</code>用作默认的用户名和密码，并且在配置文件中指定了<code>loopback_users.guest = false</code>配置，能允许guest用户从任何网络地址登录(默认只允许从localhost登录)</p><h2 id=客户端连接集群>客户端连接集群</h2><p>不同的客户端可能有不同的支持，大多数客户端库支持接受列表参数来连接集群，如果一个节点失效，客户端可以重新连接另一个节点，恢复拓扑结构并继续操作。如果客户端不支持连接多个节点，可以为集群添加负载均衡，如haproxy，客户端只需要连接haproxy的代理地址即可。</p><h2 id=haproxy-配置>haproxy 配置</h2><p>配置文件<code>haproxy.cfg</code>：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cfg data-lang=cfg><span style=display:flex><span>global
-</span></span><span style=display:flex><span>    maxconn         4000
-</span></span><span style=display:flex><span>    user            root
-</span></span><span style=display:flex><span>    group           root
-</span></span><span style=display:flex><span>    log             127.0.0.1 local0
-</span></span><span style=display:flex><span>    log             127.0.0.1 local1 notice
-</span></span><span style=display:flex><span>    daemon
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    ca-base         /etc/ssl/certs
-</span></span><span style=display:flex><span>    crt-base        /etc/ssl/private
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    ssl-default-bind-ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-</span></span><span style=display:flex><span>    ssl-default-bind-options no-sslv3
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>defaults
-</span></span><span style=display:flex><span>    log             global
-</span></span><span style=display:flex><span>    mode            http
-</span></span><span style=display:flex><span>    option          dontlognull
-</span></span><span style=display:flex><span>    timeout connect 5000
-</span></span><span style=display:flex><span>    timeout client  50000
-</span></span><span style=display:flex><span>    timeout server  50000
-</span></span><span style=display:flex><span>    option          httpclose
-</span></span><span style=display:flex><span>    option          httplog
-</span></span><span style=display:flex><span>    option          redispatch
-</span></span><span style=display:flex><span>    timeout connect 10000
-</span></span><span style=display:flex><span>    maxconn         60000
-</span></span><span style=display:flex><span>    retries         3
-</span></span><span style=display:flex><span>    errorfile       400 /usr/local/etc/haproxy/errors/400.http
-</span></span><span style=display:flex><span>    errorfile       403 /usr/local/etc/haproxy/errors/403.http
-</span></span><span style=display:flex><span>    errorfile       408 /usr/local/etc/haproxy/errors/408.http
-</span></span><span style=display:flex><span>    errorfile       500 /usr/local/etc/haproxy/errors/500.http
-</span></span><span style=display:flex><span>    errorfile       502 /usr/local/etc/haproxy/errors/502.http
-</span></span><span style=display:flex><span>    errorfile       503 /usr/local/etc/haproxy/errors/503.http
-</span></span><span style=display:flex><span>    errorfile       504 /usr/local/etc/haproxy/errors/504.http
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>listen http_front
-</span></span><span style=display:flex><span>    bind            0.0.0.0:1080
-</span></span><span style=display:flex><span>    stats refresh   30s
-</span></span><span style=display:flex><span>    stats uri       /haproxy?stats
-</span></span><span style=display:flex><span>    stats realm     Haproxy Manager
-</span></span><span style=display:flex><span>    stats auth      admin:admin
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>listen rabbitmq_admin
-</span></span><span style=display:flex><span>    bind            0.0.0.0:15672
-</span></span><span style=display:flex><span>    server          rabbtmq-node1 172.17.0.3:15672
-</span></span><span style=display:flex><span>    server          rabbtmq-node2 172.17.0.4:15672
-</span></span><span style=display:flex><span>    server          rabbtmq-node3 172.17.0.5:15672
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>listen rabbitmq_cluster
-</span></span><span style=display:flex><span>    bind            0.0.0.0:5672
-</span></span><span style=display:flex><span>    option          tcplog
-</span></span><span style=display:flex><span>    mode            tcp
-</span></span><span style=display:flex><span>    timeout         client 3h
-</span></span><span style=display:flex><span>    timeout         server 3h
-</span></span><span style=display:flex><span>    option          clitcpka
-</span></span><span style=display:flex><span>    balance         roundrobin
-</span></span><span style=display:flex><span>    server          rabbitmq-node1 172.17.0.3:5672 check inter 5s rise 2 fall 3
-</span></span><span style=display:flex><span>    server          rabbitmq-node2 172.17.0.4:5672 check inter 5s rise 2 fall 3
-</span></span><span style=display:flex><span>    server          rabbitmq-node3 172.17.0.5:5672 check inter 5s rise 2 fall 3
-</span></span></code></pre></div><p>启动haproxy容器：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>docker run -d <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>           -v <span style=color:#666;font-weight:700;font-style:italic>$HOME</span>/Docker/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:rw <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>           --name haproxy <span style=color:#666;font-style:italic>\
-</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>           haproxy
-</span></span></code></pre></div><p>客户端连接示例，以python为例，连接只需设置haproxy的ip和端口：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#888;font-style:italic>#!/usr/bin/env python</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#666;font-weight:700;font-style:italic>pika</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>connection = pika.BlockingConnection(pika.ConnectionParameters(<span style=color:#666;font-style:italic>&#39;172.17.0.6&#39;</span>, 5672, credentials=pika.PlainCredentials(<span style=color:#666;font-style:italic>&#39;guest&#39;</span>, <span style=color:#666;font-style:italic>&#39;guest&#39;</span>)))
-</span></span><span style=display:flex><span>channel = connection.channel()
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>channel.queue_declare(queue=<span style=color:#666;font-style:italic>&#39;hello&#39;</span>)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>channel.basic_publish(
-</span></span><span style=display:flex><span>        exchange=<span style=color:#666;font-style:italic>&#39;&#39;</span>,
-</span></span><span style=display:flex><span>        routing_key=<span style=color:#666;font-style:italic>&#39;hello&#39;</span>,
-</span></span><span style=display:flex><span>        body=<span style=color:#666;font-style:italic>&#39;Hello World!&#39;</span>
-</span></span><span style=display:flex><span>        )
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700;font-style:italic>print</span>(<span style=color:#666;font-style:italic>&#34; [x] Sent &#39;Helllo World!&#39;&#34;</span>)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>connection.close()
-</span></span></code></pre></div><h2 id=重启节点>重启节点</h2><p>节点可以在任何时候加入集群和停止，即使节点崩溃也是可以的，两种情况下集群仍然可以继续工作，节点重新启动后，集群会自动将它加入。尝试停止rabbit节点：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>rabbitmqctl stop_app
-</span></span></code></pre></div><p>查看集群状态：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>root@rabbit-slave1:/# rabbitmqctl cluster_status
-</span></span><span style=display:flex><span>Cluster status of node <span style=color:#666;font-style:italic>&#39;rabbit@rabbit-slave1&#39;</span>
-</span></span><span style=display:flex><span>[{nodes,[{disc,[rabbit@rabbit,<span style=color:#666;font-style:italic>&#39;rabbit@rabbit-slave1&#39;</span>,
-</span></span><span style=display:flex><span>                <span style=color:#666;font-style:italic>&#39;rabbit@rabbit-slave2&#39;</span>]}]},
-</span></span><span style=display:flex><span> {running_nodes,[<span style=color:#666;font-style:italic>&#39;rabbit@rabbit-slave2&#39;</span>,<span style=color:#666;font-style:italic>&#39;rabbit@rabbit-slave1&#39;</span>]},
-</span></span><span style=display:flex><span> {cluster_name,&lt;&lt;<span style=color:#666;font-style:italic>&#34;rabbit@rabbit&#34;</span>&gt;&gt;},
-</span></span><span style=display:flex><span> {partitions,[]},
-</span></span><span style=display:flex><span> {alarms,[{<span style=color:#666;font-style:italic>&#39;rabbit@rabbit-slave2&#39;</span>,[]},{<span style=color:#666;font-style:italic>&#39;rabbit@rabbit-slave1&#39;</span>,[]}]}]
-</span></span></code></pre></div><p>启动rabbit节点：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>rabbitmqctl start_app
-</span></span></code></pre></div><p>再次查看集群状态：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>root@rabbit-slave1:/# rabbitmqctl cluster_status
-</span></span><span style=display:flex><span>Cluster status of node <span style=color:#666;font-style:italic>&#39;rabbit@rabbit-slave1&#39;</span>
-</span></span><span style=display:flex><span>[{nodes,[{disc,[rabbit@rabbit,<span style=color:#666;font-style:italic>&#39;rabbit@rabbit-slave1&#39;</span>,
-</span></span><span style=display:flex><span>                <span style=color:#666;font-style:italic>&#39;rabbit@rabbit-slave2&#39;</span>]}]},
-</span></span><span style=display:flex><span> {running_nodes,[rabbit@rabbit,<span style=color:#666;font-style:italic>&#39;rabbit@rabbit-slave2&#39;</span>,<span style=color:#666;font-style:italic>&#39;rabbit@rabbit-slave1&#39;</span>]},
-</span></span><span style=display:flex><span> {cluster_name,&lt;&lt;<span style=color:#666;font-style:italic>&#34;rabbit@rabbit&#34;</span>&gt;&gt;},
-</span></span><span style=display:flex><span> {partitions,[]},
-</span></span><span style=display:flex><span> {alarms,[{rabbit@rabbit,[]},
-</span></span><span style=display:flex><span>          {<span style=color:#666;font-style:italic>&#39;rabbit@rabbit-slave2&#39;</span>,[]},
-</span></span><span style=display:flex><span>          {<span style=color:#666;font-style:italic>&#39;rabbit@rabbit-slave1&#39;</span>,[]}]}]
-</span></span><span style=display:flex><span>root@rabbit-slave1:/#
-</span></span></code></pre></div><p>可以看到rabbit节点自动加入了集群</p><h2 id=删除节点>删除节点</h2><p>如果一个节点不再是集群的一部分，它需要被完全移除。例如移除rabbit节点，将它恢复成独立的服务。首先要停止 RabbitMQ 应用，重置节点，然后重启 RabbitMQ 应用。</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>rabbitmqctl stop_app
-</span></span><span style=display:flex><span>rabbitmqctl reset
-</span></span><span style=display:flex><span>rabbitmqctl start_app
-</span></span></code></pre></div><p>我们也可以远程移除一个节点，这是有用的，例如我们需要移除一个没有响应的节点。我们演示在rabbit-slave2上移除rabbit-slave1节点:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>root@rabbit-slave1:/# rabbitmqctl stop_app
-</span></span><span style=display:flex><span>root@rabbit-slave2:/# rabbitmqctl forget_cluster_node rabbit@rabbit-slave1
-</span></span></code></pre></div><h2 id=注意事项>注意事项</h2><p>该方法是通过修改容器的<code>/etc/hosts</code>文件来确保三个节点能够互相访问的，重启容器之后容器的<code>/etc/hosts</code>文件会刷新，因此集群节点的连接会失败，建议使用docker-compose，openshift之类的工具或平台。</p><p>当整个集群关闭时，最后关闭的节点应最先启动，如果不是，这个节点会等待30s让最后的硬盘节点启动，然后启动失败。如果最后一个关闭的节点无法被唤醒，它可以用<code>forget_cluster_node</code>命令从集群中移除。如果所有集群节点都以同时和不受控制的方式停止，可以在一个节点上使用<code>force_boot</code>命令使其再次可引导。</p></article></div></main><div><h4 id=signature>Thu Oct 26, 2017
+<a href=https://number317.github.io/blog/struct/rabbitmq_cluster/>Rabbitmq Cluster</a></li></ul><div id=content><main id=main><h1>Rabbitmq Cluster</h1><time>Last updated Fri Jun 14, 2019</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents><ul><li><a href=#复制>复制</a></li><li><a href=#主机名解析要求>主机名解析要求</a></li><li><a href=#集群生成>集群生成</a></li><li><a href=#故障处理>故障处理</a></li><li><a href=#磁盘和内存节点>磁盘和内存节点</a></li><li><a href=#节点间的验证>节点间的验证</a></li><li><a href=#集群记录>集群记录</a><ul><li><a href=#手动部署>手动部署</a></li><li><a href=#通过配置文件部署>通过配置文件部署</a></li></ul></li><li><a href=#客户端连接集群>客户端连接集群</a></li><li><a href=#haproxy-配置>haproxy 配置</a></li><li><a href=#重启节点>重启节点</a></li><li><a href=#删除节点>删除节点</a></li><li><a href=#注意事项>注意事项</a></li></ul></nav></aside><article id=content><h1 id=rabbitmq-docker-运行>RabbitMQ docker 运行</h1><div class="code-block code-block-container-indented"><pre><code id=code-e547502136fee14cac6315bf6f950fd3>docker run -d -p 15672:15672 -p 5672:5672 --hostname rabbit --name rabbit -e TZ=Asia/Shanghai -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin rabbitmq:3-management</code></pre><button class=copy-code-button onclick='copyCode("code-e547502136fee14cac6315bf6f950fd3",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><ul><li>5672端口：RabbitMQ 的端口</li><li>15672端口：RabbitMQ web 端管理工具的端口</li><li>RABBITMQ_DEFAULT_USER：RabbitMQ 登录的用户名</li><li>RABBITMQ_DEFAULT_PASS：RabbitMQ 登录的密码</li><li>TZ: 设置容器的时区</li></ul><p>启动成功后，访问<code>localhost:15672</code>即可访问管理界面，可以看到这是一个简单的单节点rabbitmq</p><p><img src=https://number317.github.io/blog/struct/images/rabbitmq_study_img1.png alt="RabbitMQ 管理界面"></p><h1 id=rabbitmq-docker-集群搭建>RabbitMQ docker 集群搭建</h1><h2 id=复制>复制</h2><p>所有 RabbitMQ 操作所需要的数据/状态需要复制到所有的节点上。一个例外是消息队列，默认只存在于一个节点，虽然他们可以在所有节点上访问到。要复制队列到所有节点上，请查看<a href=http://www.rabbitmq.com/ha.html>高可用</a>文档。</p><h2 id=主机名解析要求>主机名解析要求</h2><p>RabbitMQ 节点通过域名来互相访问，因此集群中的所有节点能够互相访问域名。域名解析可以使用任何标准的 OS-provided 方式：</p><ul><li>DNS 记录</li><li>本地文件(如<code>/etc/hosts</code>)</li></ul><p>在严格的环境中，DNS记录或主机文件修改受限制，Erlang VM可以配置为使用备用主机名解析方法，例如备用DNS服务器，本地文件，非标准主机文件位置，或混合的方法。这些方法可以与标准的OS主机名解析方法一致。</p><h2 id=集群生成>集群生成</h2><p>集群可以用多种方式生成：</p><ul><li>用<code>rabbitmqctl</code>人为生成(例如在开发环境)</li><li>在<a href=http://www.rabbitmq.com/configure.html>配置文件</a>中声明集群节点</li><li>通过<a href=https://github.com/rabbitmq/rabbitmq-autocluster/>rabbitmq-autocluster</a>(一个插件)来构建</li></ul><p>群集的组成可以动态地改变。所有 RabbitMQ 开始运行在单个节点上，这些节点可以连接成群集，然后再次转回单个节点。</p><h2 id=故障处理>故障处理</h2><p>RabbitMQ 容忍单个节点的失败。节点可以随意启动和停止，只要他们可以联系在关机时已知的成员节点</p><h2 id=磁盘和内存节点>磁盘和内存节点</h2><p>一个节点可以是硬盘节点(disk node)或内存节点(RAM node)。大多数情况下你想要所有的节点都是硬盘节点；内存节点是一个特殊的情况，可以用于提高集群的性能，当有疑问时，使用硬盘节点。</p><h2 id=节点间的验证>节点间的验证</h2><p>RabbitMQ 节点和客户端工具(如 rabbitmqctl)使用 cookie 来检测节点间是否允许交流。对于两个能够互相交流的节点来说，他们必须有相同的 Erlang cookie。这个 cookie 只是一个字母组成的字符串。只要你喜欢，它可以很短。每一个集群节点都应该有相同的 cookie。</p><p>当 RabbitMQ 服务启动时，Erlang 虚拟机会自动创建一个随机的 cookie 文件。最简单的方法是允许一个节点创建该文件，然后将该文件复制到其他所有节点。</p><p>在 Unix 系统中，cookie文件一般存在于<code>/var/lib/rabbitmq/.erlang.cookie</code>或<code>$HOME/.erlang.cookie</code>。</p><h2 id=集群记录>集群记录</h2><h3 id=手动部署>手动部署</h3><ol><li><p>启动独立的节点</p><p>通过将已存在的 RabbitMQ 节点重新配置到集群中来生成集群。第一步是在所有节点上以正常方式启动 RabbitMQ：</p><div class="code-block code-block-container-indented"><pre><code id=code-e13c99f718d1f800da2349296c2c6978>docker run -d -p 15672:15672 -p 5672:5672 --hostname rabbit --name rabbit -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin rabbitmq:3-management
+docker run -d --hostname rabbit-slave1 --name rabbit-slave1 -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin rabbitmq:3-management
+docker run -d --hostname rabbit-slave2 --name rabbit-slave2 -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin rabbitmq:3-management</code></pre><button class=copy-code-button onclick='copyCode("code-e13c99f718d1f800da2349296c2c6978",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></li><li><p>复制cookie文件</p><div class="code-block code-block-container-indented"><pre><code id=code-b3404bcdb858891e876a78dca3662978>docker cp rabbit:/var/lib/rabbitmq/.erlang.cookie .
+docker cp .erlang.cookie rabbit-slave1:/var/lib/rabbitmq/
+docker cp .erlang.cookie rabbit-slave2:/var/lib/rabbitmq/</code></pre><button class=copy-code-button onclick='copyCode("code-b3404bcdb858891e876a78dca3662978",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></li><li><p>重启修改过cookie的节点</p><div class="code-block code-block-container-indented"><pre><code id=code-c330f645b73cf94884af39c9f8b463ca>docker restart rabbit-slave1
+docker restart rabbit-slave2</code></pre><button class=copy-code-button onclick='copyCode("code-c330f645b73cf94884af39c9f8b463ca",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></li><li><p>修改<code>/etc/hosts</code>文件，将以下内容写入所有节点的<code>/etc/hosts</code>文件：</p><div class="code-block code-block-container-indented"><pre><code id=code-7eaa07face1341d38668b4f7faa53219>172.17.0.2  rabbit   rabbit
+172.17.0.3  rabbit-slave1   rabbit-slave1
+172.17.0.4  rabbit-slave1   rabbit-slave1</code></pre><button class=copy-code-button onclick='copyCode("code-7eaa07face1341d38668b4f7faa53219",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></li><li><p>查看当前所有节点的集群状态：</p><div class="code-block code-block-container-indented"><pre><code id=code-5f524674f275ce81b86715384b6f1fe4>rabbitmqctl cluster_status</code></pre><button class=copy-code-button onclick='copyCode("code-5f524674f275ce81b86715384b6f1fe4",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></li><li><p>将rabbit-slave1节点加入集群，在rabbit-salve1上执行：</p><div class="code-block code-block-container-indented"><pre><code id=code-231a1bb97fa90de41aa58b909653f006>rabbitmqctl stop_app
+rabbitmqctl join_cluster rabbit@rabbit
+rabbitmqctl start_app</code></pre><button class=copy-code-button onclick='copyCode("code-231a1bb97fa90de41aa58b909653f006",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>加入集群会隐式复位节点，从而删除先前在该节点上存在的所有资源数据。</p></li><li><p>将rabbit-slave2节点加入同一个集群，在rabbit-slave2上执行：</p><div class="code-block code-block-container-indented"><pre><code id=code-f1d946b2ff236dc89126eb609b498433>rabbitmqctl stop_app
+rabbitmqctl join_cluster rabbit@rabbit-slave1
+rabbitmqctl start_app</code></pre><button class=copy-code-button onclick='copyCode("code-f1d946b2ff236dc89126eb609b498433",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>我们选择将rabbit-slave2加入rabbit-slave1节点，这里演示了选择哪个节点无所谓，提供一个在线的节点就足以将新节点加入集群。</p></li><li><p>再次查看集群状态，应该可以看到集群中有三个节点：</p><div class="code-block code-block-container-indented"><pre><code id=code-dabfaccfb65860ef804bf8fdb554f8b3>root@rabbit:/# rabbitmqctl cluster_status
+Cluster status of node rabbit@rabbit
+[{nodes,[{disc,[rabbit@rabbit,&#39;rabbit@rabbit-slave1&#39;,
+                &#39;rabbit@rabbit-slave2&#39;]}]},
+ {running_nodes,[&#39;rabbit@rabbit-slave2&#39;,&#39;rabbit@rabbit-slave1&#39;,rabbit@rabbit]},
+ {cluster_name,&lt;&lt;&#34;rabbit@rabbit&#34;&gt;&gt;},
+ {partitions,[]},
+ {alarms,[{&#39;rabbit@rabbit-slave2&#39;,[]},
+          {&#39;rabbit@rabbit-slave1&#39;,[]},
+          {rabbit@rabbit,[]}]}]
+root@rabbit:/#</code></pre><button class=copy-code-button onclick='copyCode("code-dabfaccfb65860ef804bf8fdb554f8b3",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>或者进入网页管理界面也可以看到三个节点在集群中：</p><p><img src=https://number317.github.io/blog/struct/images/rabbitmq_study_img2.png alt=查看集群状态></p></li></ol><h3 id=通过配置文件部署>通过配置文件部署</h3><ol><li><p>配置文件示例<code>cluster-rabbitmq.conf</code>：</p><div class="code-block code-block-container-indented"><pre><code id=code-6df763aeb7f311897bcd4aa513a1b5a2>loopback_users.guest = false
+listeners.tcp.default = 5672
+hipe_compile = false
+
+cluster_partition_handling = pause_if_all_down
+cluster_partition_handling.pause_if_all_down.recover = autoheal
+cluster_partition_handling.pause_if_all_down.nodes.1 = rabbit@rabbitmq-node1
+cluster_partition_handling.pause_if_all_down.nodes.2 = rabbit@rabbitmq-node2
+cluster_partition_handling.pause_if_all_down.nodes.3 = rabbit@rabbitmq-node3
+cluster_formation.peer_discovery_backend = rabbit_peer_discovery_classic_config
+cluster_formation.classic_config.nodes.1 = rabbit@rabbitmq-node1
+cluster_formation.classic_config.nodes.2 = rabbit@rabbitmq-node2
+cluster_formation.classic_config.nodes.3 = rabbit@rabbitmq-node3
+cluster_formation.node_type = disc
+
+collect_statistics = fine</code></pre><button class=copy-code-button onclick='copyCode("code-6df763aeb7f311897bcd4aa513a1b5a2",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></li><li><p>通过容器启动三个rabbitmq节点，启动容器脚本：</p></li></ol><div class="code-block code-block-container-indented"><pre><code id=code-c9ec1e47104b7c2c0078ca31af2ac391>#!/bin/bash
+docker run -d \
+    -h rabbitmq-node1 \
+    -e TZ=Asia/Shanghai \
+    -e RABBITMQ_ERLANG_COOKIE=&#39;helloworld&#39; \
+    -v $HOME/Docker/rabbitmq/conf/cluster-rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf \
+    -v $HOME/Docker/rabbitmq/data/node1:/var/lib/rabbitmq/mnesia:rw \
+    --add-host rabbitmq-node1:172.17.0.3 \
+    --add-host rabbitmq-node2:172.17.0.4 \
+    --add-host rabbitmq-node3:172.17.0.5 \
+    --name rabbitmq-node1 \
+    rabbitmq:3-management
+
+docker run -d \
+    -h rabbitmq-node2 \
+    -e TZ=Asia/Shanghai \
+    -e RABBITMQ_ERLANG_COOKIE=&#39;helloworld&#39; \
+    -v $HOME/Docker/rabbitmq/conf/cluster-rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf \
+    -v $HOME/Docker/rabbitmq/data/node2:/var/lib/rabbitmq/mnesia:rw \
+    --add-host rabbitmq-node1:172.17.0.3 \
+    --add-host rabbitmq-node2:172.17.0.4 \
+    --add-host rabbitmq-node3:172.17.0.5 \
+    --name rabbitmq-node2 \
+    rabbitmq:3-management
+
+docker run -d \
+    -h rabbitmq-node3 \
+    -e TZ=Asia/Shanghai \
+    -e RABBITMQ_ERLANG_COOKIE=&#39;helloworld&#39; \
+    -v $HOME/Docker/rabbitmq/conf/cluster-rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf \
+    -v $HOME/Docker/rabbitmq/data/node3:/var/lib/rabbitmq/mnesia:rw \
+    --add-host rabbitmq-node1:172.17.0.3 \
+    --add-host rabbitmq-node2:172.17.0.4 \
+    --add-host rabbitmq-node3:172.17.0.5 \
+    --name rabbitmq-node3 \
+    rabbitmq:3-management</code></pre><button class=copy-code-button onclick='copyCode("code-c9ec1e47104b7c2c0078ca31af2ac391",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>这次启动的时候没有指定默认的用户和密码，会使用<code>guest:guest</code>用作默认的用户名和密码，并且在配置文件中指定了<code>loopback_users.guest = false</code>配置，能允许guest用户从任何网络地址登录(默认只允许从localhost登录)</p><h2 id=客户端连接集群>客户端连接集群</h2><p>不同的客户端可能有不同的支持，大多数客户端库支持接受列表参数来连接集群，如果一个节点失效，客户端可以重新连接另一个节点，恢复拓扑结构并继续操作。如果客户端不支持连接多个节点，可以为集群添加负载均衡，如haproxy，客户端只需要连接haproxy的代理地址即可。</p><h2 id=haproxy-配置>haproxy 配置</h2><p>配置文件<code>haproxy.cfg</code>：</p><div class="code-block code-block-container-indented"><pre><code id=code-1b5dc1aeda06f771e688191e0ca92eec>global
+    maxconn         4000
+    user            root
+    group           root
+    log             127.0.0.1 local0
+    log             127.0.0.1 local1 notice
+    daemon
+
+    ca-base         /etc/ssl/certs
+    crt-base        /etc/ssl/private
+
+    ssl-default-bind-ciphers ECDH&#43;AESGCM:DH&#43;AESGCM:ECDH&#43;AES256:DH&#43;AES256:ECDH&#43;AES128:DH&#43;AES:ECDH&#43;3DES:DH&#43;3DES:RSA&#43;AESGCM:RSA&#43;AES:RSA&#43;3DES:!aNULL:!MD5:!DSS
+    ssl-default-bind-options no-sslv3
+
+defaults
+    log             global
+    mode            http
+    option          dontlognull
+    timeout connect 5000
+    timeout client  50000
+    timeout server  50000
+    option          httpclose
+    option          httplog
+    option          redispatch
+    timeout connect 10000
+    maxconn         60000
+    retries         3
+    errorfile       400 /usr/local/etc/haproxy/errors/400.http
+    errorfile       403 /usr/local/etc/haproxy/errors/403.http
+    errorfile       408 /usr/local/etc/haproxy/errors/408.http
+    errorfile       500 /usr/local/etc/haproxy/errors/500.http
+    errorfile       502 /usr/local/etc/haproxy/errors/502.http
+    errorfile       503 /usr/local/etc/haproxy/errors/503.http
+    errorfile       504 /usr/local/etc/haproxy/errors/504.http
+
+listen http_front
+    bind            0.0.0.0:1080
+    stats refresh   30s
+    stats uri       /haproxy?stats
+    stats realm     Haproxy Manager
+    stats auth      admin:admin
+
+listen rabbitmq_admin
+    bind            0.0.0.0:15672
+    server          rabbtmq-node1 172.17.0.3:15672
+    server          rabbtmq-node2 172.17.0.4:15672
+    server          rabbtmq-node3 172.17.0.5:15672
+
+listen rabbitmq_cluster
+    bind            0.0.0.0:5672
+    option          tcplog
+    mode            tcp
+    timeout         client 3h
+    timeout         server 3h
+    option          clitcpka
+    balance         roundrobin
+    server          rabbitmq-node1 172.17.0.3:5672 check inter 5s rise 2 fall 3
+    server          rabbitmq-node2 172.17.0.4:5672 check inter 5s rise 2 fall 3
+    server          rabbitmq-node3 172.17.0.5:5672 check inter 5s rise 2 fall 3</code></pre><button class=copy-code-button onclick='copyCode("code-1b5dc1aeda06f771e688191e0ca92eec",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>启动haproxy容器：</p><div class="code-block code-block-container-indented"><pre><code id=code-f8a109a2c7bb75da2ae5cc826ab0ab48>docker run -d \
+           -v $HOME/Docker/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:rw \
+           --name haproxy \
+           haproxy</code></pre><button class=copy-code-button onclick='copyCode("code-f8a109a2c7bb75da2ae5cc826ab0ab48",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>客户端连接示例，以python为例，连接只需设置haproxy的ip和端口：</p><div class="code-block code-block-container-indented"><pre><code id=code-2d9410921c983c30ed55b93c4ba7f368>#!/usr/bin/env python
+
+import pika
+
+connection = pika.BlockingConnection(pika.ConnectionParameters(&#39;172.17.0.6&#39;, 5672, credentials=pika.PlainCredentials(&#39;guest&#39;, &#39;guest&#39;)))
+channel = connection.channel()
+
+channel.queue_declare(queue=&#39;hello&#39;)
+
+channel.basic_publish(
+        exchange=&#39;&#39;,
+        routing_key=&#39;hello&#39;,
+        body=&#39;Hello World!&#39;
+        )
+
+print(&#34; [x] Sent &#39;Helllo World!&#39;&#34;)
+
+connection.close()</code></pre><button class=copy-code-button onclick='copyCode("code-2d9410921c983c30ed55b93c4ba7f368",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><h2 id=重启节点>重启节点</h2><p>节点可以在任何时候加入集群和停止，即使节点崩溃也是可以的，两种情况下集群仍然可以继续工作，节点重新启动后，集群会自动将它加入。尝试停止rabbit节点：</p><div class="code-block code-block-container-indented"><pre><code id=code-e8ba70c5377c09b59e3708c15f5565bd>rabbitmqctl stop_app</code></pre><button class=copy-code-button onclick='copyCode("code-e8ba70c5377c09b59e3708c15f5565bd",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>查看集群状态：</p><div class="code-block code-block-container-indented"><pre><code id=code-10dff430229e8d06fccf9c8fd5861bb6>root@rabbit-slave1:/# rabbitmqctl cluster_status
+Cluster status of node &#39;rabbit@rabbit-slave1&#39;
+[{nodes,[{disc,[rabbit@rabbit,&#39;rabbit@rabbit-slave1&#39;,
+                &#39;rabbit@rabbit-slave2&#39;]}]},
+ {running_nodes,[&#39;rabbit@rabbit-slave2&#39;,&#39;rabbit@rabbit-slave1&#39;]},
+ {cluster_name,&lt;&lt;&#34;rabbit@rabbit&#34;&gt;&gt;},
+ {partitions,[]},
+ {alarms,[{&#39;rabbit@rabbit-slave2&#39;,[]},{&#39;rabbit@rabbit-slave1&#39;,[]}]}]</code></pre><button class=copy-code-button onclick='copyCode("code-10dff430229e8d06fccf9c8fd5861bb6",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>启动rabbit节点：</p><div class="code-block code-block-container-indented"><pre><code id=code-df1dfeabf6d5fe3c280fe991022adbbf>rabbitmqctl start_app</code></pre><button class=copy-code-button onclick='copyCode("code-df1dfeabf6d5fe3c280fe991022adbbf",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>再次查看集群状态：</p><div class="code-block code-block-container-indented"><pre><code id=code-786bab69b73ededd761b799447a937c5>root@rabbit-slave1:/# rabbitmqctl cluster_status
+Cluster status of node &#39;rabbit@rabbit-slave1&#39;
+[{nodes,[{disc,[rabbit@rabbit,&#39;rabbit@rabbit-slave1&#39;,
+                &#39;rabbit@rabbit-slave2&#39;]}]},
+ {running_nodes,[rabbit@rabbit,&#39;rabbit@rabbit-slave2&#39;,&#39;rabbit@rabbit-slave1&#39;]},
+ {cluster_name,&lt;&lt;&#34;rabbit@rabbit&#34;&gt;&gt;},
+ {partitions,[]},
+ {alarms,[{rabbit@rabbit,[]},
+          {&#39;rabbit@rabbit-slave2&#39;,[]},
+          {&#39;rabbit@rabbit-slave1&#39;,[]}]}]
+root@rabbit-slave1:/#</code></pre><button class=copy-code-button onclick='copyCode("code-786bab69b73ededd761b799447a937c5",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>可以看到rabbit节点自动加入了集群</p><h2 id=删除节点>删除节点</h2><p>如果一个节点不再是集群的一部分，它需要被完全移除。例如移除rabbit节点，将它恢复成独立的服务。首先要停止 RabbitMQ 应用，重置节点，然后重启 RabbitMQ 应用。</p><div class="code-block code-block-container-indented"><pre><code id=code-e86cf801ccbd7c2f7e76f77833c9c38d>rabbitmqctl stop_app
+rabbitmqctl reset
+rabbitmqctl start_app</code></pre><button class=copy-code-button onclick='copyCode("code-e86cf801ccbd7c2f7e76f77833c9c38d",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>我们也可以远程移除一个节点，这是有用的，例如我们需要移除一个没有响应的节点。我们演示在rabbit-slave2上移除rabbit-slave1节点:</p><div class="code-block code-block-container-indented"><pre><code id=code-421377ddc99322b5c24808f7c345729b>root@rabbit-slave1:/# rabbitmqctl stop_app
+root@rabbit-slave2:/# rabbitmqctl forget_cluster_node rabbit@rabbit-slave1</code></pre><button class=copy-code-button onclick='copyCode("code-421377ddc99322b5c24808f7c345729b",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><h2 id=注意事项>注意事项</h2><p>该方法是通过修改容器的<code>/etc/hosts</code>文件来确保三个节点能够互相访问的，重启容器之后容器的<code>/etc/hosts</code>文件会刷新，因此集群节点的连接会失败，建议使用docker-compose，openshift之类的工具或平台。</p><p>当整个集群关闭时，最后关闭的节点应最先启动，如果不是，这个节点会等待30s让最后的硬盘节点启动，然后启动失败。如果最后一个关闭的节点无法被唤醒，它可以用<code>forget_cluster_node</code>命令从集群中移除。如果所有集群节点都以同时和不受控制的方式停止，可以在一个节点上使用<code>force_boot</code>命令使其再次可引导。</p></article></div></main><div><h4 id=signature>Thu Oct 26, 2017
 cheon</h4><ul class=tags><li><a href=https://number317.github.io/blog/tags/rabbitmq>rabbitmq</a></li></ul><ul class=related><li><a class=previous href=https://number317.github.io/blog/struct/discourse_digest/>Discourse Digest</a></li><li><a class=next href=https://number317.github.io/blog/struct/rabbitmq_hello_world/>Rabbitmq Hello World</a></li></ul></div></div><section id=footer><div id=author><h2>About Author</h2><hr><img src=https://number317.github.io/images/author.jpg></img><p>Life is dance we all have to do.</p></div><ul id=link><li><a href=https://github.com/number317/aloha.git target=_blank><i class="fa fa-github" alt=github></i></a></li><li><a href="mailto:cheon0112358d@gmail.com?subject=blog%27s%20feedback" target=_blank><i class="fa fa-envelope" alt=email></i></a></li><li id=wechat><i class="fa fa-wechat"></i></li><img class=qrcode src=https://number317.github.io/images/wechat.jpg></ul></section></body></html>

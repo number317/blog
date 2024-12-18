@@ -1,24 +1,56 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Openshift on cheon's blog</title><link>https://number317.github.io/blog/tags/openshift/</link><description>Recent content in Openshift on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 14 Jun 2019 01:21:26 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/openshift/index.xml" rel="self" type="application/rss+xml"/><item><title>Openshift Restart Node</title><link>https://number317.github.io/blog/solved/openshift_restart_node/</link><pubDate>Thu, 08 Mar 2018 18:09:41 +0800</pubDate><guid>https://number317.github.io/blog/solved/openshift_restart_node/</guid><description>&lt;h1 id="openshift-节点无法连接集群">openshift 节点无法连接集群&lt;/h1>
 &lt;p>在openshift master 节点上执行&lt;code>oc get node&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ oc get node
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>NAME STATUS AGE
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>node1 NotReady,SchedulingDisabled 301d
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>master1 Ready 308d
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>master2 Ready 308d
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>master3 Ready 308d
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>master4 Ready 308d
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>master5 Ready 31d
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>其中的node1状态为&lt;code>NotReady,SchedulingDisabled&lt;/code>，改节点没有准备好，并且是无法调度的，其中无法调度是手动设置的：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ openshift admin manage-node node1 --schedulable=&lt;span style="font-weight:bold;font-style:italic">false&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>重启&lt;code>origin-node&lt;/code>服务，让节点重新连接集群：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ systemctl restart origin-node
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>重新查看节点状态：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ oc get node
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>NAME STATUS AGE
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>node1 Ready,SchedulingDisabled 301d
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>master1 Ready 308d
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>master2 Ready 308d
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>master3 Ready 308d
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>master4 Ready 308d
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>master5 Ready 31d
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>节点已经 ready，再将其设置为可调度的：&lt;/p></description></item></channel></rss>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-8f2a3c624b7987d563537f97536bdddc">$ oc get node
+NAME STATUS AGE
+node1 NotReady,SchedulingDisabled 301d
+master1 Ready 308d
+master2 Ready 308d
+master3 Ready 308d
+master4 Ready 308d
+master5 Ready 31d&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-8f2a3c624b7987d563537f97536bdddc', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>其中的node1状态为&lt;code>NotReady,SchedulingDisabled&lt;/code>，改节点没有准备好，并且是无法调度的，其中无法调度是手动设置的：&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-274c61e7c4a8887c3e5422ffbfbd523a">$ openshift admin manage-node node1 --schedulable=false&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-274c61e7c4a8887c3e5422ffbfbd523a', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>重启&lt;code>origin-node&lt;/code>服务，让节点重新连接集群：&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-9d846fb0e63c73a2503e07223620dca6">$ systemctl restart origin-node&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-9d846fb0e63c73a2503e07223620dca6', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>重新查看节点状态：&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-9d3c9e21558272cdc0a93324f5518942">$ oc get node
+NAME STATUS AGE
+node1 Ready,SchedulingDisabled 301d
+master1 Ready 308d
+master2 Ready 308d
+master3 Ready 308d
+master4 Ready 308d
+master5 Ready 31d&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-9d3c9e21558272cdc0a93324f5518942', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>节点已经 ready，再将其设置为可调度的：&lt;/p></description></item></channel></rss>

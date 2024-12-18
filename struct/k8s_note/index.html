@@ -1,57 +1,57 @@
-<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel=stylesheet><link href=//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
+<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel=stylesheet><link href=https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><script src=https://number317.github.io/blog/js/single.js></script><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
 <a href=https://number317.github.io/blog/>cheon's blog</a></li><li>»
 <a href=https://number317.github.io/blog/struct/>struct</a></li><li class=active>»
-<a href=https://number317.github.io/blog/struct/k8s_note/>K8s Note</a></li></ul><div id=content><main id=main><h1>K8s Note</h1><time>Last updated Tue Dec 17, 2024</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents><ul><li><a href=#ingress-配置证书>ingress 配置证书</a></li><li><a href=#ingress-配置超时>ingress 配置超时</a></li><li><a href=#为节点添加标签>为节点添加标签</a></li><li><a href=#为节点添加污点>为节点添加污点</a></li><li><a href=#选择节点部署-pod>选择节点部署 pod</a></li><li><a href=#init-容器>init 容器</a></li></ul></nav></aside><article id=content><h1 id=k8s-备忘>k8s 备忘</h1><h2 id=ingress-配置证书>ingress 配置证书</h2><p>首先要在 <code>ingress</code> 所在 <code>namespace</code> 下创建 <code>tls</code> 类型的 <code>secret</code>:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl create secret tls https-certs --key /path/to/keyfile --cert /path/to/certfile -n the-namespace
-</span></span></code></pre></div><p>修改 <code>ingress</code> 配置，<code>kubectl edit ing ingname -n the-namespace</code>，在 <code>spec</code> 添加如下内容，注意和 <code>rules</code> 同级:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>tls:
-</span></span><span style=display:flex><span>- hosts:
-</span></span><span style=display:flex><span>  - www.test.com
-</span></span><span style=display:flex><span>  secretName: https-certs
-</span></span></code></pre></div><p><code>ingress</code> 配置了 https 证书后默认会强制跳转到 https 协议，如果不想强制跳转，可以在 <code>annotations</code> 添加如下配置:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>nginx.ingress.kubernetes.io/ssl-redirect: <span style=color:#666;font-style:italic>&#34;false&#34;</span>
-</span></span></code></pre></div><p>旧版本的配置无需加上 nginx 前缀:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>ingress.kubernetes.io/ssl-redirect: <span style=color:#666;font-style:italic>&#34;false&#34;</span>
-</span></span></code></pre></div><p>更多的 annotations 配置可以查看 <a href=https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/annotations.md>github 文档</a></p><h2 id=ingress-配置超时>ingress 配置超时</h2><p>应用接口响应较慢的情况下可能需要修改 nginx 的超时配置，默认是 60s，可以在 <code>annotations</code> 添加如下配置:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>annotations:
-</span></span><span style=display:flex><span>    nginx.ingress.kubernetes.io/client-body-buffer-size: 100M
-</span></span><span style=display:flex><span>    nginx.ingress.kubernetes.io/proxy-body-size: 100M
-</span></span><span style=display:flex><span>    nginx.ingress.kubernetes.io/proxy-buffer-size: 100M
-</span></span><span style=display:flex><span>    nginx.ingress.kubernetes.io/proxy-buffering: <span style=color:#666;font-style:italic>&#34;on&#34;</span>
-</span></span><span style=display:flex><span>    nginx.ingress.kubernetes.io/proxy-connect-timeout: <span style=color:#666;font-style:italic>&#34;300&#34;</span>
-</span></span><span style=display:flex><span>    nginx.ingress.kubernetes.io/proxy-read-timeout: <span style=color:#666;font-style:italic>&#34;300&#34;</span>
-</span></span><span style=display:flex><span>    nginx.ingress.kubernetes.io/proxy-send-timeout: <span style=color:#666;font-style:italic>&#34;300&#34;</span>
-</span></span></code></pre></div><p>这里将超时改成了 5m</p><h2 id=为节点添加标签>为节点添加标签</h2><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl label node1 <span style=color:#666;font-weight:700;font-style:italic>test</span>=<span style=font-weight:700;font-style:italic>true</span>
-</span></span></code></pre></div><p>这里添加了 &ldquo;test=true&rdquo; 的标签</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl label node node1 node-role.kubernetes.io/node=<span style=color:#666;font-style:italic>&#34;&#34;</span>
-</span></span></code></pre></div><p>添加上述标签可以改变 <code>kubectl get node</code> 时的角色显示</p><h2 id=为节点添加污点>为节点添加污点</h2><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl taint node node1 <span style=color:#666;font-weight:700;font-style:italic>test</span>=<span style=color:#666;font-style:italic>&#34;true&#34;</span>:NoSchedule
-</span></span></code></pre></div><p>为 node1 节点的 &ldquo;test=true&rdquo; 标签添加了不可调度的污点</p><h2 id=选择节点部署-pod>选择节点部署 pod</h2><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>apiVersion: v1
-</span></span><span style=display:flex><span>kind: Pod
-</span></span><span style=display:flex><span>metadata:
-</span></span><span style=display:flex><span>  name: nginx
-</span></span><span style=display:flex><span>  labels:
-</span></span><span style=display:flex><span>    env: test
-</span></span><span style=display:flex><span>spec:
-</span></span><span style=display:flex><span>  containers:
-</span></span><span style=display:flex><span>  - name: nginx
-</span></span><span style=display:flex><span>    image: nginx
-</span></span><span style=display:flex><span>    imagePullPolicy: IfNotPresent
-</span></span><span style=display:flex><span>  nodeSelector:
-</span></span><span style=display:flex><span>    disktype: ssd
-</span></span><span style=display:flex><span>    kubernetes.io/hostname: node1
-</span></span></code></pre></div><h2 id=init-容器>init 容器</h2><p>init 容器在应用程序容器启动前运行，用来包含一些应用镜像中不存在的实用工具或安装脚本。</p><ul><li>比如可以用于等待一个 Service 创建成功，通过类似如下 shell 命令：</li></ul><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=font-weight:700>until</span> nslookup myservice; <span style=font-weight:700>do</span> <span style=font-weight:700;font-style:italic>echo</span> waiting <span style=font-weight:700>for</span> myservice, sleep 10; <span style=font-weight:700>done</span>;
-</span></span></code></pre></div><ul><li>将 Pod 注册到远程服务器，通过在命令中调用 API，类似如下：</li></ul><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl -X POST http://<span style=color:#666;font-weight:700;font-style:italic>$MANAGEMENT_SERVICE_HOST</span>:<span style=color:#666;font-weight:700;font-style:italic>$MANAGERMENT_SERVICE_PORT</span>/registr -d <span style=color:#666;font-style:italic>&#39;instance=$(&lt;POD_NAME&gt;)&amp;ip=$(&lt;POD_IP&gt;)&#39;</span>
-</span></span></code></pre></div><details><summary>pod.yaml</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>apiVersion: v1
-</span></span><span style=display:flex><span>kind: Pod
-</span></span><span style=display:flex><span>metadata:
-</span></span><span style=display:flex><span>  name: myapp-pod
-</span></span><span style=display:flex><span>  labels:
-</span></span><span style=display:flex><span>    app: myapp
-</span></span><span style=display:flex><span>spec:
-</span></span><span style=display:flex><span>  containers:
-</span></span><span style=display:flex><span>  - name: myapp-container
-</span></span><span style=display:flex><span>    image: busybox
-</span></span><span style=display:flex><span>    command: [<span style=color:#666;font-style:italic>&#39;sh&#39;</span>, <span style=color:#666;font-style:italic>&#39;-c&#39;</span>, <span style=color:#666;font-style:italic>&#39;echo The app is running! &amp;&amp; sleep 3600&#39;</span>]
-</span></span><span style=display:flex><span>  initContainers:
-</span></span><span style=display:flex><span>  - name: init-myservice
-</span></span><span style=display:flex><span>    image: busybox
-</span></span><span style=display:flex><span>    command: [<span style=color:#666;font-style:italic>&#39;sh&#39;</span>, <span style=color:#666;font-style:italic>&#39;-c&#39;</span>, <span style=color:#666;font-style:italic>&#39;until nslookup myservice; do echo waiting for myservice; sleep 2; done;&#39;</span>]
-</span></span><span style=display:flex><span>  - name: init-mydb
-</span></span><span style=display:flex><span>    image: busybox
-</span></span><span style=display:flex><span>    command: [<span style=color:#666;font-style:italic>&#39;sh&#39;</span>, <span style=color:#666;font-style:italic>&#39;-c&#39;</span>, <span style=color:#666;font-style:italic>&#39;until nslookup mydb; do echo waiting for mydb; sleep 2; done;&#39;</span>]
-</span></span></code></pre></div></details></article></div></main><div><h4 id=signature>Thu Aug 1, 2019
+<a href=https://number317.github.io/blog/struct/k8s_note/>K8s Note</a></li></ul><div id=content><main id=main><h1>K8s Note</h1><time>Last updated Tue Dec 17, 2024</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents><ul><li><a href=#ingress-配置证书>ingress 配置证书</a></li><li><a href=#ingress-配置超时>ingress 配置超时</a></li><li><a href=#为节点添加标签>为节点添加标签</a></li><li><a href=#为节点添加污点>为节点添加污点</a></li><li><a href=#选择节点部署-pod>选择节点部署 pod</a></li><li><a href=#init-容器>init 容器</a></li></ul></nav></aside><article id=content><h1 id=k8s-备忘>k8s 备忘</h1><h2 id=ingress-配置证书>ingress 配置证书</h2><p>首先要在 <code>ingress</code> 所在 <code>namespace</code> 下创建 <code>tls</code> 类型的 <code>secret</code>:</p><div class="code-block code-block-container-indented"><pre><code id=code-b795fed6f423e782289ca60c94d88932>kubectl create secret tls https-certs --key /path/to/keyfile --cert /path/to/certfile -n the-namespace</code></pre><button class=copy-code-button onclick='copyCode("code-b795fed6f423e782289ca60c94d88932",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>修改 <code>ingress</code> 配置，<code>kubectl edit ing ingname -n the-namespace</code>，在 <code>spec</code> 添加如下内容，注意和 <code>rules</code> 同级:</p><div class="code-block code-block-container-indented"><pre><code id=code-5f6755384e3f237b74ccad358e6f5d4a>tls:
+- hosts:
+  - www.test.com
+  secretName: https-certs</code></pre><button class=copy-code-button onclick='copyCode("code-5f6755384e3f237b74ccad358e6f5d4a",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p><code>ingress</code> 配置了 https 证书后默认会强制跳转到 https 协议，如果不想强制跳转，可以在 <code>annotations</code> 添加如下配置:</p><div class="code-block code-block-container-indented"><pre><code id=code-220fd225f172caed21181d8de7347068>nginx.ingress.kubernetes.io/ssl-redirect: &#34;false&#34;</code></pre><button class=copy-code-button onclick='copyCode("code-220fd225f172caed21181d8de7347068",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>旧版本的配置无需加上 nginx 前缀:</p><div class="code-block code-block-container-indented"><pre><code id=code-499ba2a0889678c1b7bd47834e75d553>ingress.kubernetes.io/ssl-redirect: &#34;false&#34;</code></pre><button class=copy-code-button onclick='copyCode("code-499ba2a0889678c1b7bd47834e75d553",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>更多的 annotations 配置可以查看 <a href=https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/annotations.md>github 文档</a></p><h2 id=ingress-配置超时>ingress 配置超时</h2><p>应用接口响应较慢的情况下可能需要修改 nginx 的超时配置，默认是 60s，可以在 <code>annotations</code> 添加如下配置:</p><div class="code-block code-block-container-indented"><pre><code id=code-c09d09bdfbf23acf425fa450820e5359>annotations:
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 100M
+    nginx.ingress.kubernetes.io/proxy-body-size: 100M
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 100M
+    nginx.ingress.kubernetes.io/proxy-buffering: &#34;on&#34;
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: &#34;300&#34;
+    nginx.ingress.kubernetes.io/proxy-read-timeout: &#34;300&#34;
+    nginx.ingress.kubernetes.io/proxy-send-timeout: &#34;300&#34;</code></pre><button class=copy-code-button onclick='copyCode("code-c09d09bdfbf23acf425fa450820e5359",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>这里将超时改成了 5m</p><h2 id=为节点添加标签>为节点添加标签</h2><div class="code-block code-block-container-indented"><pre><code id=code-469a729b681ac28b1b973232eea4a6e6>kubectl label node1 test=true</code></pre><button class=copy-code-button onclick='copyCode("code-469a729b681ac28b1b973232eea4a6e6",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>这里添加了 &ldquo;test=true&rdquo; 的标签</p><div class="code-block code-block-container-indented"><pre><code id=code-ddc2639a33225d4ebd13ab4d8fef9392>kubectl label node node1 node-role.kubernetes.io/node=&#34;&#34;</code></pre><button class=copy-code-button onclick='copyCode("code-ddc2639a33225d4ebd13ab4d8fef9392",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>添加上述标签可以改变 <code>kubectl get node</code> 时的角色显示</p><h2 id=为节点添加污点>为节点添加污点</h2><div class="code-block code-block-container-indented"><pre><code id=code-bf5f20126ae0cb54a150df3a768302c6>kubectl taint node node1 test=&#34;true&#34;:NoSchedule</code></pre><button class=copy-code-button onclick='copyCode("code-bf5f20126ae0cb54a150df3a768302c6",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>为 node1 节点的 &ldquo;test=true&rdquo; 标签添加了不可调度的污点</p><h2 id=选择节点部署-pod>选择节点部署 pod</h2><div class="code-block code-block-container-indented"><pre><code id=code-1e4a94c18ba7c0cecbef157822cac445>apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    env: test
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    imagePullPolicy: IfNotPresent
+  nodeSelector:
+    disktype: ssd
+    kubernetes.io/hostname: node1</code></pre><button class=copy-code-button onclick='copyCode("code-1e4a94c18ba7c0cecbef157822cac445",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><h2 id=init-容器>init 容器</h2><p>init 容器在应用程序容器启动前运行，用来包含一些应用镜像中不存在的实用工具或安装脚本。</p><ul><li>比如可以用于等待一个 Service 创建成功，通过类似如下 shell 命令：</li></ul><div class="code-block code-block-container-indented"><pre><code id=code-be8b2d7e14ef33c6423e74b1d17c856d>until nslookup myservice; do echo waiting for myservice, sleep 10; done;</code></pre><button class=copy-code-button onclick='copyCode("code-be8b2d7e14ef33c6423e74b1d17c856d",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><ul><li>将 Pod 注册到远程服务器，通过在命令中调用 API，类似如下：</li></ul><div class="code-block code-block-container-indented"><pre><code id=code-1b1ea6d1df4407079c020a989e966865>curl -X POST http://$MANAGEMENT_SERVICE_HOST:$MANAGERMENT_SERVICE_PORT/registr -d &#39;instance=$(&lt;POD_NAME&gt;)&amp;ip=$(&lt;POD_IP&gt;)&#39;</code></pre><button class=copy-code-button onclick='copyCode("code-1b1ea6d1df4407079c020a989e966865",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><details><summary>pod.yaml</summary><div class="code-block code-block-container-indented"><pre><code id=code-58736e0267f2b4e842ff169716aafcc3>apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app: myapp
+spec:
+  containers:
+  - name: myapp-container
+    image: busybox
+    command: [&#39;sh&#39;, &#39;-c&#39;, &#39;echo The app is running! &amp;&amp; sleep 3600&#39;]
+  initContainers:
+  - name: init-myservice
+    image: busybox
+    command: [&#39;sh&#39;, &#39;-c&#39;, &#39;until nslookup myservice; do echo waiting for myservice; sleep 2; done;&#39;]
+  - name: init-mydb
+    image: busybox
+    command: [&#39;sh&#39;, &#39;-c&#39;, &#39;until nslookup mydb; do echo waiting for mydb; sleep 2; done;&#39;]</code></pre><button class=copy-code-button onclick='copyCode("code-58736e0267f2b4e842ff169716aafcc3",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></details></article></div></main><div><h4 id=signature>Thu Aug 1, 2019
 cheon</h4><ul class=tags><li><a href=https://number317.github.io/blog/tags/k8s>k8s</a></li></ul><ul class=related><li><a class=previous href=https://number317.github.io/blog/struct/logstash_to_es/>Logstash to ES</a></li><li><a class=next href=https://number317.github.io/blog/struct/org_blog_with_hugo/>用 hugo 组织 org 文件写博客</a></li></ul></div></div><section id=footer><div id=author><h2>About Author</h2><hr><img src=https://number317.github.io/images/author.jpg></img><p>Life is dance we all have to do.</p></div><ul id=link><li><a href=https://github.com/number317/aloha.git target=_blank><i class="fa fa-github" alt=github></i></a></li><li><a href="mailto:cheon0112358d@gmail.com?subject=blog%27s%20feedback" target=_blank><i class="fa fa-envelope" alt=email></i></a></li><li id=wechat><i class="fa fa-wechat"></i></li><img class=qrcode src=https://number317.github.io/images/wechat.jpg></ul></section></body></html>

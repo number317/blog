@@ -1,70 +1,118 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Log on cheon's blog</title><link>https://number317.github.io/blog/tags/log/</link><description>Recent content in Log on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/log/index.xml" rel="self" type="application/rss+xml"/><item><title>Logstash to ES</title><link>https://number317.github.io/blog/struct/logstash_to_es/</link><pubDate>Thu, 04 Jul 2019 09:26:33 +0800</pubDate><guid>https://number317.github.io/blog/struct/logstash_to_es/</guid><description>&lt;h1 id="logstash-配置日志发送-es">logstash 配置日志发送 ES&lt;/h1>
 &lt;p>日志收集的架构如下所示:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>┌────────────┐
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│Java logback│\
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└────────────┘ \
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ┌─────┐ ┌────────┐ ┌──────┐ ┌────────┐
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │kafka│ ───&amp;gt; │logstash│ ───&amp;gt; │ ES │ ───&amp;gt; │ kibana │
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> └─────┘ └────────┘ └──────┘ └────────┘
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>┌────────────┐ /
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│Java logback│/
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└────────────┘
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>java 应用日志通过 logback 发送给 kafka，logstash 从 kafka 消费日志，并将日志转发给 ES。一开始一个应用一个 kafka topic，logstash 消费了之后根据 topic 来确定 ES 的索引。&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-dd776a9148333f861a20a507e07ee50e">┌────────────┐
+│Java logback│\
+└────────────┘ \
+ ┌─────┐ ┌────────┐ ┌──────┐ ┌────────┐
+ │kafka│ ───&amp;gt; │logstash│ ───&amp;gt; │ ES │ ───&amp;gt; │ kibana │
+ └─────┘ └────────┘ └──────┘ └────────┘
+┌────────────┐ /
+│Java logback│/
+└────────────┘&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-dd776a9148333f861a20a507e07ee50e', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>java 应用日志通过 logback 发送给 kafka，logstash 从 kafka 消费日志，并将日志转发给 ES。一开始一个应用一个 kafka topic，logstash 消费了之后根据 topic 来确定 ES 的索引。&lt;/p>
 &lt;p>logback 的配置:&lt;/p>
 &lt;details>
 &lt;summary>logback.xml&lt;/summary>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-xml" data-lang="xml">&lt;span style="display:flex;">&lt;span>&amp;lt;appender name=&lt;span style="color:#666;font-style:italic">&amp;#34;KAFKA&amp;#34;&lt;/span> class=&lt;span style="color:#666;font-style:italic">&amp;#34;com.github.danielwegener.logback.kafka.KafkaAppender&amp;#34;&lt;/span>&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;encoder class=&lt;span style="color:#666;font-style:italic">&amp;#34;ch.qos.logback.classic.encoder.PatternLayoutEncoder&amp;#34;&lt;/span> charset=&lt;span style="color:#666;font-style:italic">&amp;#34;UTF-8&amp;#34;&lt;/span> &amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;pattern&amp;gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n&amp;lt;/pattern&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;/encoder&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;topic&amp;gt;spring-boot-demo&amp;lt;/topic&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;keyingStrategy class=&lt;span style="color:#666;font-style:italic">&amp;#34;com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy&amp;#34;&lt;/span>/&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;deliveryStrategy class=&lt;span style="color:#666;font-style:italic">&amp;#34;com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy&amp;#34;&lt;/span>/&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;producerConfig&amp;gt;bootstrap.servers=192.168.0.107:9092&amp;lt;/producerConfig&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>　 　　&amp;lt;producerConfig&amp;gt;retries=1&amp;lt;/producerConfig&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>　 　　&amp;lt;producerConfig&amp;gt;batch-size=16384&amp;lt;/producerConfig&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>　 　　&amp;lt;producerConfig&amp;gt;buffer-memory=33554432&amp;lt;/producerConfig&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>　 　　&amp;lt;producerConfig&amp;gt;properties.max.request.size==2097152&amp;lt;/producerConfig&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/appender&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;logger name=&lt;span style="color:#666;font-style:italic">&amp;#34;com.cheon.demo&amp;#34;&lt;/span> level=&lt;span style="color:#666;font-style:italic">&amp;#34;INFO&amp;#34;&lt;/span> additivity=&lt;span style="color:#666;font-style:italic">&amp;#34;false&amp;#34;&lt;/span>&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;appender-ref ref=&lt;span style="color:#666;font-style:italic">&amp;#34;KAFKA&amp;#34;&lt;/span> /&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/logger&amp;gt;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/details>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-83d902ab8f9eb43f320752d9fbc549f6">&amp;lt;appender name=&amp;#34;KAFKA&amp;#34; class=&amp;#34;com.github.danielwegener.logback.kafka.KafkaAppender&amp;#34;&amp;gt;
+ &amp;lt;encoder class=&amp;#34;ch.qos.logback.classic.encoder.PatternLayoutEncoder&amp;#34; charset=&amp;#34;UTF-8&amp;#34; &amp;gt;
+ &amp;lt;pattern&amp;gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n&amp;lt;/pattern&amp;gt;
+ &amp;lt;/encoder&amp;gt;
+ &amp;lt;topic&amp;gt;spring-boot-demo&amp;lt;/topic&amp;gt;
+ &amp;lt;keyingStrategy class=&amp;#34;com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy&amp;#34;/&amp;gt;
+ &amp;lt;deliveryStrategy class=&amp;#34;com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy&amp;#34;/&amp;gt;
+ &amp;lt;producerConfig&amp;gt;bootstrap.servers=192.168.0.107:9092&amp;lt;/producerConfig&amp;gt;
+　 　　&amp;lt;producerConfig&amp;gt;retries=1&amp;lt;/producerConfig&amp;gt;
+　 　　&amp;lt;producerConfig&amp;gt;batch-size=16384&amp;lt;/producerConfig&amp;gt;
+　 　　&amp;lt;producerConfig&amp;gt;buffer-memory=33554432&amp;lt;/producerConfig&amp;gt;
+　 　　&amp;lt;producerConfig&amp;gt;properties.max.request.size==2097152&amp;lt;/producerConfig&amp;gt;
+&amp;lt;/appender&amp;gt;
+&amp;lt;logger name=&amp;#34;com.cheon.demo&amp;#34; level=&amp;#34;INFO&amp;#34; additivity=&amp;#34;false&amp;#34;&amp;gt;
+ &amp;lt;appender-ref ref=&amp;#34;KAFKA&amp;#34; /&amp;gt;
+&amp;lt;/logger&amp;gt;&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-83d902ab8f9eb43f320752d9fbc549f6', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;/details>
 &lt;p>pom 文件依赖:&lt;/p></description></item><item><title>Graylog Sidecar</title><link>https://number317.github.io/blog/struct/graylog_sidecar/</link><pubDate>Wed, 14 Nov 2018 17:24:04 +0800</pubDate><guid>https://number317.github.io/blog/struct/graylog_sidecar/</guid><description>&lt;h1 id="graylog-sidecar-部署配置">graylog sidecar 部署配置&lt;/h1>
 &lt;p>graylog sidecar 用于配置从文件读取日志，具体读取文件可以采用filebeat和nxlog。这里在debian的容器中部署sidecar来示例。&lt;/p>
 &lt;h2 id="安装sidecar">安装sidecar&lt;/h2>
 &lt;p>从&lt;a href="https://github.com/Graylog2/collector-sidecar/releases">下载页面&lt;/a>下载对应的包，这里是debian系统，graylog版本是2.4。所以根据文档，下载&lt;code>collector-sidecar_0.1.7-1_amd64.deb&lt;/code>：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -OL &lt;span style="color:#666;font-style:italic">&amp;#34;https://github.com/Graylog2/collector-sidecar/releases/download/0.1.7/collector-sidecar_0.1.7-1_amd64.deb&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>下载好后安装：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>dpkg -i collector-sidecar_0.1.7-1_amd64.deb
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装好后配置system服务：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>graylog-collector-sidecar -service install
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这个命令会生成&lt;code>/etc/init.d/collector-sidecar&lt;/code>脚步，但是在容器中可能systemctl命令执行不了，可以直接执行该脚本。&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-0e2bc5b8c0291399e63a0940370f4c54">curl -OL &amp;#34;https://github.com/Graylog2/collector-sidecar/releases/download/0.1.7/collector-sidecar_0.1.7-1_amd64.deb&amp;#34;&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-0e2bc5b8c0291399e63a0940370f4c54', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>下载好后安装：&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-000bd49e39ed30b1c5a0457b05aca32e">dpkg -i collector-sidecar_0.1.7-1_amd64.deb&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-000bd49e39ed30b1c5a0457b05aca32e', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>安装好后配置system服务：&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-280a7782acdc4aff590046950709e3c9">graylog-collector-sidecar -service install&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-280a7782acdc4aff590046950709e3c9', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>这个命令会生成&lt;code>/etc/init.d/collector-sidecar&lt;/code>脚步，但是在容器中可能systemctl命令执行不了，可以直接执行该脚本。&lt;/p>
 &lt;h2 id="配置sidecar">配置sidecar&lt;/h2>
 &lt;p>编辑配置文件&lt;code>/etc/graylog/collector-sidecar&lt;/code>，改为以下内容：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span style="display:flex;">&lt;span>server_url: http://graylog.test.com/api/
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>update_interval: 10
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tls_skip_verify: &lt;span style="font-weight:bold;font-style:italic">false&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>send_status: &lt;span style="font-weight:bold;font-style:italic">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>list_log_files:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - /&lt;span style="font-weight:bold">var&lt;/span>/&lt;span style="font-weight:bold;font-style:italic">log&lt;/span>/connect-check/
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>collector_id: file:/etc/graylog/collector-sidecar/collector-id
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cache_path: /&lt;span style="font-weight:bold">var&lt;/span>/cache/graylog/collector-sidecar
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>log_path: /&lt;span style="font-weight:bold">var&lt;/span>/&lt;span style="font-weight:bold;font-style:italic">log&lt;/span>/graylog/collector-sidecar
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>log_rotation_time: 86400
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>log_max_age: 604800
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tags:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - connect-check
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>backends:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - name: nxlog
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> enabled: &lt;span style="font-weight:bold;font-style:italic">false&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> binary_path: /usr/bin/nxlog
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> configuration_path: /etc/graylog/collector-sidecar/generated/nxlog.conf
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - name: filebeat
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> enabled: &lt;span style="font-weight:bold;font-style:italic">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> binary_path: /usr/bin/filebeat
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> configuration_path: /etc/graylog/collector-sidecar/generated/filebeat.yml
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>主要是修改&lt;code>server_url&lt;/code>和&lt;code>tags&lt;/code>两项内容。&lt;/p></description></item><item><title>Graylog K8s Install</title><link>https://number317.github.io/blog/struct/graylog_k8s_install/</link><pubDate>Wed, 14 Nov 2018 16:20:50 +0800</pubDate><guid>https://number317.github.io/blog/struct/graylog_k8s_install/</guid><description>&lt;h1 id="graylog-k8s-部署">graylog k8s 部署&lt;/h1>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-1b3d2131eb0dc8acdb078abe7cd29206">server_url: http://graylog.test.com/api/
+update_interval: 10
+tls_skip_verify: false
+send_status: true
+list_log_files:
+ - /var/log/connect-check/
+collector_id: file:/etc/graylog/collector-sidecar/collector-id
+cache_path: /var/cache/graylog/collector-sidecar
+log_path: /var/log/graylog/collector-sidecar
+log_rotation_time: 86400
+log_max_age: 604800
+tags:
+ - connect-check
+backends:
+ - name: nxlog
+ enabled: false
+ binary_path: /usr/bin/nxlog
+ configuration_path: /etc/graylog/collector-sidecar/generated/nxlog.conf
+ - name: filebeat
+ enabled: true
+ binary_path: /usr/bin/filebeat
+ configuration_path: /etc/graylog/collector-sidecar/generated/filebeat.yml&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-1b3d2131eb0dc8acdb078abe7cd29206', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>主要是修改&lt;code>server_url&lt;/code>和&lt;code>tags&lt;/code>两项内容。&lt;/p></description></item><item><title>Graylog K8s Install</title><link>https://number317.github.io/blog/struct/graylog_k8s_install/</link><pubDate>Wed, 14 Nov 2018 16:20:50 +0800</pubDate><guid>https://number317.github.io/blog/struct/graylog_k8s_install/</guid><description>&lt;h1 id="graylog-k8s-部署">graylog k8s 部署&lt;/h1>
 &lt;p>graylog是一个日志聚合工具，用于统一展示应用日志。这里基于官方文档，在k8s集群中部署一套简单的单节点graylog服务。&lt;/p>
 &lt;h2 id="mongodb-部署">mongodb 部署&lt;/h2>
 &lt;p>mongodb 在服务中用于存储graylog的配置信息。以下是部署文件（没有进行数据持久化操作）：&lt;/p>

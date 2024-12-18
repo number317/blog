@@ -12,8 +12,16 @@
 &lt;p>首先最外面是一个A10负载均衡，80端口代理到k8s集群三个master节点的80端口，所有的域名都解析在这个A10上。&lt;/p>
 &lt;p>三台master节点的ip地址和80端口被用作集群中ingress controller的service的externalIP，域名通过ingress controller找到对应的应用。&lt;/p>
 &lt;p>网络问题需要一层一层排查，首先是应用本身。用循环来发送100次请求，查看应用日志：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">for&lt;/span> i in {1..100}; &lt;span style="font-weight:bold">do&lt;/span> curl http://www.test.com/api/example; &lt;span style="font-weight:bold;font-style:italic">echo&lt;/span> &lt;span style="color:#666;font-weight:bold;font-style:italic">$i&lt;/span>;&lt;span style="font-weight:bold">done&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通过日志发现请求出现connection reset时，应用没有对应日志，说明请求没有到应用这里。&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-d9bf8cf5b519491f31da51237508432a">for i in {1..100}; do curl http://www.test.com/api/example; echo $i;done&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-d9bf8cf5b519491f31da51237508432a', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>通过日志发现请求出现connection reset时，应用没有对应日志，说明请求没有到应用这里。&lt;/p>
 &lt;p>应用上一层是域名，域名是通过ingress来配置的，查看ingress controller的日志，发现也没有报错日志，所以请求也没有到这里。&lt;/p>
 &lt;p>接下来查看三台master节点的80端口，发现其中一台master1的80端口不通。看来问题应该就出现在这里了，我们可以手动来验证一下。&lt;/p>
 &lt;p>将要请求的域名映射为master2的ip地址，在&lt;code>/etc/hosts&lt;/code>中加入&lt;code>www.test.com master2IP&lt;/code>，进行测试，发现没有出现错误。改成master1的ip地址则发现无法连接。&lt;/p>

@@ -1,185 +1,185 @@
-<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel=stylesheet><link href=//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
+<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel=stylesheet><link href=https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><script src=https://number317.github.io/blog/js/single.js></script><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
 <a href=https://number317.github.io/blog/>cheon's blog</a></li><li>»
 <a href=https://number317.github.io/blog/struct/>struct</a></li><li class=active>»
-<a href=https://number317.github.io/blog/struct/ceph_ansible/>Ceph Ansible</a></li></ul><div id=content><main id=main><h1>Ceph Ansible</h1><time>Last updated Tue Dec 17, 2024</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents><ul><li><a href=#客户端节点配置>客户端节点配置</a></li><li><a href=#创建-storageclass>创建 storageclass</a></li></ul></nav></aside><article id=content><h1 id=ceph-介绍>Ceph 介绍</h1><p>无论是想要为云平台提供 <a href=http://docs.ceph.com/docs/master/glossary/#term-ceph-object-storage>Ceph Object Storage</a> 或 <a href=http://docs.ceph.com/docs/master/glossary/#term-ceph-block-device>Ceph Block Device</a> 服务，部署一个 <a href=http://docs.ceph.com/docs/master/glossary/#term-ceph-filesystem>Ceph Filesystem</a> 总是从设置每一个 <a href=http://docs.ceph.com/docs/master/glossary/#term-ceph-node>Ceph 节点</a>，网络和 Ceph 存储集群开始。一个 Ceph 存储集群至少需要一个 Ceph Monitor，Ceph Manger，和 Ceph OSD(Object Storage Daemon)。当运行 Ceph 文件系统客户端时也需要 Ceph Metadata Server。</p><ul><li><p>Monitors: 一个 <a href=http://docs.ceph.com/docs/master/glossary/#term-ceph-monitor>Ceph 监视器(ceph-mon)</a> 维护集群状态的映射，包括监视器，管理，OSD 和 CURSH 映射。这些映射是 Ceph 守护进程之间相互协调的关键。监视器还负责管理守护进程和客户端之间的身份验证。为了保证冗余和高可用，至少需要3个监视器。</p></li><li><p>Mangers: 一个 <a href=http://docs.ceph.com/docs/master/glossary/#term-ceph-manager>Ceph 管理(ceph-mgr)</a>守护进程负责保持追踪 Ceph 集群运行时指标和当前集群状态，包括存储利用率，当前的性能指标和系统负载。Ceph 管理进程还托管基于 python 的模块来管理和公开 Ceph 集群信息，包括一个基于网页的 <a href=http://docs.ceph.com/docs/master/mgr/dashboard/#mgr-dashboard>Ceph Dashboard</a> 和 <a href=http://docs.ceph.com/docs/master/mgr/restful>REST API</a>。为了保证高可用，至少需要2个管理节点。</p></li><li><p>Ceph OSDs: 一个 <a href=http://docs.ceph.com/docs/master/glossary/#term-ceph-osd>Ceph OSD(object storage daemon, ceph-osd)</a>存储数据，处理数据复制、恢复、重新平衡，并通过检查其他 Ceph OSD 进程的心跳来提供一些监控信息给 Ceph 监视器和管理。为了保证冗余和高可用，至少需要3个 Ceph OSDs。</p></li><li><p>MDSs: 一个 <a href=http://docs.ceph.com/docs/master/glossary/#term-ceph-metadata-server>Ceph 元数据服务(MDS, ceph-mds)</a>存储代表 <a href=http://docs.ceph.com/docs/master/glossary/#term-ceph-filesystem>Ceph 文件系统</a>（例如 Ceph 快设备和 Ceph 对象存储就不使用 MDS）的元数据。Ceph 元数据服务允许 POSIX 文件系统用户执行基本的命令（像 <code>ls</code>, <code>find</code> 等）而不会给 Ceph 存储集群代理极大的负载。</p></li></ul><p>Ceph 将数据存储为逻辑存储池中的对象。利用 <a href=http://docs.ceph.com/docs/master/glossary/#term-crush>CRUSH</a> 算法，Ceph 计算哪个放置组应该存储该对象，并进一步计算哪个 Ceph 进程节点应该存储改放置组。CRUSH 算法能使 Ceph 存储集群能够动态扩展，重新平衡和恢复。</p><h1 id=ceph-ansible>ceph-ansible</h1><p>ceph 官方提供了 ansible 的安装脚本 <a href=https://github.com/ceph/ceph-ansible.git>ceph-ansible</a>。将项目克隆到本地，可以看到最新的稳定版本是<code>stable-4.0</code>。根据集群要求准备了6台服务器。部署 OSDs 的节点需要一块额外的磁盘用作存储。ansible 的 hosts 文件如下所示:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>[all]
-</span></span><span style=display:flex><span>192.168.0.10    ansible_host=192.168.0.10    ansible_user=test    ansible_become=true
-</span></span><span style=display:flex><span>192.168.0.11    ansible_host=192.168.0.11    ansible_user=test    ansible_become=true
-</span></span><span style=display:flex><span>192.168.0.12    ansible_host=192.168.0.12    ansible_user=test    ansible_become=true
-</span></span><span style=display:flex><span>192.168.0.13    ansible_host=192.168.0.13    ansible_user=test    ansible_become=true
-</span></span><span style=display:flex><span>192.168.0.14    ansible_host=192.168.0.14    ansible_user=test    ansible_become=true
-</span></span><span style=display:flex><span>192.168.0.15    ansible_host=192.168.0.15    ansible_user=test    ansible_become=true
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>[mons]
-</span></span><span style=display:flex><span>192.168.0.10
-</span></span><span style=display:flex><span>192.168.0.11
-</span></span><span style=display:flex><span>192.168.0.12
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>[osds]
-</span></span><span style=display:flex><span>192.168.0.13
-</span></span><span style=display:flex><span>192.168.0.14
-</span></span><span style=display:flex><span>192.168.0.15
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>[mgrs]
-</span></span><span style=display:flex><span>192.168.0.10
-</span></span><span style=display:flex><span>192.168.0.11
-</span></span></code></pre></div><p>这里将 192.168.0.10 作为用于执行 ansible-playbook 的节点。在这个节点上需要配置到另外5台服务器的 ssh 免密码登录（也可以在 hosts 文件中配置密码）。并安装一些依赖:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>yum install -y ansible epel-release python2-pip
-</span></span><span style=display:flex><span>pip install -r requirements.txt
-</span></span></code></pre></div><p>配置 <code>site.yml</code> 配置文件，将没用到的 hosts 注释:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>- hosts:
-</span></span><span style=display:flex><span>  - mons
-</span></span><span style=display:flex><span>  - osds
-</span></span><span style=display:flex><span>  - mgrs
-</span></span></code></pre></div><p>配置全局变量 <code>group_vars/all.yml</code>:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>cluster: ceph
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>centos_package_dependencies:
-</span></span><span style=display:flex><span>  - epel-release
-</span></span><span style=display:flex><span>  - libselinux-python
-</span></span><span style=display:flex><span>ceph_origin: repository
-</span></span><span style=display:flex><span>ceph_repository: community
-</span></span><span style=display:flex><span>ceph_mirror: http://mirrors.163.com/ceph
-</span></span><span style=display:flex><span>ceph_stable_key: http://mirrors.163.com/ceph/keys/release.asc
-</span></span><span style=display:flex><span>ceph_stable_repo: <span style=color:#666;font-style:italic>&#34;{{ ceph_mirror }}/rpm-{{ ceph_stable_release }}&#34;</span>
-</span></span><span style=display:flex><span>ceph_stable_release: nautilus
-</span></span><span style=display:flex><span>ceph_stable: <span style=font-weight:700>true</span>
-</span></span><span style=display:flex><span>fetch_directory: ~/ceph-ansible-keys
-</span></span><span style=display:flex><span>monitor_interface: eth0
-</span></span><span style=display:flex><span>public_network: 192.168.0.0/24
-</span></span><span style=display:flex><span>cluster_network: <span style=color:#666;font-style:italic>&#34;{{ public_network }}&#34;</span>
-</span></span></code></pre></div><p>配置 <code>OSDs</code> 变量，主要配置用哪个盘存储数据:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>devices:
-</span></span><span style=display:flex><span>  - /dev/vdb
-</span></span></code></pre></div><p>配置好可以运行 <code>ansible-playbook -i hosts site.yml;</code>。等待 ceph 安装完毕。安装完成后执行 <code>ceph -s</code> 可以看到如下输出:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>  cluster:
-</span></span><span style=display:flex><span>    id:     b358e8f9-3ffa-438b-8b38-38f9f5468d12
-</span></span><span style=display:flex><span>    health: HEALTH_OK
-</span></span><span style=display:flex><span> 
-</span></span><span style=display:flex><span>  services:
-</span></span><span style=display:flex><span>    mon: 3 daemons, quorum VM_48_51_centos,VM_48_62_centos,VM_48_83_centos (age 2d)
-</span></span><span style=display:flex><span>    mgr: VM_48_51_centos(active, since 2d), standbys: VM_48_83_centos
-</span></span><span style=display:flex><span>    osd: 3 osds: 3 up (since 87m), 3 in (since 87m)
-</span></span><span style=display:flex><span> 
-</span></span><span style=display:flex><span>  data:
-</span></span><span style=display:flex><span>    pools:   0 pools, 0 pgs
-</span></span><span style=display:flex><span>    objects: 0 objects, 0 B
-</span></span><span style=display:flex><span>    usage:   3.0 GiB used, 294 GiB / 297 GiB avail
-</span></span><span style=display:flex><span>    pgs:     
-</span></span></code></pre></div><h1 id=kubernetes-配置-ceph>kubernetes 配置 ceph</h1><h2 id=客户端节点配置>客户端节点配置</h2><p>k8s 节点安装 ceph 客户端，注意版本要和服务端的一致。添加 ceph 的源，将以下内容写入到 <code>/etc/yum.repo.d/ceph.repo</code>:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>[ceph]
-</span></span><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>name</span>=Ceph noarch packages
-</span></span><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>baseurl</span>=http://mirrors.163.com/ceph/rpm-nautilus/el7/x86_64/
-</span></span><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>enabled</span>=1
-</span></span><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>gpgcheck</span>=1
-</span></span><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>type</span>=rpm-md
-</span></span><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>gpgkey</span>=http://mirrors.163.com/ceph/keys/release.asc
-</span></span></code></pre></div><p>再执行下列命令来安装:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>yum clean all &amp;&amp; yum makecache
-</span></span><span style=display:flex><span>yum install -y ceph-common
-</span></span></code></pre></div><p>创建 RBD pool:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>ceph osd pool create kube 128
-</span></span></code></pre></div><p>授权 kube 用户:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>ceph auth get-or-create client.kube mon <span style=color:#666;font-style:italic>&#39;allow r&#39;</span> osd <span style=color:#666;font-style:italic>&#39;allow class-read, allow rwx pool=kube&#39;</span> -o ceph.client.kube.keyring
-</span></span><span style=display:flex><span>ceph auth get client.kube
-</span></span></code></pre></div><p>将生成的 keyring 文件放到 k8s 节点的 <code>/etc/ceph/</code> 目录下</p><h2 id=创建-storageclass>创建 storageclass</h2><p>创建 ceph secret:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>ceph auth get-key client.admin | base64
-</span></span><span style=display:flex><span>ceph auth get-key client.kube | base64
-</span></span><span style=display:flex><span>kubectl apply -f ceph-kube-secret.yml
-</span></span></code></pre></div><details><summary>ceph-kube-secret.yml</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>apiVersion: v1
-</span></span><span style=display:flex><span>kind: Namespace
-</span></span><span style=display:flex><span>metadata:
-</span></span><span style=display:flex><span>  name: ceph
-</span></span><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>---</span>
-</span></span><span style=display:flex><span>apiVersion: v1
-</span></span><span style=display:flex><span>kind: Secret
-</span></span><span style=display:flex><span>metadata:
-</span></span><span style=display:flex><span>  name: ceph-admin-secret
-</span></span><span style=display:flex><span>  namespace: ceph
-</span></span><span style=display:flex><span>type: kubernetes.io/rbd
-</span></span><span style=display:flex><span>data:
-</span></span><span style=display:flex><span>  key: QVFEVGdBOWQ4bDA1TUJBQWhnamFJNHd6QzROVXJyR1J3RnlPWnc9PQ==
-</span></span><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>---</span>
-</span></span><span style=display:flex><span>apiVersion: v1
-</span></span><span style=display:flex><span>kind: Secret
-</span></span><span style=display:flex><span>metadata:
-</span></span><span style=display:flex><span>  name: ceph-kube-secret
-</span></span><span style=display:flex><span>  namespace: ceph
-</span></span><span style=display:flex><span>type: kubernetes.io/rbd
-</span></span><span style=display:flex><span>data:
-</span></span><span style=display:flex><span>  key: QVFBVWJ4VmRYbHNwS3hBQUxJSDdQWmxlalk5WW10Rm5DRnQwU2c9PQ==
-</span></span></code></pre></div></details><p>创建动态 RBD StorageClass:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>kubectl apply -f ceph-kube-secret.yaml
-</span></span></code></pre></div><details><summary>ceph-storageclass.yaml</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>apiVersion: storage.k8s.io/v1
-</span></span><span style=display:flex><span>kind: StorageClass
-</span></span><span style=display:flex><span>metadata:
-</span></span><span style=display:flex><span>  name: ceph-rbd
-</span></span><span style=display:flex><span>  annotations:
-</span></span><span style=display:flex><span>    storageclass.kubernetes.io/is-default-class: <span style=color:#666;font-style:italic>&#34;true&#34;</span>
-</span></span><span style=display:flex><span>provisioner: kubernetes.io/rbd
-</span></span><span style=display:flex><span>parameters:
-</span></span><span style=display:flex><span>  monitors: 192.168.0.10:6789,192.168.0.11:6789,192.168.0.12:6789
-</span></span><span style=display:flex><span>  adminId: admin
-</span></span><span style=display:flex><span>  adminSecretName: ceph-admin-secret
-</span></span><span style=display:flex><span>  adminSecretNamespace: ceph
-</span></span><span style=display:flex><span>  pool: kube
-</span></span><span style=display:flex><span>  userId: kube
-</span></span><span style=display:flex><span>  userSecretName: ceph-kube-secret
-</span></span><span style=display:flex><span>  fsType: xfs
-</span></span><span style=display:flex><span>  imageFormat: <span style=color:#666;font-style:italic>&#34;2&#34;</span>
-</span></span><span style=display:flex><span>  imageFeatures: <span style=color:#666;font-style:italic>&#34;layering&#34;</span>
-</span></span></code></pre></div></details><p>创建 pvc:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f ceph-pvc.yaml -n ceph
-</span></span></code></pre></div><details><summary>ceph-pvc.yaml</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>kind: PersistentVolumeClaim
-</span></span><span style=display:flex><span>metadata:
-</span></span><span style=display:flex><span>  name: ceph-pvc
-</span></span><span style=display:flex><span>  namespace: ceph
-</span></span><span style=display:flex><span>spec:
-</span></span><span style=display:flex><span>  storageClassName: ceph-rbd
-</span></span><span style=display:flex><span>  accessModes:
-</span></span><span style=display:flex><span>     - ReadOnlyMany
-</span></span><span style=display:flex><span>  resources:
-</span></span><span style=display:flex><span>    requests:
-</span></span><span style=display:flex><span>      storage: 1Gi
-</span></span></code></pre></div></details><p>查看 pvc 的状态发现一直是 pending，describe 查看 pvc 事件，发现报错:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>rbd: create volume failed, err: executable file not found in $PATH
-</span></span></code></pre></div><p>结合日志查阅资料发现是在 kube-controller-manager 的 pod 容器中没有 rbd 命令。具体可以查看 <a href=https://github.com/kubernetes/kubernetes/issues/38923>github issue</a></p><p>可以通过安装 <a href=https://github.com/kubernetes-incubator/external-storage>external-storage</a> 插件来解决。克隆下来后路径如下:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>ceph
-</span></span><span style=display:flex><span>└── rbd
-</span></span><span style=display:flex><span>    └── deploy
-</span></span><span style=display:flex><span>        ├── non-rbac
-</span></span><span style=display:flex><span>        │   └── deployment.yaml
-</span></span><span style=display:flex><span>        ├── rbac
-</span></span><span style=display:flex><span>        │   ├── clusterrolebinding.yaml
-</span></span><span style=display:flex><span>        │   ├── clusterrole.yaml
-</span></span><span style=display:flex><span>        │   ├── deployment.yaml
-</span></span><span style=display:flex><span>        │   ├── rolebinding.yaml
-</span></span><span style=display:flex><span>        │   ├── role.yaml
-</span></span><span style=display:flex><span>        │   └── serviceaccount.yaml
-</span></span><span style=display:flex><span>        └── README.md
-</span></span></code></pre></div><p>由于部署 k8s 集群的时候启用了 rbac，所以我们用 rbac 目录下的部署文件。将 <code>clusterrolebinding.yaml</code> 和 <code>rolebingding.yaml</code> 的 namespace 修改为 ceph，然后部署:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f rbac -n ceph
-</span></span></code></pre></div><p>等到部署完成后，修改 storageClass 的配置，把 <code>provisioner: kubernetes.io/rbd</code> 更改为 <code>provisioner: ceph.com/rbd</code>，重新部署。等待创建完成，重新部署 pvc，发现已经可以绑定了。查看 pvc 发现也已经创建了。</p><p>到 ceph 的 monitor 节点上，执行如下命令:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>rbd ls -p kube
-</span></span><span style=display:flex><span>rbd info kubernetes-dynamic-pvc-10321857-9952-11e9-aac5-0a580ae9419b -p kube
-</span></span></code></pre></div><p>可以获取到 image 的详细信息，说明 ceph 确实被使用了。</p><p>创建一个 pod 进行测试，发现 pod 一直处于 <code>container creating</code> 的状态。</p><details><summary>pod.yml</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>apiVersion: v1
-</span></span><span style=display:flex><span>kind: Pod
-</span></span><span style=display:flex><span>metadata:
-</span></span><span style=display:flex><span>  labels:
-</span></span><span style=display:flex><span>    test: rbd-dyn-pvc-pod
-</span></span><span style=display:flex><span>  name: ceph-rbd-dyn-pv-pod2
-</span></span><span style=display:flex><span>spec:
-</span></span><span style=display:flex><span>  containers:
-</span></span><span style=display:flex><span>  - name: ceph-rbd-dyn-pv-busybox2
-</span></span><span style=display:flex><span>    image: busybox
-</span></span><span style=display:flex><span>    command: [<span style=color:#666;font-style:italic>&#34;sleep&#34;</span>, <span style=color:#666;font-style:italic>&#34;60000&#34;</span>]
-</span></span><span style=display:flex><span>    volumeMounts:
-</span></span><span style=display:flex><span>    - name: ceph-dyn-rbd-vol1
-</span></span><span style=display:flex><span>      mountPath: /mnt/ceph-dyn-rbd-pvc/busybox
-</span></span><span style=display:flex><span>      readOnly: <span style=font-weight:700>false</span>
-</span></span><span style=display:flex><span>  volumes:
-</span></span><span style=display:flex><span>  - name: ceph-dyn-rbd-vol1
-</span></span><span style=display:flex><span>    persistentVolumeClaim:
-</span></span><span style=display:flex><span>      claimName: ceph-pvc
-</span></span></code></pre></div></details><p>查看 pod 事件，发现如下报错:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>MountVolume.WaitForAttach failed for volume &#34;pvc-ec2aa2a2-b290-11e9-998e-5254003f0e66&#34; : rbd: map failed exit status 110, rbd output: rbd: sysfs write failed
-</span></span><span style=display:flex><span>In some cases useful info is found in syslog - try &#34;dmesg | tail&#34;.
-</span></span><span style=display:flex><span>rbd: map failed: (110) Connection timed out
-</span></span></code></pre></div><p>在 pod 所在节点执行命令 <code>dmesg | tail</code>，发现如下报错:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>[260542.633436] libceph: mon1 10.107.36.4:6789 feature set mismatch, my 106b84a842a42 &lt; server&#39;s 40106b84a842a42, missing 400000000000000
-</span></span><span style=display:flex><span>[260542.638039] libceph: mon1 10.107.36.4:6789 missing required protocol features
-</span></span><span style=display:flex><span>[260552.602373] libceph: mon2 10.107.36.12:6789 feature set mismatch, my 106b84a842a42 &lt; server&#39;s 40106b84a842a42, missing 400000000000000
-</span></span><span style=display:flex><span>[260552.606904] libceph: mon2 10.107.36.12:6789 missing required protocol features
-</span></span><span style=display:flex><span>[260562.618453] libceph: mon0 10.107.36.21:6789 feature set mismatch, my 106b84a842a42 &lt; server&#39;s 40106b84a842a42, missing 400000000000000
-</span></span><span style=display:flex><span>[260562.623014] libceph: mon0 10.107.36.21:6789 missing required protocol features
-</span></span></code></pre></div><p>查阅资料发现这个错误和内核的特性有关，可以升级内核至4.5以上。也可以通过设置 ceph 来解决，具体可以查看 <a href=https://k2r2bai.com/2018/02/11/ceph/luminous-crush-issue/>https://k2r2bai.com/2018/02/11/ceph/luminous-crush-issue/</a></p><p>这里通过调整 ceph 配置来解决:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>ceph osd crush tunables hammer
-</span></span></code></pre></div><h1 id=ceph-配置-dashboard>ceph 配置 dashboard</h1><p>启用模块：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>ceph mgr <span style=font-weight:700;font-style:italic>enable</span> dashboard
-</span></span></code></pre></div><p>创建证书：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>ceph dashboard create-self-signed-cert
-</span></span></code></pre></div><p>重启：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>ceph mgr module disable dashboard
-</span></span><span style=display:flex><span>ceph mgr module <span style=font-weight:700;font-style:italic>enable</span> dashboard
-</span></span></code></pre></div><p>配置 ip，端口：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>ceph config <span style=font-weight:700;font-style:italic>set</span> mgr mgr/dashboard/server_addr <span style=color:#666;font-weight:700;font-style:italic>$IP</span>
-</span></span><span style=display:flex><span>ceph config <span style=font-weight:700;font-style:italic>set</span> mgr mgr/dashboard/server_port <span style=color:#666;font-weight:700;font-style:italic>$PORT</span>
-</span></span></code></pre></div><p>注意 ip 是 active monitor 节点的 ip</p><p>创建用户：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>ceph dashboard ac-user-create &lt;username&gt; &lt;password&gt; administrator
-</span></span></code></pre></div></article></div></main><div><h4 id=signature>Sun Jun 23, 2019
+<a href=https://number317.github.io/blog/struct/ceph_ansible/>Ceph Ansible</a></li></ul><div id=content><main id=main><h1>Ceph Ansible</h1><time>Last updated Tue Dec 17, 2024</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents><ul><li><a href=#客户端节点配置>客户端节点配置</a></li><li><a href=#创建-storageclass>创建 storageclass</a></li></ul></nav></aside><article id=content><h1 id=ceph-介绍>Ceph 介绍</h1><p>无论是想要为云平台提供 <a href=http://docs.ceph.com/docs/master/glossary/#term-ceph-object-storage>Ceph Object Storage</a> 或 <a href=http://docs.ceph.com/docs/master/glossary/#term-ceph-block-device>Ceph Block Device</a> 服务，部署一个 <a href=http://docs.ceph.com/docs/master/glossary/#term-ceph-filesystem>Ceph Filesystem</a> 总是从设置每一个 <a href=http://docs.ceph.com/docs/master/glossary/#term-ceph-node>Ceph 节点</a>，网络和 Ceph 存储集群开始。一个 Ceph 存储集群至少需要一个 Ceph Monitor，Ceph Manger，和 Ceph OSD(Object Storage Daemon)。当运行 Ceph 文件系统客户端时也需要 Ceph Metadata Server。</p><ul><li><p>Monitors: 一个 <a href=http://docs.ceph.com/docs/master/glossary/#term-ceph-monitor>Ceph 监视器(ceph-mon)</a> 维护集群状态的映射，包括监视器，管理，OSD 和 CURSH 映射。这些映射是 Ceph 守护进程之间相互协调的关键。监视器还负责管理守护进程和客户端之间的身份验证。为了保证冗余和高可用，至少需要3个监视器。</p></li><li><p>Mangers: 一个 <a href=http://docs.ceph.com/docs/master/glossary/#term-ceph-manager>Ceph 管理(ceph-mgr)</a>守护进程负责保持追踪 Ceph 集群运行时指标和当前集群状态，包括存储利用率，当前的性能指标和系统负载。Ceph 管理进程还托管基于 python 的模块来管理和公开 Ceph 集群信息，包括一个基于网页的 <a href=http://docs.ceph.com/docs/master/mgr/dashboard/#mgr-dashboard>Ceph Dashboard</a> 和 <a href=http://docs.ceph.com/docs/master/mgr/restful>REST API</a>。为了保证高可用，至少需要2个管理节点。</p></li><li><p>Ceph OSDs: 一个 <a href=http://docs.ceph.com/docs/master/glossary/#term-ceph-osd>Ceph OSD(object storage daemon, ceph-osd)</a>存储数据，处理数据复制、恢复、重新平衡，并通过检查其他 Ceph OSD 进程的心跳来提供一些监控信息给 Ceph 监视器和管理。为了保证冗余和高可用，至少需要3个 Ceph OSDs。</p></li><li><p>MDSs: 一个 <a href=http://docs.ceph.com/docs/master/glossary/#term-ceph-metadata-server>Ceph 元数据服务(MDS, ceph-mds)</a>存储代表 <a href=http://docs.ceph.com/docs/master/glossary/#term-ceph-filesystem>Ceph 文件系统</a>（例如 Ceph 快设备和 Ceph 对象存储就不使用 MDS）的元数据。Ceph 元数据服务允许 POSIX 文件系统用户执行基本的命令（像 <code>ls</code>, <code>find</code> 等）而不会给 Ceph 存储集群代理极大的负载。</p></li></ul><p>Ceph 将数据存储为逻辑存储池中的对象。利用 <a href=http://docs.ceph.com/docs/master/glossary/#term-crush>CRUSH</a> 算法，Ceph 计算哪个放置组应该存储该对象，并进一步计算哪个 Ceph 进程节点应该存储改放置组。CRUSH 算法能使 Ceph 存储集群能够动态扩展，重新平衡和恢复。</p><h1 id=ceph-ansible>ceph-ansible</h1><p>ceph 官方提供了 ansible 的安装脚本 <a href=https://github.com/ceph/ceph-ansible.git>ceph-ansible</a>。将项目克隆到本地，可以看到最新的稳定版本是<code>stable-4.0</code>。根据集群要求准备了6台服务器。部署 OSDs 的节点需要一块额外的磁盘用作存储。ansible 的 hosts 文件如下所示:</p><div class="code-block code-block-container-indented"><pre><code id=code-e43f419f05faa7fc13530bf6322d1c63>[all]
+192.168.0.10    ansible_host=192.168.0.10    ansible_user=test    ansible_become=true
+192.168.0.11    ansible_host=192.168.0.11    ansible_user=test    ansible_become=true
+192.168.0.12    ansible_host=192.168.0.12    ansible_user=test    ansible_become=true
+192.168.0.13    ansible_host=192.168.0.13    ansible_user=test    ansible_become=true
+192.168.0.14    ansible_host=192.168.0.14    ansible_user=test    ansible_become=true
+192.168.0.15    ansible_host=192.168.0.15    ansible_user=test    ansible_become=true
+
+[mons]
+192.168.0.10
+192.168.0.11
+192.168.0.12
+
+[osds]
+192.168.0.13
+192.168.0.14
+192.168.0.15
+
+[mgrs]
+192.168.0.10
+192.168.0.11</code></pre><button class=copy-code-button onclick='copyCode("code-e43f419f05faa7fc13530bf6322d1c63",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>这里将 192.168.0.10 作为用于执行 ansible-playbook 的节点。在这个节点上需要配置到另外5台服务器的 ssh 免密码登录（也可以在 hosts 文件中配置密码）。并安装一些依赖:</p><div class="code-block code-block-container-indented"><pre><code id=code-7581d52a6f5ea0eedfb4df0fd39b8211>yum install -y ansible epel-release python2-pip
+pip install -r requirements.txt</code></pre><button class=copy-code-button onclick='copyCode("code-7581d52a6f5ea0eedfb4df0fd39b8211",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>配置 <code>site.yml</code> 配置文件，将没用到的 hosts 注释:</p><div class="code-block code-block-container-indented"><pre><code id=code-d8d9eb34a15387e624a45df5b304a631>- hosts:
+  - mons
+  - osds
+  - mgrs</code></pre><button class=copy-code-button onclick='copyCode("code-d8d9eb34a15387e624a45df5b304a631",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>配置全局变量 <code>group_vars/all.yml</code>:</p><div class="code-block code-block-container-indented"><pre><code id=code-2686ca78e557ab49b73547a6de5edf1e>cluster: ceph
+
+centos_package_dependencies:
+  - epel-release
+  - libselinux-python
+ceph_origin: repository
+ceph_repository: community
+ceph_mirror: http://mirrors.163.com/ceph
+ceph_stable_key: http://mirrors.163.com/ceph/keys/release.asc
+ceph_stable_repo: &#34;{{ ceph_mirror }}/rpm-{{ ceph_stable_release }}&#34;
+ceph_stable_release: nautilus
+ceph_stable: true
+fetch_directory: ~/ceph-ansible-keys
+monitor_interface: eth0
+public_network: 192.168.0.0/24
+cluster_network: &#34;{{ public_network }}&#34;</code></pre><button class=copy-code-button onclick='copyCode("code-2686ca78e557ab49b73547a6de5edf1e",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>配置 <code>OSDs</code> 变量，主要配置用哪个盘存储数据:</p><div class="code-block code-block-container-indented"><pre><code id=code-99d9115db26a0bc209496ff01318eb9e>devices:
+  - /dev/vdb</code></pre><button class=copy-code-button onclick='copyCode("code-99d9115db26a0bc209496ff01318eb9e",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>配置好可以运行 <code>ansible-playbook -i hosts site.yml;</code>。等待 ceph 安装完毕。安装完成后执行 <code>ceph -s</code> 可以看到如下输出:</p><div class="code-block code-block-container-indented"><pre><code id=code-9022d472e071d40145a0b436d6fb2baf>  cluster:
+    id:     b358e8f9-3ffa-438b-8b38-38f9f5468d12
+    health: HEALTH_OK
+ 
+  services:
+    mon: 3 daemons, quorum VM_48_51_centos,VM_48_62_centos,VM_48_83_centos (age 2d)
+    mgr: VM_48_51_centos(active, since 2d), standbys: VM_48_83_centos
+    osd: 3 osds: 3 up (since 87m), 3 in (since 87m)
+ 
+  data:
+    pools:   0 pools, 0 pgs
+    objects: 0 objects, 0 B
+    usage:   3.0 GiB used, 294 GiB / 297 GiB avail
+    pgs:     </code></pre><button class=copy-code-button onclick='copyCode("code-9022d472e071d40145a0b436d6fb2baf",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><h1 id=kubernetes-配置-ceph>kubernetes 配置 ceph</h1><h2 id=客户端节点配置>客户端节点配置</h2><p>k8s 节点安装 ceph 客户端，注意版本要和服务端的一致。添加 ceph 的源，将以下内容写入到 <code>/etc/yum.repo.d/ceph.repo</code>:</p><div class="code-block code-block-container-indented"><pre><code id=code-ae78823cc11e30a776434f006867836f>[ceph]
+name=Ceph noarch packages
+baseurl=http://mirrors.163.com/ceph/rpm-nautilus/el7/x86_64/
+enabled=1
+gpgcheck=1
+type=rpm-md
+gpgkey=http://mirrors.163.com/ceph/keys/release.asc</code></pre><button class=copy-code-button onclick='copyCode("code-ae78823cc11e30a776434f006867836f",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>再执行下列命令来安装:</p><div class="code-block code-block-container-indented"><pre><code id=code-ab2ab2487f930248bf25c7161e124215>yum clean all &amp;&amp; yum makecache
+yum install -y ceph-common</code></pre><button class=copy-code-button onclick='copyCode("code-ab2ab2487f930248bf25c7161e124215",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>创建 RBD pool:</p><div class="code-block code-block-container-indented"><pre><code id=code-b0d78d77e0e74a9ac5079a889e8d7e59>ceph osd pool create kube 128</code></pre><button class=copy-code-button onclick='copyCode("code-b0d78d77e0e74a9ac5079a889e8d7e59",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>授权 kube 用户:</p><div class="code-block code-block-container-indented"><pre><code id=code-343bc690337fab650b4c36d5ed6a36f2>ceph auth get-or-create client.kube mon &#39;allow r&#39; osd &#39;allow class-read, allow rwx pool=kube&#39; -o ceph.client.kube.keyring
+ceph auth get client.kube</code></pre><button class=copy-code-button onclick='copyCode("code-343bc690337fab650b4c36d5ed6a36f2",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>将生成的 keyring 文件放到 k8s 节点的 <code>/etc/ceph/</code> 目录下</p><h2 id=创建-storageclass>创建 storageclass</h2><p>创建 ceph secret:</p><div class="code-block code-block-container-indented"><pre><code id=code-86c39e7016609215be1de1117f2f70ed>ceph auth get-key client.admin | base64
+ceph auth get-key client.kube | base64
+kubectl apply -f ceph-kube-secret.yml</code></pre><button class=copy-code-button onclick='copyCode("code-86c39e7016609215be1de1117f2f70ed",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><details><summary>ceph-kube-secret.yml</summary><div class="code-block code-block-container-indented"><pre><code id=code-0ec106c7674276957ee799275a3a698c>apiVersion: v1
+kind: Namespace
+metadata:
+  name: ceph
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ceph-admin-secret
+  namespace: ceph
+type: kubernetes.io/rbd
+data:
+  key: QVFEVGdBOWQ4bDA1TUJBQWhnamFJNHd6QzROVXJyR1J3RnlPWnc9PQ==
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ceph-kube-secret
+  namespace: ceph
+type: kubernetes.io/rbd
+data:
+  key: QVFBVWJ4VmRYbHNwS3hBQUxJSDdQWmxlalk5WW10Rm5DRnQwU2c9PQ==</code></pre><button class=copy-code-button onclick='copyCode("code-0ec106c7674276957ee799275a3a698c",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></details><p>创建动态 RBD StorageClass:</p><div class="code-block code-block-container-indented"><pre><code id=code-347c6122c24124a1bf46b957bd8071b6>kubectl apply -f ceph-kube-secret.yaml</code></pre><button class=copy-code-button onclick='copyCode("code-347c6122c24124a1bf46b957bd8071b6",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><details><summary>ceph-storageclass.yaml</summary><div class="code-block code-block-container-indented"><pre><code id=code-eee3782af6bc89897dad21f298e5b8da>apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ceph-rbd
+  annotations:
+    storageclass.kubernetes.io/is-default-class: &#34;true&#34;
+provisioner: kubernetes.io/rbd
+parameters:
+  monitors: 192.168.0.10:6789,192.168.0.11:6789,192.168.0.12:6789
+  adminId: admin
+  adminSecretName: ceph-admin-secret
+  adminSecretNamespace: ceph
+  pool: kube
+  userId: kube
+  userSecretName: ceph-kube-secret
+  fsType: xfs
+  imageFormat: &#34;2&#34;
+  imageFeatures: &#34;layering&#34;</code></pre><button class=copy-code-button onclick='copyCode("code-eee3782af6bc89897dad21f298e5b8da",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></details><p>创建 pvc:</p><div class="code-block code-block-container-indented"><pre><code id=code-235c863fe93b0db3fce067df3b890dde>kubectl apply -f ceph-pvc.yaml -n ceph</code></pre><button class=copy-code-button onclick='copyCode("code-235c863fe93b0db3fce067df3b890dde",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><details><summary>ceph-pvc.yaml</summary><div class="code-block code-block-container-indented"><pre><code id=code-891548b575413f4c2a4974c0c9fb017a>kind: PersistentVolumeClaim
+metadata:
+  name: ceph-pvc
+  namespace: ceph
+spec:
+  storageClassName: ceph-rbd
+  accessModes:
+     - ReadOnlyMany
+  resources:
+    requests:
+      storage: 1Gi</code></pre><button class=copy-code-button onclick='copyCode("code-891548b575413f4c2a4974c0c9fb017a",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></details><p>查看 pvc 的状态发现一直是 pending，describe 查看 pvc 事件，发现报错:</p><div class="code-block code-block-container-indented"><pre><code id=code-db2e3d02ea61e4f9a4c363b242548c1c>rbd: create volume failed, err: executable file not found in $PATH</code></pre><button class=copy-code-button onclick='copyCode("code-db2e3d02ea61e4f9a4c363b242548c1c",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>结合日志查阅资料发现是在 kube-controller-manager 的 pod 容器中没有 rbd 命令。具体可以查看 <a href=https://github.com/kubernetes/kubernetes/issues/38923>github issue</a></p><p>可以通过安装 <a href=https://github.com/kubernetes-incubator/external-storage>external-storage</a> 插件来解决。克隆下来后路径如下:</p><div class="code-block code-block-container-indented"><pre><code id=code-7128cffaa3461a401ae62af79de253cd>ceph
+└── rbd
+    └── deploy
+        ├── non-rbac
+        │   └── deployment.yaml
+        ├── rbac
+        │   ├── clusterrolebinding.yaml
+        │   ├── clusterrole.yaml
+        │   ├── deployment.yaml
+        │   ├── rolebinding.yaml
+        │   ├── role.yaml
+        │   └── serviceaccount.yaml
+        └── README.md</code></pre><button class=copy-code-button onclick='copyCode("code-7128cffaa3461a401ae62af79de253cd",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>由于部署 k8s 集群的时候启用了 rbac，所以我们用 rbac 目录下的部署文件。将 <code>clusterrolebinding.yaml</code> 和 <code>rolebingding.yaml</code> 的 namespace 修改为 ceph，然后部署:</p><div class="code-block code-block-container-indented"><pre><code id=code-a803d1efce1f0bfd46ae11c4d983cae3>kubectl apply -f rbac -n ceph</code></pre><button class=copy-code-button onclick='copyCode("code-a803d1efce1f0bfd46ae11c4d983cae3",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>等到部署完成后，修改 storageClass 的配置，把 <code>provisioner: kubernetes.io/rbd</code> 更改为 <code>provisioner: ceph.com/rbd</code>，重新部署。等待创建完成，重新部署 pvc，发现已经可以绑定了。查看 pvc 发现也已经创建了。</p><p>到 ceph 的 monitor 节点上，执行如下命令:</p><div class="code-block code-block-container-indented"><pre><code id=code-e88ea3858c3f88a752eb16a1e27e43dc>rbd ls -p kube
+rbd info kubernetes-dynamic-pvc-10321857-9952-11e9-aac5-0a580ae9419b -p kube</code></pre><button class=copy-code-button onclick='copyCode("code-e88ea3858c3f88a752eb16a1e27e43dc",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>可以获取到 image 的详细信息，说明 ceph 确实被使用了。</p><p>创建一个 pod 进行测试，发现 pod 一直处于 <code>container creating</code> 的状态。</p><details><summary>pod.yml</summary><div class="code-block code-block-container-indented"><pre><code id=code-1cfff32499711ae0d16ab2295057e3f2>apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: rbd-dyn-pvc-pod
+  name: ceph-rbd-dyn-pv-pod2
+spec:
+  containers:
+  - name: ceph-rbd-dyn-pv-busybox2
+    image: busybox
+    command: [&#34;sleep&#34;, &#34;60000&#34;]
+    volumeMounts:
+    - name: ceph-dyn-rbd-vol1
+      mountPath: /mnt/ceph-dyn-rbd-pvc/busybox
+      readOnly: false
+  volumes:
+  - name: ceph-dyn-rbd-vol1
+    persistentVolumeClaim:
+      claimName: ceph-pvc</code></pre><button class=copy-code-button onclick='copyCode("code-1cfff32499711ae0d16ab2295057e3f2",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></details><p>查看 pod 事件，发现如下报错:</p><div class="code-block code-block-container-indented"><pre><code id=code-44ee8429a42fefe63bc698ce59a0f94e>MountVolume.WaitForAttach failed for volume &#34;pvc-ec2aa2a2-b290-11e9-998e-5254003f0e66&#34; : rbd: map failed exit status 110, rbd output: rbd: sysfs write failed
+In some cases useful info is found in syslog - try &#34;dmesg | tail&#34;.
+rbd: map failed: (110) Connection timed out</code></pre><button class=copy-code-button onclick='copyCode("code-44ee8429a42fefe63bc698ce59a0f94e",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>在 pod 所在节点执行命令 <code>dmesg | tail</code>，发现如下报错:</p><div class="code-block code-block-container-indented"><pre><code id=code-efd33066666c5d2ae6d325732c584bf0>[260542.633436] libceph: mon1 10.107.36.4:6789 feature set mismatch, my 106b84a842a42 &lt; server&#39;s 40106b84a842a42, missing 400000000000000
+[260542.638039] libceph: mon1 10.107.36.4:6789 missing required protocol features
+[260552.602373] libceph: mon2 10.107.36.12:6789 feature set mismatch, my 106b84a842a42 &lt; server&#39;s 40106b84a842a42, missing 400000000000000
+[260552.606904] libceph: mon2 10.107.36.12:6789 missing required protocol features
+[260562.618453] libceph: mon0 10.107.36.21:6789 feature set mismatch, my 106b84a842a42 &lt; server&#39;s 40106b84a842a42, missing 400000000000000
+[260562.623014] libceph: mon0 10.107.36.21:6789 missing required protocol features</code></pre><button class=copy-code-button onclick='copyCode("code-efd33066666c5d2ae6d325732c584bf0",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>查阅资料发现这个错误和内核的特性有关，可以升级内核至4.5以上。也可以通过设置 ceph 来解决，具体可以查看 <a href=https://k2r2bai.com/2018/02/11/ceph/luminous-crush-issue/>https://k2r2bai.com/2018/02/11/ceph/luminous-crush-issue/</a></p><p>这里通过调整 ceph 配置来解决:</p><div class="code-block code-block-container-indented"><pre><code id=code-fb018e046bee9712936d409cdaefbd8b>ceph osd crush tunables hammer</code></pre><button class=copy-code-button onclick='copyCode("code-fb018e046bee9712936d409cdaefbd8b",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><h1 id=ceph-配置-dashboard>ceph 配置 dashboard</h1><p>启用模块：</p><div class="code-block code-block-container-indented"><pre><code id=code-9e2a624fa4f9c4937a71dec1b36ada99>ceph mgr enable dashboard</code></pre><button class=copy-code-button onclick='copyCode("code-9e2a624fa4f9c4937a71dec1b36ada99",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>创建证书：</p><div class="code-block code-block-container-indented"><pre><code id=code-e5de90bc2097fcae44e6d5b4a2332fe6>ceph dashboard create-self-signed-cert</code></pre><button class=copy-code-button onclick='copyCode("code-e5de90bc2097fcae44e6d5b4a2332fe6",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>重启：</p><div class="code-block code-block-container-indented"><pre><code id=code-f01de6318a0e47b7f145dbc628af38c3>ceph mgr module disable dashboard
+ceph mgr module enable dashboard</code></pre><button class=copy-code-button onclick='copyCode("code-f01de6318a0e47b7f145dbc628af38c3",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>配置 ip，端口：</p><div class="code-block code-block-container-indented"><pre><code id=code-5d910a8aad04ff3075f6ec68d7f5d5d2>ceph config set mgr mgr/dashboard/server_addr $IP
+ceph config set mgr mgr/dashboard/server_port $PORT</code></pre><button class=copy-code-button onclick='copyCode("code-5d910a8aad04ff3075f6ec68d7f5d5d2",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>注意 ip 是 active monitor 节点的 ip</p><p>创建用户：</p><div class="code-block code-block-container-indented"><pre><code id=code-d1eee92658a2e179b1bb4f7ab270e0f1>ceph dashboard ac-user-create &lt;username&gt; &lt;password&gt; administrator</code></pre><button class=copy-code-button onclick='copyCode("code-d1eee92658a2e179b1bb4f7ab270e0f1",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></article></div></main><div><h4 id=signature>Sun Jun 23, 2019
 cheon</h4><ul class=tags><li><a href=https://number317.github.io/blog/tags/ceph>ceph</a></li></ul><ul class=related><li><a class=previous href=https://number317.github.io/blog/struct/docker_graph_migrate/>Docker Graph Migrate</a></li><li><a class=next href=https://number317.github.io/blog/struct/logstash_to_es/>Logstash to ES</a></li></ul></div></div><section id=footer><div id=author><h2>About Author</h2><hr><img src=https://number317.github.io/images/author.jpg></img><p>Life is dance we all have to do.</p></div><ul id=link><li><a href=https://github.com/number317/aloha.git target=_blank><i class="fa fa-github" alt=github></i></a></li><li><a href="mailto:cheon0112358d@gmail.com?subject=blog%27s%20feedback" target=_blank><i class="fa fa-envelope" alt=email></i></a></li><li id=wechat><i class="fa fa-wechat"></i></li><img class=qrcode src=https://number317.github.io/images/wechat.jpg></ul></section></body></html>

@@ -53,6 +53,7 @@ pre {
     padding: 5px;
     font-size: 0.9rem;
     line-height: 120%;
+    margin: 0;
 }
 
 code {
@@ -108,4 +109,38 @@ code {
 
 #content a:hover {
     text-decoration: underline;
+}
+
+.code-block {
+  position: relative;
+  background-color: #fff;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.code-block:hover {
+  .copy-code-button {
+    display: block;
+  }
+}
+
+.copy-code-button {
+  position: absolute;
+  top: .2rem;
+  right: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+  display: none;
+}
+
+.copy-code-button:hover{
+  opacity: 1;
+}
+
+.copy-code-button svg {
+  height: 1.2em;
+  width: 1.2em;
 }

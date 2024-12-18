@@ -9,29 +9,45 @@
 &lt;/ul>
 &lt;h2 id="部署">部署&lt;/h2>
 &lt;p>将官方的部署文件克隆到本地，将 oap， ui 的镜像换成对应的版本镜像。修改 oap 配置中的 ES 地址：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>storage:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> elasticsearch:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> clusterNodes: elasticsearch:9200
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>先创建命名空间：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>kubectl create ns skywalking
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>接着部署 oap 后端：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>kubectl apply -f oap/
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>再部署前端：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>kubectl apply -f ui/
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>为了集群外部访问，可以为前端配置一个域名或者在 service 中添加 externalIPs。&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>apiVersion: extensions/v1beta1
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>kind: Ingress
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>metadata:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> generation: 1
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> name: ui
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> namespace: skywalking
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>spec:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> rules:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - host: skywalking.test.com.
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> http:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> paths:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - backend:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> serviceName: ui
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> servicePort: 80
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> path: /
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>rocketbot-ui 属于可选配置，配置文件如下：&lt;/p></description></item></channel></rss>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-3ae6d3faa77420609b72248e47aae35d">storage:
+ elasticsearch:
+ clusterNodes: elasticsearch:9200&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-3ae6d3faa77420609b72248e47aae35d', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>先创建命名空间：&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-9913ba93459ca53e19605a2037cfc70f">kubectl create ns skywalking&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-9913ba93459ca53e19605a2037cfc70f', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>接着部署 oap 后端：&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-0c383f50b102b983a9d4459d8e47871b">kubectl apply -f oap/&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-0c383f50b102b983a9d4459d8e47871b', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>再部署前端：&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-a3fbf1dcbbbdff45c9974ac7c3dfad27">kubectl apply -f ui/&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-a3fbf1dcbbbdff45c9974ac7c3dfad27', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>为了集群外部访问，可以为前端配置一个域名或者在 service 中添加 externalIPs。&lt;/p></description></item></channel></rss>

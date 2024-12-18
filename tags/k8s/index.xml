@@ -1,28 +1,49 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>K8s on cheon's blog</title><link>https://number317.github.io/blog/tags/k8s/</link><description>Recent content in K8s on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/k8s/index.xml" rel="self" type="application/rss+xml"/><item><title>K8s Note</title><link>https://number317.github.io/blog/struct/k8s_note/</link><pubDate>Thu, 01 Aug 2019 16:34:31 +0800</pubDate><guid>https://number317.github.io/blog/struct/k8s_note/</guid><description>&lt;h1 id="k8s-备忘">k8s 备忘&lt;/h1>
 &lt;h2 id="ingress-配置证书">ingress 配置证书&lt;/h2>
 &lt;p>首先要在 &lt;code>ingress&lt;/code> 所在 &lt;code>namespace&lt;/code> 下创建 &lt;code>tls&lt;/code> 类型的 &lt;code>secret&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>kubectl create secret tls https-certs --key /path/to/keyfile --cert /path/to/certfile -n the-namespace
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>修改 &lt;code>ingress&lt;/code> 配置，&lt;code>kubectl edit ing ingname -n the-namespace&lt;/code>，在 &lt;code>spec&lt;/code> 添加如下内容，注意和 &lt;code>rules&lt;/code> 同级:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>tls:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- hosts:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - www.test.com
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> secretName: https-certs
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>ingress&lt;/code> 配置了 https 证书后默认会强制跳转到 https 协议，如果不想强制跳转，可以在 &lt;code>annotations&lt;/code> 添加如下配置:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>nginx.ingress.kubernetes.io/ssl-redirect: &lt;span style="color:#666;font-style:italic">&amp;#34;false&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>旧版本的配置无需加上 nginx 前缀:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>ingress.kubernetes.io/ssl-redirect: &lt;span style="color:#666;font-style:italic">&amp;#34;false&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>更多的 annotations 配置可以查看 &lt;a href="https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/annotations.md">github 文档&lt;/a>&lt;/p>
-&lt;h2 id="ingress-配置超时">ingress 配置超时&lt;/h2>
-&lt;p>应用接口响应较慢的情况下可能需要修改 nginx 的超时配置，默认是 60s，可以在 &lt;code>annotations&lt;/code> 添加如下配置:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>annotations:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> nginx.ingress.kubernetes.io/client-body-buffer-size: 100M
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> nginx.ingress.kubernetes.io/proxy-body-size: 100M
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> nginx.ingress.kubernetes.io/proxy-buffer-size: 100M
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> nginx.ingress.kubernetes.io/proxy-buffering: &lt;span style="color:#666;font-style:italic">&amp;#34;on&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> nginx.ingress.kubernetes.io/proxy-connect-timeout: &lt;span style="color:#666;font-style:italic">&amp;#34;300&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> nginx.ingress.kubernetes.io/proxy-read-timeout: &lt;span style="color:#666;font-style:italic">&amp;#34;300&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> nginx.ingress.kubernetes.io/proxy-send-timeout: &lt;span style="color:#666;font-style:italic">&amp;#34;300&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这里将超时改成了 5m&lt;/p></description></item><item><title>Graylog K8s Install</title><link>https://number317.github.io/blog/struct/graylog_k8s_install/</link><pubDate>Wed, 14 Nov 2018 16:20:50 +0800</pubDate><guid>https://number317.github.io/blog/struct/graylog_k8s_install/</guid><description>&lt;h1 id="graylog-k8s-部署">graylog k8s 部署&lt;/h1>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-b795fed6f423e782289ca60c94d88932">kubectl create secret tls https-certs --key /path/to/keyfile --cert /path/to/certfile -n the-namespace&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-b795fed6f423e782289ca60c94d88932', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>修改 &lt;code>ingress&lt;/code> 配置，&lt;code>kubectl edit ing ingname -n the-namespace&lt;/code>，在 &lt;code>spec&lt;/code> 添加如下内容，注意和 &lt;code>rules&lt;/code> 同级:&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-5f6755384e3f237b74ccad358e6f5d4a">tls:
+- hosts:
+ - www.test.com
+ secretName: https-certs&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-5f6755384e3f237b74ccad358e6f5d4a', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>&lt;code>ingress&lt;/code> 配置了 https 证书后默认会强制跳转到 https 协议，如果不想强制跳转，可以在 &lt;code>annotations&lt;/code> 添加如下配置:&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-220fd225f172caed21181d8de7347068">nginx.ingress.kubernetes.io/ssl-redirect: &amp;#34;false&amp;#34;&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-220fd225f172caed21181d8de7347068', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>旧版本的配置无需加上 nginx 前缀:&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-499ba2a0889678c1b7bd47834e75d553">ingress.kubernetes.io/ssl-redirect: &amp;#34;false&amp;#34;&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-499ba2a0889678c1b7bd47834e75d553', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>更多的 annotations 配置可以查看 &lt;a href="https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/annotations.md">github 文档&lt;/a>&lt;/p></description></item><item><title>Graylog K8s Install</title><link>https://number317.github.io/blog/struct/graylog_k8s_install/</link><pubDate>Wed, 14 Nov 2018 16:20:50 +0800</pubDate><guid>https://number317.github.io/blog/struct/graylog_k8s_install/</guid><description>&lt;h1 id="graylog-k8s-部署">graylog k8s 部署&lt;/h1>
 &lt;p>graylog是一个日志聚合工具，用于统一展示应用日志。这里基于官方文档，在k8s集群中部署一套简单的单节点graylog服务。&lt;/p>
 &lt;h2 id="mongodb-部署">mongodb 部署&lt;/h2>
 &lt;p>mongodb 在服务中用于存储graylog的配置信息。以下是部署文件（没有进行数据持久化操作）：&lt;/p>
@@ -109,8 +130,16 @@ status:
 &lt;p>首先最外面是一个A10负载均衡，80端口代理到k8s集群三个master节点的80端口，所有的域名都解析在这个A10上。&lt;/p>
 &lt;p>三台master节点的ip地址和80端口被用作集群中ingress controller的service的externalIP，域名通过ingress controller找到对应的应用。&lt;/p>
 &lt;p>网络问题需要一层一层排查，首先是应用本身。用循环来发送100次请求，查看应用日志：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">for&lt;/span> i in {1..100}; &lt;span style="font-weight:bold">do&lt;/span> curl http://www.test.com/api/example; &lt;span style="font-weight:bold;font-style:italic">echo&lt;/span> &lt;span style="color:#666;font-weight:bold;font-style:italic">$i&lt;/span>;&lt;span style="font-weight:bold">done&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通过日志发现请求出现connection reset时，应用没有对应日志，说明请求没有到应用这里。&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-d9bf8cf5b519491f31da51237508432a">for i in {1..100}; do curl http://www.test.com/api/example; echo $i;done&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-d9bf8cf5b519491f31da51237508432a', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>通过日志发现请求出现connection reset时，应用没有对应日志，说明请求没有到应用这里。&lt;/p>
 &lt;p>应用上一层是域名，域名是通过ingress来配置的，查看ingress controller的日志，发现也没有报错日志，所以请求也没有到这里。&lt;/p>
 &lt;p>接下来查看三台master节点的80端口，发现其中一台master1的80端口不通。看来问题应该就出现在这里了，我们可以手动来验证一下。&lt;/p>
 &lt;p>将要请求的域名映射为master2的ip地址，在&lt;code>/etc/hosts&lt;/code>中加入&lt;code>www.test.com master2IP&lt;/code>，进行测试，发现没有出现错误。改成master1的ip地址则发现无法连接。&lt;/p>
@@ -118,43 +147,59 @@ status:
 &lt;p>查看了k8s集群的网络组件，发现master1上的flannel一直处于container creating状态。将pod删除重启，再次进行测试，发现connection reset的错误已经没了。&lt;/p></description></item><item><title>K8s Cluster Deploy</title><link>https://number317.github.io/blog/struct/k8s_cluster_deploy/</link><pubDate>Mon, 04 Dec 2017 09:19:26 +0800</pubDate><guid>https://number317.github.io/blog/struct/k8s_cluster_deploy/</guid><description>&lt;h1 id="vagrant-kubernetes-集群部署">vagrant kubernetes 集群部署&lt;/h1>
 &lt;h2 id="集群说明">集群说明&lt;/h2>
 &lt;p>集群共有四个节点，一个master节点，四个子节点，其中一个节点即是master节点，也是node节点，系统均为centos-7.2。&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>k8s-node1 192.168.12.81 master, node
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>k8s-node2 192.168.12.82 node
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>k8s-node3 192.168.12.83 node
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>k8s-node4 192.168.12.84 node
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="vagrant-配置">vagrant 配置&lt;/h2>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-65b9cc52d4025169e1ab47cc4ac119d3">k8s-node1 192.168.12.81 master, node
+k8s-node2 192.168.12.82 node
+k8s-node3 192.168.12.83 node
+k8s-node4 192.168.12.84 node&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-65b9cc52d4025169e1ab47cc4ac119d3', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;h2 id="vagrant-配置">vagrant 配置&lt;/h2>
 &lt;p>vagrant 的 box 可选用 bento/centos-7.2:&lt;/p>
 &lt;details>
 &lt;summary>Vagrantfile&lt;/summary>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># -*- mode: ruby -*-&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># vi: set ft=ruby :&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># All Vagrant configuration is done below. The &amp;#34;2&amp;#34; in Vagrant.configure&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># configures the configuration version (we support older styles for&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># backwards compatibility). Please don&amp;#39;t change it unless you know what&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># you&amp;#39;re doing.&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-weight:bold;font-style:italic">Vagrant&lt;/span>.configure(&lt;span style="color:#666;font-style:italic">&amp;#34;2&amp;#34;&lt;/span>) &lt;span style="font-weight:bold">do&lt;/span> |config|
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (1..4).each &lt;span style="font-weight:bold">do&lt;/span> |i|
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> config.vm.define &lt;span style="color:#666;font-style:italic">&amp;#34;k8s-node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span> |node|
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> file_to_disk = &lt;span style="color:#666;font-style:italic">&amp;#34;tmp/k8s_node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">_disk.vdi&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> node.vm.box = &lt;span style="color:#666;font-style:italic">&amp;#34;centos-7.2&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> node.vm.hostname = &lt;span style="color:#666;font-style:italic">&amp;#34;k8s-node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> n = 80 +i
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> node.vm.network &lt;span style="color:#666;font-style:italic">&amp;#34;private_network&amp;#34;&lt;/span>, &lt;span style="color:#666;font-style:italic">ip&lt;/span>: &lt;span style="color:#666;font-style:italic">&amp;#34;192.168.12.&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>n&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> node.vm.provider &lt;span style="color:#666;font-style:italic">&amp;#34;virtualbox&amp;#34;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span> |vb|
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vb.name = &lt;span style="color:#666;font-style:italic">&amp;#34;k8s-node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vb.cpus = 2
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vb.memory = 1024
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> node.vm.provision &lt;span style="color:#666;font-style:italic">&amp;#34;ansible&amp;#34;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span> |ansible|
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ansible.playbook = &lt;span style="color:#666;font-style:italic">&amp;#34;playbook.yml&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ansible.groups = {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-style:italic">&amp;#34;master&amp;#34;&lt;/span> =&amp;gt; [&lt;span style="color:#666;font-style:italic">&amp;#34;k8s-node1&amp;#34;&lt;/span>],
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-style:italic">&amp;#34;nodes&amp;#34;&lt;/span> =&amp;gt; (1..4).map {|j| &lt;span style="color:#666;font-style:italic">&amp;#34;k8s-node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>j&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>},
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/details>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-788a0ef8ab46f096ec685e5aacee50b7"># -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The &amp;#34;2&amp;#34; in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don&amp;#39;t change it unless you know what
+# you&amp;#39;re doing.
+Vagrant.configure(&amp;#34;2&amp;#34;) do |config|
+ (1..4).each do |i|
+ config.vm.define &amp;#34;k8s-node#{i}&amp;#34; do |node|
+ file_to_disk = &amp;#34;tmp/k8s_node#{i}_disk.vdi&amp;#34;
+ node.vm.box = &amp;#34;centos-7.2&amp;#34;
+ node.vm.hostname = &amp;#34;k8s-node#{i}&amp;#34;
+ n = 80 &amp;#43;i
+ node.vm.network &amp;#34;private_network&amp;#34;, ip: &amp;#34;192.168.12.#{n}&amp;#34;
+ node.vm.provider &amp;#34;virtualbox&amp;#34; do |vb|
+ vb.name = &amp;#34;k8s-node#{i}&amp;#34;
+ vb.cpus = 2
+ vb.memory = 1024
+ end
+ node.vm.provision &amp;#34;ansible&amp;#34; do |ansible|
+ ansible.playbook = &amp;#34;playbook.yml&amp;#34;
+ ansible.groups = {
+ &amp;#34;master&amp;#34; =&amp;gt; [&amp;#34;k8s-node1&amp;#34;],
+ &amp;#34;nodes&amp;#34; =&amp;gt; (1..4).map {|j| &amp;#34;k8s-node#{j}&amp;#34;},
+ }
+ end
+ end
+ end
+end&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-788a0ef8ab46f096ec685e5aacee50b7', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;/details>
 &lt;p>其中的 playbook.yml 主要用于一些软件的安装和简单的配置，内容如下：&lt;/p></description></item></channel></rss>

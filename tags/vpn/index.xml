@@ -2,23 +2,31 @@
 &lt;h2 id="服务端配置">服务端配置&lt;/h2>
 &lt;p>首先，需要一台能访问外网的服务器。这里采用的是HostUS的VPS。&lt;/p>
 &lt;p>在部署OpenVPN服务端之前，应该先打开服务器的ip转发功能。修改&lt;code>/etc/sysctl.conf&lt;/code>文件，将对应内容修改为下面一行的值：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>net.ipv4.ip_forward = 1
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>修改后执行&lt;code>sysctl -p /etc/sysctl.conf&lt;/code>使配置生效。&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-409a7e4d9ec16d872ccc23215286b8b1">net.ipv4.ip_forward = 1&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-409a7e4d9ec16d872ccc23215286b8b1', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>修改后执行&lt;code>sysctl -p /etc/sysctl.conf&lt;/code>使配置生效。&lt;/p>
 &lt;p>服务端采用容器部署，因此VPS应该先安装好docker。以下为容器启动脚本：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-weight:bold">#!/bin/bash
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-weight:bold">&lt;/span>&lt;span style="color:#666;font-weight:bold;font-style:italic">IP&lt;/span>=&lt;span style="color:#666;font-style:italic">&amp;#34;xxx.xxx.xxx.xxx&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-weight:bold;font-style:italic">OVPN_DATA&lt;/span>=&lt;span style="color:#666;font-style:italic">&amp;#34;/root/ovpn_data&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -v &lt;span style="color:#666;font-weight:bold;font-style:italic">$OVPN_DATA&lt;/span>:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig -u udp://&lt;span style="color:#666;font-weight:bold;font-style:italic">$IP&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -v &lt;span style="color:#666;font-weight:bold;font-style:italic">$OVPN_DATA&lt;/span>:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initpki
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -v &lt;span style="color:#666;font-weight:bold;font-style:italic">$OVPN_DATA&lt;/span>:/etc/openvpn --name openvpn -e &lt;span style="color:#666;font-weight:bold;font-style:italic">DEBUG&lt;/span>=1 -d -p 1194:1194/udp --cap-add=NET_ADMIN kylemanna/openvpn
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -v &lt;span style="color:#666;font-weight:bold;font-style:italic">$OVPN_DATA&lt;/span>:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full CLIENTNAME nopass
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -v &lt;span style="color:#666;font-weight:bold;font-style:italic">$OVPN_DATA&lt;/span>:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient CLIENTNAME &amp;gt; CLIENTNAME.ovpn
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>将上述脚本的IP地址替换为自己的IP地址，然后执行脚本，根据提示输入信息即可。中间要求输入密码之类的都写个简单点一样的密码就好。&lt;/p>
-&lt;p>脚本执行完成后会生成一个&lt;code>CLIENTNAME.ovpn&lt;/code>客户端的配置文件，将它下载到自己的电脑上，用于配置客户端。&lt;/p>
-&lt;h2 id="客户端配置">客户端配置&lt;/h2>
-&lt;p>这里的客户端也archlinux为例，要先安装好openvpn，在此不做赘述。客户端直接执行以下命令连接OpenVPN服务端：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo openvpn CLIENTNAME.ovpn
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果日志输出有报错，可以查看服务端的配置文件，修改相应部分。启动好后进行测试：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ping -c 3 www.baidu.com
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ping -c 3 www.google.com
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果无法解析域名可能是DNS服务器没有设置好，查阅资料可知，openvpn客户端命令行不会从服务端拉取DNS设置。我们可以手动进行设置，在&lt;code>/etc/resolv.conf&lt;/code>文件中第一行添加&lt;code>namespace 8.8.8.8&lt;/code>，再次进行测试应该就可以解析域名了，用&lt;code>curl&lt;/code>进行请求也能够请求成功了。&lt;/p></description></item></channel></rss>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-3124ff72f6cb7be6c66245c5c68a0ba3">#!/bin/bash
+IP=&amp;#34;xxx.xxx.xxx.xxx&amp;#34;
+OVPN_DATA=&amp;#34;/root/ovpn_data&amp;#34;
+docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig -u udp://$IP
+docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initpki
+docker run -v $OVPN_DATA:/etc/openvpn --name openvpn -e DEBUG=1 -d -p 1194:1194/udp --cap-add=NET_ADMIN kylemanna/openvpn
+docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full CLIENTNAME nopass
+docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient CLIENTNAME &amp;gt; CLIENTNAME.ovpn&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-3124ff72f6cb7be6c66245c5c68a0ba3', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>将上述脚本的IP地址替换为自己的IP地址，然后执行脚本，根据提示输入信息即可。中间要求输入密码之类的都写个简单点一样的密码就好。&lt;/p></description></item></channel></rss>

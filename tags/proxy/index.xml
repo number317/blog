@@ -1,28 +1,69 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Proxy on cheon's blog</title><link>https://number317.github.io/blog/tags/proxy/</link><description>Recent content in Proxy on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/proxy/index.xml" rel="self" type="application/rss+xml"/><item><title>Proxy Settings</title><link>https://number317.github.io/blog/solved/proxy_settings/</link><pubDate>Mon, 16 Dec 2019 16:40:16 +0800</pubDate><guid>https://number317.github.io/blog/solved/proxy_settings/</guid><description>&lt;h1 id="常见代理设置">常见代理设置&lt;/h1>
 &lt;h2 id="git">git&lt;/h2>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>git config --global http.proxy http://ip:port
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git config --global https.proxy http://ip:port
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>或者编辑 &lt;code>$HOME/.gitconfig&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>[http]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proxy = http://ip:port
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>[https]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proxy = http://ip:port
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>删除代理:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>git config --global --unset http.proxy
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git config --global --unset https.proxy
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>git 也支持 socks5 代理，把 &lt;code>http&lt;/code> 替换为 &lt;code>socks5&lt;/code> 即可。&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-79a69188bd1dfbe28fdb7d8bdd7cb90c">git config --global http.proxy http://ip:port
+git config --global https.proxy http://ip:port&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-79a69188bd1dfbe28fdb7d8bdd7cb90c', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>或者编辑 &lt;code>$HOME/.gitconfig&lt;/code>:&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-72fdf3809fdaa78229f051e9723f0aed">[http]
+ proxy = http://ip:port
+[https]
+ proxy = http://ip:port&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-72fdf3809fdaa78229f051e9723f0aed', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>删除代理:&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-f19562f2fd3f37cf5ed3501cb71c0769">git config --global --unset http.proxy
+git config --global --unset https.proxy&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-f19562f2fd3f37cf5ed3501cb71c0769', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>git 也支持 socks5 代理，把 &lt;code>http&lt;/code> 替换为 &lt;code>socks5&lt;/code> 即可。&lt;/p>
 &lt;h2 id="npm">npm&lt;/h2>
 &lt;p>临时代理:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>npm --registry=https://registry.npm.taobao.org install
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>全局配置:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>npm config &lt;span style="font-weight:bold;font-style:italic">set&lt;/span> registry https://registry.npm.taobao.org
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>或者编辑 &lt;code>$HOME/.npmrc&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>registry=https://registry.npm.taobao.org
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>pathonjs&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>npm install --phantomjs_cdnurl=http://npm.taobao.org/dist/phantomjs/
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>electron&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>npm install --electron_cdnurl=https://npm.taobao.org/mirrors/electron
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>删除代理:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>npm config delete registry
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="pip">pip&lt;/h2>
-&lt;p>编辑 &lt;code>$HOME/.pip/pip.conf&lt;/code>:&lt;/p></description></item></channel></rss>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-e142562be3a877d32953869bb739a4cf">npm --registry=https://registry.npm.taobao.org install&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-e142562be3a877d32953869bb739a4cf', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>全局配置:&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-4efccfbdfbe3c2c4b954b1cf7ed508e9">npm config set registry https://registry.npm.taobao.org&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-4efccfbdfbe3c2c4b954b1cf7ed508e9', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>或者编辑 &lt;code>$HOME/.npmrc&lt;/code>:&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-d8cb34490294c8f4478d6ae7511c6cc5">registry=https://registry.npm.taobao.org&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-d8cb34490294c8f4478d6ae7511c6cc5', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>pathonjs&lt;/p></description></item></channel></rss>

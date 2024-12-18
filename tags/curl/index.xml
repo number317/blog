@@ -4,11 +4,25 @@
 经过讨论准备只将日志存储一个月，需要定时去清理索引，防止索引过多。&lt;/p>
 &lt;h2 id="获取索引">获取索引&lt;/h2>
 &lt;p>首先要做的是获取当前的索引，通过查阅 ES 的 &lt;a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices.html">API&lt;/a> 可知，可以用 &lt;code>/_cat/indices&lt;/code> 接口来获取所有索引:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -X POST -s &lt;span style="color:#666;font-style:italic">&amp;#34;http://es.example.site/_cat/indices&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>可以看到如下结果:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>green open test-app1-prod-log-2019-06-11 28NbwQbZTIaGPgb0S5Wkuw 5 1 189385 0 179.7mb 89.9mb
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>green open test-app1-prod-log-2019-06-10 0EiQBNhZTnGZqUZ92J9UEg 5 1 189385 0 179.7mb 93.3mb
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>green open test-app2-prod-log-2019-06-08 N_Th5gahSiu3kiycF26Q_A 5 1 2133105 0 4.5gb 2.2gb
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>需要将结果过滤一下，只保留 &lt;code>%{[@metadata][kafka][topic]}&lt;/code> 的信息:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -X POST -s &lt;span style="color:#666;font-style:italic">&amp;#34;http://es.example.site/_cat/indices&amp;#34;&lt;/span> | awk &lt;span style="color:#666;font-style:italic">&amp;#39;{print $3}&amp;#39;&lt;/span> | sort | grep -oP &lt;span style="color:#666;font-style:italic">&amp;#34;.*(?=-[0-9]*-[0-9]*-[0-9]*)&amp;#34;&lt;/span> | uniq
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>得到如下结果:&lt;/p></description></item></channel></rss>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-9fcd90555fa05f510c1fbaa2afa38dba">curl -X POST -s &amp;#34;http://es.example.site/_cat/indices&amp;#34;&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-9fcd90555fa05f510c1fbaa2afa38dba', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>可以看到如下结果:&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-d0d0d3eb3737ecefb4a535fd02bfd8e9">green open test-app1-prod-log-2019-06-11 28NbwQbZTIaGPgb0S5Wkuw 5 1 189385 0 179.7mb 89.9mb
+green open test-app1-prod-log-2019-06-10 0EiQBNhZTnGZqUZ92J9UEg 5 1 189385 0 179.7mb 93.3mb
+green open test-app2-prod-log-2019-06-08 N_Th5gahSiu3kiycF26Q_A 5 1 2133105 0 4.5gb 2.2gb&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-d0d0d3eb3737ecefb4a535fd02bfd8e9', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>需要将结果过滤一下，只保留 &lt;code>%{[@metadata][kafka][topic]}&lt;/code> 的信息:&lt;/p></description></item></channel></rss>

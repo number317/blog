@@ -1,72 +1,72 @@
-<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel=stylesheet><link href=//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
+<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel=stylesheet><link href=https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><script src=https://number317.github.io/blog/js/single.js></script><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
 <a href=https://number317.github.io/blog/>cheon's blog</a></li><li>»
 <a href=https://number317.github.io/blog/struct/>struct</a></li><li class=active>»
-<a href=https://number317.github.io/blog/struct/rabbitmq_topic/>Rabbitmq Topic</a></li></ul><div id=content><main id=main><h1>Rabbitmq Topic</h1><time>Last updated Fri Jun 14, 2019</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents><ul><li><a href=#topic-exchange>Topic exchange</a></li><li><a href=#最终实现>最终实现</a></li></ul></nav></aside><article id=content><h1 id=rabbitmq-主题>rabbitmq 主题</h1><p>虽然之前使用了<code>direct</code>交换来路由不同级别的日志，但是它无法做到根据设备来路由。在我们的日志系统中，可能不止是想要通过日志级别来订阅，还想通过日志来源订阅。这将会给我们带来更大的灵活性，比如我们可以只监听来自cron的error和来自kern的所有日志。为了达到这个效果，我们可以采用一个更复杂的交换&ndash;<code>topic</code>。</p><h2 id=topic-exchange>Topic exchange</h2><p>发送给<code>topic</code>交换的信息的<code>routing_key</code>的属性不能是任意的&ndash;它必须是一个单词的列表，通过<code>.</code>分隔。单词可以是任意的，但是通常是一些描述信息特征的词语。例如<code>stock.usd.nyse</code>，<code>nyse.vmw</code>，<code>quick.orange.rabbit</code>。你可以设置任意多的词语，只要不超过255字节的限制。</p><p><code>binding key</code>也必须是相同的格式。<code>topic</code>背后的交换逻辑和<code>direct</code>是相似的，一个带有特殊<code>routing key</code>的信息会被发送到所有拥有匹配<code>binding key</code>的队列，但有两个需要注意的地方：</p><ul><li><code>*</code> 可以代表一个单词</li><li><code>#</code> 可以代表0或多个单词</li></ul><p>示例：</p><p><img src=https://number317.github.io/blog/struct/images/rabbitmq_topic_img1.png alt="topic example"></p><p>在这个示例中，我们发送描述动物的消息。消息会带有由三个单词组成的<code>routing key</code>，单词间用<code>.</code>分隔，用于描述不同的特征。我们创建了三个绑定：<code>Q1</code>和<code>*.orange.*</code>绑定，<code>Q2</code>和<code>*.*.rabbit</code>，<code>lazy.#</code>绑定。可以简单得概括为<code>Q1</code>只关心所有橙色的动物，<code>Q2</code>只关心兔子和慢吞吞的动物。</p><p>一条带有<code>quick.orange.rabbit</code>的<code>routing key</code>的信息会发送给两个队列，<code>quick.orange.fox</code>也会发送给两个，<code>lazy.brown.fox</code>只发送给<code>Q2</code>，<code>lazy.pink.rabbit</code>只发送给<code>Q2</code>一次，即使它匹配了两个绑定。<code>quick.brown.fox</code>不匹配任何绑定所以会被丢弃。如果我们发送的信息带有一个或四个单词，像<code>orange</code>，<code>quick.orange.male.rabbit</code>之类的，也不匹配任何绑定，也会被丢弃 。但是<code>lazy.orange.male.rabbit</code>虽然有四个单词，也匹配<code>lazy.#</code>，因为<code>#</code>代表0或多个单词，所以会被发送给<code>Q2</code>。</p><p><code>topic</code>是一个强大的交换，可以实现其他交换的功能。当一个队列绑定<code>#</code>，它可以接收所有信息，就像<code>fanout</code>交换。当没有使用<code>*</code>和<code>#</code>，而是指定明确的字符串，就可以表现地像<code>direct</code>交换。</p><h2 id=最终实现>最终实现</h2><p>我们假设日志的<code>routing key</code>有两个单词<code>&lt;facility>.&lt;severity></code>，那么代码如下：</p><p><code>emit_log_topic.py</code>：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-py data-lang=py><span style=display:flex><span><span style=color:#888;font-style:italic>#!/usr/bin/env python</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#666;font-weight:700;font-style:italic>pika</span>
-</span></span><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#666;font-weight:700;font-style:italic>sys</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>connection = pika.BlockingConnection(pika.ConnectionParameters(<span style=color:#666;font-style:italic>&#39;172.17.0.6&#39;</span>, 5672, credentials=pika.PlainCredentials(<span style=color:#666;font-style:italic>&#39;guest&#39;</span>, <span style=color:#666;font-style:italic>&#39;guest&#39;</span>)))
-</span></span><span style=display:flex><span>channel = connection.channel()
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>channel.exchange_declare(
-</span></span><span style=display:flex><span>        exchange=<span style=color:#666;font-style:italic>&#39;topic_logs&#39;</span>,
-</span></span><span style=display:flex><span>        exchange_type=<span style=color:#666;font-style:italic>&#39;topic&#39;</span>
-</span></span><span style=display:flex><span>        )
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>severity = sys.argv[1] <span style=font-weight:700>if</span> <span style=font-weight:700;font-style:italic>len</span>(sys.argv) &gt; 2 <span style=font-weight:700>else</span> <span style=color:#666;font-style:italic>&#39;info&#39;</span>
-</span></span><span style=display:flex><span>message = <span style=color:#666;font-style:italic>&#39; &#39;</span>.join(sys.argv[2:]) <span style=font-weight:700>or</span> <span style=color:#666;font-style:italic>&#39;Hello World!&#39;</span>
-</span></span><span style=display:flex><span>channel.basic_publish(
-</span></span><span style=display:flex><span>        exchange=<span style=color:#666;font-style:italic>&#39;topic_logs&#39;</span>,
-</span></span><span style=display:flex><span>        routing_key=severity,
-</span></span><span style=display:flex><span>        body=message
-</span></span><span style=display:flex><span>        )
-</span></span><span style=display:flex><span><span style=font-weight:700;font-style:italic>print</span>(<span style=color:#666;font-style:italic>&#34; [x] Sent </span><span style=color:#666;font-style:italic>%r</span><span style=color:#666;font-style:italic>:</span><span style=color:#666;font-style:italic>%r</span><span style=color:#666;font-style:italic>&#34;</span> % (severity, message))
-</span></span><span style=display:flex><span>connection.close()
-</span></span></code></pre></div><p><code>receive_logs_topic.py</code>：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-py data-lang=py><span style=display:flex><span><span style=color:#888;font-style:italic>#!/usr/bin/env python</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#666;font-weight:700;font-style:italic>pika</span>
-</span></span><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#666;font-weight:700;font-style:italic>sys</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>connection = pika.BlockingConnection(pika.ConnectionParameters(<span style=color:#666;font-style:italic>&#39;172.17.0.6&#39;</span>, 5672, credentials=pika.PlainCredentials(<span style=color:#666;font-style:italic>&#39;guest&#39;</span>, <span style=color:#666;font-style:italic>&#39;guest&#39;</span>)))
-</span></span><span style=display:flex><span>channel = connection.channel()
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>channel.exchange_declare(
-</span></span><span style=display:flex><span>        exchange=<span style=color:#666;font-style:italic>&#39;topic_logs&#39;</span>,
-</span></span><span style=display:flex><span>        exchange_type=<span style=color:#666;font-style:italic>&#39;topic&#39;</span>
-</span></span><span style=display:flex><span>        )
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>result = channel.queue_declare(exclusive=<span style=font-weight:700>True</span>)
-</span></span><span style=display:flex><span>queue_name = result.method.queue
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>binding_keys = sys.argv[1:]
-</span></span><span style=display:flex><span><span style=font-weight:700>if</span> <span style=font-weight:700>not</span> binding_keys:
-</span></span><span style=display:flex><span>    sys.stderr.write(<span style=color:#666;font-style:italic>&#34;Usage: </span><span style=color:#666;font-style:italic>%s</span><span style=color:#666;font-style:italic> [binding_key]...</span><span style=color:#666;font-style:italic>\n</span><span style=color:#666;font-style:italic>&#34;</span> % sys.argv[0])
-</span></span><span style=display:flex><span>    sys.exit(1)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700>for</span> binding_key <span style=font-weight:700>in</span> binding_keys:
-</span></span><span style=display:flex><span>    channel.queue_bind(
-</span></span><span style=display:flex><span>            exchange=<span style=color:#666;font-style:italic>&#39;topic_logs&#39;</span>,
-</span></span><span style=display:flex><span>            queue=queue_name,
-</span></span><span style=display:flex><span>            routing_key=binding_key
-</span></span><span style=display:flex><span>            )
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700;font-style:italic>print</span>(<span style=color:#666;font-style:italic>&#39; [*] Waiting for logs. To exit press CTRL+C&#39;</span>)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700>def</span> <span style=color:#666;font-weight:700;font-style:italic>callback</span>(ch, method, properties, body):
-</span></span><span style=display:flex><span>    <span style=font-weight:700;font-style:italic>print</span>(<span style=color:#666;font-style:italic>&#34; [x] </span><span style=color:#666;font-style:italic>%r</span><span style=color:#666;font-style:italic>:</span><span style=color:#666;font-style:italic>%r</span><span style=color:#666;font-style:italic>&#34;</span> % (method.routing_key, body))
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>channel.basic_consume(
-</span></span><span style=display:flex><span>        callback,
-</span></span><span style=display:flex><span>        queue=queue_name,
-</span></span><span style=display:flex><span>        no_ack=<span style=font-weight:700>True</span>
-</span></span><span style=display:flex><span>        )
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>channel.start_consuming()
-</span></span></code></pre></div><p>接收所有日志：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>./receive_logs_topic.py <span style=color:#666;font-style:italic>&#34;#&#34;</span>
-</span></span></code></pre></div><p>只接收来自<code>kern</code>的日志：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>./receive_logs_topic.py <span style=color:#666;font-style:italic>&#34;kern.*&#34;</span>
-</span></span></code></pre></div><p>只接收<code>critical</code>级别的日志：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>./receive_logs_topic.py <span style=color:#666;font-style:italic>&#34;*.critical&#34;</span>
-</span></span></code></pre></div><p>也可以创建多个绑定：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>./receive_logs_topic.py <span style=color:#666;font-style:italic>&#34;kern.*&#34;</span> <span style=color:#666;font-style:italic>&#34;*.critical&#34;</span>
-</span></span></code></pre></div><p>发送<code>routing key</code>为<code>kern.critical</code>的日志：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>./emit_log_topic.py <span style=color:#666;font-style:italic>&#34;kern.critical&#34;</span> <span style=color:#666;font-style:italic>&#34;A critical kernel error&#34;</span>
-</span></span></code></pre></div></article></div></main><div><h4 id=signature>Sun Oct 29, 2017
+<a href=https://number317.github.io/blog/struct/rabbitmq_topic/>Rabbitmq Topic</a></li></ul><div id=content><main id=main><h1>Rabbitmq Topic</h1><time>Last updated Fri Jun 14, 2019</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents><ul><li><a href=#topic-exchange>Topic exchange</a></li><li><a href=#最终实现>最终实现</a></li></ul></nav></aside><article id=content><h1 id=rabbitmq-主题>rabbitmq 主题</h1><p>虽然之前使用了<code>direct</code>交换来路由不同级别的日志，但是它无法做到根据设备来路由。在我们的日志系统中，可能不止是想要通过日志级别来订阅，还想通过日志来源订阅。这将会给我们带来更大的灵活性，比如我们可以只监听来自cron的error和来自kern的所有日志。为了达到这个效果，我们可以采用一个更复杂的交换&ndash;<code>topic</code>。</p><h2 id=topic-exchange>Topic exchange</h2><p>发送给<code>topic</code>交换的信息的<code>routing_key</code>的属性不能是任意的&ndash;它必须是一个单词的列表，通过<code>.</code>分隔。单词可以是任意的，但是通常是一些描述信息特征的词语。例如<code>stock.usd.nyse</code>，<code>nyse.vmw</code>，<code>quick.orange.rabbit</code>。你可以设置任意多的词语，只要不超过255字节的限制。</p><p><code>binding key</code>也必须是相同的格式。<code>topic</code>背后的交换逻辑和<code>direct</code>是相似的，一个带有特殊<code>routing key</code>的信息会被发送到所有拥有匹配<code>binding key</code>的队列，但有两个需要注意的地方：</p><ul><li><code>*</code> 可以代表一个单词</li><li><code>#</code> 可以代表0或多个单词</li></ul><p>示例：</p><p><img src=https://number317.github.io/blog/struct/images/rabbitmq_topic_img1.png alt="topic example"></p><p>在这个示例中，我们发送描述动物的消息。消息会带有由三个单词组成的<code>routing key</code>，单词间用<code>.</code>分隔，用于描述不同的特征。我们创建了三个绑定：<code>Q1</code>和<code>*.orange.*</code>绑定，<code>Q2</code>和<code>*.*.rabbit</code>，<code>lazy.#</code>绑定。可以简单得概括为<code>Q1</code>只关心所有橙色的动物，<code>Q2</code>只关心兔子和慢吞吞的动物。</p><p>一条带有<code>quick.orange.rabbit</code>的<code>routing key</code>的信息会发送给两个队列，<code>quick.orange.fox</code>也会发送给两个，<code>lazy.brown.fox</code>只发送给<code>Q2</code>，<code>lazy.pink.rabbit</code>只发送给<code>Q2</code>一次，即使它匹配了两个绑定。<code>quick.brown.fox</code>不匹配任何绑定所以会被丢弃。如果我们发送的信息带有一个或四个单词，像<code>orange</code>，<code>quick.orange.male.rabbit</code>之类的，也不匹配任何绑定，也会被丢弃 。但是<code>lazy.orange.male.rabbit</code>虽然有四个单词，也匹配<code>lazy.#</code>，因为<code>#</code>代表0或多个单词，所以会被发送给<code>Q2</code>。</p><p><code>topic</code>是一个强大的交换，可以实现其他交换的功能。当一个队列绑定<code>#</code>，它可以接收所有信息，就像<code>fanout</code>交换。当没有使用<code>*</code>和<code>#</code>，而是指定明确的字符串，就可以表现地像<code>direct</code>交换。</p><h2 id=最终实现>最终实现</h2><p>我们假设日志的<code>routing key</code>有两个单词<code>&lt;facility>.&lt;severity></code>，那么代码如下：</p><p><code>emit_log_topic.py</code>：</p><div class="code-block code-block-container-indented"><pre><code id=code-ba74fd4cc400b5dcbde10e52ccd6d02c>#!/usr/bin/env python
+
+import pika
+import sys
+
+connection = pika.BlockingConnection(pika.ConnectionParameters(&#39;172.17.0.6&#39;, 5672, credentials=pika.PlainCredentials(&#39;guest&#39;, &#39;guest&#39;)))
+channel = connection.channel()
+
+channel.exchange_declare(
+        exchange=&#39;topic_logs&#39;,
+        exchange_type=&#39;topic&#39;
+        )
+
+severity = sys.argv[1] if len(sys.argv) &gt; 2 else &#39;info&#39;
+message = &#39; &#39;.join(sys.argv[2:]) or &#39;Hello World!&#39;
+channel.basic_publish(
+        exchange=&#39;topic_logs&#39;,
+        routing_key=severity,
+        body=message
+        )
+print(&#34; [x] Sent %r:%r&#34; % (severity, message))
+connection.close()</code></pre><button class=copy-code-button onclick='copyCode("code-ba74fd4cc400b5dcbde10e52ccd6d02c",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p><code>receive_logs_topic.py</code>：</p><div class="code-block code-block-container-indented"><pre><code id=code-b34b7be526854b2ebb490667c9aa9314>#!/usr/bin/env python
+
+import pika
+import sys
+
+connection = pika.BlockingConnection(pika.ConnectionParameters(&#39;172.17.0.6&#39;, 5672, credentials=pika.PlainCredentials(&#39;guest&#39;, &#39;guest&#39;)))
+channel = connection.channel()
+
+channel.exchange_declare(
+        exchange=&#39;topic_logs&#39;,
+        exchange_type=&#39;topic&#39;
+        )
+
+result = channel.queue_declare(exclusive=True)
+queue_name = result.method.queue
+
+binding_keys = sys.argv[1:]
+if not binding_keys:
+    sys.stderr.write(&#34;Usage: %s [binding_key]...\n&#34; % sys.argv[0])
+    sys.exit(1)
+
+for binding_key in binding_keys:
+    channel.queue_bind(
+            exchange=&#39;topic_logs&#39;,
+            queue=queue_name,
+            routing_key=binding_key
+            )
+
+print(&#39; [*] Waiting for logs. To exit press CTRL&#43;C&#39;)
+
+def callback(ch, method, properties, body):
+    print(&#34; [x] %r:%r&#34; % (method.routing_key, body))
+
+channel.basic_consume(
+        callback,
+        queue=queue_name,
+        no_ack=True
+        )
+
+channel.start_consuming()</code></pre><button class=copy-code-button onclick='copyCode("code-b34b7be526854b2ebb490667c9aa9314",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>接收所有日志：</p><div class="code-block code-block-container-indented"><pre><code id=code-9186baf3ea5d4c42f787ae5213cd178d>./receive_logs_topic.py &#34;#&#34;</code></pre><button class=copy-code-button onclick='copyCode("code-9186baf3ea5d4c42f787ae5213cd178d",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>只接收来自<code>kern</code>的日志：</p><div class="code-block code-block-container-indented"><pre><code id=code-5e269d89c2dd5ae263442b6e9220a73e>./receive_logs_topic.py &#34;kern.*&#34;</code></pre><button class=copy-code-button onclick='copyCode("code-5e269d89c2dd5ae263442b6e9220a73e",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>只接收<code>critical</code>级别的日志：</p><div class="code-block code-block-container-indented"><pre><code id=code-d70cfeeefff72676b84b1cd210393965>./receive_logs_topic.py &#34;*.critical&#34;</code></pre><button class=copy-code-button onclick='copyCode("code-d70cfeeefff72676b84b1cd210393965",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>也可以创建多个绑定：</p><div class="code-block code-block-container-indented"><pre><code id=code-49124cba66f2314a47b3ae294ba539d4>./receive_logs_topic.py &#34;kern.*&#34; &#34;*.critical&#34;</code></pre><button class=copy-code-button onclick='copyCode("code-49124cba66f2314a47b3ae294ba539d4",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>发送<code>routing key</code>为<code>kern.critical</code>的日志：</p><div class="code-block code-block-container-indented"><pre><code id=code-22a1e04e4336c90e7e7e7f7880963431>./emit_log_topic.py &#34;kern.critical&#34; &#34;A critical kernel error&#34;</code></pre><button class=copy-code-button onclick='copyCode("code-22a1e04e4336c90e7e7e7f7880963431",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></article></div></main><div><h4 id=signature>Sun Oct 29, 2017
 cheon</h4><ul class=tags><li><a href=https://number317.github.io/blog/tags/rabbitmq>rabbitmq</a></li></ul><ul class=related><li><a class=previous href=https://number317.github.io/blog/struct/rabbitmq_routing/>Rabbitmq Routing</a></li><li><a class=next href=https://number317.github.io/blog/struct/rabbitmq_access_control/>Rabbitmq Access Control</a></li></ul></div></div><section id=footer><div id=author><h2>About Author</h2><hr><img src=https://number317.github.io/images/author.jpg></img><p>Life is dance we all have to do.</p></div><ul id=link><li><a href=https://github.com/number317/aloha.git target=_blank><i class="fa fa-github" alt=github></i></a></li><li><a href="mailto:cheon0112358d@gmail.com?subject=blog%27s%20feedback" target=_blank><i class="fa fa-envelope" alt=email></i></a></li><li id=wechat><i class="fa fa-wechat"></i></li><img class=qrcode src=https://number317.github.io/images/wechat.jpg></ul></section></body></html>

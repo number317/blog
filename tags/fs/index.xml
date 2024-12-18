@@ -2,30 +2,32 @@
 &lt;p>GlusterFS是一个开源的分布式文件系统，这里部署它主要为了解决文件存储的单点问题。&lt;/p>
 &lt;h2 id="虚拟机配置">虚拟机配置&lt;/h2>
 &lt;p>此处采用vagrant部署centos的虚拟机三台，box可以采用bento/centos7.2，配置文件如下：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-weight:bold;font-style:italic">Vagrant&lt;/span>.configure(&lt;span style="color:#666;font-style:italic">&amp;#34;2&amp;#34;&lt;/span>) &lt;span style="font-weight:bold">do&lt;/span> |config|
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (1..3).each &lt;span style="font-weight:bold">do&lt;/span> |i|
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> config.vm.define &lt;span style="color:#666;font-style:italic">&amp;#34;gluster-node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span> |node|
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> file_to_disk = &lt;span style="color:#666;font-style:italic">&amp;#34;tmp/gluster_node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">_disk.vdi&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> node.vm.box = &lt;span style="color:#666;font-style:italic">&amp;#34;centos-7.2&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> node.vm.hostname = &lt;span style="color:#666;font-style:italic">&amp;#34;gluster-node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> n = 100 +i
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> node.vm.network &lt;span style="color:#666;font-style:italic">&amp;#34;private_network&amp;#34;&lt;/span>, &lt;span style="color:#666;font-style:italic">ip&lt;/span>: &lt;span style="color:#666;font-style:italic">&amp;#34;192.168.12.&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>n&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> node.vm.provider &lt;span style="color:#666;font-style:italic">&amp;#34;virtualbox&amp;#34;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span> |vb|
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">unless&lt;/span> &lt;span style="color:#666;font-weight:bold;font-style:italic">File&lt;/span>.exist?(file_to_disk)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vb.customize [&lt;span style="color:#666;font-style:italic">&amp;#39;createhd&amp;#39;&lt;/span>, &lt;span style="color:#666;font-style:italic">&amp;#39;--filename&amp;#39;&lt;/span>, file_to_disk, &lt;span style="color:#666;font-style:italic">&amp;#39;--size&amp;#39;&lt;/span>, 10 * 1024]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vb.customize [&lt;span style="color:#666;font-style:italic">&amp;#39;storageattach&amp;#39;&lt;/span>, &lt;span style="color:#666;font-style:italic">:id&lt;/span>, &lt;span style="color:#666;font-style:italic">&amp;#39;--storagectl&amp;#39;&lt;/span>, &lt;span style="color:#666;font-style:italic">&amp;#39;SATA Controller&amp;#39;&lt;/span>, &lt;span style="color:#666;font-style:italic">&amp;#39;--port&amp;#39;&lt;/span>, 1, &lt;span style="color:#666;font-style:italic">&amp;#39;--device&amp;#39;&lt;/span>, 0, &lt;span style="color:#666;font-style:italic">&amp;#39;--type&amp;#39;&lt;/span>, &lt;span style="color:#666;font-style:italic">&amp;#39;hdd&amp;#39;&lt;/span>, &lt;span style="color:#666;font-style:italic">&amp;#39;--medium&amp;#39;&lt;/span>, file_to_disk]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vb.name = &lt;span style="color:#666;font-style:italic">&amp;#34;gluster-node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vb.cpus = 1
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vb.memory = 1024
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>该配置文件根据官方&lt;a href="http://docs.gluster.org/en/latest/Quick-Start-Guide/Quickstart/">quick start&lt;/a>文档，为虚拟机配置了第二磁盘，用于GlusterFS存储，大小为10G。&lt;/p>
-&lt;h2 id="格式化并挂载分区">格式化并挂载分区&lt;/h2>
-&lt;p>以下步骤需要在三台虚拟机上都执行一遍，为了方便操作，切换到root用户：&lt;/p>
-&lt;ol>
-&lt;li>
-&lt;p>为磁盘创建分区&lt;/p>
-&lt;p>通过&lt;code>vagrant ssh&lt;/code>命令进入到任意一个节点，执行&lt;code>lsblk&lt;/code>命令应该能查看到类似以下输出：&lt;/p></description></item></channel></rss>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-0dbaa6085bc2e658d20f713b5fc0fdcc">Vagrant.configure(&amp;#34;2&amp;#34;) do |config|
+ (1..3).each do |i|
+ config.vm.define &amp;#34;gluster-node#{i}&amp;#34; do |node|
+ file_to_disk = &amp;#34;tmp/gluster_node#{i}_disk.vdi&amp;#34;
+ node.vm.box = &amp;#34;centos-7.2&amp;#34;
+ node.vm.hostname = &amp;#34;gluster-node#{i}&amp;#34;
+ n = 100 &amp;#43;i
+ node.vm.network &amp;#34;private_network&amp;#34;, ip: &amp;#34;192.168.12.#{n}&amp;#34;
+ node.vm.provider &amp;#34;virtualbox&amp;#34; do |vb|
+ unless File.exist?(file_to_disk)
+ vb.customize [&amp;#39;createhd&amp;#39;, &amp;#39;--filename&amp;#39;, file_to_disk, &amp;#39;--size&amp;#39;, 10 * 1024]
+ vb.customize [&amp;#39;storageattach&amp;#39;, :id, &amp;#39;--storagectl&amp;#39;, &amp;#39;SATA Controller&amp;#39;, &amp;#39;--port&amp;#39;, 1, &amp;#39;--device&amp;#39;, 0, &amp;#39;--type&amp;#39;, &amp;#39;hdd&amp;#39;, &amp;#39;--medium&amp;#39;, file_to_disk]
+ end
+ vb.name = &amp;#34;gluster-node#{i}&amp;#34;
+ vb.cpus = 1
+ vb.memory = 1024
+ end
+ end
+ end
+end&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-0dbaa6085bc2e658d20f713b5fc0fdcc', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>该配置文件根据官方&lt;a href="http://docs.gluster.org/en/latest/Quick-Start-Guide/Quickstart/">quick start&lt;/a>文档，为虚拟机配置了第二磁盘，用于GlusterFS存储，大小为10G。&lt;/p></description></item></channel></rss>

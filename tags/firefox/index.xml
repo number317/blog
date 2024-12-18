@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Firefox on cheon's blog</title><link>https://number317.github.io/blog/tags/firefox/</link><description>Recent content in Firefox on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 14 Jun 2019 01:21:26 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/firefox/index.xml" rel="self" type="application/rss+xml"/><item><title>Firefox Open Markdown</title><link>https://number317.github.io/blog/solved/firefox_open_markdown/</link><pubDate>Tue, 17 Apr 2018 01:17:33 +0800</pubDate><guid>https://number317.github.io/blog/solved/firefox_open_markdown/</guid><description>&lt;h1 id="使用firefox打开并渲染markdown">使用firefox打开并渲染markdown&lt;/h1>
 &lt;p>如果用firefox打开markdown文件只有下载选项，需要更新mime的数据库:&lt;/p>
 &lt;p>在&lt;code>~/.local/share/mime/packages&lt;/code>目录下创建&lt;code>text-markdown.xml&lt;/code>文件，内容如下&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-xml" data-lang="xml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-weight:bold">&amp;lt;?xml version=&amp;#34;1.0&amp;#34;?&amp;gt;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;mime-info xmlns=&lt;span style="color:#666;font-style:italic">&amp;#39;http://www.freedesktop.org/standards/shared-mime-info&amp;#39;&lt;/span>&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;mime-type type=&lt;span style="color:#666;font-style:italic">&amp;#34;text/plain&amp;#34;&lt;/span>&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;glob pattern=&lt;span style="color:#666;font-style:italic">&amp;#34;*.md&amp;#34;&lt;/span>/&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;glob pattern=&lt;span style="color:#666;font-style:italic">&amp;#34;*.mkd&amp;#34;&lt;/span>/&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;glob pattern=&lt;span style="color:#666;font-style:italic">&amp;#34;*.markdown&amp;#34;&lt;/span>/&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;/mime-type&amp;gt;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/mime-info&amp;gt;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后执行&lt;code>update-mime-database ~/.local/share/mime&lt;/code>&lt;/p>
+
+
+&lt;div class="code-block code-block-container-indented">
+ &lt;pre>&lt;code id="code-9c6e11a2c61dff36a14886cf2d90056b">&amp;lt;?xml version=&amp;#34;1.0&amp;#34;?&amp;gt;
+&amp;lt;mime-info xmlns=&amp;#39;http://www.freedesktop.org/standards/shared-mime-info&amp;#39;&amp;gt;
+ &amp;lt;mime-type type=&amp;#34;text/plain&amp;#34;&amp;gt;
+ &amp;lt;glob pattern=&amp;#34;*.md&amp;#34;/&amp;gt;
+ &amp;lt;glob pattern=&amp;#34;*.mkd&amp;#34;/&amp;gt;
+ &amp;lt;glob pattern=&amp;#34;*.markdown&amp;#34;/&amp;gt;
+ &amp;lt;/mime-type&amp;gt;
+&amp;lt;/mime-info&amp;gt;&lt;/code>&lt;/pre>
+ &lt;button class="copy-code-button" onclick="copyCode('code-9c6e11a2c61dff36a14886cf2d90056b', this)" title="copy">
+ &lt;i class="fa fa-copy">&lt;/i>
+ &lt;/button>
+&lt;/div>
+
+&lt;p>然后执行&lt;code>update-mime-database ~/.local/share/mime&lt;/code>&lt;/p>
 &lt;p>完成后即可用firefox打开markdown文件。若想要查看markdown的渲染效果，可以安装markdown的插件，如markdow viewer webext等&lt;/p></description></item></channel></rss>

@@ -13,6 +13,11 @@
     display: inline-block;
 }
 
+#link li {
+    width: 20px;
+    height: 20px;
+}
+
 .pagination {
     text-align: right;
 }

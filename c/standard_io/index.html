@@ -1,169 +1,169 @@
-<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel=stylesheet><link href=//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
+<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel=stylesheet><link href=https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><script src=https://number317.github.io/blog/js/single.js></script><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
 <a href=https://number317.github.io/blog/>cheon's blog</a></li><li>»
 <a href=https://number317.github.io/blog/c/>c</a></li><li class=active>»
-<a href=https://number317.github.io/blog/c/standard_io/>Standard I/O</a></li></ul><div id=content><main id=main><h1>Standard I/O</h1><time>Last updated Tue Aug 27, 2019</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents><ul><li><a href=#文件指针>文件指针</a></li><li><a href=#打开和创建文件>打开和创建文件</a></li><li><a href=#关闭文件>关闭文件</a></li><li><a href=#读写文件>读写文件</a><ul><li><a href=#getc-和-putc>getc 和 putc</a></li><li><a href=#fgets-和-fputs>fgets 和 fputs</a></li><li><a href=#fread-和-fwrite>fread 和 fwrite</a></li><li><a href=#fscanf-和-fprintf>fscanf 和 fprintf</a></li><li><a href=#sscanf-和-sprintf>sscanf 和 sprintf</a></li></ul></li><li><a href=#在文件中移动>在文件中移动</a></li></ul></nav></aside><article id=content><h1 id=c-常用标准输入输出>c 常用标准输入输出</h1><p>在 c 程序中，常使用标准 I/O 库(stdio)中的方法来实现输入输出操作。这些方法是高层次的输入输出，因为他们有三个重要的功能:</p><ul><li><p>缓冲区自动操作。相对于一次写入几个字节数据，这些方法实际上一次可以写入一大块数据，通常有数千个字节。缓冲区的大小在 <code>stdio.h</code> 的常量 <code>BUFSIZ</code> 定义。</p></li><li><p>输入和输出的转换。例如当使用 <code>printf</code> 来打印一个整数(用 <code>%d</code> 控制)，代表那个整数的字符将会被打印。相似的，当使用 <code>scanf</code>，代表那个数字的字符被转换成数值。</p></li><li><p>输入和输出自动格式化。你可以指定宽度以及其他任何格式来打印数字和字符串。</p></li></ul><h2 id=文件指针>文件指针</h2><p>在标准 I/O 库中，一个文件被称为一个流(stream)，用一个指向 <code>FILE</code> 类型的对象指针来描述，叫做文件指针(<code>file pointer</code>)。<code>FILE</code> 文件类型在 <code>stdio.h</code> 中定义。有三个预先定义好的文件指针：<code>stdin</code>，<code>stdout</code>，<code>stderr</code>，分别代表标准输入（键盘），标准输出（终端屏幕），和标准错误输出。</p><p>大多数标准输入输出库中的函数需要一个文件指针代表一个打开的流作为参数。当从标准输入读取数据或输出到标准输出时，标准 I/O 库提供了一些速记函数来指定这些流而无需再传递参数。下表指明了这些速记函数和他们的等价函数:</p><table><thead><tr><th style=text-align:left>Shorthand</th><th style=text-align:left>Equivalent</th></tr></thead><tbody><tr><td style=text-align:left><code>getchar()</code></td><td style=text-align:left><code>fgetc(stdin)</code>, <code>getc(stdin)</code></td></tr><tr><td style=text-align:left><code>gets(buf)</code></td><td style=text-align:left><code>fgets(buf, BUFSIZ, stdin)</code></td></tr><tr><td style=text-align:left><code>printf(args)</code></td><td style=text-align:left><code>fprintf(stdout, args)</code></td></tr><tr><td style=text-align:left><code>putchar(c)</code></td><td style=text-align:left><code>fputc(c, stdout)</code>, <code>putc(c, stdout)</code></td></tr><tr><td style=text-align:left><code>puts(buf)</code></td><td style=text-align:left><code>fputs(buf, stdout)</code></td></tr><tr><td style=text-align:left><code>scanf(args)</code></td><td style=text-align:left><code>fscanf(stdin, args)</code></td></tr></tbody></table><h2 id=打开和创建文件>打开和创建文件</h2><p>为了能够从文件读或写入文件，那个文件必须被打开用于读写。<code>fopen</code> 函数就是用于这个目的。这个函数读取两个参数：一个字符串代表文件名，一个字符串用于描述文件被怎样打开。它返回一个打开的 <code>FILE</code> 文件流，或者如果无法打开指定文件时会返回常量 <code>NULL</code>。<code>fopen</code> 的第二个参数可以是以下值：</p><ul><li><code>r</code>: 文件会以只读模式打开。文件必须存在且有读的权限。</li><li><code>w</code>: 文件会以只写模式打开。如果文件不存在，会创建一个空文件。如果文件已存在，文件原有内容会被清空。</li><li><code>a</code>: 文件会以只写模式打开。如果文件不存在，会创建一个空文件。如果文件已存在，文件原有内容不会被清空。新写的数据会追加到文件末尾。</li></ul><p>另外，一个加号 <code>+</code> 可以添加到上述值的后面，表示文件以可读可写的模式打开。<code>r+</code> 需要文件已存在，不会清空数据。<code>w+</code> 和 <code>a+</code> 会创建文件如果文件不存在。</p><h2 id=关闭文件>关闭文件</h2><p><code>fclose</code> 函数用于关闭文件流，它读取一个参数，文件指针指向的流会被关闭。当调用这个函数时，流的缓冲区会被刷新，还会执行一些内部的清理函数。如果成功会返回0；如果有错误发生会返回常量 <code>EOF</code>。</p><h2 id=读写文件>读写文件</h2><p>标准 I/O 库提供了一些列方法用于在文件中读写文件。</p><h3 id=getc-和-putc>getc 和 putc</h3><p>最简单的读写数据的方法是一次读写一个字符(也是一个字节)。这个可以用 <code>getc</code> 和 <code>putc</code> 来实现。<code>getc</code> 只需要一个参数，指向用于读取的打开流的文件指针。它返回从流中读取的下一个字符或当到达文件末尾则返回常量 <code>EOF</code>。<code>putc</code> 接受两个参数，一个写入的字符和一个指向用于写入的打开流的文件指针。它把字符放到流中，如果成功返回0，如果有错误，返回常量 <code>EOF</code>。</p><p>要注意的是，虽然 <code>getc</code> 和 <code>putc</code> 一次只操作一个字符，但并不是每次调用都会下发到系统进行磁盘读写，而是会将这些字符存储到缓冲区，然后一次性写入几千个字符到磁盘中。所以即使处理大文件效率也很高。</p><details><summary>code</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#888;font-weight:700>#include</span> <span style=color:#888;font-weight:700>&lt;stdio.h&gt;</span><span style=color:#888;font-weight:700>
-</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700></span><span style=font-weight:700>int</span> <span style=color:#666;font-weight:700;font-style:italic>main</span>(<span style=font-weight:700>int</span> argc, <span style=font-weight:700>char</span> *argv[]) {
-</span></span><span style=display:flex><span>    <span style=font-weight:700>int</span> c;
-</span></span><span style=display:flex><span>    FILE *from, *to;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span>(argc != 3) {
-</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>fprintf</span>(stderr, <span style=color:#666;font-style:italic>&#34;Usage: %s from-file to-file</span><span style=color:#666;font-style:italic>\n</span><span style=color:#666;font-style:italic>&#34;</span>, *argv);
-</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> 1;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span>((from = <span style=color:#666;font-weight:700;font-style:italic>fopen</span>(argv[1], <span style=color:#666;font-style:italic>&#34;r&#34;</span>)) == <span style=font-weight:700;font-style:italic>NULL</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>perror</span>(argv[1]);
-</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> 1;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span>((to = <span style=color:#666;font-weight:700;font-style:italic>fopen</span>(argv[2], <span style=color:#666;font-style:italic>&#34;a&#34;</span>)) == <span style=font-weight:700;font-style:italic>NULL</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>perror</span>(argv[2]);
-</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> 1;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>while</span>((c=<span style=color:#666;font-weight:700;font-style:italic>getc</span>(from)) != EOF)
-</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>putc</span>(c, to);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>fclose</span>(from);
-</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>fclose</span>(to);
-</span></span><span style=display:flex><span>    <span style=font-weight:700>return</span> 0;
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div></details><p>这个程序违反了一个重要的 UNIX 习惯，程序应该可以同时处理命名文件和标准输入输出。文档格式程序 <code>tbl</code>，<code>eqn</code>，<code>nroff</code> 和 <code>troff</code> 是很好的例子。给定文件名，程序会打开文件并操作里面的数据。如果没有给定文件名，程序会从标准输入读取数据。这允许程序作为过滤器，它们可独立调用或是称为管道的一部分。</p><h3 id=fgets-和-fputs>fgets 和 fputs</h3><p>标准 I/O 库提供的读写文件的方法允许程序一次操纵一行数据。一行被定义为以换行符号结尾的0个或多个字符。<code>fgets</code> 接受三个参数，一个指针指向缓冲区，一个整数指定缓冲区的大小，一个文件指针指向打开的用于读取的流。指向被填充的缓冲区的指针返回成功，或者当到达文件结尾时返回 <code>NULL</code>。缓冲区会被一行字符填充，包括换行符号和 <code>\0</code>。<code>fputs</code> 接受两个参数，一个指向字符串的指针，一个指向打开的可写流的文件指针。如果成功返回0，如果出错，返回常量 <code>EOF</code>。</p><details><summary>code</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#888;font-weight:700>#include</span> <span style=color:#888;font-weight:700>&lt;stdio.h&gt;</span><span style=color:#888;font-weight:700>
-</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700></span><span style=font-weight:700>int</span> <span style=color:#666;font-weight:700;font-style:italic>main</span>(<span style=font-weight:700>int</span> argc, <span style=font-weight:700>char</span> *argv[]) {
-</span></span><span style=display:flex><span>    FILE *from, *to;
-</span></span><span style=display:flex><span>    <span style=font-weight:700>char</span> line[BUFSIZ];
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span>(argc != 3) {
-</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>fprintf</span>(stderr, <span style=color:#666;font-style:italic>&#34;Usage: %s from-file to-file</span><span style=color:#666;font-style:italic>\n</span><span style=color:#666;font-style:italic>&#34;</span>, *argv);
-</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> 1;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span>((from = <span style=color:#666;font-weight:700;font-style:italic>fopen</span>(argv[1], <span style=color:#666;font-style:italic>&#34;r&#34;</span>)) == <span style=font-weight:700;font-style:italic>NULL</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>perror</span>(argv[1]);
-</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> 1;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span>((to = <span style=color:#666;font-weight:700;font-style:italic>fopen</span>(argv[2], <span style=color:#666;font-style:italic>&#34;a&#34;</span>)) == <span style=font-weight:700;font-style:italic>NULL</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>perror</span>(argv[2]);
-</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> 1;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>while</span>((<span style=color:#666;font-weight:700;font-style:italic>fgets</span>(line, BUFSIZ, from)) != <span style=font-weight:700;font-style:italic>NULL</span>)
-</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>fputs</span>(line, to);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>fclose</span>(from);
-</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>fclose</span>(to);
-</span></span><span style=display:flex><span>    <span style=font-weight:700>return</span> 0;
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div></details><h3 id=fread-和-fwrite>fread 和 fwrite</h3><p>标准 I/O 库也提供了不将数据拆分的读写方式。这通常用于不是全由字符组成，可能也包含二进制数据的文件。<code>fread</code> 接受四个参数，一个指针指向某个数据类型的数组，一个整数表示数组一个元素的大小（字节数），一个整数表示读取元素的个数，一个文件指针指向用于读取的流。函数返回实际读取的元素个数，在到达文件末尾时返回0。<code>fwrite</code>接受相同的四个参数，返回写入的元素个数，出错时返回0。</p><details><summary>code</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#888;font-weight:700>#include</span> <span style=color:#888;font-weight:700>&lt;stdio.h&gt;</span><span style=color:#888;font-weight:700>
-</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700></span><span style=font-weight:700>int</span> <span style=color:#666;font-weight:700;font-style:italic>main</span>(<span style=font-weight:700>int</span> argc, <span style=font-weight:700>char</span> *argv[]) {
-</span></span><span style=display:flex><span>    <span style=font-weight:700>int</span> n;
-</span></span><span style=display:flex><span>    FILE *from, *to;
-</span></span><span style=display:flex><span>    <span style=font-weight:700>char</span> buf[BUFSIZ];
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span>(argc != 3) {
-</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>fprintf</span>(stderr, <span style=color:#666;font-style:italic>&#34;Usage: %s from-file to-file</span><span style=color:#666;font-style:italic>\n</span><span style=color:#666;font-style:italic>&#34;</span>, *argv);
-</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> 1;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span>((from = <span style=color:#666;font-weight:700;font-style:italic>fopen</span>(argv[1], <span style=color:#666;font-style:italic>&#34;r&#34;</span>)) == <span style=font-weight:700;font-style:italic>NULL</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>perror</span>(argv[1]);
-</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> 1;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span>((to = <span style=color:#666;font-weight:700;font-style:italic>fopen</span>(argv[2], <span style=color:#666;font-style:italic>&#34;a&#34;</span>)) == <span style=font-weight:700;font-style:italic>NULL</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>perror</span>(argv[2]);
-</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> 1;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>while</span>((n=<span style=color:#666;font-weight:700;font-style:italic>fread</span>(buf, <span style=font-weight:700>sizeof</span>(<span style=font-weight:700>char</span>), BUFSIZ, from)) &gt; 0)
-</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>fwrite</span>(buf,<span style=font-weight:700>sizeof</span>(<span style=font-weight:700>char</span>), n, to);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>fclose</span>(from);
-</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>fclose</span>(to);
-</span></span><span style=display:flex><span>    <span style=font-weight:700>return</span> 0;
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div></details><h3 id=fscanf-和-fprintf>fscanf 和 fprintf</h3><p><code>fscanf</code> 接受一系列参数。第一个参数是一个指向打开的读取流的文件指针。第二个参数是一个指定输入数据格式的字符串。剩下的参数是指向要被填充对象的指针。它从流中读取字符，并转化为指定格式存储到对象中。<code>fprintf</code> 也接受一系列参数。第一个参数是一个指向打开的写入流的文件指针。第二个参数是格式化字符串。剩下的参数是要打印的内容。</p><p>下面这个程序要求输入一个数字，然后计算它的阶乘。它使用<code>printf</code>和<code>scanf</code>，默认指定流是<code>stdout</code>和<code>stdin</code>，而不需要再指定流作为参数。</p><details><summary>code</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#888;font-weight:700>#include</span> <span style=color:#888;font-weight:700>&lt;stdio.h&gt;</span><span style=color:#888;font-weight:700>
-</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700></span><span style=font-weight:700>int</span> <span style=color:#666;font-weight:700;font-style:italic>fact</span>(<span style=font-weight:700>int</span>);
-</span></span><span style=display:flex><span><span style=font-weight:700>int</span> <span style=color:#666;font-weight:700;font-style:italic>main</span>(<span style=font-weight:700>int</span> argc, <span style=font-weight:700>char</span> *argv[]) {
-</span></span><span style=display:flex><span>    <span style=font-weight:700>int</span> n, m;
-</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>printf</span>(<span style=color:#666;font-style:italic>&#34;Enter a number: &#34;</span>);
-</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>scanf</span>(<span style=color:#666;font-style:italic>&#34;%d&#34;</span>, &amp;n);
-</span></span><span style=display:flex><span>    m = <span style=color:#666;font-weight:700;font-style:italic>fact</span>(n);
-</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>printf</span>(<span style=color:#666;font-style:italic>&#34;The factorial of %d is %d.</span><span style=color:#666;font-style:italic>\n</span><span style=color:#666;font-style:italic>&#34;</span>, n, m);
-</span></span><span style=display:flex><span>    <span style=font-weight:700>return</span> 0;
-</span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700>int</span> <span style=color:#666;font-weight:700;font-style:italic>fact</span>(<span style=font-weight:700>int</span> n) {
-</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span>(n==0)
-</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> 1;
-</span></span><span style=display:flex><span>    <span style=font-weight:700>return</span> (n * <span style=color:#666;font-weight:700;font-style:italic>fact</span>(n-1));
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div></details><h3 id=sscanf-和-sprintf>sscanf 和 sprintf</h3><p>标准输入输出库也提供了打印格式化数据到字符串和从字符串读取格式化数据的能力。<code>sscanf</code>、<code>sprintf</code> 和 <code>fscanf</code>、<code>fprintf</code> 类似，只是它们把文件流换成了字符串。</p><h2 id=在文件中移动>在文件中移动</h2><p>在读取或写入文件数据之前，将位置移动到合适位置是很有必要的。标准输入输出库中在一个文件中移动的函数是 <code>fseek</code>。它接受三个参数：一个文件流指针，一个长整型变量指定移动的字节数，称为偏移量(offset)，一个整数指定偏移量在文件中开始的位置，可以是 <code>SEEK_SET</code> 即0代表文件开头，<code>SEEK_CUR</code> 即1代表当前位置，<code>SEEK_END</code>即2代表文件末尾。移到文件末尾，调用 <code>fseek(fp, 0L, 2)</code>，移动到文件开头，调用 <code>fseek(fp, 0L, 0)</code> 或者 <code>rewind(fp)</code>。下面的代码创建了一个 5 位用户的数据文件。并且是从后往前写入的。</p><details><summary>code</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#888;font-weight:700>#include</span> <span style=color:#888;font-weight:700>&lt;stdio.h&gt;</span><span style=color:#888;font-weight:700>
-</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700>#include</span> <span style=color:#888;font-weight:700>&lt;string.h&gt;</span><span style=color:#888;font-weight:700>
-</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700></span>
-</span></span><span style=display:flex><span><span style=font-weight:700>typedef</span> <span style=font-weight:700>struct</span> record {
-</span></span><span style=display:flex><span>    <span style=font-weight:700>int</span> uid;
-</span></span><span style=display:flex><span>    <span style=font-weight:700>char</span> login[8];
-</span></span><span style=display:flex><span>}record;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700>char</span> *logins[] = {<span style=color:#666;font-style:italic>&#34;user1&#34;</span>, <span style=color:#666;font-style:italic>&#34;user2&#34;</span>, <span style=color:#666;font-style:italic>&#34;user3&#34;</span>, <span style=color:#666;font-style:italic>&#34;user4&#34;</span>, <span style=color:#666;font-style:italic>&#34;user5&#34;</span>};
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700>void</span> <span style=color:#666;font-weight:700;font-style:italic>putrec</span>(FILE *, <span style=font-weight:700>int</span>, record *);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700>int</span> <span style=color:#666;font-weight:700;font-style:italic>main</span>(<span style=font-weight:700>int</span> argc, <span style=font-weight:700>char</span> *argv[]) {
-</span></span><span style=display:flex><span>    <span style=font-weight:700>int</span> i;
-</span></span><span style=display:flex><span>    FILE *fp;
-</span></span><span style=display:flex><span>    record rec;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span> ((fp=<span style=color:#666;font-weight:700;font-style:italic>fopen</span>(<span style=color:#666;font-style:italic>&#34;datafile&#34;</span>, <span style=color:#666;font-style:italic>&#34;w&#34;</span>))==<span style=font-weight:700;font-style:italic>NULL</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>perror</span>(<span style=color:#666;font-style:italic>&#34;datafile&#34;</span>);
-</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> 1;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>for</span> (i=4; i&gt;=0; i--) {
-</span></span><span style=display:flex><span>        rec.uid=i;
-</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>strcpy</span>(rec.login, logins[i]);
-</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>putrec</span>(fp, i, &amp;rec);
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>    <span style=font-weight:700>return</span> 0;
-</span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700>void</span> <span style=color:#666;font-weight:700;font-style:italic>putrec</span>(FILE *fp, <span style=font-weight:700>int</span> i, record *r) {
-</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>fseek</span>(fp, (<span style=font-weight:700>long</span>)i*<span style=font-weight:700>sizeof</span>(<span style=font-weight:700>struct</span> record), SEEK_SET);
-</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>fwrite</span>(r, <span style=font-weight:700>sizeof</span>(<span style=font-weight:700>struct</span> record), 1, fp);
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div></details><p>下面的代码实现了以 3,0,2,1,4 的顺序读取刚刚创建的用户数据文件。</p><details><summary>code</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#888;font-weight:700>#include</span> <span style=color:#888;font-weight:700>&lt;stdio.h&gt;</span><span style=color:#888;font-weight:700>
-</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700></span>
-</span></span><span style=display:flex><span><span style=font-weight:700>typedef</span> <span style=font-weight:700>struct</span> record {
-</span></span><span style=display:flex><span>    <span style=font-weight:700>int</span> uid;
-</span></span><span style=display:flex><span>    <span style=font-weight:700>char</span> login[8];
-</span></span><span style=display:flex><span>}record;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700>int</span> step[]={3, 0, 2, 1, 4};
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700>void</span> <span style=color:#666;font-weight:700;font-style:italic>readrec</span>(FILE *, <span style=font-weight:700>int</span>, record *);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700>int</span> <span style=color:#666;font-weight:700;font-style:italic>main</span>(<span style=font-weight:700>int</span> argc, <span style=font-weight:700>char</span> *argv[]) {
-</span></span><span style=display:flex><span>    <span style=font-weight:700>int</span> i;
-</span></span><span style=display:flex><span>    FILE *fp;
-</span></span><span style=display:flex><span>    record rec;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span> ((fp=<span style=color:#666;font-weight:700;font-style:italic>fopen</span>(<span style=color:#666;font-style:italic>&#34;datafile&#34;</span>, <span style=color:#666;font-style:italic>&#34;r&#34;</span>))==<span style=font-weight:700;font-style:italic>NULL</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>perror</span>(<span style=color:#666;font-style:italic>&#34;datafile&#34;</span>);
-</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> 1;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>for</span> (i=0; i&lt;5; i++) {
-</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>readrec</span>(fp, step[i], &amp;rec);
-</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>printf</span>(<span style=color:#666;font-style:italic>&#34;%d</span><span style=color:#666;font-style:italic>\t</span><span style=color:#666;font-style:italic>%s</span><span style=color:#666;font-style:italic>\n</span><span style=color:#666;font-style:italic>&#34;</span>, rec.uid, rec.login);
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>    <span style=font-weight:700>return</span> 0;
-</span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700>void</span> <span style=color:#666;font-weight:700;font-style:italic>readrec</span>(FILE *fp, <span style=font-weight:700>int</span> i, record *r) {
-</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>fseek</span>(fp, (<span style=font-weight:700>long</span>)i*<span style=font-weight:700>sizeof</span>(record), SEEK_SET);
-</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>fread</span>(r, <span style=font-weight:700>sizeof</span>(record), 1, fp);
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div></details></article></div></main><div><h4 id=signature>Fri Aug 23, 2019
+<a href=https://number317.github.io/blog/c/standard_io/>Standard I/O</a></li></ul><div id=content><main id=main><h1>Standard I/O</h1><time>Last updated Tue Aug 27, 2019</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents><ul><li><a href=#文件指针>文件指针</a></li><li><a href=#打开和创建文件>打开和创建文件</a></li><li><a href=#关闭文件>关闭文件</a></li><li><a href=#读写文件>读写文件</a><ul><li><a href=#getc-和-putc>getc 和 putc</a></li><li><a href=#fgets-和-fputs>fgets 和 fputs</a></li><li><a href=#fread-和-fwrite>fread 和 fwrite</a></li><li><a href=#fscanf-和-fprintf>fscanf 和 fprintf</a></li><li><a href=#sscanf-和-sprintf>sscanf 和 sprintf</a></li></ul></li><li><a href=#在文件中移动>在文件中移动</a></li></ul></nav></aside><article id=content><h1 id=c-常用标准输入输出>c 常用标准输入输出</h1><p>在 c 程序中，常使用标准 I/O 库(stdio)中的方法来实现输入输出操作。这些方法是高层次的输入输出，因为他们有三个重要的功能:</p><ul><li><p>缓冲区自动操作。相对于一次写入几个字节数据，这些方法实际上一次可以写入一大块数据，通常有数千个字节。缓冲区的大小在 <code>stdio.h</code> 的常量 <code>BUFSIZ</code> 定义。</p></li><li><p>输入和输出的转换。例如当使用 <code>printf</code> 来打印一个整数(用 <code>%d</code> 控制)，代表那个整数的字符将会被打印。相似的，当使用 <code>scanf</code>，代表那个数字的字符被转换成数值。</p></li><li><p>输入和输出自动格式化。你可以指定宽度以及其他任何格式来打印数字和字符串。</p></li></ul><h2 id=文件指针>文件指针</h2><p>在标准 I/O 库中，一个文件被称为一个流(stream)，用一个指向 <code>FILE</code> 类型的对象指针来描述，叫做文件指针(<code>file pointer</code>)。<code>FILE</code> 文件类型在 <code>stdio.h</code> 中定义。有三个预先定义好的文件指针：<code>stdin</code>，<code>stdout</code>，<code>stderr</code>，分别代表标准输入（键盘），标准输出（终端屏幕），和标准错误输出。</p><p>大多数标准输入输出库中的函数需要一个文件指针代表一个打开的流作为参数。当从标准输入读取数据或输出到标准输出时，标准 I/O 库提供了一些速记函数来指定这些流而无需再传递参数。下表指明了这些速记函数和他们的等价函数:</p><table><thead><tr><th style=text-align:left>Shorthand</th><th style=text-align:left>Equivalent</th></tr></thead><tbody><tr><td style=text-align:left><code>getchar()</code></td><td style=text-align:left><code>fgetc(stdin)</code>, <code>getc(stdin)</code></td></tr><tr><td style=text-align:left><code>gets(buf)</code></td><td style=text-align:left><code>fgets(buf, BUFSIZ, stdin)</code></td></tr><tr><td style=text-align:left><code>printf(args)</code></td><td style=text-align:left><code>fprintf(stdout, args)</code></td></tr><tr><td style=text-align:left><code>putchar(c)</code></td><td style=text-align:left><code>fputc(c, stdout)</code>, <code>putc(c, stdout)</code></td></tr><tr><td style=text-align:left><code>puts(buf)</code></td><td style=text-align:left><code>fputs(buf, stdout)</code></td></tr><tr><td style=text-align:left><code>scanf(args)</code></td><td style=text-align:left><code>fscanf(stdin, args)</code></td></tr></tbody></table><h2 id=打开和创建文件>打开和创建文件</h2><p>为了能够从文件读或写入文件，那个文件必须被打开用于读写。<code>fopen</code> 函数就是用于这个目的。这个函数读取两个参数：一个字符串代表文件名，一个字符串用于描述文件被怎样打开。它返回一个打开的 <code>FILE</code> 文件流，或者如果无法打开指定文件时会返回常量 <code>NULL</code>。<code>fopen</code> 的第二个参数可以是以下值：</p><ul><li><code>r</code>: 文件会以只读模式打开。文件必须存在且有读的权限。</li><li><code>w</code>: 文件会以只写模式打开。如果文件不存在，会创建一个空文件。如果文件已存在，文件原有内容会被清空。</li><li><code>a</code>: 文件会以只写模式打开。如果文件不存在，会创建一个空文件。如果文件已存在，文件原有内容不会被清空。新写的数据会追加到文件末尾。</li></ul><p>另外，一个加号 <code>+</code> 可以添加到上述值的后面，表示文件以可读可写的模式打开。<code>r+</code> 需要文件已存在，不会清空数据。<code>w+</code> 和 <code>a+</code> 会创建文件如果文件不存在。</p><h2 id=关闭文件>关闭文件</h2><p><code>fclose</code> 函数用于关闭文件流，它读取一个参数，文件指针指向的流会被关闭。当调用这个函数时，流的缓冲区会被刷新，还会执行一些内部的清理函数。如果成功会返回0；如果有错误发生会返回常量 <code>EOF</code>。</p><h2 id=读写文件>读写文件</h2><p>标准 I/O 库提供了一些列方法用于在文件中读写文件。</p><h3 id=getc-和-putc>getc 和 putc</h3><p>最简单的读写数据的方法是一次读写一个字符(也是一个字节)。这个可以用 <code>getc</code> 和 <code>putc</code> 来实现。<code>getc</code> 只需要一个参数，指向用于读取的打开流的文件指针。它返回从流中读取的下一个字符或当到达文件末尾则返回常量 <code>EOF</code>。<code>putc</code> 接受两个参数，一个写入的字符和一个指向用于写入的打开流的文件指针。它把字符放到流中，如果成功返回0，如果有错误，返回常量 <code>EOF</code>。</p><p>要注意的是，虽然 <code>getc</code> 和 <code>putc</code> 一次只操作一个字符，但并不是每次调用都会下发到系统进行磁盘读写，而是会将这些字符存储到缓冲区，然后一次性写入几千个字符到磁盘中。所以即使处理大文件效率也很高。</p><details><summary>code</summary><div class="code-block code-block-container-indented"><pre><code id=code-470a332073689d7dfa366782150de509>#include &lt;stdio.h&gt;
+int main(int argc, char *argv[]) {
+    int c;
+    FILE *from, *to;
+
+    if(argc != 3) {
+        fprintf(stderr, &#34;Usage: %s from-file to-file\n&#34;, *argv);
+        return 1;
+    }
+
+    if((from = fopen(argv[1], &#34;r&#34;)) == NULL) {
+        perror(argv[1]);
+        return 1;
+    }
+
+    if((to = fopen(argv[2], &#34;a&#34;)) == NULL) {
+        perror(argv[2]);
+        return 1;
+    }
+
+    while((c=getc(from)) != EOF)
+        putc(c, to);
+
+    fclose(from);
+    fclose(to);
+    return 0;
+}</code></pre><button class=copy-code-button onclick='copyCode("code-470a332073689d7dfa366782150de509",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></details><p>这个程序违反了一个重要的 UNIX 习惯，程序应该可以同时处理命名文件和标准输入输出。文档格式程序 <code>tbl</code>，<code>eqn</code>，<code>nroff</code> 和 <code>troff</code> 是很好的例子。给定文件名，程序会打开文件并操作里面的数据。如果没有给定文件名，程序会从标准输入读取数据。这允许程序作为过滤器，它们可独立调用或是称为管道的一部分。</p><h3 id=fgets-和-fputs>fgets 和 fputs</h3><p>标准 I/O 库提供的读写文件的方法允许程序一次操纵一行数据。一行被定义为以换行符号结尾的0个或多个字符。<code>fgets</code> 接受三个参数，一个指针指向缓冲区，一个整数指定缓冲区的大小，一个文件指针指向打开的用于读取的流。指向被填充的缓冲区的指针返回成功，或者当到达文件结尾时返回 <code>NULL</code>。缓冲区会被一行字符填充，包括换行符号和 <code>\0</code>。<code>fputs</code> 接受两个参数，一个指向字符串的指针，一个指向打开的可写流的文件指针。如果成功返回0，如果出错，返回常量 <code>EOF</code>。</p><details><summary>code</summary><div class="code-block code-block-container-indented"><pre><code id=code-f1af4a52569db6e03e1361d838ac8327>#include &lt;stdio.h&gt;
+int main(int argc, char *argv[]) {
+    FILE *from, *to;
+    char line[BUFSIZ];
+
+    if(argc != 3) {
+        fprintf(stderr, &#34;Usage: %s from-file to-file\n&#34;, *argv);
+        return 1;
+    }
+
+    if((from = fopen(argv[1], &#34;r&#34;)) == NULL) {
+        perror(argv[1]);
+        return 1;
+    }
+
+    if((to = fopen(argv[2], &#34;a&#34;)) == NULL) {
+        perror(argv[2]);
+        return 1;
+    }
+
+    while((fgets(line, BUFSIZ, from)) != NULL)
+        fputs(line, to);
+
+    fclose(from);
+    fclose(to);
+    return 0;
+}</code></pre><button class=copy-code-button onclick='copyCode("code-f1af4a52569db6e03e1361d838ac8327",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></details><h3 id=fread-和-fwrite>fread 和 fwrite</h3><p>标准 I/O 库也提供了不将数据拆分的读写方式。这通常用于不是全由字符组成，可能也包含二进制数据的文件。<code>fread</code> 接受四个参数，一个指针指向某个数据类型的数组，一个整数表示数组一个元素的大小（字节数），一个整数表示读取元素的个数，一个文件指针指向用于读取的流。函数返回实际读取的元素个数，在到达文件末尾时返回0。<code>fwrite</code>接受相同的四个参数，返回写入的元素个数，出错时返回0。</p><details><summary>code</summary><div class="code-block code-block-container-indented"><pre><code id=code-c33076d81257683fa0419df45af71877>#include &lt;stdio.h&gt;
+int main(int argc, char *argv[]) {
+    int n;
+    FILE *from, *to;
+    char buf[BUFSIZ];
+
+    if(argc != 3) {
+        fprintf(stderr, &#34;Usage: %s from-file to-file\n&#34;, *argv);
+        return 1;
+    }
+
+    if((from = fopen(argv[1], &#34;r&#34;)) == NULL) {
+        perror(argv[1]);
+        return 1;
+    }
+
+    if((to = fopen(argv[2], &#34;a&#34;)) == NULL) {
+        perror(argv[2]);
+        return 1;
+    }
+
+    while((n=fread(buf, sizeof(char), BUFSIZ, from)) &gt; 0)
+        fwrite(buf,sizeof(char), n, to);
+
+    fclose(from);
+    fclose(to);
+    return 0;
+}</code></pre><button class=copy-code-button onclick='copyCode("code-c33076d81257683fa0419df45af71877",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></details><h3 id=fscanf-和-fprintf>fscanf 和 fprintf</h3><p><code>fscanf</code> 接受一系列参数。第一个参数是一个指向打开的读取流的文件指针。第二个参数是一个指定输入数据格式的字符串。剩下的参数是指向要被填充对象的指针。它从流中读取字符，并转化为指定格式存储到对象中。<code>fprintf</code> 也接受一系列参数。第一个参数是一个指向打开的写入流的文件指针。第二个参数是格式化字符串。剩下的参数是要打印的内容。</p><p>下面这个程序要求输入一个数字，然后计算它的阶乘。它使用<code>printf</code>和<code>scanf</code>，默认指定流是<code>stdout</code>和<code>stdin</code>，而不需要再指定流作为参数。</p><details><summary>code</summary><div class="code-block code-block-container-indented"><pre><code id=code-5b265cb1bc2105c1a05614948a0e7e0f>#include &lt;stdio.h&gt;
+int fact(int);
+int main(int argc, char *argv[]) {
+    int n, m;
+    printf(&#34;Enter a number: &#34;);
+    scanf(&#34;%d&#34;, &amp;n);
+    m = fact(n);
+    printf(&#34;The factorial of %d is %d.\n&#34;, n, m);
+    return 0;
+}
+
+int fact(int n) {
+    if(n==0)
+        return 1;
+    return (n * fact(n-1));
+}</code></pre><button class=copy-code-button onclick='copyCode("code-5b265cb1bc2105c1a05614948a0e7e0f",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></details><h3 id=sscanf-和-sprintf>sscanf 和 sprintf</h3><p>标准输入输出库也提供了打印格式化数据到字符串和从字符串读取格式化数据的能力。<code>sscanf</code>、<code>sprintf</code> 和 <code>fscanf</code>、<code>fprintf</code> 类似，只是它们把文件流换成了字符串。</p><h2 id=在文件中移动>在文件中移动</h2><p>在读取或写入文件数据之前，将位置移动到合适位置是很有必要的。标准输入输出库中在一个文件中移动的函数是 <code>fseek</code>。它接受三个参数：一个文件流指针，一个长整型变量指定移动的字节数，称为偏移量(offset)，一个整数指定偏移量在文件中开始的位置，可以是 <code>SEEK_SET</code> 即0代表文件开头，<code>SEEK_CUR</code> 即1代表当前位置，<code>SEEK_END</code>即2代表文件末尾。移到文件末尾，调用 <code>fseek(fp, 0L, 2)</code>，移动到文件开头，调用 <code>fseek(fp, 0L, 0)</code> 或者 <code>rewind(fp)</code>。下面的代码创建了一个 5 位用户的数据文件。并且是从后往前写入的。</p><details><summary>code</summary><div class="code-block code-block-container-indented"><pre><code id=code-ee96e621e2e121df7a1065ddfbee3e44>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+typedef struct record {
+    int uid;
+    char login[8];
+}record;
+
+char *logins[] = {&#34;user1&#34;, &#34;user2&#34;, &#34;user3&#34;, &#34;user4&#34;, &#34;user5&#34;};
+
+void putrec(FILE *, int, record *);
+
+int main(int argc, char *argv[]) {
+    int i;
+    FILE *fp;
+    record rec;
+
+    if ((fp=fopen(&#34;datafile&#34;, &#34;w&#34;))==NULL) {
+        perror(&#34;datafile&#34;);
+        return 1;
+    }
+
+    for (i=4; i&gt;=0; i--) {
+        rec.uid=i;
+        strcpy(rec.login, logins[i]);
+        putrec(fp, i, &amp;rec);
+    }
+    return 0;
+}
+
+void putrec(FILE *fp, int i, record *r) {
+    fseek(fp, (long)i*sizeof(struct record), SEEK_SET);
+    fwrite(r, sizeof(struct record), 1, fp);
+}</code></pre><button class=copy-code-button onclick='copyCode("code-ee96e621e2e121df7a1065ddfbee3e44",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></details><p>下面的代码实现了以 3,0,2,1,4 的顺序读取刚刚创建的用户数据文件。</p><details><summary>code</summary><div class="code-block code-block-container-indented"><pre><code id=code-d78bdae10a7349173ff67f45c2ff3385>#include &lt;stdio.h&gt;
+
+typedef struct record {
+    int uid;
+    char login[8];
+}record;
+
+int step[]={3, 0, 2, 1, 4};
+
+void readrec(FILE *, int, record *);
+
+int main(int argc, char *argv[]) {
+    int i;
+    FILE *fp;
+    record rec;
+
+    if ((fp=fopen(&#34;datafile&#34;, &#34;r&#34;))==NULL) {
+        perror(&#34;datafile&#34;);
+        return 1;
+    }
+
+    for (i=0; i&lt;5; i&#43;&#43;) {
+        readrec(fp, step[i], &amp;rec);
+        printf(&#34;%d\t%s\n&#34;, rec.uid, rec.login);
+    }
+    return 0;
+}
+
+void readrec(FILE *fp, int i, record *r) {
+    fseek(fp, (long)i*sizeof(record), SEEK_SET);
+    fread(r, sizeof(record), 1, fp);
+}</code></pre><button class=copy-code-button onclick='copyCode("code-d78bdae10a7349173ff67f45c2ff3385",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></details></article></div></main><div><h4 id=signature>Fri Aug 23, 2019
 cheon</h4><ul class=tags><li><a href=https://number317.github.io/blog/tags/library>library</a></li></ul><ul class=related><li><a class=previous href=https://number317.github.io/blog/c/c_sonarcloud/>C Sonarcloud</a></li><li><a class=next href=https://number317.github.io/blog/c/low_level_io/>Low Level I/O</a></li></ul></div></div><section id=footer><div id=author><h2>About Author</h2><hr><img src=https://number317.github.io/images/author.jpg></img><p>Life is dance we all have to do.</p></div><ul id=link><li><a href=https://github.com/number317/aloha.git target=_blank><i class="fa fa-github" alt=github></i></a></li><li><a href="mailto:cheon0112358d@gmail.com?subject=blog%27s%20feedback" target=_blank><i class="fa fa-envelope" alt=email></i></a></li><li id=wechat><i class="fa fa-wechat"></i></li><img class=qrcode src=https://number317.github.io/images/wechat.jpg></ul></section></body></html>
