@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Icons on cheon's blog</title><link>https://number317.github.io/blog/tags/icons/</link><description>Recent content in Icons on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 21 Jun 2019 16:50:17 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/icons/index.xml" rel="self" type="application/rss+xml"/><item><title>Nerd Font</title><link>https://number317.github.io/blog/system/nerd_font/</link><pubDate>Fri, 21 Jun 2019 14:32:35 +0800</pubDate><guid>https://number317.github.io/blog/system/nerd_font/</guid><description>&lt;h1 id="图标字体">图标字体&lt;/h1>
+&lt;p>在用 &lt;a href="https://github.com/robm/dzen">dzen2&lt;/a> 给桌面添加一个 panel 的时候用到了 &lt;a href="http://fontawesome.com">FontAwesome&lt;/a>，但是在 urxvt 终端下 FontAwesome 无法正常显示出来（不知是不是配置有误）。这样在用 vim 写脚本时不够直观。又不想换终端，所以只能从字体下手。&lt;/p>
+&lt;p>之前就了解到过 &lt;a href="https://github.com/ryanoasis/nerd-fonts">nerd-fonts&lt;/a> 这个项目，可以将图标字体整合进一个你想要的字体中。项目主页提供了一些已经预先构建好的字体，可以在&lt;a href="https://nerdfonts.com/">官网&lt;/a>直接下载使用。目前终端用的字体是从另一台 Mac 上复制出来的 SFMono，这也是 Mac 内置终端默认的字体。已经习惯了这款字体后就不想换了，因此准备构建自己的字体。&lt;/p>
+&lt;p>根据项目主页的教程，执行它提供给你的 &lt;code>font-patcher&lt;/code> 脚本前需要安装 &lt;code>fontforge&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>pacman -S fontforge
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完依赖，下载 &lt;code>font-patcher&lt;/code> 脚本并添加可执行权限:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -OL https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/font-patcher
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>chmod +x font-patcher
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>执行脚本进行构建字体:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>./font-patcher path/to/SFMono-Regular.otf -out path/to/SFMono-Nerd/ -c -l -s
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>&lt;code>-c&lt;/code> 表示添加所有可用字形&lt;/li>
+&lt;li>&lt;code>-l&lt;/code> 表示适应行高（尝试将 powerline 的分隔符均匀地放在中间）&lt;/li>
+&lt;li>&lt;code>-s&lt;/code> 表示使用单个字符宽度&lt;/li>
+&lt;/ul>
+&lt;p>运行脚本发现报错，提示找不到 &lt;code>src&lt;/code> 目录下的字体文件。这提示我们还需要去下载 &lt;code>src&lt;/code> 目录下的字体文件。这里有一个技巧，关于如何从 github 下载某个文件夹。&lt;/p>
+&lt;p>以此处为例，需要下载&lt;a href="https://github.com/ryanoasis/nerd-fonts/tree/master/src/glyphs">https://github.com/ryanoasis/nerd-fonts/tree/master/src/glyphs&lt;/a>目录下的所有字体文件。可以将 url 中的 &amp;ldquo;tree/master&amp;rdquo; 替换为 ”trunk“，再用 svn 去下载就好了。&lt;/p>
+&lt;p>所以这里执行 &lt;code>svn checkout https://github.com/ryanoasis/nerd-fonts/trunk/src/glyphs&lt;/code>，并将文件夹发到正确的路径，具体如下:&lt;/p></description></item></channel></rss>

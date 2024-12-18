@@ -1,0 +1,278 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel=stylesheet><link href=//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
+<a href=https://number317.github.io/blog/>cheon's blog</a></li><li>»
+<a href=https://number317.github.io/blog/struct/>struct</a></li><li class=active>»
+<a href=https://number317.github.io/blog/struct/emqx_backend_mysql/>Emqx Backend Mysql</a></li></ul><div id=content><main id=main><h1>Emqx Backend Mysql</h1><time>Last updated Thu Oct 15, 2020</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents><ul><li><a href=#erlang-环境配置>erlang 环境配置</a></li><li><a href=#emacs-编辑器配置>emacs 编辑器配置</a></li><li><a href=#emqx-源码编译>emqx 源码编译</a></li><li><a href=#添加自定义插件>添加自定义插件</a></li><li><a href=#启用自定义插件>启用自定义插件</a></li><li><a href=#反编译-emqx_backend_mysql-插件>反编译 <code>emqx_backend_mysql</code> 插件</a></li><li><a href=#构造插件>构造插件</a></li><li><a href=#搭建临时-git-服务>搭建临时 git 服务</a></li><li><a href=#重新编译>重新编译</a></li><li><a href=#测试插件>测试插件</a></li><li><a href=#构建镜像>构建镜像</a></li></ul></nav></aside><article id=content><ul><li><a href=#orgc3804b0>emqx mysql 插件</a><ul><li><a href=#org5864efb>erlang 环境配置</a></li><li><a href=#orgeb79a2a>emacs 编辑器配置</a></li><li><a href=#org0232e02>emqx 源码编译</a></li><li><a href=#org63abe84>添加自定义插件</a></li><li><a href=#org91c1187>启用自定义插件</a></li><li><a href=#org8c85d4f>反编译 <code>emqx_backend_mysql</code> 插件</a></li><li><a href=#org4dafec4>构造插件</a></li><li><a href=#orgaadf956>搭建临时 git 服务</a></li><li><a href=#org2054d0d>重新编译</a></li><li><a href=#org773634b>测试插件</a></li><li><a href=#org314e5bf>构建镜像</a></li></ul></li></ul><p><a id=orgc3804b0></a></p><h1 id=emqx-mysql-插件>emqx mysql 插件</h1><p><a id=org5864efb></a></p><h2 id=erlang-环境配置>erlang 环境配置</h2><p>erlang 推荐使用 22 版本，经过测试用 23 版本编译出来运行有问题。各平台安装 erlang 详情请参考官方文档。 linux 系统可以使用 kerl 脚本安装，构建最新版本的 emqx 时注意编译的 gcc 版本不能用 10，编译通不过，推荐用 gcc-9</p><p>下载 kerl</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl -O https://raw.githubusercontent.com/kerl/kerl/master/kerl
+</span></span><span style=display:flex><span>chmod +x kerl
+</span></span></code></pre></div><p>安装 erlang</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kerl update releases
+</span></span><span style=display:flex><span><span style=color:#888;font-style:italic># 如果直接构建报错，修改 ~/.kerl/builds/22.3/otp_src_22.3/Makefile</span>
+</span></span><span style=display:flex><span><span style=color:#888;font-style:italic># 将 gcc 改为 gcc9</span>
+</span></span><span style=display:flex><span>kerl build 22.3 22.3
+</span></span><span style=display:flex><span>kerl install 22.3 /opt/erlang/22.3
+</span></span><span style=display:flex><span><span style=color:#888;font-style:italic># 启用环境</span>
+</span></span><span style=display:flex><span><span style=font-weight:700;font-style:italic>source</span> /opt/erlang/22.3/activate
+</span></span><span style=display:flex><span><span style=color:#888;font-style:italic># 设置环境变量，这样不用每次手动启用</span>
+</span></span><span style=display:flex><span><span style=font-weight:700;font-style:italic>echo</span> <span style=color:#666;font-style:italic>&#39;source /opt/erlang/22.3/activate&#39;</span> &gt;&gt; ~/.bashrc
+</span></span></code></pre></div><p>安装 rebar3</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>curl -OL https://s3.amazonaws.com/rebar3/rebar3
+</span></span><span style=display:flex><span>./rebar3 <span style=font-weight:700;font-style:italic>local</span> install
+</span></span><span style=display:flex><span><span style=color:#888;font-style:italic># 然后根据输出操作</span>
+</span></span></code></pre></div><p><a id=orgeb79a2a></a></p><h2 id=emacs-编辑器配置>emacs 编辑器配置</h2><p>需要安装 erlang 包，提供 erlang-mode 再安装 erlang-lsp</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>git clone https://github.com/erlang-ls/erlang_ls.git
+</span></span><span style=display:flex><span><span style=font-weight:700;font-style:italic>cd</span> erlang_ls &amp;&amp; make
+</span></span></code></pre></div><p><a id=org0232e02></a></p><h2 id=emqx-源码编译>emqx 源码编译</h2><p>先克隆仓库，由于我们使用 v4.1.2 版本，所以切换到改 tag</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>git clone https://github.com/emqx/emqx-rel.git
+</span></span><span style=display:flex><span><span style=font-weight:700;font-style:italic>cd</span> emqx-rel
+</span></span><span style=display:flex><span>git checkout v4.1.2
+</span></span><span style=display:flex><span>make
+</span></span></code></pre></div><p>正常构建成功后，运行 <code>_build/emqx/rel/emqx/bin/emqx console</code> 启动 emqx</p><p><a id=org63abe84></a></p><h2 id=添加自定义插件>添加自定义插件</h2><p>修改 <code>rebar.config</code></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-erlang data-lang=erlang><span style=display:flex><span>  {deps,
+</span></span><span style=display:flex><span>     [ {buildrun_emqx_backend_mysql, {git, <span style=color:#666;font-style:italic>&#34;https://github.com/goBuildRun/buildrun-emqx-backend-mysql.git&#34;</span>, {branch, <span style=color:#666;font-style:italic>&#34;master&#34;</span>}}}
+</span></span><span style=display:flex><span>     , ....
+</span></span><span style=display:flex><span>     ....
+</span></span><span style=display:flex><span>     ]
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>{relx,
+</span></span><span style=display:flex><span>    [...
+</span></span><span style=display:flex><span>    , ...
+</span></span><span style=display:flex><span>    , {release, {emqx, git_describe},
+</span></span><span style=display:flex><span>       [
+</span></span><span style=display:flex><span>         {buildrun_emqx_backend_mysql, load},
+</span></span><span style=display:flex><span>       ]
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>    ]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><img src=http://minio.gobuildrun.com/knowledgebase-service/13f84bdb-772d-4350-8d29-be96431ce5ae/blob.png alt=img></p><p>修改完成后重新编译，打开 <code>localhost:18083</code> 的插件栏可以看到 <code>buildrun_emqx_backend_mysql</code> 插件。</p><p><a id=org91c1187></a></p><h2 id=启用自定义插件>启用自定义插件</h2><p>执行以下 shell 脚本可以启动 mysql 容器</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#888;font-weight:700>#!/bin/bash
+</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700></span>init_dir(){
+</span></span><span style=display:flex><span>    docker run -d -e <span style=color:#666;font-weight:700;font-style:italic>MYSQL_ROOT_PASSWORD</span>=<span style=color:#666;font-style:italic>&#34;1qaz!QAZ&#34;</span> --name mysql_temp mysql:5.7
+</span></span><span style=display:flex><span>    docker cp mysql_temp:/etc/mysql/mysql.conf.d <span style=color:#666;font-weight:700;font-style:italic>$PWD</span>/
+</span></span><span style=display:flex><span>    mv <span style=color:#666;font-weight:700;font-style:italic>$PWD</span>/mysql.conf.d <span style=color:#666;font-weight:700;font-style:italic>$PWD</span>/mysql_conf
+</span></span><span style=display:flex><span>    docker cp mysql_temp:/var/lib/mysql <span style=color:#666;font-weight:700;font-style:italic>$PWD</span>/
+</span></span><span style=display:flex><span>    mv <span style=color:#666;font-weight:700;font-style:italic>$PWD</span>/mysql <span style=color:#666;font-weight:700;font-style:italic>$PWD</span>/mysql_data
+</span></span><span style=display:flex><span>    docker stop mysql_temp &amp;&amp; docker rm mysql_temp
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>main(){
+</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span> [[ ! -d mysql_conf || ! -d mysql_data ]]; <span style=font-weight:700>then</span>
+</span></span><span style=display:flex><span>        init_dir
+</span></span><span style=display:flex><span>    <span style=font-weight:700>fi</span>
+</span></span><span style=display:flex><span>    docker run -d <span style=color:#666;font-style:italic>\
+</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>        -p 3306:3306 <span style=color:#666;font-style:italic>\
+</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>        -e <span style=color:#666;font-weight:700;font-style:italic>MYSQL_ROOT_PASSWORD</span>=<span style=color:#666;font-style:italic>&#34;1qaz!QAZ&#34;</span> <span style=color:#666;font-style:italic>\
+</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>        -v <span style=color:#666;font-weight:700;font-style:italic>$PWD</span>/mysql_conf:/etc/mysql/conf.d:rw <span style=color:#666;font-style:italic>\
+</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>        -v <span style=color:#666;font-weight:700;font-style:italic>$PWD</span>/mysql_data:/var/lib/mysql:rw <span style=color:#666;font-style:italic>\
+</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>        --name mysql <span style=color:#666;font-style:italic>\
+</span></span></span><span style=display:flex><span><span style=color:#666;font-style:italic></span>        mysql:5.7
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>main
+</span></span></code></pre></div><p>mysql 启动后执行以下 sql</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=font-weight:700>CREATE</span> <span style=font-weight:700>DATABASE</span> MQTT;
+</span></span><span style=display:flex><span>USE MQTT;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>DROP</span> <span style=font-weight:700>TABLE</span> <span style=font-weight:700>IF</span> <span style=font-weight:700>EXISTS</span> `mqtt_client`;
+</span></span><span style=display:flex><span><span style=font-weight:700>CREATE</span> <span style=font-weight:700>TABLE</span> `mqtt_client` (
+</span></span><span style=display:flex><span>  `id` <span style=font-weight:700;font-style:italic>int</span>(11) unsigned <span style=font-weight:700>NOT</span> <span style=font-weight:700>NULL</span> AUTO_INCREMENT,
+</span></span><span style=display:flex><span>  `clientid` <span style=font-weight:700;font-style:italic>varchar</span>(64) <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `<span style=font-weight:700>state</span>` <span style=font-weight:700;font-style:italic>varchar</span>(3) <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `node` <span style=font-weight:700;font-style:italic>varchar</span>(100) <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `online_at` datetime <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `offline_at` datetime <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `created` <span style=font-weight:700>timestamp</span> <span style=font-weight:700>NULL</span> <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>CURRENT_TIMESTAMP</span>,
+</span></span><span style=display:flex><span>  <span style=font-weight:700>PRIMARY</span> <span style=font-weight:700>KEY</span> (`id`),
+</span></span><span style=display:flex><span>  <span style=font-weight:700>KEY</span> `mqtt_client_idx` (`clientid`),
+</span></span><span style=display:flex><span>  <span style=font-weight:700>UNIQUE</span> <span style=font-weight:700>KEY</span> `mqtt_client_key` (`clientid`)
+</span></span><span style=display:flex><span>) ENGINE=InnoDB <span style=font-weight:700>DEFAULT</span> CHARSET=utf8;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>DROP</span> <span style=font-weight:700>TABLE</span> <span style=font-weight:700>IF</span> <span style=font-weight:700>EXISTS</span> `mqtt_retain`;
+</span></span><span style=display:flex><span><span style=font-weight:700>CREATE</span> <span style=font-weight:700>TABLE</span> `mqtt_retain` (
+</span></span><span style=display:flex><span>  `id` <span style=font-weight:700;font-style:italic>int</span>(11) unsigned <span style=font-weight:700>NOT</span> <span style=font-weight:700>NULL</span> AUTO_INCREMENT,
+</span></span><span style=display:flex><span>  `topic` <span style=font-weight:700;font-style:italic>varchar</span>(200) <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `msgid` <span style=font-weight:700;font-style:italic>varchar</span>(60) <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `sender` <span style=font-weight:700;font-style:italic>varchar</span>(100) <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `node` <span style=font-weight:700;font-style:italic>varchar</span>(100) <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `qos` <span style=font-weight:700;font-style:italic>int</span>(2) <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `payload` <span style=font-weight:700;font-style:italic>blob</span>,
+</span></span><span style=display:flex><span>  `arrived` <span style=font-weight:700>timestamp</span> <span style=font-weight:700>NOT</span> <span style=font-weight:700>NULL</span> <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>CURRENT_TIMESTAMP</span>,
+</span></span><span style=display:flex><span>  <span style=font-weight:700>PRIMARY</span> <span style=font-weight:700>KEY</span> (`id`),
+</span></span><span style=display:flex><span>  <span style=font-weight:700>UNIQUE</span> <span style=font-weight:700>KEY</span> `mqtt_retain_key` (`topic`)
+</span></span><span style=display:flex><span>) ENGINE=InnoDB <span style=font-weight:700>DEFAULT</span> CHARSET=utf8;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>DROP</span> <span style=font-weight:700>TABLE</span> <span style=font-weight:700>IF</span> <span style=font-weight:700>EXISTS</span> `mqtt_acked`;
+</span></span><span style=display:flex><span><span style=font-weight:700>CREATE</span> <span style=font-weight:700>TABLE</span> `mqtt_acked` (
+</span></span><span style=display:flex><span>  `id` <span style=font-weight:700;font-style:italic>int</span>(11) unsigned <span style=font-weight:700>NOT</span> <span style=font-weight:700>NULL</span> AUTO_INCREMENT,
+</span></span><span style=display:flex><span>  `clientid` <span style=font-weight:700;font-style:italic>varchar</span>(200) <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `topic` <span style=font-weight:700;font-style:italic>varchar</span>(200) <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `mid` <span style=font-weight:700;font-style:italic>int</span>(200) <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `created` <span style=font-weight:700>timestamp</span> <span style=font-weight:700>NULL</span> <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  <span style=font-weight:700>PRIMARY</span> <span style=font-weight:700>KEY</span> (`id`),
+</span></span><span style=display:flex><span>  <span style=font-weight:700>UNIQUE</span> <span style=font-weight:700>KEY</span> `mqtt_acked_key` (`clientid`,`topic`)
+</span></span><span style=display:flex><span>) ENGINE=InnoDB <span style=font-weight:700>DEFAULT</span> CHARSET=utf8;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>DROP</span> <span style=font-weight:700>TABLE</span> <span style=font-weight:700>IF</span> <span style=font-weight:700>EXISTS</span> `mqtt_msg`;
+</span></span><span style=display:flex><span><span style=font-weight:700>CREATE</span> <span style=font-weight:700>TABLE</span> `mqtt_msg` (
+</span></span><span style=display:flex><span>  `id` <span style=font-weight:700;font-style:italic>int</span>(11) unsigned <span style=font-weight:700>NOT</span> <span style=font-weight:700>NULL</span> AUTO_INCREMENT,
+</span></span><span style=display:flex><span>  `msgid` <span style=font-weight:700;font-style:italic>varchar</span>(100) <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `topic` <span style=font-weight:700;font-style:italic>varchar</span>(1024) <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `sender` <span style=font-weight:700;font-style:italic>varchar</span>(1024) <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `node` <span style=font-weight:700;font-style:italic>varchar</span>(60) <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `qos` <span style=font-weight:700;font-style:italic>int</span>(11)  <span style=font-weight:700>DEFAULT</span> <span style=color:#666;font-style:italic>&#39;0&#39;</span>,
+</span></span><span style=display:flex><span>  `retain` tinyint(2) <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `payload` <span style=font-weight:700;font-style:italic>blob</span>,
+</span></span><span style=display:flex><span>  `arrived` <span style=font-weight:700>timestamp</span> <span style=font-weight:700>NOT</span> <span style=font-weight:700>NULL</span> <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>CURRENT_TIMESTAMP</span>,
+</span></span><span style=display:flex><span>  <span style=font-weight:700>PRIMARY</span> <span style=font-weight:700>KEY</span> (`id`)
+</span></span><span style=display:flex><span>) ENGINE=InnoDB <span style=font-weight:700>DEFAULT</span> CHARSET=utf8;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>DROP</span> <span style=font-weight:700>TABLE</span> <span style=font-weight:700>IF</span> <span style=font-weight:700>EXISTS</span> `mqtt_sub`;
+</span></span><span style=display:flex><span><span style=font-weight:700>CREATE</span> <span style=font-weight:700>TABLE</span> `mqtt_sub` (
+</span></span><span style=display:flex><span>  `id` <span style=font-weight:700;font-style:italic>int</span>(11) unsigned <span style=font-weight:700>NOT</span> <span style=font-weight:700>NULL</span> AUTO_INCREMENT,
+</span></span><span style=display:flex><span>  `clientid` <span style=font-weight:700;font-style:italic>varchar</span>(64) <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `topic` <span style=font-weight:700;font-style:italic>varchar</span>(255) <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `qos` <span style=font-weight:700;font-style:italic>int</span>(3) <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>NULL</span>,
+</span></span><span style=display:flex><span>  `created` <span style=font-weight:700>timestamp</span> <span style=font-weight:700>NULL</span> <span style=font-weight:700>DEFAULT</span> <span style=font-weight:700>CURRENT_TIMESTAMP</span>,
+</span></span><span style=display:flex><span>  <span style=font-weight:700>PRIMARY</span> <span style=font-weight:700>KEY</span> (`id`),
+</span></span><span style=display:flex><span>  <span style=font-weight:700>KEY</span> `mqtt_sub_idx` (`clientid`,`topic`(255),`qos`),
+</span></span><span style=display:flex><span>  <span style=font-weight:700>UNIQUE</span> <span style=font-weight:700>KEY</span> `mqtt_sub_key` (`clientid`,`topic`)
+</span></span><span style=display:flex><span>) ENGINE=InnoDB <span style=font-weight:700>DEFAULT</span> CHARSET=utf8;
+</span></span></code></pre></div><p>修改插件配置文件 <code>_build/emqx/rel/emqx/etc/plugins/buildrun_emqx_backend_mysql.conf</code></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>##====================================================================
+</span></span><span style=display:flex><span>## MySQL Backend for EMQ 3.0
+</span></span><span style=display:flex><span>##====================================================================
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>## MySQL Server
+</span></span><span style=display:flex><span>backend.mysql.server = 172.17.0.2:3306
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>## MySQL Pool Size
+</span></span><span style=display:flex><span>backend.mysql.pool_size = 8
+</span></span><span style=display:flex><span>## MySQL Username
+</span></span><span style=display:flex><span>backend.mysql.user = root
+</span></span><span style=display:flex><span>## MySQL Password
+</span></span><span style=display:flex><span>backend.mysql.password = 1qaz!QAZ
+</span></span><span style=display:flex><span>## MySQL Database
+</span></span><span style=display:flex><span>backend.mysql.database = mqtt
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>## MySQL Query Timeout
+</span></span><span style=display:flex><span>backend.mysql.query_timeout = 10s
+</span></span></code></pre></div><p>在 dashboard 插件栏点击启用 <code>buildrun_emqx_backend_mysql</code> 即可启用成功</p><p><img src=http://minio.gobuildrun.com/knowledgebase-service/f0c50f8a-a34e-4a3d-a53b-0415ddf9d2a5/blob.png alt=img></p><p><a id=org8c85d4f></a></p><h2 id=反编译-emqx_backend_mysql-插件>反编译 <code>emqx_backend_mysql</code> 插件</h2><p><code>emqx_backend_mysql</code> 插件只有在企业版的 <code>emqx</code> 中才有，而且不开源，但经过测试发现可以反编译该插件来获取源代码 首先获取 <code>emqx-ee</code> 版本，从 docker 容器中获取编译后的插件</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>docker pull emqx/emqx-ee:4.1.1-alpine-amd64
+</span></span><span style=display:flex><span>docker run -it --name emqx-ee --rm emqx/emqx-ee:4.1.1-alpine-amd64 sh
+</span></span></code></pre></div><p>新开终端从容器复制插件</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>docker cp emqx-ee:/opt/emqx ./emqx
+</span></span></code></pre></div><p>编写反编译脚本 <code>erl-decompile</code></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-erlang data-lang=erlang><span style=display:flex><span><span style=color:#888;font-style:italic>#!/usr/bin/env escript
+</span></span></span><span style=display:flex><span><span style=color:#888;font-style:italic></span>
+</span></span><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>main</span>(<span style=color:#666;font-weight:700;font-style:italic>BeamFile</span>) -&gt;
+</span></span><span style=display:flex><span>    [<span style=color:#666;font-weight:700;font-style:italic>FileName</span> | _] = <span style=color:#666;font-weight:700;font-style:italic>string</span>:<span style=color:#666;font-weight:700;font-style:italic>split</span>(<span style=color:#666;font-weight:700;font-style:italic>BeamFile</span>, <span style=color:#666;font-style:italic>&#34;.&#34;</span>),
+</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>SourceFile</span> = <span style=color:#666;font-weight:700;font-style:italic>string</span>:<span style=color:#666;font-weight:700;font-style:italic>concat</span>(<span style=color:#666;font-weight:700;font-style:italic>FileName</span>, <span style=color:#666;font-style:italic>&#34;.erl&#34;</span>),
+</span></span><span style=display:flex><span>    {ok, <span style=color:#666;font-weight:700;font-style:italic>Fd</span>} = <span style=color:#666;font-weight:700;font-style:italic>file</span>:<span style=color:#666;font-weight:700;font-style:italic>open</span>(<span style=color:#666;font-weight:700;font-style:italic>SourceFile</span>, [write]),
+</span></span><span style=display:flex><span>    {ok,{_,[{abstract_code,{_,<span style=color:#666;font-weight:700;font-style:italic>AC</span>}}]}} = <span style=color:#666;font-weight:700;font-style:italic>beam_lib</span>:<span style=color:#666;font-weight:700;font-style:italic>chunks</span>(<span style=color:#666;font-weight:700;font-style:italic>FileName</span>,[abstract_code]),
+</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>io</span>:<span style=color:#666;font-weight:700;font-style:italic>fwrite</span>(<span style=color:#666;font-weight:700;font-style:italic>Fd</span>, <span style=color:#666;font-style:italic>&#34;</span><span style=color:#666;font-style:italic>~s~n</span><span style=color:#666;font-style:italic>&#34;</span>, [<span style=color:#666;font-weight:700;font-style:italic>erl_prettypr</span>:<span style=color:#666;font-weight:700;font-style:italic>format</span>(<span style=color:#666;font-weight:700;font-style:italic>erl_syntax</span>:<span style=color:#666;font-weight:700;font-style:italic>form_list</span>(<span style=color:#666;font-weight:700;font-style:italic>AC</span>))]).
+</span></span></code></pre></div><p>将脚本放到可执行目录，在 <code>emqx_backend_mysql-4.1.1/ebin</code> 目录下进行反编译</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=font-weight:700>for</span> f in *.beam; <span style=font-weight:700>do</span> erl-decompile <span style=color:#666;font-weight:700;font-style:italic>$f</span>; <span style=font-weight:700>done</span>
+</span></span></code></pre></div><p>执行成功后会生成 erl 源文件</p><p><a id=org4dafec4></a></p><h2 id=构造插件>构造插件</h2><p>克隆插件模板，并重命名</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>https://github.com/emqx/emqx-plugin-template.git
+</span></span><span style=display:flex><span>mv emqx-plugin-template emqx_backend_mysql
+</span></span></code></pre></div><p>将 <code>emqx_backend_mysql/src</code> 下的 <code>erl</code> 模板文件删除 将反编译出来的 <code>erl</code> 源文件复制到 <code>emqx_backend_mysql/src</code> 目录下，将原来 <code>ebin</code> 目录下的 <code>emqx_backend_mysql.app</code> 文件也一起复制过来 将 <code>emqx_backend_mysql/src</code> 目录下的 <code>emqx_plugin_template.app.src</code> 和 <code>emqx_plugin_template.app.src.script</code> 重命名</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>rm *.erl
+</span></span><span style=display:flex><span>cp path/to/ebin/*.erl ./
+</span></span><span style=display:flex><span>mv emqx_plugin_tempate.app.src emqx_backend_mysql.app.src
+</span></span><span style=display:flex><span>mv emqx_plugin_tempate.app.src.script emqx_backend_mysql.app.src.script
+</span></span></code></pre></div><p>修改 <code>emqx_backend_mysql.app.src</code> 内容，无关紧要的可以先不用改</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-erl data-lang=erl><span style=display:flex><span>{application, emqx_backend_mysql,
+</span></span><span style=display:flex><span> [{description, <span style=color:#666;font-style:italic>&#34;EMQ X Backend Mysql&#34;</span>},
+</span></span><span style=display:flex><span>  {vsn, <span style=color:#666;font-style:italic>&#34;git&#34;</span>},
+</span></span><span style=display:flex><span>  {modules, []},
+</span></span><span style=display:flex><span>  {registered, [emqx_backend_mysql_sup]},
+</span></span><span style=display:flex><span>  {applications, [kernel,stdlib]},
+</span></span><span style=display:flex><span>  {mod, {emqx_backend_mysql_app,[]}},
+</span></span><span style=display:flex><span>  {env, []},
+</span></span><span style=display:flex><span>  {licenses, [<span style=color:#666;font-style:italic>&#34;Apache-2.0&#34;</span>]},
+</span></span><span style=display:flex><span>  {maintainers, [<span style=color:#666;font-style:italic>&#34;EMQ X Team &lt;contact@emqx.io&gt;&#34;</span>]},
+</span></span><span style=display:flex><span>  {links, [{<span style=color:#666;font-style:italic>&#34;Homepage&#34;</span>, <span style=color:#666;font-style:italic>&#34;https://emqx.io/&#34;</span>},
+</span></span><span style=display:flex><span>           {<span style=color:#666;font-style:italic>&#34;Github&#34;</span>, <span style=color:#666;font-style:italic>&#34;https://github.com/emqx/emqx-plugin-template&#34;</span>}
+</span></span><span style=display:flex><span>          ]}
+</span></span><span style=display:flex><span> ]}.
+</span></span></code></pre></div><p>最终 <code>src</code> 下的文件结构</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>src/
+</span></span><span style=display:flex><span>├── emqx_backend_mysql_actions.erl
+</span></span><span style=display:flex><span>├── emqx_backend_mysql.app
+</span></span><span style=display:flex><span>├── emqx_backend_mysql_app.erl
+</span></span><span style=display:flex><span>├── emqx_backend_mysql.app.src
+</span></span><span style=display:flex><span>├── emqx_backend_mysql.app.src.script
+</span></span><span style=display:flex><span>├── emqx_backend_mysql_batcher.erl
+</span></span><span style=display:flex><span>├── emqx_backend_mysql_cli.erl
+</span></span><span style=display:flex><span>├── emqx_backend_mysql.erl
+</span></span><span style=display:flex><span>└── emqx_backend_mysql_sup.erl
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>0 directories, 9 files
+</span></span></code></pre></div><p>将从容器中复制出来的 <code>emqx_backend_mysql</code> 插件中的 <code>include</code> 和 <code>priv</code> 目录都复制到新建的插件目录 将 <code>emqx</code> 企业版的配置文件 <code>/etc/plugins/emqx_backend_mysql.conf</code> 复制到新插件的 <code>etc</code> 目录</p><p><a id=orgaadf956></a></p><h2 id=搭建临时-git-服务>搭建临时 git 服务</h2><p><code>emqx</code> 在构建时添加的插件需要能从 git 仓库中拉取，先在本地搭建一个临时的 git 服务用于测试</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mdir -p ~/Downloads/Git/emqx_backend_mysql.git
+</span></span><span style=display:flex><span><span style=font-weight:700;font-style:italic>cd</span> ~/Downloads/Git/emqx_backend_mysql.git
+</span></span><span style=display:flex><span>git init --bare
+</span></span><span style=display:flex><span>git daemon --verbose --export-all --enable=receive-pack --base-path=/home/cheon/Downloads/Git
+</span></span></code></pre></div><p>这样一个临时的 git 服务就搭建好了，在新建的插件目录进行关联远程仓库并提交</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>git remote set-url git://localhost/emqx_backend_mysql.git
+</span></span><span style=display:flex><span>git add .
+</span></span><span style=display:flex><span>git commit -m <span style=color:#666;font-style:italic>&#34;init&#34;</span>
+</span></span><span style=display:flex><span>git push origin master
+</span></span></code></pre></div><p><a id=org2054d0d></a></p><h2 id=重新编译>重新编译</h2><p>修改 <code>rebar.config</code></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-erlang data-lang=erlang><span style=display:flex><span>  {deps,
+</span></span><span style=display:flex><span>     [ {emqx_backend_mysql, {git, <span style=color:#666;font-style:italic>&#34;git://localhost/emqx-backend-mysql.git&#34;</span>, {branch, <span style=color:#666;font-style:italic>&#34;master&#34;</span>}}}
+</span></span><span style=display:flex><span>     , ....
+</span></span><span style=display:flex><span>     ....
+</span></span><span style=display:flex><span>     ]
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>{relx,
+</span></span><span style=display:flex><span>    [...
+</span></span><span style=display:flex><span>    , ...
+</span></span><span style=display:flex><span>    , {release, {emqx, git_describe},
+</span></span><span style=display:flex><span>       [
+</span></span><span style=display:flex><span>         {emqx_backend_mysql, load},
+</span></span><span style=display:flex><span>       ]
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>    ]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>修改完成后重新编译，打开 <code>localhost:18083</code> 的插件栏可以看到 <code>emqx_backend_mysql</code> 插件。</p><p><a id=org773634b></a></p><h2 id=测试插件>测试插件</h2><p>修改插件配置文件 <code>_build/emqx/rel/emqx/etc/plugins/emqx_backend_mysql.conf</code></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>##====================================================================
+</span></span><span style=display:flex><span>## Configuration for EMQ X MySQL Backend
+</span></span><span style=display:flex><span>##====================================================================
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>## MySQL Server
+</span></span><span style=display:flex><span>backend.mysql.pool1.server = 172.17.0.2:3306
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>## MySQL Pool Size
+</span></span><span style=display:flex><span>backend.mysql.pool1.pool_size = 8
+</span></span><span style=display:flex><span>## MySQL Username
+</span></span><span style=display:flex><span>backend.mysql.pool1.user = root
+</span></span><span style=display:flex><span>## MySQL Password
+</span></span><span style=display:flex><span>backend.mysql.pool1.password = 1qaz!QAZ
+</span></span><span style=display:flex><span>## MySQL Database
+</span></span><span style=display:flex><span>backend.mysql.pool1.database = mqtt
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>## Client Connected Record 
+</span></span><span style=display:flex><span>backend.mysql.hook.client.connected.1    = {&#34;action&#34;: {&#34;function&#34;: &#34;on_client_connected&#34;}, &#34;pool&#34;: &#34;pool1&#34;}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>## Session Created Record 
+</span></span><span style=display:flex><span>backend.mysql.hook.client.connected.2     = {&#34;action&#34;: {&#34;function&#34;: &#34;on_subscribe_lookup&#34;}, &#34;pool&#34;: &#34;pool1&#34;}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>## Client DisConnected Record 
+</span></span><span style=display:flex><span>backend.mysql.hook.client.disconnected.1 = {&#34;action&#34;: {&#34;function&#34;: &#34;on_client_disconnected&#34;}, &#34;pool&#34;: &#34;pool1&#34;}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>## Lookup Unread Message QOS &gt; 0
+</span></span><span style=display:flex><span>backend.mysql.hook.session.subscribed.1  = {&#34;topic&#34;: &#34;#&#34;, &#34;action&#34;: {&#34;function&#34;: &#34;on_message_fetch&#34;}, &#34;offline_opts&#34;: {&#34;max_returned_count&#34;: 500, &#34;time_range&#34;: &#34;2h&#34;}, &#34;pool&#34;: &#34;pool1&#34;}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>## Lookup Retain Message
+</span></span><span style=display:flex><span>backend.mysql.hook.session.subscribed.2  = {&#34;topic&#34;: &#34;#&#34;, &#34;action&#34;: {&#34;function&#34;: &#34;on_retain_lookup&#34;}, &#34;pool&#34;: &#34;pool1&#34;}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>## Delete Acked Record
+</span></span><span style=display:flex><span>backend.mysql.hook.session.unsubscribed.1= {&#34;topic&#34;: &#34;#&#34;, &#34;action&#34;: {&#34;sql&#34;: [&#34;delete from mqtt_acked where clientid = ${clientid} and topic = ${topic}&#34;]}, &#34;pool&#34;: &#34;pool1&#34;}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>## Store Publish Message QOS &gt; 0
+</span></span><span style=display:flex><span>backend.mysql.hook.message.publish.1     = {&#34;topic&#34;: &#34;#&#34;, &#34;action&#34;: {&#34;function&#34;: &#34;on_message_publish&#34;}, &#34;pool&#34;: &#34;pool1&#34;}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>## Store Retain Message
+</span></span><span style=display:flex><span>backend.mysql.hook.message.publish.2     = {&#34;topic&#34;: &#34;#&#34;, &#34;action&#34;: {&#34;function&#34;: &#34;on_message_retain&#34;}, &#34;pool&#34;: &#34;pool1&#34;}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>## Delete Retain Message
+</span></span><span style=display:flex><span>backend.mysql.hook.message.publish.3     = {&#34;topic&#34;: &#34;#&#34;, &#34;action&#34;: {&#34;function&#34;: &#34;on_retain_delete&#34;}, &#34;pool&#34;: &#34;pool1&#34;}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>## Store Ack
+</span></span><span style=display:flex><span>backend.mysql.hook.message.acked.1       = {&#34;topic&#34;: &#34;#&#34;, &#34;action&#34;: {&#34;function&#34;: &#34;on_message_acked&#34;}, &#34;pool&#34;: &#34;pool1&#34;}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>## Max number of fetch offline messages
+</span></span><span style=display:flex><span>## max_returned_count = 500
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>## Time Range
+</span></span><span style=display:flex><span>## d - day
+</span></span><span style=display:flex><span>## h - hour
+</span></span><span style=display:flex><span>## m - minute
+</span></span><span style=display:flex><span>## s - second
+</span></span><span style=display:flex><span>## time_range = 2h
+</span></span><span style=display:flex><span>## backend.mysql.hook.session.subscribed.1  = {&#34;topic&#34;: &#34;#&#34;, &#34;action&#34;: {&#34;function&#34;: &#34;on_message_fetch&#34;}, &#34;offline_opts&#34;: {&#34;max_returned_count&#34;: 500, &#34;time_range&#34;: &#34;2h&#34;}, &#34;pool&#34;: &#34;pool1&#34;}
+</span></span></code></pre></div><p>在 dashboard 插件栏点击启用 <code>emqx_backend_mysql</code> 即可启用成功，也可以通过命令行来启用</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>bin/emqx_ctl plugins load emqx_backend_mysql
+</span></span></code></pre></div><p>如果启用失败，可以查看日志文件 <code>log/emqx.log.1</code> 启用成功后，可以根据 <a href=https://docs.emqx.net/enterprise/latest/cn/rule/rule-example.html#%E4%BB%8E-pulsar-%E6%B6%88%E8%B4%B9%E6%B6%88%E6%81%AF%E5%88%B0-emq-x>官方文档</a> 来测试该插件</p><p><a id=org314e5bf></a></p><h2 id=构建镜像>构建镜像</h2><p><code>emqx-rel</code> 项目自带构建镜像的功能</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>make emqx-docker-build
+</span></span></code></pre></div></article></div></main><div><h4 id=signature>Wed Oct 14, 2020
+cheon</h4><ul class=tags><li><a href=https://number317.github.io/blog/tags/iot>iot</a></li><li><a href=https://number317.github.io/blog/tags/emqx>emqx</a></li></ul><ul class=related><li><a class=previous href=https://number317.github.io/blog/struct/org_blog_with_hugo/>用 hugo 组织 org 文件写博客</a></li></ul></div></div><section id=footer><div id=author><h2>About Author</h2><hr><img src=https://number317.github.io/images/author.jpg></img><p>Life is dance we all have to do.</p></div><ul id=link><li><a href=https://github.com/number317/aloha.git target=_blank><i class="fa fa-github" alt=github></i></a></li><li><a href="mailto:cheon0112358d@gmail.com?subject=blog%27s%20feedback" target=_blank><i class="fa fa-envelope" alt=email></i></a></li><li id=wechat><i class="fa fa-wechat"></i></li><img class=qrcode src=https://number317.github.io/images/wechat.jpg></ul></section></body></html>

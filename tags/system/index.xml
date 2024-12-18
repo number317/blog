@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>System on cheon's blog</title><link>https://number317.github.io/blog/tags/system/</link><description>Recent content in System on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/system/index.xml" rel="self" type="application/rss+xml"/><item><title>Archlinux Nvidia</title><link>https://number317.github.io/blog/system/archlinux_nvidia/</link><pubDate>Sun, 29 Sep 2019 14:07:53 +0800</pubDate><guid>https://number317.github.io/blog/system/archlinux_nvidia/</guid><description>&lt;h1 id="archlinux-配置-nvidia-独立显卡">ArchLinux 配置 nvidia 独立显卡&lt;/h1>
+&lt;p>按照 &lt;a href="https://download.nvidia.com/XFree86/Linux-x86_64/435.21/README/primerenderoffload.html">PRIME Render Offload&lt;/a> 文档，安装新版本的 nvidia 驱动和 xorg，新版本的 xorg 安装包可以从 &lt;a href="https://gitlab.freedesktop.org/aplattner/arch-xorg-server">arch-xorg-server&lt;/a> 构建。
+修改配置文件 &lt;code>/etc/X11/xorg.conf&lt;/code> ，主要添加&lt;/p>
+&lt;pre>&lt;code>Section &amp;quot;ServerLayout&amp;quot;
+ Identifier &amp;quot;layout&amp;quot;
+ Option &amp;quot;AllowNVIDIAGPUScreens&amp;quot;
+EndSection
+&lt;/code>&lt;/pre>
+&lt;p>完整配置如下:&lt;/p>
+&lt;details>
+&lt;summary>xorg.conf&lt;/summary>
+&lt;pre>&lt;code>Section &amp;quot;ServerLayout&amp;quot;
+ Identifier &amp;quot;X.org Configured&amp;quot;
+ Screen 0 &amp;quot;Screen0&amp;quot; 0 0
+ #Screen 1 &amp;quot;Screen1&amp;quot; RightOf &amp;quot;Screen0&amp;quot;
+ InputDevice &amp;quot;Mouse0&amp;quot; &amp;quot;CorePointer&amp;quot;
+ InputDevice &amp;quot;Keyboard0&amp;quot; &amp;quot;CoreKeyboard&amp;quot;
+ Option &amp;quot;AllowNVIDIAGPUScreens&amp;quot;
+EndSection
+
+Section &amp;quot;Files&amp;quot;
+ ModulePath &amp;quot;/usr/lib/xorg/modules&amp;quot;
+ ModulePath &amp;quot;/usr/lib/modules/extramodules-ARCH&amp;quot;
+ FontPath &amp;quot;/usr/share/fonts/TTF&amp;quot;
+ FontPath &amp;quot;/usr/share/fonts/adobe-source-code-pro&amp;quot;
+EndSection
+
+Section &amp;quot;Module&amp;quot;
+ Load &amp;quot;glx&amp;quot;
+ Load &amp;quot;nvidia-drm&amp;quot;
+EndSection
+
+Section &amp;quot;InputDevice&amp;quot;
+ Identifier &amp;quot;Keyboard0&amp;quot;
+ Driver &amp;quot;kbd&amp;quot;
+EndSection
+
+Section &amp;quot;InputDevice&amp;quot;
+ Identifier &amp;quot;Mouse0&amp;quot;
+ Driver &amp;quot;mouse&amp;quot;
+ Option	 &amp;quot;Protocol&amp;quot; &amp;quot;auto&amp;quot;
+ Option	 &amp;quot;Device&amp;quot; &amp;quot;/dev/input/mice&amp;quot;
+ Option	 &amp;quot;ZAxisMapping&amp;quot; &amp;quot;4 5 6 7&amp;quot;
+EndSection
+
+Section &amp;quot;Monitor&amp;quot;
+ Identifier &amp;quot;Monitor0&amp;quot;
+ VendorName &amp;quot;Monitor Vendor&amp;quot;
+ ModelName &amp;quot;Monitor Model&amp;quot;
+EndSection
+
+Section &amp;quot;Device&amp;quot;
+ ### Available Driver options are:-
+ ### Values: &amp;lt;i&amp;gt;: integer, &amp;lt;f&amp;gt;: float, &amp;lt;bool&amp;gt;: &amp;quot;True&amp;quot;/&amp;quot;False&amp;quot;,
+ ### &amp;lt;string&amp;gt;: &amp;quot;String&amp;quot;, &amp;lt;freq&amp;gt;: &amp;quot;&amp;lt;f&amp;gt; Hz/kHz/MHz&amp;quot;,
+ ### &amp;lt;percent&amp;gt;: &amp;quot;&amp;lt;f&amp;gt;%&amp;quot;
+ ### [arg]: arg optional
+ #Option &amp;quot;SWcursor&amp;quot; 	# [&amp;lt;bool&amp;gt;]
+ #Option &amp;quot;kmsdev&amp;quot; 	# &amp;lt;str&amp;gt;
+ #Option &amp;quot;ShadowFB&amp;quot; 	# [&amp;lt;bool&amp;gt;]
+ #Option &amp;quot;AccelMethod&amp;quot; 	# &amp;lt;str&amp;gt;
+ #Option &amp;quot;PageFlip&amp;quot; 	# [&amp;lt;bool&amp;gt;]
+ #Option &amp;quot;ZaphodHeads&amp;quot; 	# &amp;lt;str&amp;gt;
+ #Option &amp;quot;DoubleShadow&amp;quot; 	# [&amp;lt;bool&amp;gt;]
+ Option &amp;quot;RenderAccel&amp;quot; &amp;quot;1&amp;quot;
+ Option &amp;quot;DPMS&amp;quot; &amp;quot;1&amp;quot;
+ Option &amp;quot;RegistryDwords&amp;quot; &amp;quot;EnableBrightnessControl=1&amp;quot;
+ Identifier &amp;quot;Card0&amp;quot;
+ Driver &amp;quot;modesetting&amp;quot;
+ BusID &amp;quot;PCI:0:2:0&amp;quot;
+EndSection
+
+Section &amp;quot;Device&amp;quot;
+ Identifier &amp;quot;Card1&amp;quot;
+ Driver &amp;quot;nvidia&amp;quot;
+ BusID &amp;quot;PCI:1:0:0&amp;quot;
+ Option &amp;quot;RenderAccel&amp;quot; &amp;quot;1&amp;quot;
+ Option &amp;quot;DPMS&amp;quot; &amp;quot;1&amp;quot;
+ Option &amp;quot;RegistryDwords&amp;quot; &amp;quot;EnableBrightnessControl=1&amp;quot;
+ Option &amp;quot;RegistryDwords&amp;quot; &amp;quot;PowerMizerLevelAC=0x3&amp;quot;
+ Option &amp;quot;RegistryDwords&amp;quot; &amp;quot;PowerMizerLevel=0x2&amp;quot;
+ Option &amp;quot;RegistryDwords&amp;quot; &amp;quot;PerfLevelSrc=0x3333&amp;quot;
+ Option &amp;quot;OnDemandVBlankInterrupts&amp;quot; &amp;quot;1&amp;quot;
+EndSection
+
+Section &amp;quot;Screen&amp;quot;
+ Identifier &amp;quot;Screen0&amp;quot;
+ Device &amp;quot;Card0&amp;quot;
+ Monitor &amp;quot;Monitor0&amp;quot;
+ SubSection &amp;quot;Display&amp;quot;
+ Viewport 0 0
+ Depth 1
+ EndSubSection
+ SubSection &amp;quot;Display&amp;quot;
+ Viewport 0 0
+ Depth 4
+ EndSubSection
+ SubSection &amp;quot;Display&amp;quot;
+ Viewport 0 0
+ Depth 8
+ EndSubSection
+ SubSection &amp;quot;Display&amp;quot;
+ Viewport 0 0
+ Depth 15
+ EndSubSection
+ SubSection &amp;quot;Display&amp;quot;
+ Viewport 0 0
+ Depth 16
+ EndSubSection
+ SubSection &amp;quot;Display&amp;quot;
+ Viewport 0 0
+ Depth 24
+ EndSubSection
+EndSection
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;p>安装好软件后需要重启电脑，开启桌面后执行 &lt;code>xrandr --listproviders&lt;/code> ，应该可以看到如下结果:&lt;/p></description></item></channel></rss>

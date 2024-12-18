@@ -1,0 +1,45 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel=stylesheet><link href=//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
+<a href=https://number317.github.io/blog/>cheon's blog</a></li><li>»
+<a href=https://number317.github.io/blog/struct/>struct</a></li><li class=active>»
+<a href=https://number317.github.io/blog/struct/rabbitmq_hello_world/>Rabbitmq Hello World</a></li></ul><div id=content><main id=main><h1>Rabbitmq Hello World</h1><time>Last updated Fri Jun 14, 2019</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents></nav></aside><article id=content><h1 id=hello-world>Hello World</h1><p>我们将用python写两个简单的程序，一个生产者发送一条信息，一个消费者接受并打印信息。图中的"P"指代生产者，&ldquo;C"指代消费者，中间的盒子指代一个队列——RabbitMQ 的一个消息缓存。</p><p><img src=https://number317.github.io/blog/struct/images/rabbitmq_hello_world_img1.png alt="Hello World 架构图"></p><p>生产者send.py:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#888;font-style:italic>#!/usr/bin/env python</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#666;font-weight:700;font-style:italic>pika</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>connection = pika.BlockingConnection(pika.ConnectionParameters(<span style=color:#666;font-style:italic>&#39;172.17.0.2&#39;</span>, credentials=pika.PlainCredentials(<span style=color:#666;font-style:italic>&#39;guest&#39;</span>, <span style=color:#666;font-style:italic>&#39;guest&#39;</span>)))
+</span></span><span style=display:flex><span>channel = connection.channel()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>channel.queue_declare(queue=<span style=color:#666;font-style:italic>&#39;hello&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>channel.basic_publish(
+</span></span><span style=display:flex><span>        exchange=<span style=color:#666;font-style:italic>&#39;&#39;</span>,
+</span></span><span style=display:flex><span>        routing_key=<span style=color:#666;font-style:italic>&#39;hello&#39;</span>,
+</span></span><span style=display:flex><span>        body=<span style=color:#666;font-style:italic>&#39;Hello World!&#39;</span>
+</span></span><span style=display:flex><span>        )
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700;font-style:italic>print</span>(<span style=color:#666;font-style:italic>&#34; [x] Sent &#39;Helllo World!&#39;&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>connection.close()
+</span></span></code></pre></div><p>消费者receive.py:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#888;font-style:italic>#!/usr/bin/env python</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#666;font-weight:700;font-style:italic>pika</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>connection = pika.BlockingConnection(pika.ConnectionParameters(<span style=color:#666;font-style:italic>&#39;172.17.0.2&#39;</span>, credentials=pika.PlainCredentials(<span style=color:#666;font-style:italic>&#39;guest&#39;</span>, <span style=color:#666;font-style:italic>&#39;guest&#39;</span>)))
+</span></span><span style=display:flex><span>channel = connection.channel()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>channel.queue_declare(queue=<span style=color:#666;font-style:italic>&#39;hello&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>def</span> <span style=color:#666;font-weight:700;font-style:italic>callback</span>(ch, method, properties, body):
+</span></span><span style=display:flex><span>    <span style=font-weight:700;font-style:italic>print</span>(<span style=color:#666;font-style:italic>&#34; [x] Received </span><span style=color:#666;font-style:italic>%r</span><span style=color:#666;font-style:italic>&#34;</span> % body)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>channel.basic_consume(
+</span></span><span style=display:flex><span>        callback,
+</span></span><span style=display:flex><span>        queue=<span style=color:#666;font-style:italic>&#39;hello&#39;</span>,
+</span></span><span style=display:flex><span>        no_ack=<span style=font-weight:700>True</span>
+</span></span><span style=display:flex><span>        )
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700;font-style:italic>print</span>(<span style=color:#666;font-style:italic>&#39; [*] Waiting for message. To exit press CTRL+C&#39;</span>)
+</span></span><span style=display:flex><span>channel.start_consuming()
+</span></span></code></pre></div><p>如果想要查看 RabbitMQ 中有什么队列，队列中有多少信息，可以通过<code>rabbitmqctl</code>来查看：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>rabbitmqctl list_queues
+</span></span></code></pre></div></article></div></main><div><h4 id=signature>Thu Oct 26, 2017
+cheon</h4><ul class=tags><li><a href=https://number317.github.io/blog/tags/rabbitmq>rabbitmq</a></li></ul><ul class=related><li><a class=previous href=https://number317.github.io/blog/struct/rabbitmq_cluster/>Rabbitmq Cluster</a></li><li><a class=next href=https://number317.github.io/blog/struct/rabbitmq_work_queue/>Rabbitmq Work Queue</a></li></ul></div></div><section id=footer><div id=author><h2>About Author</h2><hr><img src=https://number317.github.io/images/author.jpg></img><p>Life is dance we all have to do.</p></div><ul id=link><li><a href=https://github.com/number317/aloha.git target=_blank><i class="fa fa-github" alt=github></i></a></li><li><a href="mailto:cheon0112358d@gmail.com?subject=blog%27s%20feedback" target=_blank><i class="fa fa-envelope" alt=email></i></a></li><li id=wechat><i class="fa fa-wechat"></i></li><img class=qrcode src=https://number317.github.io/images/wechat.jpg></ul></section></body></html>

@@ -1,0 +1,140 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel=stylesheet><link href=//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
+<a href=https://number317.github.io/blog/>cheon's blog</a></li><li>»
+<a href=https://number317.github.io/blog/struct/>struct</a></li><li class=active>»
+<a href=https://number317.github.io/blog/struct/fluentd_config/>Fluentd Config</a></li></ul><div id=content><main id=main><h1>Fluentd Config</h1><time>Last updated Fri Jun 14, 2019</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents><ul><li><a href=#匹配样式match-pattern-在fluentd中控制事件流>匹配样式(Match Pattern): 在fluentd中控制事件流</a></li><li><a href=#匹配顺序>匹配顺序</a></li><li><a href=#process_name>process_name</a></li><li><a href=#error-label>@ERROR label</a></li></ul></nav></aside><article id=content><h1 id=命令列表>命令列表</h1><p>Fluentd配置文件由以下配置文件组成：</p><ol><li><code>source</code>命令 指明数据输入源</li><li><code>match</code>命令 指明数据输出源</li><li><code>filter</code>命令 指明事件处理的管道</li><li><code>system</code>命令 指明系统级别配置</li><li><code>label</code>命令 为输出分组并过滤内部路由</li><li><code>include</code>命令 包含其他文件</li></ol><h1 id=命令详解>命令详解</h1><ol><li><p><code>source</code>: 数据的来源</p><p>Fluentd的输入源通过<code>source</code>命令选择和配置想要的输入插件来启用。Fluentd的标准输入插件包括<code>http</code>和<code>forward</code>。<code>http</code>使得Fluentd转变为一个HTTP终端用于接收到来的HTTP信息，而<code>forward</code>将fluentd转变为一个TCP终端用于接收TCP包。当然，它们可以被同时启用。</p><pre><code> # Receive events from 24224/tcp
+ # This is used by log forwarding and the fluent-cat command
+ &lt;source&gt;
+   @type forward
+   port 24224
+ &lt;/source&gt;
+
+ # http://this.host:9880/myapp.access?json={&quot;event&quot;:&quot;data&quot;}
+ &lt;source&gt;
+   @type http
+   port 9880
+ &lt;/source&gt;
+</code></pre><p>每一个<code>source</code>命令必须包含一个<code>type</code>参数。<code>type</code>参数指定使用哪一个输入插件。</p></li><li><p><code>match</code>: 告诉fluentd做什么</p><p><code>match</code>命令寻找匹配标签的事件并且处理它们。<code>match</code>命令最常见的用法是将事件输出到其他系统（由于这个原因，这些插件被称为”输出插件“）。Fluentd的标准输出插件包括<code>file</code>和<code>forward</code>。</p><pre><code> # Receive events from 24224/tcp
+ # This is used by log forwarding and the fluent-cat command
+ &lt;source&gt;
+   @type forward
+   port 24224
+ &lt;/source&gt;
+
+ # http://this.host:9880/myapp.access?json={&quot;event&quot;:&quot;data&quot;}
+ &lt;source&gt;
+   @type http
+   port 9880
+ &lt;/source&gt;
+
+ # Match events tagged with &quot;myapp.access&quot; and
+ # store them to /var/log/fluent/access.%Y-%m-%d
+ # Of course, you can control how you partition your data
+ # with the time_slice_format option.
+ &lt;match myapp.access&gt;
+   @type file
+   path /var/log/fluent/access
+ &lt;/match&gt;
+</code></pre><p>每一个<code>match</code>命令必须包括一个匹配的样式(match pattern)和一个<code>type</code>参数。只有拥有一个和匹配样式(match pattern)匹配的标签的事件才会被送到输出源（在上面的例子中，只有拥有"myapp.access"标签的事件是匹配的）。<code>type</code>参数指定了哪个输出插件被使用。</p><h2 id=匹配样式match-pattern-在fluentd中控制事件流>匹配样式(Match Pattern): 在fluentd中控制事件流</h2><hr><p>以下的匹配样式(match pattern)可以被用于<code>&lt;match></code>标签。</p><ul><li><code>*</code> 匹配一个单独的标签部分。<ul><li>例如，<code>a.*</code>匹配<code>a.b</code>，但是不匹配<code>a</code>或者<code>a.b.c</code></li></ul></li><li><code>**</code> 匹配0个或多个标签部分。<ul><li>例如，<code>a.**</code>匹配<code>a</code>，<code>a.b</code>，和<code>a.b.c</code></li></ul></li><li><code>{X,Y,Z}</code>匹配X，Y或Z，X，Y和Z是匹配的样式<ul><li>例如，<code>{a,b}</code>匹配<code>a</code>和<code>b</code>，但是不匹配<code>c</code></li><li>这个可以和<code>*</code>或<code>**</code>结合使用。例如<code>a.{b,c}.*</code>和<code>a.{b,c.**}</code></li></ul></li><li>当<code>&lt;match></code>标签列出多个样式时（以一个或多个空格分隔），会匹配任意一个列出的样式。例如：<ul><li>样式<code>&lt;match a b></code>匹配<code>a</code>和<code>b</code></li><li>样式<code>&lt;match a.** b.*></code>匹配<code>a</code>，<code>a.b</code>，<code>a.b.c</code>(来自第一个样式)和<code>b.d</code>(来自第二个样式)</li></ul></li></ul><h2 id=匹配顺序>匹配顺序</h2><hr><p>Fluentd以匹配样式在配置文件中出现的顺序来匹配标签。所以如果有一下配置：</p><pre><code> # ** matches all tags. Bad :(
+ &lt;match **&gt;
+   @type blackhole_plugin
+ &lt;/match&gt;
+
+ &lt;match myapp.access&gt;
+   @type file
+   path /var/log/fluent/access
+ &lt;/match&gt;
+</code></pre><p>那么<code>myapp.access</code>不会被匹配到。大范围的匹配应该定义在小范围匹配的后面。</p><pre><code> &lt;match myapp.access&gt;
+   @type file
+   path /var/log/fluent/access
+ &lt;/match&gt;
+
+ # Capture all unmatched tags. Good :)
+ &lt;match **&gt;
+   @type blackhole_plugin
+ &lt;/match&gt;
+</code></pre><p>当然，如果使用两个相同的样式，第二个<code>match</code>不会被匹配。</p><p>如果想要发送事件到多个输出，可以考虑<a href=https://docs.fluentd.org/v1.0/articles/out_copy>out_copy</a>插件</p></li><li><p><code>filter</code>: 事件处理管道</p><p><code>filter</code>命令和<code>match</code>有相同的语法，但是<code>filter</code>可以被链起来用于处理管道。使用过滤器，事件流看起来像下面这样：</p><pre><code> Input -&gt; filter 1 -&gt; ... -&gt; filter N -&gt; Output
+</code></pre><p>添加一个标准的<code>record_transformer</code>过滤器到"match"例子</p><pre><code> # http://this.host:9880/myapp.access?json={&quot;event&quot;:&quot;data&quot;}
+ &lt;source&gt;
+   @type http
+   port 9880
+ &lt;/source&gt;
+
+ &lt;filter myapp.access&gt;
+   @type record_transformer
+   &lt;record&gt;
+     host_param &quot;#{Socket.gethostname}&quot;
+   &lt;/record&gt;
+ &lt;/filter&gt;
+
+ &lt;match myapp.access&gt;
+   @type file
+   path /var/log/fluent/access
+ &lt;/match&gt;
+</code></pre><p>接收到事件，<code>{"event":"data"}</code>，首先到<code>record_transformer</code>过滤器。<code>record_transformer</code>添加"host_param"字段到事件并过滤，<code>{"event":"data","host_param":"webserver1"}</code>，到达<code>file</code>输出。</p><p><em><strong>过滤器的匹配顺序和输出一样，应该将<code>&lt;filter></code>放在<code>&lt;match></code>之前</strong></em></p></li><li><p><code>system</code>: 设置系统级别配置</p><p>以下配置可以通过<code>system</code>命令设置。也可以通过fluentd的选项来配置：</p><ul><li>log_level</li><li>suppress_repeated_stacktrace</li><li>emit_error_log_interval</li><li>suppress_config_dump</li><li>without_source</li><li>process_name (只在system命令中有效，无fluentd选项)</li></ul><p>这是一个例子：</p><pre><code> &lt;system&gt;
+   # equal to -qq option
+   log_level error
+   # equal to --without-source option
+   without_source
+   # ...
+ &lt;/system&gt;
+</code></pre><h2 id=process_name>process_name</h2><hr><p>如果设置了改参数，fluentd的supervisor和worker进程名会被改变。</p><pre><code> &lt;system&gt;
+   process_name fluentd1
+ &lt;/system&gt;
+</code></pre><p>如果使用这个配置，<code>ps</code>命令会显示一下结果：</p><pre><code> % ps aux | grep fluentd1
+ foo      45673   0.4  0.2  2523252  38620 s001  S+    7:04AM   0:00.44 worker:fluentd1
+ foo      45647   0.0  0.1  2481260  23700 s001  S+    7:04AM   0:00.40 supervisor:fluentd1
+</code></pre><p>这个特性需要ruby 2.1 及以上版本。</p></li><li><p><code>label</code>: 分组过滤器和输出</p><p>&ldquo;label"命令为内部路由分组过滤器和输出，降低了处理标签的复杂度。这是一个配置示例，&ldquo;label"是一个内置插件参数，所以<code>@</code>前缀是被需要的。</p><pre><code> &lt;source&gt;
+   @type forward
+ &lt;/source&gt;
+
+ &lt;source&gt;
+   @type tail
+   @label @SYSTEM
+ &lt;/source&gt;
+
+ &lt;filter access.**&gt;
+   @type record_transformer
+   &lt;record&gt;
+     # ...
+   &lt;/record&gt;
+ &lt;/filter&gt;
+ &lt;match **&gt;
+   @type elasticsearch
+   # ...
+ &lt;/match&gt;
+
+ &lt;label @SYSTEM&gt;
+   &lt;filter var.log.middleware.**&gt;
+     @type grep
+     # ...
+   &lt;/filter&gt;
+   &lt;match **&gt;
+     @type s3
+     # ...
+   &lt;/match&gt;
+ &lt;/label&gt;
+</code></pre><p>在这个配置中，<code>forward</code>事件被路由到<code>record_transformer</code>过滤器<code>elasticsearch</code>输出，<code>in_tail</code>事件被路由到<code>@SYSTEM</code>中的<code>grep</code>过滤器<code>s3</code>输出。对于没有tag前缀的事件流分割，&ldquo;label"是有效的。</p><h2 id=error-label>@ERROR label</h2><hr><p><code>@ERROR</code>标签是一个内置标签，通过<code>emit_error_event</code>插件的API用于错误记录的发送。如果在配置文件中设置了<code>&lt;label @ERROR></code>，当发生发送相关的错误时，例如缓存区满了或者非法的记录，事件被路由到这个标签。</p></li><li><p><code>@include</code>: 重新使用你的配置</p><p>在单独配置文件中的命令可以通过<code>@include</code>命令导入：</p><pre><code> # Include config files in the ./config.d directory
+ @include config.d/*.conf
+</code></pre><p><code>@include</code>命令支持正则文件路径，通配符，http URL：</p><pre><code> # absolute path
+ @include /path/to/config.conf
+
+     # if using a relative path, the directive will use
+     # the dirname of this config file to expand the path
+ @include extra.conf
+
+     # glob match pattern
+ @include config.d/*.conf
+
+     # http
+ @include http://example.com/fluent.conf
+</code></pre><p>注意在通配符中，文件以字母顺序展开。如果有<code>a.conf</code>和<code>b.conf</code>，fluentd先处理<code>a.conf</code>。但是不应该这样写配置文件，应该以更安全的方式写配置：</p><pre><code> # If you have a.conf,b.conf,...,z.conf and a.conf / z.conf are important...
+
+ # This is bad
+ @include *.conf
+
+ # This is good
+ @include a.conf
+ @include config.d/*.conf
+ @include z.conf
+</code></pre></li></ol></article></div></main><div><h4 id=signature>Fri Jan 5, 2018
+cheon</h4><ul class=tags><li><a href=https://number317.github.io/blog/tags/log>log</a></li><li><a href=https://number317.github.io/blog/tags/monitor>monitor</a></li></ul><ul class=related><li><a class=previous href=https://number317.github.io/blog/struct/k8s_cluster_deploy/>K8s Cluster Deploy</a></li><li><a class=next href=https://number317.github.io/blog/struct/glusterfs_deploy/>Glusterfs Deploy</a></li></ul></div></div><section id=footer><div id=author><h2>About Author</h2><hr><img src=https://number317.github.io/images/author.jpg></img><p>Life is dance we all have to do.</p></div><ul id=link><li><a href=https://github.com/number317/aloha.git target=_blank><i class="fa fa-github" alt=github></i></a></li><li><a href="mailto:cheon0112358d@gmail.com?subject=blog%27s%20feedback" target=_blank><i class="fa fa-envelope" alt=email></i></a></li><li id=wechat><i class="fa fa-wechat"></i></li><img class=qrcode src=https://number317.github.io/images/wechat.jpg></ul></section></body></html>

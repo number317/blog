@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Monitor on cheon's blog</title><link>https://number317.github.io/blog/tags/monitor/</link><description>Recent content in Monitor on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 14 Jun 2019 01:21:26 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/monitor/index.xml" rel="self" type="application/rss+xml"/><item><title>Fluentd Config</title><link>https://number317.github.io/blog/struct/fluentd_config/</link><pubDate>Fri, 05 Jan 2018 10:14:58 +0800</pubDate><guid>https://number317.github.io/blog/struct/fluentd_config/</guid><description>&lt;h1 id="命令列表">命令列表&lt;/h1>
+&lt;p>Fluentd配置文件由以下配置文件组成：&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>source&lt;/code>命令 指明数据输入源&lt;/li>
+&lt;li>&lt;code>match&lt;/code>命令 指明数据输出源&lt;/li>
+&lt;li>&lt;code>filter&lt;/code>命令 指明事件处理的管道&lt;/li>
+&lt;li>&lt;code>system&lt;/code>命令 指明系统级别配置&lt;/li>
+&lt;li>&lt;code>label&lt;/code>命令 为输出分组并过滤内部路由&lt;/li>
+&lt;li>&lt;code>include&lt;/code>命令 包含其他文件&lt;/li>
+&lt;/ol>
+&lt;h1 id="命令详解">命令详解&lt;/h1>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;code>source&lt;/code>: 数据的来源&lt;/p>
+&lt;p>Fluentd的输入源通过&lt;code>source&lt;/code>命令选择和配置想要的输入插件来启用。Fluentd的标准输入插件包括&lt;code>http&lt;/code>和&lt;code>forward&lt;/code>。&lt;code>http&lt;/code>使得Fluentd转变为一个HTTP终端用于接收到来的HTTP信息，而&lt;code>forward&lt;/code>将fluentd转变为一个TCP终端用于接收TCP包。当然，它们可以被同时启用。&lt;/p>
+&lt;pre>&lt;code> # Receive events from 24224/tcp
+ # This is used by log forwarding and the fluent-cat command
+ &amp;lt;source&amp;gt;
+ @type forward
+ port 24224
+ &amp;lt;/source&amp;gt;
+
+ # http://this.host:9880/myapp.access?json={&amp;quot;event&amp;quot;:&amp;quot;data&amp;quot;}
+ &amp;lt;source&amp;gt;
+ @type http
+ port 9880
+ &amp;lt;/source&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;p>每一个&lt;code>source&lt;/code>命令必须包含一个&lt;code>type&lt;/code>参数。&lt;code>type&lt;/code>参数指定使用哪一个输入插件。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>match&lt;/code>: 告诉fluentd做什么&lt;/p>
+&lt;p>&lt;code>match&lt;/code>命令寻找匹配标签的事件并且处理它们。&lt;code>match&lt;/code>命令最常见的用法是将事件输出到其他系统（由于这个原因，这些插件被称为”输出插件“）。Fluentd的标准输出插件包括&lt;code>file&lt;/code>和&lt;code>forward&lt;/code>。&lt;/p>
+&lt;pre>&lt;code> # Receive events from 24224/tcp
+ # This is used by log forwarding and the fluent-cat command
+ &amp;lt;source&amp;gt;
+ @type forward
+ port 24224
+ &amp;lt;/source&amp;gt;
+
+ # http://this.host:9880/myapp.access?json={&amp;quot;event&amp;quot;:&amp;quot;data&amp;quot;}
+ &amp;lt;source&amp;gt;
+ @type http
+ port 9880
+ &amp;lt;/source&amp;gt;
+
+ # Match events tagged with &amp;quot;myapp.access&amp;quot; and
+ # store them to /var/log/fluent/access.%Y-%m-%d
+ # Of course, you can control how you partition your data
+ # with the time_slice_format option.
+ &amp;lt;match myapp.access&amp;gt;
+ @type file
+ path /var/log/fluent/access
+ &amp;lt;/match&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;p>每一个&lt;code>match&lt;/code>命令必须包括一个匹配的样式(match pattern)和一个&lt;code>type&lt;/code>参数。只有拥有一个和匹配样式(match pattern)匹配的标签的事件才会被送到输出源（在上面的例子中，只有拥有&amp;quot;myapp.access&amp;quot;标签的事件是匹配的）。&lt;code>type&lt;/code>参数指定了哪个输出插件被使用。&lt;/p></description></item></channel></rss>

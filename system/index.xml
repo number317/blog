@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hello linux on cheon's blog</title><link>https://number317.github.io/blog/system/</link><description>Recent content in Hello linux on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/system/index.xml" rel="self" type="application/rss+xml"/><item><title>Archlinux Nvidia</title><link>https://number317.github.io/blog/system/archlinux_nvidia/</link><pubDate>Sun, 29 Sep 2019 14:07:53 +0800</pubDate><guid>https://number317.github.io/blog/system/archlinux_nvidia/</guid><description>&lt;h1 id="archlinux-配置-nvidia-独立显卡">ArchLinux 配置 nvidia 独立显卡&lt;/h1>
+&lt;p>按照 &lt;a href="https://download.nvidia.com/XFree86/Linux-x86_64/435.21/README/primerenderoffload.html">PRIME Render Offload&lt;/a> 文档，安装新版本的 nvidia 驱动和 xorg，新版本的 xorg 安装包可以从 &lt;a href="https://gitlab.freedesktop.org/aplattner/arch-xorg-server">arch-xorg-server&lt;/a> 构建。
+修改配置文件 &lt;code>/etc/X11/xorg.conf&lt;/code> ，主要添加&lt;/p>
+&lt;pre>&lt;code>Section &amp;quot;ServerLayout&amp;quot;
+ Identifier &amp;quot;layout&amp;quot;
+ Option &amp;quot;AllowNVIDIAGPUScreens&amp;quot;
+EndSection
+&lt;/code>&lt;/pre>
+&lt;p>完整配置如下:&lt;/p>
+&lt;details>
+&lt;summary>xorg.conf&lt;/summary>
+&lt;pre>&lt;code>Section &amp;quot;ServerLayout&amp;quot;
+ Identifier &amp;quot;X.org Configured&amp;quot;
+ Screen 0 &amp;quot;Screen0&amp;quot; 0 0
+ #Screen 1 &amp;quot;Screen1&amp;quot; RightOf &amp;quot;Screen0&amp;quot;
+ InputDevice &amp;quot;Mouse0&amp;quot; &amp;quot;CorePointer&amp;quot;
+ InputDevice &amp;quot;Keyboard0&amp;quot; &amp;quot;CoreKeyboard&amp;quot;
+ Option &amp;quot;AllowNVIDIAGPUScreens&amp;quot;
+EndSection
+
+Section &amp;quot;Files&amp;quot;
+ ModulePath &amp;quot;/usr/lib/xorg/modules&amp;quot;
+ ModulePath &amp;quot;/usr/lib/modules/extramodules-ARCH&amp;quot;
+ FontPath &amp;quot;/usr/share/fonts/TTF&amp;quot;
+ FontPath &amp;quot;/usr/share/fonts/adobe-source-code-pro&amp;quot;
+EndSection
+
+Section &amp;quot;Module&amp;quot;
+ Load &amp;quot;glx&amp;quot;
+ Load &amp;quot;nvidia-drm&amp;quot;
+EndSection
+
+Section &amp;quot;InputDevice&amp;quot;
+ Identifier &amp;quot;Keyboard0&amp;quot;
+ Driver &amp;quot;kbd&amp;quot;
+EndSection
+
+Section &amp;quot;InputDevice&amp;quot;
+ Identifier &amp;quot;Mouse0&amp;quot;
+ Driver &amp;quot;mouse&amp;quot;
+ Option	 &amp;quot;Protocol&amp;quot; &amp;quot;auto&amp;quot;
+ Option	 &amp;quot;Device&amp;quot; &amp;quot;/dev/input/mice&amp;quot;
+ Option	 &amp;quot;ZAxisMapping&amp;quot; &amp;quot;4 5 6 7&amp;quot;
+EndSection
+
+Section &amp;quot;Monitor&amp;quot;
+ Identifier &amp;quot;Monitor0&amp;quot;
+ VendorName &amp;quot;Monitor Vendor&amp;quot;
+ ModelName &amp;quot;Monitor Model&amp;quot;
+EndSection
+
+Section &amp;quot;Device&amp;quot;
+ ### Available Driver options are:-
+ ### Values: &amp;lt;i&amp;gt;: integer, &amp;lt;f&amp;gt;: float, &amp;lt;bool&amp;gt;: &amp;quot;True&amp;quot;/&amp;quot;False&amp;quot;,
+ ### &amp;lt;string&amp;gt;: &amp;quot;String&amp;quot;, &amp;lt;freq&amp;gt;: &amp;quot;&amp;lt;f&amp;gt; Hz/kHz/MHz&amp;quot;,
+ ### &amp;lt;percent&amp;gt;: &amp;quot;&amp;lt;f&amp;gt;%&amp;quot;
+ ### [arg]: arg optional
+ #Option &amp;quot;SWcursor&amp;quot; 	# [&amp;lt;bool&amp;gt;]
+ #Option &amp;quot;kmsdev&amp;quot; 	# &amp;lt;str&amp;gt;
+ #Option &amp;quot;ShadowFB&amp;quot; 	# [&amp;lt;bool&amp;gt;]
+ #Option &amp;quot;AccelMethod&amp;quot; 	# &amp;lt;str&amp;gt;
+ #Option &amp;quot;PageFlip&amp;quot; 	# [&amp;lt;bool&amp;gt;]
+ #Option &amp;quot;ZaphodHeads&amp;quot; 	# &amp;lt;str&amp;gt;
+ #Option &amp;quot;DoubleShadow&amp;quot; 	# [&amp;lt;bool&amp;gt;]
+ Option &amp;quot;RenderAccel&amp;quot; &amp;quot;1&amp;quot;
+ Option &amp;quot;DPMS&amp;quot; &amp;quot;1&amp;quot;
+ Option &amp;quot;RegistryDwords&amp;quot; &amp;quot;EnableBrightnessControl=1&amp;quot;
+ Identifier &amp;quot;Card0&amp;quot;
+ Driver &amp;quot;modesetting&amp;quot;
+ BusID &amp;quot;PCI:0:2:0&amp;quot;
+EndSection
+
+Section &amp;quot;Device&amp;quot;
+ Identifier &amp;quot;Card1&amp;quot;
+ Driver &amp;quot;nvidia&amp;quot;
+ BusID &amp;quot;PCI:1:0:0&amp;quot;
+ Option &amp;quot;RenderAccel&amp;quot; &amp;quot;1&amp;quot;
+ Option &amp;quot;DPMS&amp;quot; &amp;quot;1&amp;quot;
+ Option &amp;quot;RegistryDwords&amp;quot; &amp;quot;EnableBrightnessControl=1&amp;quot;
+ Option &amp;quot;RegistryDwords&amp;quot; &amp;quot;PowerMizerLevelAC=0x3&amp;quot;
+ Option &amp;quot;RegistryDwords&amp;quot; &amp;quot;PowerMizerLevel=0x2&amp;quot;
+ Option &amp;quot;RegistryDwords&amp;quot; &amp;quot;PerfLevelSrc=0x3333&amp;quot;
+ Option &amp;quot;OnDemandVBlankInterrupts&amp;quot; &amp;quot;1&amp;quot;
+EndSection
+
+Section &amp;quot;Screen&amp;quot;
+ Identifier &amp;quot;Screen0&amp;quot;
+ Device &amp;quot;Card0&amp;quot;
+ Monitor &amp;quot;Monitor0&amp;quot;
+ SubSection &amp;quot;Display&amp;quot;
+ Viewport 0 0
+ Depth 1
+ EndSubSection
+ SubSection &amp;quot;Display&amp;quot;
+ Viewport 0 0
+ Depth 4
+ EndSubSection
+ SubSection &amp;quot;Display&amp;quot;
+ Viewport 0 0
+ Depth 8
+ EndSubSection
+ SubSection &amp;quot;Display&amp;quot;
+ Viewport 0 0
+ Depth 15
+ EndSubSection
+ SubSection &amp;quot;Display&amp;quot;
+ Viewport 0 0
+ Depth 16
+ EndSubSection
+ SubSection &amp;quot;Display&amp;quot;
+ Viewport 0 0
+ Depth 24
+ EndSubSection
+EndSection
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;p>安装好软件后需要重启电脑，开启桌面后执行 &lt;code>xrandr --listproviders&lt;/code> ，应该可以看到如下结果:&lt;/p></description></item><item><title>Nerd Font</title><link>https://number317.github.io/blog/system/nerd_font/</link><pubDate>Fri, 21 Jun 2019 14:32:35 +0800</pubDate><guid>https://number317.github.io/blog/system/nerd_font/</guid><description>&lt;h1 id="图标字体">图标字体&lt;/h1>
+&lt;p>在用 &lt;a href="https://github.com/robm/dzen">dzen2&lt;/a> 给桌面添加一个 panel 的时候用到了 &lt;a href="http://fontawesome.com">FontAwesome&lt;/a>，但是在 urxvt 终端下 FontAwesome 无法正常显示出来（不知是不是配置有误）。这样在用 vim 写脚本时不够直观。又不想换终端，所以只能从字体下手。&lt;/p>
+&lt;p>之前就了解到过 &lt;a href="https://github.com/ryanoasis/nerd-fonts">nerd-fonts&lt;/a> 这个项目，可以将图标字体整合进一个你想要的字体中。项目主页提供了一些已经预先构建好的字体，可以在&lt;a href="https://nerdfonts.com/">官网&lt;/a>直接下载使用。目前终端用的字体是从另一台 Mac 上复制出来的 SFMono，这也是 Mac 内置终端默认的字体。已经习惯了这款字体后就不想换了，因此准备构建自己的字体。&lt;/p>
+&lt;p>根据项目主页的教程，执行它提供给你的 &lt;code>font-patcher&lt;/code> 脚本前需要安装 &lt;code>fontforge&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>pacman -S fontforge
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完依赖，下载 &lt;code>font-patcher&lt;/code> 脚本并添加可执行权限:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -OL https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/font-patcher
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>chmod +x font-patcher
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>执行脚本进行构建字体:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>./font-patcher path/to/SFMono-Regular.otf -out path/to/SFMono-Nerd/ -c -l -s
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>&lt;code>-c&lt;/code> 表示添加所有可用字形&lt;/li>
+&lt;li>&lt;code>-l&lt;/code> 表示适应行高（尝试将 powerline 的分隔符均匀地放在中间）&lt;/li>
+&lt;li>&lt;code>-s&lt;/code> 表示使用单个字符宽度&lt;/li>
+&lt;/ul>
+&lt;p>运行脚本发现报错，提示找不到 &lt;code>src&lt;/code> 目录下的字体文件。这提示我们还需要去下载 &lt;code>src&lt;/code> 目录下的字体文件。这里有一个技巧，关于如何从 github 下载某个文件夹。&lt;/p>
+&lt;p>以此处为例，需要下载&lt;a href="https://github.com/ryanoasis/nerd-fonts/tree/master/src/glyphs">https://github.com/ryanoasis/nerd-fonts/tree/master/src/glyphs&lt;/a>目录下的所有字体文件。可以将 url 中的 &amp;ldquo;tree/master&amp;rdquo; 替换为 ”trunk“，再用 svn 去下载就好了。&lt;/p>
+&lt;p>所以这里执行 &lt;code>svn checkout https://github.com/ryanoasis/nerd-fonts/trunk/src/glyphs&lt;/code>，并将文件夹发到正确的路径，具体如下:&lt;/p></description></item><item><title>Vps Openvpn</title><link>https://number317.github.io/blog/system/vps_openvpn/</link><pubDate>Sat, 28 Apr 2018 15:22:21 +0800</pubDate><guid>https://number317.github.io/blog/system/vps_openvpn/</guid><description>&lt;h1 id="vps-openvpn-翻墙教程">VPS OpenVPN 翻墙教程&lt;/h1>
+&lt;h2 id="服务端配置">服务端配置&lt;/h2>
+&lt;p>首先，需要一台能访问外网的服务器。这里采用的是HostUS的VPS。&lt;/p>
+&lt;p>在部署OpenVPN服务端之前，应该先打开服务器的ip转发功能。修改&lt;code>/etc/sysctl.conf&lt;/code>文件，将对应内容修改为下面一行的值：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>net.ipv4.ip_forward = 1
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>修改后执行&lt;code>sysctl -p /etc/sysctl.conf&lt;/code>使配置生效。&lt;/p>
+&lt;p>服务端采用容器部署，因此VPS应该先安装好docker。以下为容器启动脚本：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-weight:bold">#!/bin/bash
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-weight:bold">&lt;/span>&lt;span style="color:#666;font-weight:bold;font-style:italic">IP&lt;/span>=&lt;span style="color:#666;font-style:italic">&amp;#34;xxx.xxx.xxx.xxx&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-weight:bold;font-style:italic">OVPN_DATA&lt;/span>=&lt;span style="color:#666;font-style:italic">&amp;#34;/root/ovpn_data&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -v &lt;span style="color:#666;font-weight:bold;font-style:italic">$OVPN_DATA&lt;/span>:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig -u udp://&lt;span style="color:#666;font-weight:bold;font-style:italic">$IP&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -v &lt;span style="color:#666;font-weight:bold;font-style:italic">$OVPN_DATA&lt;/span>:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initpki
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -v &lt;span style="color:#666;font-weight:bold;font-style:italic">$OVPN_DATA&lt;/span>:/etc/openvpn --name openvpn -e &lt;span style="color:#666;font-weight:bold;font-style:italic">DEBUG&lt;/span>=1 -d -p 1194:1194/udp --cap-add=NET_ADMIN kylemanna/openvpn
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -v &lt;span style="color:#666;font-weight:bold;font-style:italic">$OVPN_DATA&lt;/span>:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full CLIENTNAME nopass
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -v &lt;span style="color:#666;font-weight:bold;font-style:italic">$OVPN_DATA&lt;/span>:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient CLIENTNAME &amp;gt; CLIENTNAME.ovpn
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>将上述脚本的IP地址替换为自己的IP地址，然后执行脚本，根据提示输入信息即可。中间要求输入密码之类的都写个简单点一样的密码就好。&lt;/p>
+&lt;p>脚本执行完成后会生成一个&lt;code>CLIENTNAME.ovpn&lt;/code>客户端的配置文件，将它下载到自己的电脑上，用于配置客户端。&lt;/p>
+&lt;h2 id="客户端配置">客户端配置&lt;/h2>
+&lt;p>这里的客户端也archlinux为例，要先安装好openvpn，在此不做赘述。客户端直接执行以下命令连接OpenVPN服务端：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo openvpn CLIENTNAME.ovpn
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果日志输出有报错，可以查看服务端的配置文件，修改相应部分。启动好后进行测试：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ping -c 3 www.baidu.com
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ping -c 3 www.google.com
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果无法解析域名可能是DNS服务器没有设置好，查阅资料可知，openvpn客户端命令行不会从服务端拉取DNS设置。我们可以手动进行设置，在&lt;code>/etc/resolv.conf&lt;/code>文件中第一行添加&lt;code>namespace 8.8.8.8&lt;/code>，再次进行测试应该就可以解析域名了，用&lt;code>curl&lt;/code>进行请求也能够请求成功了。&lt;/p></description></item><item><title>Iptables Intro</title><link>https://number317.github.io/blog/system/iptables_intro/</link><pubDate>Thu, 26 Apr 2018 08:32:31 +0800</pubDate><guid>https://number317.github.io/blog/system/iptables_intro/</guid><description>&lt;h1 id="iptables-介绍">iptables 介绍&lt;/h1>
+&lt;h2 id="基本概念">基本概念&lt;/h2>
+&lt;ul>
+&lt;li>iptables 可以检测、修改、转发、重定向和丢弃IPV4数据包。&lt;/li>
+&lt;li>表(tables)
+&lt;ul>
+&lt;li>raw: 用于配置数据包&lt;/li>
+&lt;li>filter: 存放所有与防火墙相关操作的表&lt;/li>
+&lt;li>nat: 用于网络地址转换&lt;/li>
+&lt;li>mangle: 用于对特定数据包的修改&lt;/li>
+&lt;li>security: 用于强制访问控制&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>链(chains): INPUT, OUTPUT, FORWARD, PREROUTING,POSTROUTING&lt;/li>
+&lt;li>规则(rules): 过滤数据包&lt;/li>
+&lt;li>模块(modules): 用于扩展iptables，进行更复杂的过滤&lt;/li>
+&lt;/ul>
+&lt;h2 id="工作流程">工作流程&lt;/h2>
+&lt;p>&lt;img src="https://number317.github.io/blog/system/images/iptables_intro_img1.jpg" alt="iptables 流程图">&lt;/p>
+&lt;p>第一个路由策略包括决定数据包的目的地是本地主机（这种情况下，数据包穿过 INPUT 链），还是其他主机（数据包穿过 FORWARD 链）；&lt;/p>
+&lt;p>中间的路由策略包括决定给传出的数据包使用那个源地址、分配哪个接口；&lt;/p>
+&lt;p>最后一个路由策略存在是因为 mangle 与 nat 链可能会改变数据包的路由信息。&lt;/p>
+&lt;p>数据包通过路径上的每一条链时，链中的每一条规则按顺序匹配；无论何时匹配了一条规则，相应的 target/jump 动作将会执行。最常用的3个 target 是 ACCEPT, DROP ,或者 jump 到用户自定义的链。内置的链有默认的策略，但是用户自定义的链没有默认的策略。在 jump 到的链中，若每一条规则都不能提供完全匹配，那么数据包返回到调用链。在任何时候，若 DROP target 的规则实现完全匹配，那么被匹配的数据包会被丢弃，不会进行进一步处理。如果一个数据包在链中被 ACCEPT，那么它也会被所有的父链 ACCEPT，并且不再遍历其他父链。然而，要注意的是，数据包还会以正常的方式继续遍历其他表中的其他链。&lt;/p>
+&lt;h2 id="常用选项">常用选项&lt;/h2>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th style="text-align: left">参数类型&lt;/th>
+ &lt;th style="text-align: right">可选项&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td style="text-align: left">表&lt;/td>
+ &lt;td style="text-align: right">filter, nat&amp;hellip;&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">链&lt;/td>
+ &lt;td style="text-align: right">INPUT, OUTPUT, FORWARD, PREOUTING（修改目标ip地址）, POSTROUTING（修改源ip地址）&amp;hellip;&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">匹配属性&lt;/td>
+ &lt;td style="text-align: right">源、目标IP，协议（TCP,UDP,ICMP&amp;hellip;），端口号，网卡接口&amp;hellip;&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">模块&lt;/td>
+ &lt;td style="text-align: right">conntrack, multiport, connlimit&amp;hellip;&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">动作&lt;/td>
+ &lt;td style="text-align: right">ACCEPT, DROP, RETURN, REJECT&amp;hellip;&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="配置运行">配置运行&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># systemctl start iptables&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>启动时会读取&lt;code>/etc/iptables/iptables.rules&lt;/code>文件载入规则，如果配置文件不存在会报错
+可以直接生成一个空的iptables.rules文件设定空规则&lt;code>touch /etc/iptables/iptables.rules&lt;/code>&lt;/p></description></item><item><title>Dell Xps 15 9560 Arch Linux Install</title><link>https://number317.github.io/blog/system/dell_xps_15_9560_arch_linux_install/</link><pubDate>Wed, 28 Mar 2018 10:18:12 +0800</pubDate><guid>https://number317.github.io/blog/system/dell_xps_15_9560_arch_linux_install/</guid><description>&lt;h1 id="dell-xps-15-9560-arch-linux-安装教程">Dell XPS 15 9560 Arch Linux 安装教程&lt;/h1>
+&lt;h2 id="bios设置">BIOS设置&lt;/h2>
+&lt;p>打开电脑，等待出现dell图标时按下&lt;code>F12&lt;/code>键，选择进入BIOS设置页面，进行如下操作&lt;/p>
+&lt;ol>
+&lt;li>将&lt;code>SATA Mode&lt;/code>从默认的&lt;code>RAID&lt;/code>模式修改为&lt;code>AHCI&lt;/code>模式。这样可以允许Linux检测到&lt;code>NVME SSD&lt;/code>。&lt;/li>
+&lt;li>将&lt;code>Fastboot&lt;/code>的选项从&lt;code>POST Behaviour&lt;/code>修改为&lt;code>Thorough&lt;/code>，这样可以防止偶尔的启动错误。&lt;/li>
+&lt;li>关闭安全启动来允许linux启动。&lt;/li>
+&lt;/ol>
+&lt;p>保存后退出，会重启电脑。&lt;/p>
+&lt;h2 id="内核启动参数设置">内核启动参数设置&lt;/h2>
+&lt;p>从U盘启动 Arch Linux 引导镜像：在dell图标出现时按下&lt;code>F12&lt;/code>，选择从U盘启动，在出现启动菜单时，按下&lt;code>e&lt;/code>键，添加以下启动参数：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>initrd=\initramfs-linux.img root=/dev/sdb2 acpi_rev_override=1 pci=nommconf nouveau.modeset=0
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这样可以保证系统可以正常关闭和重启，否则关闭和重启时电脑会死机。&lt;/p>
+&lt;h2 id="系统安装">系统安装&lt;/h2>
+&lt;h3 id="tty字体设置">tty字体设置&lt;/h3>
+&lt;p>首先由于4k屏的高分辨率，使得终端字体非常小，应该设置大一点的字体：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>setfont latarcyrheb-sun32
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="网络连接">网络连接&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wifi-menu
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>根据提示选择wifi，输入密码即可。&lt;/p>
+&lt;h3 id="分区">分区&lt;/h3>
+&lt;p>这里采用lvm并使用cryptsetup来加密磁盘，最终分区如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>NAME MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nvme0n1 259:0 0 477G 0 disk 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├─nvme0n1p1 259:1 0 512M 0 part /boot
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└─nvme0n1p2 259:2 0 476.4G 0 part 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> └─luks 254:0 0 476.4G 0 crypt 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ├─entropy--vg0-root 254:1 0 150G 0 lvm /
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ├─entropy--vg0-home 254:2 0 250G 0 lvm /home
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ├─entropy--vg0-swap 254:3 0 16G 0 lvm [SWAP]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> └─entropy--vg0-backup 254:4 0 10G 0 lvm 
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>磁盘创建两个分区，一个分区用于&lt;code>/boot&lt;/code>，另一个分区用于安装系统。&lt;/p></description></item><item><title>Lvm Intro</title><link>https://number317.github.io/blog/system/lvm_intro/</link><pubDate>Fri, 26 Jan 2018 15:27:50 +0800</pubDate><guid>https://number317.github.io/blog/system/lvm_intro/</guid><description>&lt;h1 id="lvm-介绍">LVM 介绍&lt;/h1>
+&lt;p>LVM(Logical Volume Management)逻辑卷管理利用linux内核的device-mapper特征来实现存储系统的虚拟化，操作系统不再直接操作磁盘，而是操作LV(Logical Volume)逻辑卷。&lt;/p>
+&lt;p>传统磁盘管理如GPT分区和MBR分区存在着磁盘分区无法动态扩展的缺点，即是增加新的磁盘也只能当作单独的文件系统使用，而无法为已在使用的分区增加空间。LVM正好解决了这个问题，可以动态地为分区扩容，而不影响上层系统的使用。&lt;/p>
+&lt;h1 id="lvm-基本概念">LVM 基本概念&lt;/h1>
+&lt;ul>
+&lt;li>PE(Physical Extend)：物理区域&amp;ndash;逻辑卷管理的最小单位，默认大小为4M&lt;/li>
+&lt;li>PV(Physical Volume)：物理卷&amp;ndash;建立卷组的媒介，可以是磁盘，分区或者回环文件，物理卷包括一个特殊的header，其余部分被切割为一块块物理区域(physical extents)&lt;/li>
+&lt;li>VG(Volume Group)：卷组&amp;ndash;物理卷组成的组，可以被认为是PE池&lt;/li>
+&lt;li>LV(Logical Volume)：逻辑卷&amp;ndash;虚拟分区，由PE组成。组成LV的PE可以来自不同的磁盘&lt;/li>
+&lt;/ul>
+&lt;h1 id="lvm-工作流程">LVM 工作流程&lt;/h1>
+&lt;p>构造逻辑卷LV主要有3个步骤：&lt;/p>
+&lt;ol>
+&lt;li>将磁盘或分区条带化为PV(物理卷)，实际上是将磁盘或分区分割成一个个PE(物理区域)，默认大小是4M&lt;/li>
+&lt;li>将PV组合成VG，VG中的PE供LV使用，创建VG时需要给VG命名，&lt;code>/dev/&lt;/code>目录下会生成一个以VG名字命名的文件夹&lt;/li>
+&lt;li>基于VG创建LV，LV也需要命名，LV创建好后会在对应的卷组目录下创建一个一LV名字命名的设备，该设备呈现给操作系统使用，可以格式化，当作正常的分区使用。&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>Physical disks
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Disk1 (/dev/sda):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> |Partition1 50GB (Physical Volume) |Partition2 80GB (Physical Volume) |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> |/dev/sda1 |/dev/sda2 |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> |_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ |_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Disk2 (/dev/sdb):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> |Partition1 120GB (Physical Volume) |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> |/dev/sdb1 |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> | _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ __ _ _|
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>LVM logical volumes
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Volume Group1 (/dev/MyStorage/ = /dev/sda1 + /dev/sda2 + /dev/sdb1):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> |Logical volume1 15GB |Logical volume2 35GB |Logical volume3 200GB |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> |/dev/MyStorage/rootvol|/dev/MyStorage/homevol |/dev/MyStorage/mediavol |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> |_ _ _ _ _ _ _ _ _ _ _ |_ _ _ _ _ _ _ _ _ _ _ _ _ |_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ |
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如上图中有/dev/sda，/dev/sdb两个磁盘，sda有sda1和sda2两个分区，sdb有sdb1一个分区，三个分区都被条带化成了PV。三个PV组成了一个VG，名字是MyStorage，基于这个VG创建了三个LV，分别叫做rootvol，homevol，mediavol，在/dev/目录下也创建了相应的文件夹和设备。&lt;/p></description></item><item><title>Redhat Enable Ipv6</title><link>https://number317.github.io/blog/system/redhat_enable_ipv6/</link><pubDate>Fri, 26 Jan 2018 14:43:54 +0800</pubDate><guid>https://number317.github.io/blog/system/redhat_enable_ipv6/</guid><description>&lt;h1 id="redhat设置开机启用ipv6">RedHat设置开机启用ipv6&lt;/h1>
+&lt;p>参照的系统信息：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ lsb_release -a
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>LSB Version: :core-4.1-amd64:core-4.1-noarch
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Distributor ID: RedHatEnterpriseServer
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Description: Red Hat Enterprise Linux Server release 7.3 (Maipo)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Release: 7.3
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Codename: Maipo
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>首先查看系统是否开启了ipv6：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ifconfig | grep inet
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>或者&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ip addr | grep inet
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果开启了，则应该有ipv6的字段：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>inet 127.0.0.1/8 scope host lo
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>inet6 ::1/128 scope host 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>inet6 fe80::a00:27ff:fe3a:b67/64 scope link 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>inet 192.168.33.10/24 brd 192.168.33.255 scope global eth1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>inet6 fe80::a00:27ff:fef4:9024/64 scope link 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>inet6 fe80::42:9fff:fe3c:183e/64 scope link 
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果没有开启，则只有inet的字段：&lt;/p></description></item></channel></rss>

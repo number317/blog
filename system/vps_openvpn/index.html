@@ -1,0 +1,63 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel=stylesheet><link href=//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
+<a href=https://number317.github.io/blog/>cheon's blog</a></li><li>»
+<a href=https://number317.github.io/blog/system/>system</a></li><li class=active>»
+<a href=https://number317.github.io/blog/system/vps_openvpn/>Vps Openvpn</a></li></ul><div id=content><main id=main><h1>Vps Openvpn</h1><time>Last updated Thu Sep 17, 2020</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents><ul><li><a href=#服务端配置>服务端配置</a></li><li><a href=#客户端配置>客户端配置</a></li><li><a href=#openvpn-service-配置>openvpn service 配置</a></li></ul></nav></aside><article id=content><h1 id=vps-openvpn-翻墙教程>VPS OpenVPN 翻墙教程</h1><h2 id=服务端配置>服务端配置</h2><p>首先，需要一台能访问外网的服务器。这里采用的是HostUS的VPS。</p><p>在部署OpenVPN服务端之前，应该先打开服务器的ip转发功能。修改<code>/etc/sysctl.conf</code>文件，将对应内容修改为下面一行的值：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>net.ipv4.ip_forward = 1
+</span></span></code></pre></div><p>修改后执行<code>sysctl -p /etc/sysctl.conf</code>使配置生效。</p><p>服务端采用容器部署，因此VPS应该先安装好docker。以下为容器启动脚本：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#888;font-weight:700>#!/bin/bash
+</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700></span><span style=color:#666;font-weight:700;font-style:italic>IP</span>=<span style=color:#666;font-style:italic>&#34;xxx.xxx.xxx.xxx&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>OVPN_DATA</span>=<span style=color:#666;font-style:italic>&#34;/root/ovpn_data&#34;</span>
+</span></span><span style=display:flex><span>docker run -v <span style=color:#666;font-weight:700;font-style:italic>$OVPN_DATA</span>:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig -u udp://<span style=color:#666;font-weight:700;font-style:italic>$IP</span>
+</span></span><span style=display:flex><span>docker run -v <span style=color:#666;font-weight:700;font-style:italic>$OVPN_DATA</span>:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initpki
+</span></span><span style=display:flex><span>docker run -v <span style=color:#666;font-weight:700;font-style:italic>$OVPN_DATA</span>:/etc/openvpn --name openvpn -e <span style=color:#666;font-weight:700;font-style:italic>DEBUG</span>=1 -d -p 1194:1194/udp --cap-add=NET_ADMIN kylemanna/openvpn
+</span></span><span style=display:flex><span>docker run -v <span style=color:#666;font-weight:700;font-style:italic>$OVPN_DATA</span>:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full CLIENTNAME nopass
+</span></span><span style=display:flex><span>docker run -v <span style=color:#666;font-weight:700;font-style:italic>$OVPN_DATA</span>:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient CLIENTNAME &gt; CLIENTNAME.ovpn
+</span></span></code></pre></div><p>将上述脚本的IP地址替换为自己的IP地址，然后执行脚本，根据提示输入信息即可。中间要求输入密码之类的都写个简单点一样的密码就好。</p><p>脚本执行完成后会生成一个<code>CLIENTNAME.ovpn</code>客户端的配置文件，将它下载到自己的电脑上，用于配置客户端。</p><h2 id=客户端配置>客户端配置</h2><p>这里的客户端也archlinux为例，要先安装好openvpn，在此不做赘述。客户端直接执行以下命令连接OpenVPN服务端：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo openvpn CLIENTNAME.ovpn
+</span></span></code></pre></div><p>如果日志输出有报错，可以查看服务端的配置文件，修改相应部分。启动好后进行测试：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>ping -c 3 www.baidu.com
+</span></span><span style=display:flex><span>ping -c 3 www.google.com
+</span></span></code></pre></div><p>如果无法解析域名可能是DNS服务器没有设置好，查阅资料可知，openvpn客户端命令行不会从服务端拉取DNS设置。我们可以手动进行设置，在<code>/etc/resolv.conf</code>文件中第一行添加<code>namespace 8.8.8.8</code>，再次进行测试应该就可以解析域名了，用<code>curl</code>进行请求也能够请求成功了。</p><p>虽然可以翻墙了，但是如果你连着内网，要访问内网的服务，由于openvpn为了进行全局代理，修改了路由表，所有的流量都会走openvpn的路线，可能需要自己设置一下路由表。</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo ip route add xxx.xxx.xxx/24 via xxx.xxx.xxx.xxx
+</span></span></code></pre></div><p>第一个ip地址是你要访问的内网网段，第二个ip地址是网关，你可以在openvpn客户端启动前用<code>ip route list</code>来查看网关信息。</p><p>以上就设置完了客户端和服务端的openvpn，现在既可以翻墙也可以连内网的服务，但是每次启动都要输入这么多命令比较麻烦，所以我们现在来整合一下。</p><h2 id=openvpn-service-配置>openvpn service 配置</h2><p>我们通过systemctl来控制openvpn，将<code>CLIENTNAME.ovpn</code>移动到<code>/etc/openvpn/client/client.conf</code>，在<code>/etc/openvpn/client/</code>文件夹下创建<code>start.sh</code>和<code>stop.sh</code>脚本：</p><p>start.sh:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#888;font-weight:700>#!/bin/bash
+</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700></span>
+</span></span><span style=display:flex><span>router-set(){
+</span></span><span style=display:flex><span>    ip route add 192.0.6/24 via 192.72.19.254
+</span></span><span style=display:flex><span>    ip route add 192.0.52/24 via 192.72.19.254
+</span></span><span style=display:flex><span>    ip route add 192.79.21/24 via 192.72.19.254
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>dns-set(){
+</span></span><span style=display:flex><span>    sed -i <span style=color:#666;font-style:italic>&#34;/resolvconf/a \nameserver 8.8.8.8&#34;</span> /etc/resolv.conf
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>main(){
+</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span> netctl list | grep <span style=color:#666;font-style:italic>\*</span> | grep -q Employ; <span style=font-weight:700>then</span>
+</span></span><span style=display:flex><span>        router-set
+</span></span><span style=display:flex><span>    <span style=font-weight:700>fi</span>
+</span></span><span style=display:flex><span>    dns-set
+</span></span><span style=display:flex><span>    <span style=font-weight:700;font-style:italic>echo</span> start!
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>main
+</span></span></code></pre></div><p>stop.sh:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#888;font-weight:700>#!/bin/bash
+</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700></span>router-clear(){
+</span></span><span style=display:flex><span>    ip route delete 192.0.6/24 via 192.72.19.254
+</span></span><span style=display:flex><span>    ip route delete 192.0.52/24 via 192.72.19.254
+</span></span><span style=display:flex><span>    ip route delete 192.79.21/24 via 192.72.19.254
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>dns-clear(){
+</span></span><span style=display:flex><span>    sed -i <span style=color:#666;font-style:italic>&#34;/ameserver 8.8.8.8/d&#34;</span> /etc/resolv.conf
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>main(){
+</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span> netctl list | grep <span style=color:#666;font-style:italic>\*</span> | grep -q Employ; <span style=font-weight:700>then</span>
+</span></span><span style=display:flex><span>        router-clear
+</span></span><span style=display:flex><span>    <span style=font-weight:700>fi</span>
+</span></span><span style=display:flex><span>    dns-clear
+</span></span><span style=display:flex><span>    <span style=font-weight:700;font-style:italic>echo</span> stop!
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>main
+</span></span></code></pre></div><p>为这两各脚本添加可执行权限：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo chmod +x *.sh
+</span></span></code></pre></div><p>在<code>client.conf</code>文件中添加以下内容：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>script-security 2
+</span></span><span style=display:flex><span>up /etc/openvpn/client/start.sh
+</span></span><span style=display:flex><span>down /etc/openvpn/client/stop.sh
+</span></span></code></pre></div><p>以上内容使openvpn启动时执行<code>start.sh</code>，停止时执行<code>stop.sh</code></p><p>现在可以使用<code>sudo systemctl start openvpn-client@client.service</code>和<code>sudo systemctl stop openvpn-client@client.service</code>来启动和停止openvpn服务。</p></article></div></main><div><h4 id=signature>Sat Apr 28, 2018
+cheon</h4><ul class=tags><li><a href=https://number317.github.io/blog/tags/vpn>vpn</a></li></ul><ul class=related><li><a class=previous href=https://number317.github.io/blog/system/iptables_intro/>Iptables Intro</a></li><li><a class=next href=https://number317.github.io/blog/system/nerd_font/>Nerd Font</a></li></ul></div></div><section id=footer><div id=author><h2>About Author</h2><hr><img src=https://number317.github.io/images/author.jpg></img><p>Life is dance we all have to do.</p></div><ul id=link><li><a href=https://github.com/number317/aloha.git target=_blank><i class="fa fa-github" alt=github></i></a></li><li><a href="mailto:cheon0112358d@gmail.com?subject=blog%27s%20feedback" target=_blank><i class="fa fa-envelope" alt=email></i></a></li><li id=wechat><i class="fa fa-wechat"></i></li><img class=qrcode src=https://number317.github.io/images/wechat.jpg></ul></section></body></html>

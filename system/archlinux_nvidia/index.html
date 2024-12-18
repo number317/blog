@@ -1,0 +1,138 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel=stylesheet><link href=//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
+<a href=https://number317.github.io/blog/>cheon's blog</a></li><li>»
+<a href=https://number317.github.io/blog/system/>system</a></li><li class=active>»
+<a href=https://number317.github.io/blog/system/archlinux_nvidia/>Archlinux Nvidia</a></li></ul><div id=content><main id=main><h1>Archlinux Nvidia</h1><time>Last updated Tue Dec 17, 2024</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents></nav></aside><article id=content><h1 id=archlinux-配置-nvidia-独立显卡>ArchLinux 配置 nvidia 独立显卡</h1><p>按照 <a href=https://download.nvidia.com/XFree86/Linux-x86_64/435.21/README/primerenderoffload.html>PRIME Render Offload</a> 文档，安装新版本的 nvidia 驱动和 xorg，新版本的 xorg 安装包可以从 <a href=https://gitlab.freedesktop.org/aplattner/arch-xorg-server>arch-xorg-server</a> 构建。
+修改配置文件 <code>/etc/X11/xorg.conf</code> ，主要添加</p><pre><code>Section &quot;ServerLayout&quot;
+  Identifier &quot;layout&quot;
+  Option &quot;AllowNVIDIAGPUScreens&quot;
+EndSection
+</code></pre><p>完整配置如下:</p><details><summary>xorg.conf</summary><pre><code>Section &quot;ServerLayout&quot;
+        Identifier     &quot;X.org Configured&quot;
+        Screen      0  &quot;Screen0&quot; 0 0
+        #Screen      1  &quot;Screen1&quot; RightOf &quot;Screen0&quot;
+        InputDevice    &quot;Mouse0&quot; &quot;CorePointer&quot;
+        InputDevice    &quot;Keyboard0&quot; &quot;CoreKeyboard&quot;
+        Option         &quot;AllowNVIDIAGPUScreens&quot;
+EndSection
+
+Section &quot;Files&quot;
+        ModulePath   &quot;/usr/lib/xorg/modules&quot;
+        ModulePath   &quot;/usr/lib/modules/extramodules-ARCH&quot;
+        FontPath     &quot;/usr/share/fonts/TTF&quot;
+        FontPath     &quot;/usr/share/fonts/adobe-source-code-pro&quot;
+EndSection
+
+Section &quot;Module&quot;
+        Load  &quot;glx&quot;
+        Load  &quot;nvidia-drm&quot;
+EndSection
+
+Section &quot;InputDevice&quot;
+        Identifier  &quot;Keyboard0&quot;
+        Driver      &quot;kbd&quot;
+EndSection
+
+Section &quot;InputDevice&quot;
+        Identifier  &quot;Mouse0&quot;
+        Driver      &quot;mouse&quot;
+        Option	    &quot;Protocol&quot; &quot;auto&quot;
+        Option	    &quot;Device&quot; &quot;/dev/input/mice&quot;
+        Option	    &quot;ZAxisMapping&quot; &quot;4 5 6 7&quot;
+EndSection
+
+Section &quot;Monitor&quot;
+        Identifier   &quot;Monitor0&quot;
+        VendorName   &quot;Monitor Vendor&quot;
+        ModelName    &quot;Monitor Model&quot;
+EndSection
+
+Section &quot;Device&quot;
+        ### Available Driver options are:-
+        ### Values: &lt;i&gt;: integer, &lt;f&gt;: float, &lt;bool&gt;: &quot;True&quot;/&quot;False&quot;,
+        ### &lt;string&gt;: &quot;String&quot;, &lt;freq&gt;: &quot;&lt;f&gt; Hz/kHz/MHz&quot;,
+        ### &lt;percent&gt;: &quot;&lt;f&gt;%&quot;
+        ### [arg]: arg optional
+        #Option     &quot;SWcursor&quot;           	# [&lt;bool&gt;]
+        #Option     &quot;kmsdev&quot;             	# &lt;str&gt;
+        #Option     &quot;ShadowFB&quot;           	# [&lt;bool&gt;]
+        #Option     &quot;AccelMethod&quot;        	# &lt;str&gt;
+        #Option     &quot;PageFlip&quot;           	# [&lt;bool&gt;]
+        #Option     &quot;ZaphodHeads&quot;        	# &lt;str&gt;
+        #Option     &quot;DoubleShadow&quot;       	# [&lt;bool&gt;]
+        Option      &quot;RenderAccel&quot;               &quot;1&quot;
+        Option      &quot;DPMS&quot;                      &quot;1&quot;
+        Option      &quot;RegistryDwords&quot;            &quot;EnableBrightnessControl=1&quot;
+        Identifier  &quot;Card0&quot;
+        Driver      &quot;modesetting&quot;
+        BusID       &quot;PCI:0:2:0&quot;
+EndSection
+
+Section &quot;Device&quot;
+        Identifier  &quot;Card1&quot;
+        Driver      &quot;nvidia&quot;
+        BusID       &quot;PCI:1:0:0&quot;
+        Option      &quot;RenderAccel&quot;               &quot;1&quot;
+        Option      &quot;DPMS&quot;                      &quot;1&quot;
+        Option      &quot;RegistryDwords&quot;            &quot;EnableBrightnessControl=1&quot;
+        Option      &quot;RegistryDwords&quot;            &quot;PowerMizerLevelAC=0x3&quot;
+        Option      &quot;RegistryDwords&quot;            &quot;PowerMizerLevel=0x2&quot;
+        Option      &quot;RegistryDwords&quot;            &quot;PerfLevelSrc=0x3333&quot;
+        Option      &quot;OnDemandVBlankInterrupts&quot;  &quot;1&quot;
+EndSection
+
+Section &quot;Screen&quot;
+        Identifier &quot;Screen0&quot;
+        Device     &quot;Card0&quot;
+        Monitor    &quot;Monitor0&quot;
+        SubSection &quot;Display&quot;
+                Viewport   0 0
+                Depth     1
+        EndSubSection
+        SubSection &quot;Display&quot;
+                Viewport   0 0
+                Depth     4
+        EndSubSection
+        SubSection &quot;Display&quot;
+                Viewport   0 0
+                Depth     8
+        EndSubSection
+        SubSection &quot;Display&quot;
+                Viewport   0 0
+                Depth     15
+        EndSubSection
+        SubSection &quot;Display&quot;
+                Viewport   0 0
+                Depth     16
+        EndSubSection
+        SubSection &quot;Display&quot;
+                Viewport   0 0
+                Depth     24
+        EndSubSection
+EndSection
+</code></pre></details><p>安装好软件后需要重启电脑，开启桌面后执行 <code>xrandr --listproviders</code> ，应该可以看到如下结果:</p><pre><code>Providers: number : 2
+Provider 0: id: 0x1e0 cap: 0xf, Source Output, Sink Output, Source Offload, Sink Offload crtcs: 3 outputs: 5 associated providers: 0 name:modesetting
+Provider 1: id: 0x1b8 cap: 0x0 crtcs: 0 outputs: 0 associated providers: 0 name:NVIDIA-G0
+</code></pre><p>如果只看到一条记录，那可能是 <code>nvidia-drm</code> 模块没有加载，需要手动加载一下:</p><pre><code>modprobe nvidia-drm
+</code></pre><p>重启 xorg 服务后应该看到两个 provider，执行 <code>nvidia-smi</code> 应该有如下结果</p><pre><code>+-----------------------------------------------------------------------------+
+| NVIDIA-SMI 435.21       Driver Version: 435.21       CUDA Version: 10.1     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  GeForce GTX 1050    Off  | 00000000:01:00.0 Off |                  N/A |
+| N/A   34C    P8    N/A /  N/A |     36MiB /  4042MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|    0      1243      G   /usr/lib/Xorg                                 36MiB |
++-----------------------------------------------------------------------------+
+</code></pre><p><a id=orgd2bf049></a></p><h1 id=firefox-webgl-配置独立显卡>firefox webgl 配置独立显卡</h1><p>默认情况下应用都使用集成显卡来运行，如果需要使用独立显卡，需要添加环境变量:</p><pre><code>__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia firefox
+</code></pre><p>在 firefox 打开 <code>about:support</code> 页面，在 <code>Graphics</code> 下查看 <code>WebGL 1 Driver Renderer</code> ，如果发现如下报错:</p><pre><code>WebGL creation failed: 
+Refused to create native OpenGL context because of blacklist entry: FEATURE&lt;sub&gt;FAILURE&lt;/sub&gt;&lt;sub&gt;GLXTEST&lt;/sub&gt;&lt;sub&gt;FAILED&lt;/sub&gt;
+Exhausted GL driver options.
+</code></pre><p>那可以打开 firefox 的 <code>about:config</code> 页面，修改 <code>webgl.force-enable</code> 为 <code>true</code> ，重启 firefox，应该就能看到 <code>WebGL 1 Driver Renderer</code> 显示的是独立显卡了。
+打开 <a href=http://www.fishgl.com/>fishgl</a> 可以测试 webgl。同时再执行 <code>nvidia-smi</code> 的话可以看到有 firefox 的进程。</p></article></div></main><div><h4 id=signature>Sun Sep 29, 2019
+cheon</h4><ul class=tags><li><a href=https://number317.github.io/blog/tags/system>system</a></li></ul><ul class=related><li><a class=previous href=https://number317.github.io/blog/system/nerd_font/>Nerd Font</a></li></ul></div></div><section id=footer><div id=author><h2>About Author</h2><hr><img src=https://number317.github.io/images/author.jpg></img><p>Life is dance we all have to do.</p></div><ul id=link><li><a href=https://github.com/number317/aloha.git target=_blank><i class="fa fa-github" alt=github></i></a></li><li><a href="mailto:cheon0112358d@gmail.com?subject=blog%27s%20feedback" target=_blank><i class="fa fa-envelope" alt=email></i></a></li><li id=wechat><i class="fa fa-wechat"></i></li><img class=qrcode src=https://number317.github.io/images/wechat.jpg></ul></section></body></html>

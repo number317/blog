@@ -1,56 +1,1368 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>cheon&#39;s blog</title>
-    <link>https://number317.github.io/blog/</link>
-    <description>Recent content on cheon&#39;s blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <lastBuildDate>Thu, 27 Apr 2023 11:02:10 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>React Native Launcher</title>
-      <link>https://number317.github.io/blog/frontend/react_native_launcher.html</link>
-      <pubDate>Thu, 27 Apr 2023 11:02:10 +0800</pubDate>
-      
-      <guid>https://number317.github.io/blog/frontend/react_native_launcher.html</guid>
-      <description>为 kindle 上的 android 4.4 开发一个自定义启动器</description>
-    </item>
-    
-    <item>
-      <title>Web Rtsp Play</title>
-      <link>https://number317.github.io/blog/frontend/web_rtsp_play.html</link>
-      <pubDate>Tue, 31 Aug 2021 19:30:22 +0800</pubDate>
-      
-      <guid>https://number317.github.io/blog/frontend/web_rtsp_play.html</guid>
-      <description>网页播放 rtsp 视频流</description>
-    </item>
-    
-    <item>
-      <title>React Embed Tableau</title>
-      <link>https://number317.github.io/blog/struct/react_embed_tableau.html</link>
-      <pubDate>Sun, 22 Nov 2020 20:03:34 +0800</pubDate>
-      
-      <guid>https://number317.github.io/blog/struct/react_embed_tableau.html</guid>
-      <description>在 react 中嵌入 tableau server 的图表</description>
-    </item>
-    
-    <item>
-      <title>Emqx Backend Mysql</title>
-      <link>https://number317.github.io/blog/struct/emqx_backend_mysql.html</link>
-      <pubDate>Fri, 16 Oct 2020 17:04:16 +0800</pubDate>
-      
-      <guid>https://number317.github.io/blog/struct/emqx_backend_mysql.html</guid>
-      <description>关于 emqx 的编译，插件的构建，官方 emqx_backend_mysql 插件的获取</description>
-    </item>
-    
-    <item>
-      <title>Org Blog With Hugo</title>
-      <link>https://number317.github.io/blog/struct/org_blog_with_hugo.html</link>
-      <pubDate>Mon, 14 Sep 2020 20:03:07 +0800</pubDate>
-      
-      <guid>https://number317.github.io/blog/struct/org_blog_with_hugo.html</guid>
-      <description>用 hugo 和 emacs org 格式来构建博客</description>
-    </item>
-    
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>cheon's blog</title><link>https://number317.github.io/blog/</link><description>Recent content on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/index.xml" rel="self" type="application/rss+xml"/><item><title>React Native Launcher</title><link>https://number317.github.io/blog/frontend/react_native_launcher/</link><pubDate>Thu, 27 Apr 2023 11:02:10 +0800</pubDate><guid>https://number317.github.io/blog/frontend/react_native_launcher/</guid><description>为 kindle 上的 android 4.4 开发一个自定义启动器</description></item><item><title>Web Rtsp Play</title><link>https://number317.github.io/blog/frontend/web_rtsp_play/</link><pubDate>Tue, 31 Aug 2021 19:30:22 +0800</pubDate><guid>https://number317.github.io/blog/frontend/web_rtsp_play/</guid><description>网页播放 rtsp 视频流</description></item><item><title>React 嵌入 Tableau 图表</title><link>https://number317.github.io/blog/frontend/react_embed_tableau/</link><pubDate>Sun, 22 Nov 2020 20:03:34 +0800</pubDate><guid>https://number317.github.io/blog/frontend/react_embed_tableau/</guid><description>在 react 中嵌入 tableau server 的图表</description></item><item><title>Emqx Backend Mysql</title><link>https://number317.github.io/blog/struct/emqx_backend_mysql/</link><pubDate>Wed, 14 Oct 2020 18:19:31 +0800</pubDate><guid>https://number317.github.io/blog/struct/emqx_backend_mysql/</guid><description>&lt;ul>
+&lt;li>&lt;a href="#orgc3804b0">emqx mysql 插件&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#org5864efb">erlang 环境配置&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#orgeb79a2a">emacs 编辑器配置&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#org0232e02">emqx 源码编译&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#org63abe84">添加自定义插件&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#org91c1187">启用自定义插件&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#org8c85d4f">反编译 &lt;code>emqx_backend_mysql&lt;/code> 插件&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#org4dafec4">构造插件&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#orgaadf956">搭建临时 git 服务&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#org2054d0d">重新编译&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#org773634b">测试插件&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#org314e5bf">构建镜像&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;a id="orgc3804b0">&lt;/a>&lt;/p>
+&lt;h1 id="emqx-mysql-插件">emqx mysql 插件&lt;/h1>
+&lt;p>&lt;a id="org5864efb">&lt;/a>&lt;/p>
+&lt;h2 id="erlang-环境配置">erlang 环境配置&lt;/h2>
+&lt;p>erlang 推荐使用 22 版本，经过测试用 23 版本编译出来运行有问题。各平台安装 erlang 详情请参考官方文档。 linux 系统可以使用 kerl 脚本安装，构建最新版本的 emqx 时注意编译的 gcc 版本不能用 10，编译通不过，推荐用 gcc-9&lt;/p>
+&lt;p>下载 kerl&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -O https://raw.githubusercontent.com/kerl/kerl/master/kerl
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>chmod +x kerl
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装 erlang&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>kerl update releases
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># 如果直接构建报错，修改 ~/.kerl/builds/22.3/otp_src_22.3/Makefile&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># 将 gcc 改为 gcc9&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>kerl build 22.3 22.3
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>kerl install 22.3 /opt/erlang/22.3
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># 启用环境&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold;font-style:italic">source&lt;/span> /opt/erlang/22.3/activate
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># 设置环境变量，这样不用每次手动启用&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold;font-style:italic">echo&lt;/span> &lt;span style="color:#666;font-style:italic">&amp;#39;source /opt/erlang/22.3/activate&amp;#39;&lt;/span> &amp;gt;&amp;gt; ~/.bashrc
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装 rebar3&lt;/p></description></item><item><title>用 hugo 组织 org 文件写博客</title><link>https://number317.github.io/blog/struct/org_blog_with_hugo/</link><pubDate>Mon, 14 Sep 2020 20:03:07 +0800</pubDate><guid>https://number317.github.io/blog/struct/org_blog_with_hugo/</guid><description>用 hugo 和 emacs org 格式来构建博客</description></item><item><title>Proxy Settings</title><link>https://number317.github.io/blog/solved/proxy_settings/</link><pubDate>Mon, 16 Dec 2019 16:40:16 +0800</pubDate><guid>https://number317.github.io/blog/solved/proxy_settings/</guid><description>&lt;h1 id="常见代理设置">常见代理设置&lt;/h1>
+&lt;h2 id="git">git&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>git config --global http.proxy http://ip:port
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git config --global https.proxy http://ip:port
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>或者编辑 &lt;code>$HOME/.gitconfig&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>[http]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proxy = http://ip:port
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>[https]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proxy = http://ip:port
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>删除代理:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>git config --global --unset http.proxy
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git config --global --unset https.proxy
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>git 也支持 socks5 代理，把 &lt;code>http&lt;/code> 替换为 &lt;code>socks5&lt;/code> 即可。&lt;/p>
+&lt;h2 id="npm">npm&lt;/h2>
+&lt;p>临时代理:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>npm --registry=https://registry.npm.taobao.org install
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>全局配置:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>npm config &lt;span style="font-weight:bold;font-style:italic">set&lt;/span> registry https://registry.npm.taobao.org
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>或者编辑 &lt;code>$HOME/.npmrc&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>registry=https://registry.npm.taobao.org
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>pathonjs&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>npm install --phantomjs_cdnurl=http://npm.taobao.org/dist/phantomjs/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>electron&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>npm install --electron_cdnurl=https://npm.taobao.org/mirrors/electron
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>删除代理:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>npm config delete registry
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="pip">pip&lt;/h2>
+&lt;p>编辑 &lt;code>$HOME/.pip/pip.conf&lt;/code>:&lt;/p></description></item><item><title>GNU Argp</title><link>https://number317.github.io/blog/c/gnu_argp/</link><pubDate>Thu, 28 Nov 2019 15:21:52 +0800</pubDate><guid>https://number317.github.io/blog/c/gnu_argp/</guid><description>&lt;h1 id="gnu-argp-库">GNU Argp 库&lt;/h1>
+&lt;p>c 命令行程序中的参数处理是很常见的需求，要做到这点我们可以用 GNU 的标准库 argp，大部分 GNU 组件都用这个库来解析参数。&lt;/p>
+&lt;h2 id="前置知识">前置知识&lt;/h2>
+&lt;h3 id="从一个示例开始">从一个示例开始&lt;/h3>
+&lt;p>先来看一个例子:&lt;/p>
+&lt;details>
+&lt;summary> &lt;code>sum --help&lt;/code> &lt;/summary>
+&lt;pre>&lt;code>sum --help
+Usage: sum [OPTION]... [FILE]...
+Print checksum and block counts for each FILE.
+
+With no FILE, or when FILE is -, read standard input.
+
+ -r use BSD sum algorithm, use 1K blocks
+ -s, --sysv use System V sum algorithm, use 512 bytes blocks
+ --help display this help and exit
+ --version output version information and exit
+
+GNU coreutils online help: &amp;lt;https://www.gnu.org/software/coreutils/&amp;gt;
+Full documentation &amp;lt;https://www.gnu.org/software/coreutils/sum&amp;gt;
+or available locally via: info '(coreutils) sum invocation'
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;p>这是一个调用 &lt;code>--help&lt;/code> 选项常见的输出。受到 BNF 影响， &lt;code>[]&lt;/code> 意味着是可选的项， &lt;code>...&lt;/code> 意味着是可重复的项。因此上面的输出意味着 &lt;code>sum&lt;/code> 命令可以有 0 个或多个选项，可以有 0 个或多个文件。&lt;/p></description></item><item><title>Archlinux Nvidia</title><link>https://number317.github.io/blog/system/archlinux_nvidia/</link><pubDate>Sun, 29 Sep 2019 14:07:53 +0800</pubDate><guid>https://number317.github.io/blog/system/archlinux_nvidia/</guid><description>&lt;h1 id="archlinux-配置-nvidia-独立显卡">ArchLinux 配置 nvidia 独立显卡&lt;/h1>
+&lt;p>按照 &lt;a href="https://download.nvidia.com/XFree86/Linux-x86_64/435.21/README/primerenderoffload.html">PRIME Render Offload&lt;/a> 文档，安装新版本的 nvidia 驱动和 xorg，新版本的 xorg 安装包可以从 &lt;a href="https://gitlab.freedesktop.org/aplattner/arch-xorg-server">arch-xorg-server&lt;/a> 构建。
+修改配置文件 &lt;code>/etc/X11/xorg.conf&lt;/code> ，主要添加&lt;/p>
+&lt;pre>&lt;code>Section &amp;quot;ServerLayout&amp;quot;
+ Identifier &amp;quot;layout&amp;quot;
+ Option &amp;quot;AllowNVIDIAGPUScreens&amp;quot;
+EndSection
+&lt;/code>&lt;/pre>
+&lt;p>完整配置如下:&lt;/p>
+&lt;details>
+&lt;summary>xorg.conf&lt;/summary>
+&lt;pre>&lt;code>Section &amp;quot;ServerLayout&amp;quot;
+ Identifier &amp;quot;X.org Configured&amp;quot;
+ Screen 0 &amp;quot;Screen0&amp;quot; 0 0
+ #Screen 1 &amp;quot;Screen1&amp;quot; RightOf &amp;quot;Screen0&amp;quot;
+ InputDevice &amp;quot;Mouse0&amp;quot; &amp;quot;CorePointer&amp;quot;
+ InputDevice &amp;quot;Keyboard0&amp;quot; &amp;quot;CoreKeyboard&amp;quot;
+ Option &amp;quot;AllowNVIDIAGPUScreens&amp;quot;
+EndSection
+
+Section &amp;quot;Files&amp;quot;
+ ModulePath &amp;quot;/usr/lib/xorg/modules&amp;quot;
+ ModulePath &amp;quot;/usr/lib/modules/extramodules-ARCH&amp;quot;
+ FontPath &amp;quot;/usr/share/fonts/TTF&amp;quot;
+ FontPath &amp;quot;/usr/share/fonts/adobe-source-code-pro&amp;quot;
+EndSection
+
+Section &amp;quot;Module&amp;quot;
+ Load &amp;quot;glx&amp;quot;
+ Load &amp;quot;nvidia-drm&amp;quot;
+EndSection
+
+Section &amp;quot;InputDevice&amp;quot;
+ Identifier &amp;quot;Keyboard0&amp;quot;
+ Driver &amp;quot;kbd&amp;quot;
+EndSection
+
+Section &amp;quot;InputDevice&amp;quot;
+ Identifier &amp;quot;Mouse0&amp;quot;
+ Driver &amp;quot;mouse&amp;quot;
+ Option	 &amp;quot;Protocol&amp;quot; &amp;quot;auto&amp;quot;
+ Option	 &amp;quot;Device&amp;quot; &amp;quot;/dev/input/mice&amp;quot;
+ Option	 &amp;quot;ZAxisMapping&amp;quot; &amp;quot;4 5 6 7&amp;quot;
+EndSection
+
+Section &amp;quot;Monitor&amp;quot;
+ Identifier &amp;quot;Monitor0&amp;quot;
+ VendorName &amp;quot;Monitor Vendor&amp;quot;
+ ModelName &amp;quot;Monitor Model&amp;quot;
+EndSection
+
+Section &amp;quot;Device&amp;quot;
+ ### Available Driver options are:-
+ ### Values: &amp;lt;i&amp;gt;: integer, &amp;lt;f&amp;gt;: float, &amp;lt;bool&amp;gt;: &amp;quot;True&amp;quot;/&amp;quot;False&amp;quot;,
+ ### &amp;lt;string&amp;gt;: &amp;quot;String&amp;quot;, &amp;lt;freq&amp;gt;: &amp;quot;&amp;lt;f&amp;gt; Hz/kHz/MHz&amp;quot;,
+ ### &amp;lt;percent&amp;gt;: &amp;quot;&amp;lt;f&amp;gt;%&amp;quot;
+ ### [arg]: arg optional
+ #Option &amp;quot;SWcursor&amp;quot; 	# [&amp;lt;bool&amp;gt;]
+ #Option &amp;quot;kmsdev&amp;quot; 	# &amp;lt;str&amp;gt;
+ #Option &amp;quot;ShadowFB&amp;quot; 	# [&amp;lt;bool&amp;gt;]
+ #Option &amp;quot;AccelMethod&amp;quot; 	# &amp;lt;str&amp;gt;
+ #Option &amp;quot;PageFlip&amp;quot; 	# [&amp;lt;bool&amp;gt;]
+ #Option &amp;quot;ZaphodHeads&amp;quot; 	# &amp;lt;str&amp;gt;
+ #Option &amp;quot;DoubleShadow&amp;quot; 	# [&amp;lt;bool&amp;gt;]
+ Option &amp;quot;RenderAccel&amp;quot; &amp;quot;1&amp;quot;
+ Option &amp;quot;DPMS&amp;quot; &amp;quot;1&amp;quot;
+ Option &amp;quot;RegistryDwords&amp;quot; &amp;quot;EnableBrightnessControl=1&amp;quot;
+ Identifier &amp;quot;Card0&amp;quot;
+ Driver &amp;quot;modesetting&amp;quot;
+ BusID &amp;quot;PCI:0:2:0&amp;quot;
+EndSection
+
+Section &amp;quot;Device&amp;quot;
+ Identifier &amp;quot;Card1&amp;quot;
+ Driver &amp;quot;nvidia&amp;quot;
+ BusID &amp;quot;PCI:1:0:0&amp;quot;
+ Option &amp;quot;RenderAccel&amp;quot; &amp;quot;1&amp;quot;
+ Option &amp;quot;DPMS&amp;quot; &amp;quot;1&amp;quot;
+ Option &amp;quot;RegistryDwords&amp;quot; &amp;quot;EnableBrightnessControl=1&amp;quot;
+ Option &amp;quot;RegistryDwords&amp;quot; &amp;quot;PowerMizerLevelAC=0x3&amp;quot;
+ Option &amp;quot;RegistryDwords&amp;quot; &amp;quot;PowerMizerLevel=0x2&amp;quot;
+ Option &amp;quot;RegistryDwords&amp;quot; &amp;quot;PerfLevelSrc=0x3333&amp;quot;
+ Option &amp;quot;OnDemandVBlankInterrupts&amp;quot; &amp;quot;1&amp;quot;
+EndSection
+
+Section &amp;quot;Screen&amp;quot;
+ Identifier &amp;quot;Screen0&amp;quot;
+ Device &amp;quot;Card0&amp;quot;
+ Monitor &amp;quot;Monitor0&amp;quot;
+ SubSection &amp;quot;Display&amp;quot;
+ Viewport 0 0
+ Depth 1
+ EndSubSection
+ SubSection &amp;quot;Display&amp;quot;
+ Viewport 0 0
+ Depth 4
+ EndSubSection
+ SubSection &amp;quot;Display&amp;quot;
+ Viewport 0 0
+ Depth 8
+ EndSubSection
+ SubSection &amp;quot;Display&amp;quot;
+ Viewport 0 0
+ Depth 15
+ EndSubSection
+ SubSection &amp;quot;Display&amp;quot;
+ Viewport 0 0
+ Depth 16
+ EndSubSection
+ SubSection &amp;quot;Display&amp;quot;
+ Viewport 0 0
+ Depth 24
+ EndSubSection
+EndSection
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;p>安装好软件后需要重启电脑，开启桌面后执行 &lt;code>xrandr --listproviders&lt;/code> ，应该可以看到如下结果:&lt;/p></description></item><item><title>Low Level I/O</title><link>https://number317.github.io/blog/c/low_level_io/</link><pubDate>Tue, 27 Aug 2019 09:07:47 +0800</pubDate><guid>https://number317.github.io/blog/c/low_level_io/</guid><description>&lt;h1 id="底层-io">底层 I/O&lt;/h1>
+&lt;p>任务由标准 I/O 库函数执行，即缓冲和输入/输出转换，不总是可取的。例如，直接和诸如磁带驱动器之类的设备执行输入和输出时，程序员需要能够确定缓冲区要使用的大小，而不是让 stdio 的函数执行它。当然，系统提供这一层级的控制。标准 I/O 库是底层 I/O 库的一个用户友好的接口。&lt;/p>
+&lt;h2 id="文件描述符">文件描述符&lt;/h2>
+&lt;p>在标准 I/O 中，文件由文件指针引用。使用底层接口时，文件由文件描述符引用，由一个简单的整数来指代。在标准 I/O 中，有三个预先定义的文件描述符，0,1,2，分别指向标准输入，标准输出和标准错误输出。&lt;/p>
+&lt;p>不同于标准 I/O 库，为标准输入输出提供了速记函数，所有的底层 I/O 函数需要一个合适的文件描述符传递给它们。&lt;/p>
+&lt;h2 id="打开和创建文件">打开和创建文件&lt;/h2>
+&lt;p>&lt;code>open&lt;/code> 函数用于打开一个文件用于读写或创建。它接收三个参数：要打开文件名的字符串，一个整数指定文件的打开方式，一个整数 &lt;code>mode&lt;/code> 当创建一个文件。成功时，它返回一个整数的文件描述符，失败时返回 -1。第二个参数在 &lt;code>sys/file.h&lt;/code>(Berkeley) 或 &lt;code>sys/fcntl.h&lt;/code>(System V)中定义如下：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>O_RDONLY&lt;/code> 只读模式&lt;/li>
+&lt;li>&lt;code>O_WRONLY&lt;/code> 只写模式&lt;/li>
+&lt;li>&lt;code>O_RDWR&lt;/code> 读写模式&lt;/li>
+&lt;li>&lt;code>O_APPEND&lt;/code> 追加模式&lt;/li>
+&lt;li>&lt;code>O_CREAT&lt;/code> 创建文件如果不存在，这个模式应该给出第三个参数&lt;/li>
+&lt;li>&lt;code>O_TRUNC&lt;/code> 截断文件长度为0用于写&lt;/li>
+&lt;li>&lt;code>O_EXCL&lt;/code> 返回错误如果创建文件时文件存在&lt;/li>
+&lt;li>&lt;code>O_NDELAY&lt;/code> 打开文件时不阻塞&lt;/li>
+&lt;/ul>
+&lt;h2 id="关闭文件">关闭文件&lt;/h2>
+&lt;p>&lt;code>close&lt;/code> 函数用于关闭文件，只接收一个参数，引用于要关闭文件的文件描述符。成功时返回0；出错时返回-1。&lt;/p>
+&lt;h2 id="读写文件">读写文件&lt;/h2>
+&lt;p>在底层接口中读写文件只有一个办法，一次一个缓冲区。缓冲区大小留给程序员定义，需要确定一个合适的值。例如，如果一个程序一侧值读写一个字符而不是几千个字符，操作系统将为每个字符都访问一次硬盘（或其他设备），导致程序执行非常缓慢。&lt;/p>
+&lt;p>&lt;code>read&lt;/code> 系统调用接收三个参数：一个文件描述符用于读取，一个指针指向缓冲区等待填写数据，一个整数表示要读取的字节数。返回实际读取的字节数，或者出错时返回 -1，到达文件末尾时返回 0。&lt;/p>
+&lt;p>&lt;code>write&lt;/code> 系统调用接收三个参数：一个文件描述符用于写入，一个指针指向缓冲区存放要写的数据，一个整数表示要写入的字节数。返回实际写入的字节数，或者出错时返回 -1。&lt;/p>
+&lt;p>下面的代码实现了文件追加的功能：&lt;/p>
+&lt;details>
+&lt;summary>code&lt;/summary>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c" data-lang="c">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-weight:bold">#include&lt;/span> &lt;span style="color:#888;font-weight:bold">&amp;lt;unistd.h&amp;gt;&lt;/span>&lt;span style="color:#888;font-weight:bold">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-weight:bold">#include&lt;/span> &lt;span style="color:#888;font-weight:bold">&amp;lt;fcntl.h&amp;gt;&lt;/span>&lt;span style="color:#888;font-weight:bold">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-weight:bold">#include&lt;/span> &lt;span style="color:#888;font-weight:bold">&amp;lt;stdio.h&amp;gt;&lt;/span>&lt;span style="color:#888;font-weight:bold">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-weight:bold">#include&lt;/span> &lt;span style="color:#888;font-weight:bold">&amp;lt;string.h&amp;gt;&lt;/span>&lt;span style="color:#888;font-weight:bold">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-weight:bold">&lt;/span>&lt;span style="font-weight:bold">int&lt;/span> &lt;span style="color:#666;font-weight:bold;font-style:italic">main&lt;/span>(&lt;span style="font-weight:bold">int&lt;/span> argc, &lt;span style="font-weight:bold">char&lt;/span> *argv[]) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">int&lt;/span> n;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">int&lt;/span> from, to;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">char&lt;/span> buf[1024];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">if&lt;/span>(argc!=3) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-weight:bold;font-style:italic">write&lt;/span>(2, &lt;span style="color:#666;font-style:italic">&amp;#34;Usage: &amp;#34;&lt;/span>, 7);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-weight:bold;font-style:italic">write&lt;/span>(2, *argv, &lt;span style="color:#666;font-weight:bold;font-style:italic">strlen&lt;/span>(*argv));
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-weight:bold;font-style:italic">write&lt;/span>(2, &lt;span style="color:#666;font-style:italic">&amp;#34;from-file to-file&lt;/span>&lt;span style="color:#666;font-style:italic">\n&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>, 19);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> 1;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">if&lt;/span> ((from=&lt;span style="color:#666;font-weight:bold;font-style:italic">open&lt;/span>(argv[1], O_RDONLY))&amp;lt;0) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-weight:bold;font-style:italic">perror&lt;/span>(argv[1]);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> 1;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">if&lt;/span>((to=&lt;span style="color:#666;font-weight:bold;font-style:italic">open&lt;/span>(argv[2], O_WRONLY|O_CREAT|O_APPEND, 0644))&amp;lt;0) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-weight:bold;font-style:italic">perror&lt;/span>(argv[2]);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> 1;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">while&lt;/span> (( n = &lt;span style="color:#666;font-weight:bold;font-style:italic">read&lt;/span>(from, buf, &lt;span style="font-weight:bold">sizeof&lt;/span>(buf)))&amp;gt;0)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-weight:bold;font-style:italic">write&lt;/span>(to, buf, n);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-weight:bold;font-style:italic">close&lt;/span>(from);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-weight:bold;font-style:italic">close&lt;/span>(to);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> 0;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/details>
+&lt;h2 id="在文件中移动">在文件中移动&lt;/h2>
+&lt;p>底层 I/O 库中在文件中移动调用 &lt;code>lseek&lt;/code> 函数。就像 &lt;code>fseek&lt;/code>，它接收三个参数：一个文件描述符指向一个打开的文件，一个长整型指定移动的字节数，称为偏移量，一个整型指定偏移量的起始位置。&lt;code>L_SET&lt;/code>，即 0，设置为文件起始位置；&lt;code>L_INCR&lt;/code>，即 1，设置为文件当前位置；&lt;code>L_XTND&lt;/code>，即 2，设置为文件末尾位置。&lt;code>lseek&lt;/code> 返回新的相对于文件起始的偏移量。要移动到文件末尾，调用 &lt;code>lseek(fd, 0L, L_XTND)&lt;/code>。要移动到文件开头，调用 &lt;code>lseek(fd, 0L, L_SET)&lt;/code>。&lt;/p></description></item><item><title>Standard I/O</title><link>https://number317.github.io/blog/c/standard_io/</link><pubDate>Fri, 23 Aug 2019 09:29:15 +0800</pubDate><guid>https://number317.github.io/blog/c/standard_io/</guid><description>&lt;h1 id="c-常用标准输入输出">c 常用标准输入输出&lt;/h1>
+&lt;p>在 c 程序中，常使用标准 I/O 库(stdio)中的方法来实现输入输出操作。这些方法是高层次的输入输出，因为他们有三个重要的功能:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>缓冲区自动操作。相对于一次写入几个字节数据，这些方法实际上一次可以写入一大块数据，通常有数千个字节。缓冲区的大小在 &lt;code>stdio.h&lt;/code> 的常量 &lt;code>BUFSIZ&lt;/code> 定义。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>输入和输出的转换。例如当使用 &lt;code>printf&lt;/code> 来打印一个整数(用 &lt;code>%d&lt;/code> 控制)，代表那个整数的字符将会被打印。相似的，当使用 &lt;code>scanf&lt;/code>，代表那个数字的字符被转换成数值。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>输入和输出自动格式化。你可以指定宽度以及其他任何格式来打印数字和字符串。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="文件指针">文件指针&lt;/h2>
+&lt;p>在标准 I/O 库中，一个文件被称为一个流(stream)，用一个指向 &lt;code>FILE&lt;/code> 类型的对象指针来描述，叫做文件指针(&lt;code>file pointer&lt;/code>)。&lt;code>FILE&lt;/code> 文件类型在 &lt;code>stdio.h&lt;/code> 中定义。有三个预先定义好的文件指针：&lt;code>stdin&lt;/code>，&lt;code>stdout&lt;/code>，&lt;code>stderr&lt;/code>，分别代表标准输入（键盘），标准输出（终端屏幕），和标准错误输出。&lt;/p>
+&lt;p>大多数标准输入输出库中的函数需要一个文件指针代表一个打开的流作为参数。当从标准输入读取数据或输出到标准输出时，标准 I/O 库提供了一些速记函数来指定这些流而无需再传递参数。下表指明了这些速记函数和他们的等价函数:&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th style="text-align: left">Shorthand&lt;/th>
+ &lt;th style="text-align: left">Equivalent&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;code>getchar()&lt;/code>&lt;/td>
+ &lt;td style="text-align: left">&lt;code>fgetc(stdin)&lt;/code>, &lt;code>getc(stdin)&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;code>gets(buf)&lt;/code>&lt;/td>
+ &lt;td style="text-align: left">&lt;code>fgets(buf, BUFSIZ, stdin)&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;code>printf(args)&lt;/code>&lt;/td>
+ &lt;td style="text-align: left">&lt;code>fprintf(stdout, args)&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;code>putchar(c)&lt;/code>&lt;/td>
+ &lt;td style="text-align: left">&lt;code>fputc(c, stdout)&lt;/code>, &lt;code>putc(c, stdout)&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;code>puts(buf)&lt;/code>&lt;/td>
+ &lt;td style="text-align: left">&lt;code>fputs(buf, stdout)&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;code>scanf(args)&lt;/code>&lt;/td>
+ &lt;td style="text-align: left">&lt;code>fscanf(stdin, args)&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="打开和创建文件">打开和创建文件&lt;/h2>
+&lt;p>为了能够从文件读或写入文件，那个文件必须被打开用于读写。&lt;code>fopen&lt;/code> 函数就是用于这个目的。这个函数读取两个参数：一个字符串代表文件名，一个字符串用于描述文件被怎样打开。它返回一个打开的 &lt;code>FILE&lt;/code> 文件流，或者如果无法打开指定文件时会返回常量 &lt;code>NULL&lt;/code>。&lt;code>fopen&lt;/code> 的第二个参数可以是以下值：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>r&lt;/code>: 文件会以只读模式打开。文件必须存在且有读的权限。&lt;/li>
+&lt;li>&lt;code>w&lt;/code>: 文件会以只写模式打开。如果文件不存在，会创建一个空文件。如果文件已存在，文件原有内容会被清空。&lt;/li>
+&lt;li>&lt;code>a&lt;/code>: 文件会以只写模式打开。如果文件不存在，会创建一个空文件。如果文件已存在，文件原有内容不会被清空。新写的数据会追加到文件末尾。&lt;/li>
+&lt;/ul>
+&lt;p>另外，一个加号 &lt;code>+&lt;/code> 可以添加到上述值的后面，表示文件以可读可写的模式打开。&lt;code>r+&lt;/code> 需要文件已存在，不会清空数据。&lt;code>w+&lt;/code> 和 &lt;code>a+&lt;/code> 会创建文件如果文件不存在。&lt;/p></description></item><item><title>K8s Note</title><link>https://number317.github.io/blog/struct/k8s_note/</link><pubDate>Thu, 01 Aug 2019 16:34:31 +0800</pubDate><guid>https://number317.github.io/blog/struct/k8s_note/</guid><description>&lt;h1 id="k8s-备忘">k8s 备忘&lt;/h1>
+&lt;h2 id="ingress-配置证书">ingress 配置证书&lt;/h2>
+&lt;p>首先要在 &lt;code>ingress&lt;/code> 所在 &lt;code>namespace&lt;/code> 下创建 &lt;code>tls&lt;/code> 类型的 &lt;code>secret&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>kubectl create secret tls https-certs --key /path/to/keyfile --cert /path/to/certfile -n the-namespace
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>修改 &lt;code>ingress&lt;/code> 配置，&lt;code>kubectl edit ing ingname -n the-namespace&lt;/code>，在 &lt;code>spec&lt;/code> 添加如下内容，注意和 &lt;code>rules&lt;/code> 同级:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>tls:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- hosts:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - www.test.com
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> secretName: https-certs
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>ingress&lt;/code> 配置了 https 证书后默认会强制跳转到 https 协议，如果不想强制跳转，可以在 &lt;code>annotations&lt;/code> 添加如下配置:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>nginx.ingress.kubernetes.io/ssl-redirect: &lt;span style="color:#666;font-style:italic">&amp;#34;false&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>旧版本的配置无需加上 nginx 前缀:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>ingress.kubernetes.io/ssl-redirect: &lt;span style="color:#666;font-style:italic">&amp;#34;false&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>更多的 annotations 配置可以查看 &lt;a href="https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/annotations.md">github 文档&lt;/a>&lt;/p>
+&lt;h2 id="ingress-配置超时">ingress 配置超时&lt;/h2>
+&lt;p>应用接口响应较慢的情况下可能需要修改 nginx 的超时配置，默认是 60s，可以在 &lt;code>annotations&lt;/code> 添加如下配置:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>annotations:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> nginx.ingress.kubernetes.io/client-body-buffer-size: 100M
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> nginx.ingress.kubernetes.io/proxy-body-size: 100M
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> nginx.ingress.kubernetes.io/proxy-buffer-size: 100M
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> nginx.ingress.kubernetes.io/proxy-buffering: &lt;span style="color:#666;font-style:italic">&amp;#34;on&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> nginx.ingress.kubernetes.io/proxy-connect-timeout: &lt;span style="color:#666;font-style:italic">&amp;#34;300&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> nginx.ingress.kubernetes.io/proxy-read-timeout: &lt;span style="color:#666;font-style:italic">&amp;#34;300&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> nginx.ingress.kubernetes.io/proxy-send-timeout: &lt;span style="color:#666;font-style:italic">&amp;#34;300&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这里将超时改成了 5m&lt;/p></description></item><item><title>Logstash to ES</title><link>https://number317.github.io/blog/struct/logstash_to_es/</link><pubDate>Thu, 04 Jul 2019 09:26:33 +0800</pubDate><guid>https://number317.github.io/blog/struct/logstash_to_es/</guid><description>&lt;h1 id="logstash-配置日志发送-es">logstash 配置日志发送 ES&lt;/h1>
+&lt;p>日志收集的架构如下所示:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>┌────────────┐
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│Java logback│\
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└────────────┘ \
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ┌─────┐ ┌────────┐ ┌──────┐ ┌────────┐
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │kafka│ ───&amp;gt; │logstash│ ───&amp;gt; │ ES │ ───&amp;gt; │ kibana │
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> └─────┘ └────────┘ └──────┘ └────────┘
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>┌────────────┐ /
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│Java logback│/
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└────────────┘
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>java 应用日志通过 logback 发送给 kafka，logstash 从 kafka 消费日志，并将日志转发给 ES。一开始一个应用一个 kafka topic，logstash 消费了之后根据 topic 来确定 ES 的索引。&lt;/p>
+&lt;p>logback 的配置:&lt;/p>
+&lt;details>
+&lt;summary>logback.xml&lt;/summary>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-xml" data-lang="xml">&lt;span style="display:flex;">&lt;span>&amp;lt;appender name=&lt;span style="color:#666;font-style:italic">&amp;#34;KAFKA&amp;#34;&lt;/span> class=&lt;span style="color:#666;font-style:italic">&amp;#34;com.github.danielwegener.logback.kafka.KafkaAppender&amp;#34;&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;encoder class=&lt;span style="color:#666;font-style:italic">&amp;#34;ch.qos.logback.classic.encoder.PatternLayoutEncoder&amp;#34;&lt;/span> charset=&lt;span style="color:#666;font-style:italic">&amp;#34;UTF-8&amp;#34;&lt;/span> &amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;pattern&amp;gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n&amp;lt;/pattern&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;/encoder&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;topic&amp;gt;spring-boot-demo&amp;lt;/topic&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;keyingStrategy class=&lt;span style="color:#666;font-style:italic">&amp;#34;com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy&amp;#34;&lt;/span>/&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;deliveryStrategy class=&lt;span style="color:#666;font-style:italic">&amp;#34;com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy&amp;#34;&lt;/span>/&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;producerConfig&amp;gt;bootstrap.servers=192.168.0.107:9092&amp;lt;/producerConfig&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>　 　　&amp;lt;producerConfig&amp;gt;retries=1&amp;lt;/producerConfig&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>　 　　&amp;lt;producerConfig&amp;gt;batch-size=16384&amp;lt;/producerConfig&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>　 　　&amp;lt;producerConfig&amp;gt;buffer-memory=33554432&amp;lt;/producerConfig&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>　 　　&amp;lt;producerConfig&amp;gt;properties.max.request.size==2097152&amp;lt;/producerConfig&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/appender&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;logger name=&lt;span style="color:#666;font-style:italic">&amp;#34;com.cheon.demo&amp;#34;&lt;/span> level=&lt;span style="color:#666;font-style:italic">&amp;#34;INFO&amp;#34;&lt;/span> additivity=&lt;span style="color:#666;font-style:italic">&amp;#34;false&amp;#34;&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;appender-ref ref=&lt;span style="color:#666;font-style:italic">&amp;#34;KAFKA&amp;#34;&lt;/span> /&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/logger&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/details>
+&lt;p>pom 文件依赖:&lt;/p></description></item><item><title>Ceph Ansible</title><link>https://number317.github.io/blog/struct/ceph_ansible/</link><pubDate>Sun, 23 Jun 2019 16:45:52 +0800</pubDate><guid>https://number317.github.io/blog/struct/ceph_ansible/</guid><description>&lt;h1 id="ceph-介绍">Ceph 介绍&lt;/h1>
+&lt;p>无论是想要为云平台提供 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-object-storage">Ceph Object Storage&lt;/a> 或 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-block-device">Ceph Block Device&lt;/a> 服务，部署一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-filesystem">Ceph Filesystem&lt;/a> 总是从设置每一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-node">Ceph 节点&lt;/a>，网络和 Ceph 存储集群开始。一个 Ceph 存储集群至少需要一个 Ceph Monitor，Ceph Manger，和 Ceph OSD(Object Storage Daemon)。当运行 Ceph 文件系统客户端时也需要 Ceph Metadata Server。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Monitors: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-monitor">Ceph 监视器(ceph-mon)&lt;/a> 维护集群状态的映射，包括监视器，管理，OSD 和 CURSH 映射。这些映射是 Ceph 守护进程之间相互协调的关键。监视器还负责管理守护进程和客户端之间的身份验证。为了保证冗余和高可用，至少需要3个监视器。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Mangers: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-manager">Ceph 管理(ceph-mgr)&lt;/a>守护进程负责保持追踪 Ceph 集群运行时指标和当前集群状态，包括存储利用率，当前的性能指标和系统负载。Ceph 管理进程还托管基于 python 的模块来管理和公开 Ceph 集群信息，包括一个基于网页的 &lt;a href="http://docs.ceph.com/docs/master/mgr/dashboard/#mgr-dashboard">Ceph Dashboard&lt;/a> 和 &lt;a href="http://docs.ceph.com/docs/master/mgr/restful">REST API&lt;/a>。为了保证高可用，至少需要2个管理节点。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Ceph OSDs: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-osd">Ceph OSD(object storage daemon, ceph-osd)&lt;/a>存储数据，处理数据复制、恢复、重新平衡，并通过检查其他 Ceph OSD 进程的心跳来提供一些监控信息给 Ceph 监视器和管理。为了保证冗余和高可用，至少需要3个 Ceph OSDs。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>MDSs: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-metadata-server">Ceph 元数据服务(MDS, ceph-mds)&lt;/a>存储代表 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-filesystem">Ceph 文件系统&lt;/a>（例如 Ceph 快设备和 Ceph 对象存储就不使用 MDS）的元数据。Ceph 元数据服务允许 POSIX 文件系统用户执行基本的命令（像 &lt;code>ls&lt;/code>, &lt;code>find&lt;/code> 等）而不会给 Ceph 存储集群代理极大的负载。&lt;/p></description></item><item><title>Nerd Font</title><link>https://number317.github.io/blog/system/nerd_font/</link><pubDate>Fri, 21 Jun 2019 14:32:35 +0800</pubDate><guid>https://number317.github.io/blog/system/nerd_font/</guid><description>&lt;h1 id="图标字体">图标字体&lt;/h1>
+&lt;p>在用 &lt;a href="https://github.com/robm/dzen">dzen2&lt;/a> 给桌面添加一个 panel 的时候用到了 &lt;a href="http://fontawesome.com">FontAwesome&lt;/a>，但是在 urxvt 终端下 FontAwesome 无法正常显示出来（不知是不是配置有误）。这样在用 vim 写脚本时不够直观。又不想换终端，所以只能从字体下手。&lt;/p>
+&lt;p>之前就了解到过 &lt;a href="https://github.com/ryanoasis/nerd-fonts">nerd-fonts&lt;/a> 这个项目，可以将图标字体整合进一个你想要的字体中。项目主页提供了一些已经预先构建好的字体，可以在&lt;a href="https://nerdfonts.com/">官网&lt;/a>直接下载使用。目前终端用的字体是从另一台 Mac 上复制出来的 SFMono，这也是 Mac 内置终端默认的字体。已经习惯了这款字体后就不想换了，因此准备构建自己的字体。&lt;/p>
+&lt;p>根据项目主页的教程，执行它提供给你的 &lt;code>font-patcher&lt;/code> 脚本前需要安装 &lt;code>fontforge&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>pacman -S fontforge
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完依赖，下载 &lt;code>font-patcher&lt;/code> 脚本并添加可执行权限:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -OL https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/font-patcher
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>chmod +x font-patcher
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>执行脚本进行构建字体:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>./font-patcher path/to/SFMono-Regular.otf -out path/to/SFMono-Nerd/ -c -l -s
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>&lt;code>-c&lt;/code> 表示添加所有可用字形&lt;/li>
+&lt;li>&lt;code>-l&lt;/code> 表示适应行高（尝试将 powerline 的分隔符均匀地放在中间）&lt;/li>
+&lt;li>&lt;code>-s&lt;/code> 表示使用单个字符宽度&lt;/li>
+&lt;/ul>
+&lt;p>运行脚本发现报错，提示找不到 &lt;code>src&lt;/code> 目录下的字体文件。这提示我们还需要去下载 &lt;code>src&lt;/code> 目录下的字体文件。这里有一个技巧，关于如何从 github 下载某个文件夹。&lt;/p>
+&lt;p>以此处为例，需要下载&lt;a href="https://github.com/ryanoasis/nerd-fonts/tree/master/src/glyphs">https://github.com/ryanoasis/nerd-fonts/tree/master/src/glyphs&lt;/a>目录下的所有字体文件。可以将 url 中的 &amp;ldquo;tree/master&amp;rdquo; 替换为 ”trunk“，再用 svn 去下载就好了。&lt;/p>
+&lt;p>所以这里执行 &lt;code>svn checkout https://github.com/ryanoasis/nerd-fonts/trunk/src/glyphs&lt;/code>，并将文件夹发到正确的路径，具体如下:&lt;/p></description></item><item><title>Ssh Config</title><link>https://number317.github.io/blog/solved/ssh_config/</link><pubDate>Fri, 14 Jun 2019 17:22:12 +0800</pubDate><guid>https://number317.github.io/blog/solved/ssh_config/</guid><description>&lt;h1 id="ssh-错误排查">ssh 错误排查&lt;/h1>
+&lt;p>新拿到的6台服务器，通过&lt;a href="https://github.com/jumpserver/jumpserver">jumpserver&lt;/a>用密钥登录到其中一台服务器，用 ssh 以账户密码的方式登录到其中另外一台服务器时遇见如下错误:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>测试登录另外一台服务器，发现可以正常登录；测试登录自己，报相同的错误。可以判断应该是 ssh 服务端配置有问题。&lt;br>
+经过排查，发现应该是服务端没有开启密码认证，修改&lt;code>/etc/ssh/sshd_config&lt;/code>，修改为如下配置，将&lt;code>no&lt;/code>替换为&lt;code>yes&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>PasswordAuthentication yes
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>保存配置重新启动 sshd 服务:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>systemctl restart sshd
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>再次测试发现已经可以登录了&lt;/p></description></item><item><title>Dockerfile Tips</title><link>https://number317.github.io/blog/shell/dockerfile_tips/</link><pubDate>Thu, 13 Jun 2019 13:51:36 +0800</pubDate><guid>https://number317.github.io/blog/shell/dockerfile_tips/</guid><description>&lt;h1 id="dockerfile-编写建议">Dockerfile 编写建议&lt;/h1>
+&lt;p>日常编写&lt;code>Dockerfile&lt;/code>的过程中总结的一些经验:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>基础镜像尽量选择&lt;code>alpine&lt;/code>版本，减小镜像体积，如果需要glibc，在&lt;code>Dockerfile&lt;/code>中添加以下指令&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span style="display:flex;">&lt;span>RUN apk --no-cache add ca-certificates wget &amp;amp;&amp;amp; \
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub &amp;amp;&amp;amp; \
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.29-r0/glibc-2.29-r0.apk &amp;amp;&amp;amp; \
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> apk --no-cache add glibc-2.29-r0.apk
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>关于在&lt;code>alpine&lt;/code>镜像中安装&lt;code>glibc&lt;/code>，详情可以参考&lt;a href="https://github.com/sgerrand/alpine-pkg-glibc">github&lt;/a>介绍&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在&lt;code>Dockerfile&lt;/code>里需要安装软件的尽量使用国内的源，加快ci构建，常见的操作如下：&lt;/p>
+&lt;ul>
+&lt;li>alpine:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>RUN sed -i &amp;#39;s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g&amp;#39; /etc/apk/repositories
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>debian:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>curl -L &amp;#34;https://mirrors.ustc.edu.cn/repogen/conf/debian-https-4-buster&amp;#34; -o /etc/apt/sources.list
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>centos:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>RUN curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>node:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>RUN npm install --registry=https://registry.npm.taobao.org \
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;amp;&amp;amp; npm config set phantomjs_cdnurl https://npm.taobao.org/dist/phantomjs \
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;amp;&amp;amp; npm config set chromedriver_cdnurl http://cdn.npm.taobao.org/dist/chromedriver \
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;amp;&amp;amp; npm config set sass_binary_site http://npm.taobao.org/mirrors/node-sass
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>构建镜像时如果需要代理，可以配置以下参数：&lt;/p></description></item><item><title>Es Clean Indices</title><link>https://number317.github.io/blog/shell/es_clean_indices/</link><pubDate>Wed, 12 Jun 2019 16:00:30 +0800</pubDate><guid>https://number317.github.io/blog/shell/es_clean_indices/</guid><description>&lt;h1 id="es-清理索引">ES 清理索引&lt;/h1>
+&lt;p>使用阿里云的 ES 服务存储应用的日志，随着业务的增长和 ES 的资源限制，索引过多会引起 ES 的崩溃。
+日志的采集是通过 logback 发送到 kafka，再用 logstash 消费 kafka 并转发给 ES。logstash 配置了&lt;code>%{[@metadata][kafka][topic]}-%{+YYYY-MM-dd}&lt;/code>作为 ES 的索引。
+经过讨论准备只将日志存储一个月，需要定时去清理索引，防止索引过多。&lt;/p>
+&lt;h2 id="获取索引">获取索引&lt;/h2>
+&lt;p>首先要做的是获取当前的索引，通过查阅 ES 的 &lt;a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices.html">API&lt;/a> 可知，可以用 &lt;code>/_cat/indices&lt;/code> 接口来获取所有索引:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -X POST -s &lt;span style="color:#666;font-style:italic">&amp;#34;http://es.example.site/_cat/indices&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>可以看到如下结果:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>green open test-app1-prod-log-2019-06-11 28NbwQbZTIaGPgb0S5Wkuw 5 1 189385 0 179.7mb 89.9mb
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>green open test-app1-prod-log-2019-06-10 0EiQBNhZTnGZqUZ92J9UEg 5 1 189385 0 179.7mb 93.3mb
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>green open test-app2-prod-log-2019-06-08 N_Th5gahSiu3kiycF26Q_A 5 1 2133105 0 4.5gb 2.2gb
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>需要将结果过滤一下，只保留 &lt;code>%{[@metadata][kafka][topic]}&lt;/code> 的信息:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -X POST -s &lt;span style="color:#666;font-style:italic">&amp;#34;http://es.example.site/_cat/indices&amp;#34;&lt;/span> | awk &lt;span style="color:#666;font-style:italic">&amp;#39;{print $3}&amp;#39;&lt;/span> | sort | grep -oP &lt;span style="color:#666;font-style:italic">&amp;#34;.*(?=-[0-9]*-[0-9]*-[0-9]*)&amp;#34;&lt;/span> | uniq
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>得到如下结果:&lt;/p></description></item><item><title>Docker Graph Migrate</title><link>https://number317.github.io/blog/struct/docker_graph_migrate/</link><pubDate>Tue, 14 May 2019 19:33:12 +0800</pubDate><guid>https://number317.github.io/blog/struct/docker_graph_migrate/</guid><description>&lt;h1 id="docker-目录迁移">docker 目录迁移&lt;/h1>
+&lt;p>服务器根目录磁盘空间比较小，只有50G，在使用一段时间后镜像增多，磁盘不够用，准备将 docker 的目录挂载到新加的磁盘。挂载硬盘后如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>NAME MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sr0 11:0 1 3.7M 0 rom
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vda 253:0 0 50G 0 disk
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└─vda1 253:1 0 50G 0 part /
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vdb 253:16 0 200G 0 disk
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="创建-lvm">创建 lvm&lt;/h2>
+&lt;p>为了以后方便扩容，准备使用 lvm。首先创建 pv：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>pvcreate /dev/vdb
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>创建 vg，命名为 docker：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>vgcreate docker /dev/vdb
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>创建 lv，命名为 registry：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>lvcreate -l +100%Free docker --name registry
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>将 lv 格式化为 xfs 文件系统：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>mkfs.xfs /dev/docker/registry
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="替换目录">替换目录&lt;/h2>
+&lt;p>首先要将改节点的 pod 全都驱散走：&lt;/p></description></item><item><title>C Sonarcloud</title><link>https://number317.github.io/blog/c/c_sonarcloud/</link><pubDate>Mon, 06 May 2019 14:55:56 +0800</pubDate><guid>https://number317.github.io/blog/c/c_sonarcloud/</guid><description>&lt;h1 id="c-配置-sonarcloud">C 配置 Sonarcloud&lt;/h1>
+&lt;p>SonarQube 用于代码质量分析，可以检测出代码的 bug，代码异味，测试覆盖率等，有助于提高代码质量。SonarCloud 是 SonarQube 的在线使用版本，可以集成 github，travisCI。具体操作可以看&lt;a href="https://sonarcloud.io/documentation">官方文档&lt;/a>。&lt;/p>
+&lt;p>之前写了一个终端管理 ssh 登录的小工具，想着检测一下代码质量，就想到用这个工具来检测一下。由于不需要每次提交都进行质量检测，所以没有集成到 CI 里面，而是在服务器上利用 SonarQube Scanner 手动执行。从&lt;a href="https://sonarcloud.io/dashboard?id=number317_ssh-tool">检测结果&lt;/a>来看，代码中确实有一些 bug 和代码异味。&lt;/p>
+&lt;h2 id="安装-build-wrapper">安装 build wrapper&lt;/h2>
+&lt;p>在&lt;a href="https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip">下载页&lt;/a>下载 linux 版的 build wrapper，解压出来应该有两个可执行文件。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>build-wrapper-linux-x86/
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── build-wrapper-linux-x86-32
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── build-wrapper-linux-x86-64
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── libinterceptor-i686.so
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└── libinterceptor-x86_64.so
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>可以将该目录加进&lt;code>PATH&lt;/code>变量，方便调用。&lt;/p>
+&lt;h2 id="安装-sonarqube-scanner">安装 SonarQube Scanner&lt;/h2>
+&lt;p>在&lt;a href="https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner">下载页&lt;/a>找到对应的平台，下载压缩包。解压后得到如下目录：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sonar-scanner-3.3.0.1492-linux
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── bin
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── jre
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└── lib
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>可以将上面的&lt;code>bin&lt;/code>目录添加到&lt;code>PATH&lt;/code>环境变量中。&lt;/p>
+&lt;h2 id="构建并分析代码">构建并分析代码&lt;/h2>
+&lt;p>在项目的根目录下执行命令：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>build-wrapper-linux-x86-64 --out-dir bw-output make
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold;font-style:italic">export&lt;/span> &lt;span style="color:#666;font-weight:bold;font-style:italic">JAVA_TOOL_OPTIONS&lt;/span>=&lt;span style="color:#666;font-style:italic">&amp;#34;-Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=443 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=443&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sonar-scanner &lt;span style="color:#666;font-style:italic">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-style:italic">&lt;/span> -Dsonar.projectKey=number317_ssh-tool &lt;span style="color:#666;font-style:italic">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-style:italic">&lt;/span> -Dsonar.organization=number317-github &lt;span style="color:#666;font-style:italic">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-style:italic">&lt;/span> -Dsonar.sources=. &lt;span style="color:#666;font-style:italic">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-style:italic">&lt;/span> -Dsonar.cfamily.gcov.reportsPath=. &lt;span style="color:#666;font-style:italic">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-style:italic">&lt;/span> -Dsonar.cfamily.build-wrapper-output=bw-output &lt;span style="color:#666;font-style:italic">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-style:italic">&lt;/span> -Dsonar.host.url=https://sonarcloud.io &lt;span style="color:#666;font-style:italic">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-style:italic">&lt;/span> -Dsonar.login=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>&lt;code>JAVA_TOOL_OPTIONS&lt;/code>里面配置了代理服务器。&lt;/li>
+&lt;li>&lt;code>-Dsonar.cfamily.gcov.reportsPath&lt;/code>配置了 gcov 测试结果的路径，用于覆盖率测试。覆盖率测试不达到 80%，代码质量检测无法通过。&lt;/li>
+&lt;li>&lt;code>-Dsonar.login&lt;/code>需要配置 Token，可以在 account → security 生成&lt;/li>
+&lt;/ul></description></item><item><title>Skywalking Deploy</title><link>https://number317.github.io/blog/struct/skywalking_deploy/</link><pubDate>Thu, 25 Apr 2019 17:16:15 +0800</pubDate><guid>https://number317.github.io/blog/struct/skywalking_deploy/</guid><description>&lt;h1 id="skywalking-部署">skywalking 部署&lt;/h1>
+&lt;p>skywalking 是一个国产开源的调用链监控工具，可用于分析请求中哪些操作比较慢。&lt;a href="https://github.com/apache/skywalking-kubernetes">官方&lt;/a>提供了 k8s 的部署配置，但这个配置里的镜像是不对的，具体版本对应的镜像可以在&lt;a href="https://hub.docker.com/r/apache/skywalking-oap-server">Dockerhub&lt;/a>上找到。如果想要更换版本，最好把 ES 中的索引先删除，否则可能会导致应用报错。&lt;/p>
+&lt;h2 id="架构说明">架构说明&lt;/h2>
+&lt;ul>
+&lt;li>elasticsearch: 用于存储 skywalking 数据，这里使用的是腾讯云的 ES 服务，因此无需搭建&lt;/li>
+&lt;li>skywalking-oap-server: skywalking 后端&lt;/li>
+&lt;li>ui: 默认 ui 界面&lt;/li>
+&lt;li>&lt;a href="https://github.com/apache/skywalking-rocketbot-ui">rocketbot-ui&lt;/a>: skywalking 的另一个官方前端界面，没有现成的镜像，需要自己构建&lt;/li>
+&lt;/ul>
+&lt;h2 id="部署">部署&lt;/h2>
+&lt;p>将官方的部署文件克隆到本地，将 oap， ui 的镜像换成对应的版本镜像。修改 oap 配置中的 ES 地址：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>storage:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> elasticsearch:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> clusterNodes: elasticsearch:9200
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>先创建命名空间：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>kubectl create ns skywalking
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>接着部署 oap 后端：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>kubectl apply -f oap/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>再部署前端：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>kubectl apply -f ui/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>为了集群外部访问，可以为前端配置一个域名或者在 service 中添加 externalIPs。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>apiVersion: extensions/v1beta1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>kind: Ingress
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>metadata:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> generation: 1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> name: ui
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> namespace: skywalking
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>spec:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> rules:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - host: skywalking.test.com.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> http:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> paths:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - backend:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> serviceName: ui
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> servicePort: 80
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> path: /
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>rocketbot-ui 属于可选配置，配置文件如下：&lt;/p></description></item><item><title>Graylog Sidecar</title><link>https://number317.github.io/blog/struct/graylog_sidecar/</link><pubDate>Wed, 14 Nov 2018 17:24:04 +0800</pubDate><guid>https://number317.github.io/blog/struct/graylog_sidecar/</guid><description>&lt;h1 id="graylog-sidecar-部署配置">graylog sidecar 部署配置&lt;/h1>
+&lt;p>graylog sidecar 用于配置从文件读取日志，具体读取文件可以采用filebeat和nxlog。这里在debian的容器中部署sidecar来示例。&lt;/p>
+&lt;h2 id="安装sidecar">安装sidecar&lt;/h2>
+&lt;p>从&lt;a href="https://github.com/Graylog2/collector-sidecar/releases">下载页面&lt;/a>下载对应的包，这里是debian系统，graylog版本是2.4。所以根据文档，下载&lt;code>collector-sidecar_0.1.7-1_amd64.deb&lt;/code>：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -OL &lt;span style="color:#666;font-style:italic">&amp;#34;https://github.com/Graylog2/collector-sidecar/releases/download/0.1.7/collector-sidecar_0.1.7-1_amd64.deb&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>下载好后安装：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>dpkg -i collector-sidecar_0.1.7-1_amd64.deb
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装好后配置system服务：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>graylog-collector-sidecar -service install
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这个命令会生成&lt;code>/etc/init.d/collector-sidecar&lt;/code>脚步，但是在容器中可能systemctl命令执行不了，可以直接执行该脚本。&lt;/p>
+&lt;h2 id="配置sidecar">配置sidecar&lt;/h2>
+&lt;p>编辑配置文件&lt;code>/etc/graylog/collector-sidecar&lt;/code>，改为以下内容：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span style="display:flex;">&lt;span>server_url: http://graylog.test.com/api/
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>update_interval: 10
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tls_skip_verify: &lt;span style="font-weight:bold;font-style:italic">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>send_status: &lt;span style="font-weight:bold;font-style:italic">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>list_log_files:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - /&lt;span style="font-weight:bold">var&lt;/span>/&lt;span style="font-weight:bold;font-style:italic">log&lt;/span>/connect-check/
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>collector_id: file:/etc/graylog/collector-sidecar/collector-id
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cache_path: /&lt;span style="font-weight:bold">var&lt;/span>/cache/graylog/collector-sidecar
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>log_path: /&lt;span style="font-weight:bold">var&lt;/span>/&lt;span style="font-weight:bold;font-style:italic">log&lt;/span>/graylog/collector-sidecar
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>log_rotation_time: 86400
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>log_max_age: 604800
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tags:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - connect-check
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>backends:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - name: nxlog
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> enabled: &lt;span style="font-weight:bold;font-style:italic">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> binary_path: /usr/bin/nxlog
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> configuration_path: /etc/graylog/collector-sidecar/generated/nxlog.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - name: filebeat
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> enabled: &lt;span style="font-weight:bold;font-style:italic">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> binary_path: /usr/bin/filebeat
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> configuration_path: /etc/graylog/collector-sidecar/generated/filebeat.yml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>主要是修改&lt;code>server_url&lt;/code>和&lt;code>tags&lt;/code>两项内容。&lt;/p></description></item><item><title>Graylog K8s Install</title><link>https://number317.github.io/blog/struct/graylog_k8s_install/</link><pubDate>Wed, 14 Nov 2018 16:20:50 +0800</pubDate><guid>https://number317.github.io/blog/struct/graylog_k8s_install/</guid><description>&lt;h1 id="graylog-k8s-部署">graylog k8s 部署&lt;/h1>
+&lt;p>graylog是一个日志聚合工具，用于统一展示应用日志。这里基于官方文档，在k8s集群中部署一套简单的单节点graylog服务。&lt;/p>
+&lt;h2 id="mongodb-部署">mongodb 部署&lt;/h2>
+&lt;p>mongodb 在服务中用于存储graylog的配置信息。以下是部署文件（没有进行数据持久化操作）：&lt;/p>
+&lt;details>
+&lt;summary>mongodb deploy&lt;/summary>
+```yaml
+# {{{ deploy
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+ name: graylog-mongo
+ labels:
+ app: graylog-mongo
+spec:
+ replicas: 1
+ selector:
+ matchLabels:
+ app: graylog-mongo
+ template:
+ metadata:
+ labels:
+ app: graylog-mongo
+ spec:
+ containers:
+ - name: graylog-mongo
+ image: mongo:3
+ ports:
+ - containerPort: 27017
+ protocol: TCP
+ resources:
+ limits:
+ memory: 512Mi
+ requests:
+ memory: 100Mi
+ terminationMessagePath: /dev/termination-log
+ imagePullPolicy: IfNotPresent
+ restartPolicy: Always
+ terminationGracePeriodSeconds: 30
+ dnsPolicy: ClusterFirst
+ securityContext: {}
+ strategy:
+ type: RollingUpdate
+ rollingUpdate:
+ maxUnavailable: 0
+ maxSurge: 1
+ revisionHistoryLimit: 2
+# }}}
+# {{{ service
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: graylog-mongo
+ labels:
+ name: mongo
+spec:
+ ports:
+ - name: mongo
+ protocol: TCP
+ port: 27017
+ targetPort: 27017
+ selector:
+ app: graylog-mongo
+ type: ClusterIP
+ sessionAffinity: None
+status:
+ loadBalancer: {}
+# }}}
+```
+&lt;/details>
+&lt;h2 id="elasticsearch-部署">elasticsearch 部署&lt;/h2>
+&lt;p>elasticsearch 在服务中用于存储日志数据。以下是部署文件（没有进行数据持久化操作）：&lt;/p></description></item><item><title>Connection Reset Error</title><link>https://number317.github.io/blog/solved/connection_reset_error/</link><pubDate>Fri, 19 Oct 2018 18:03:25 +0800</pubDate><guid>https://number317.github.io/blog/solved/connection_reset_error/</guid><description>&lt;h1 id="k8s-应用接口请求-connection-reset-错误">k8s 应用接口请求 connection reset 错误&lt;/h1>
+&lt;p>测试人员在进行压力测试时发现应用A的接口出现了 connection reset 的错误，出错率大概为十分之一，猜想可能是代码问题或是网络问题或是连接数限制问题。&lt;/p>
+&lt;h2 id="问题排查">问题排查&lt;/h2>
+&lt;p>应用A有三个环境，dev，uat和prod。其中dev和uat在同一集群中，因此网络环境相同，在代码上，三个环境都是一样的。&lt;/p>
+&lt;ul>
+&lt;li>测试prod环境的同一接口，并没有出现相同错误，说明代码没有问题。&lt;/li>
+&lt;li>如果是连接数限制问题，那么应该不止此次压测出现，而之前几次压测都没有出现改问题，所以暂时先排除。&lt;/li>
+&lt;li>验证网络问题，测试应用B的一个静态文件请求，也发现了相同的错误，现在基本可以确定是网络问题。&lt;/li>
+&lt;/ul>
+&lt;h2 id="原因查找">原因查找&lt;/h2>
+&lt;p>要想排查网络问题，要先了解一下系统的网络架构。&lt;/p>
+&lt;p>首先最外面是一个A10负载均衡，80端口代理到k8s集群三个master节点的80端口，所有的域名都解析在这个A10上。&lt;/p>
+&lt;p>三台master节点的ip地址和80端口被用作集群中ingress controller的service的externalIP，域名通过ingress controller找到对应的应用。&lt;/p>
+&lt;p>网络问题需要一层一层排查，首先是应用本身。用循环来发送100次请求，查看应用日志：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">for&lt;/span> i in {1..100}; &lt;span style="font-weight:bold">do&lt;/span> curl http://www.test.com/api/example; &lt;span style="font-weight:bold;font-style:italic">echo&lt;/span> &lt;span style="color:#666;font-weight:bold;font-style:italic">$i&lt;/span>;&lt;span style="font-weight:bold">done&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>通过日志发现请求出现connection reset时，应用没有对应日志，说明请求没有到应用这里。&lt;/p>
+&lt;p>应用上一层是域名，域名是通过ingress来配置的，查看ingress controller的日志，发现也没有报错日志，所以请求也没有到这里。&lt;/p>
+&lt;p>接下来查看三台master节点的80端口，发现其中一台master1的80端口不通。看来问题应该就出现在这里了，我们可以手动来验证一下。&lt;/p>
+&lt;p>将要请求的域名映射为master2的ip地址，在&lt;code>/etc/hosts&lt;/code>中加入&lt;code>www.test.com master2IP&lt;/code>，进行测试，发现没有出现错误。改成master1的ip地址则发现无法连接。&lt;/p>
+&lt;h2 id="问题解决">问题解决&lt;/h2>
+&lt;p>查看了k8s集群的网络组件，发现master1上的flannel一直处于container creating状态。将pod删除重启，再次进行测试，发现connection reset的错误已经没了。&lt;/p></description></item><item><title>Redis Somaxconn</title><link>https://number317.github.io/blog/solved/redis_somaxconn/</link><pubDate>Mon, 13 Aug 2018 11:07:55 +0800</pubDate><guid>https://number317.github.io/blog/solved/redis_somaxconn/</guid><description>&lt;h1 id="kubernetes-redis-最大连接数设置">kubernetes redis 最大连接数设置&lt;/h1>
+&lt;p>应用在进行压力测试的时候发现请求多（5000并发）的时候会报出redis连接超时错误，查看了redis的配置，发现如下配置：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span># TCP listen() backlog.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>#
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span># In high requests-per-second environments you need an high backlog in order
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span># to avoid slow clients connections issues. Note that the Linux kernel
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span># will silently truncate it to the value of /proc/sys/net/core/somaxconn so
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span># make sure to raise both the value of somaxconn and tcp_max_syn_backlog
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span># in order to get the desired effect.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tcp-backlog 511
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>从这个配置可以看到，reids的最大连接数配置了511，所以应该将这个配置调高。注释里有提醒这个配置会受到linux内核配置的限制，查看&lt;code>/proc/sys/net/core/somaxconn&lt;/code>，发现这个值只有128，所以redis配置&lt;code>tcp-backlog 511&lt;/code>并没有生效，实际值只有128。&lt;/p>
+&lt;p>由于这里的redis是通过kubernetes部署的，所以需要同时修改宿主机和容器的内核参数。由于集群中有许多主机，所以我们通过为三台节点添加标签和污点来搭建redis等中间件应用并且防止其他应用部署到这些节点。通过查阅资料发现要修改k8s部署的容器的内核参数，需要开启kubelet的配置。所以具体操作分为四步：&lt;/p>
+&lt;ol>
+&lt;li>为节点添加标签和污点&lt;/li>
+&lt;li>修改主机内核参数&lt;/li>
+&lt;li>修改kubelet配置&lt;/li>
+&lt;li>修改容器内核参数&lt;/li>
+&lt;li>修改redis配置并重启&lt;/li>
+&lt;/ol>
+&lt;h2 id="节点添加标签和污点">节点添加标签和污点&lt;/h2>
+&lt;p>为节点添加标签：&lt;/p></description></item><item><title>Ansible Variables</title><link>https://number317.github.io/blog/struct/ansible_variables/</link><pubDate>Fri, 25 May 2018 11:06:47 +0800</pubDate><guid>https://number317.github.io/blog/struct/ansible_variables/</guid><description>&lt;h1 id="ansible-变量">ansible 变量&lt;/h1>
+&lt;p>ansible 变量以&lt;code>[A-Za-z]&lt;/code>开头，可以包含下划线&lt;code>_&lt;/code>和数字&lt;code>[0-9]&lt;/code>，标准是全部使用小写字母。在清单(inventory)文件里，变量使用&lt;code>=&lt;/code>赋值，如：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ini" data-lang="ini">&lt;span style="display:flex;">&lt;span>foo=&lt;span style="color:#666;font-style:italic">bar&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>在剧本(playbook)或变量文件里，变量用&lt;code>:&lt;/code>赋值，如：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>foo: bar
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="playbook-variables">Playbook Variables&lt;/h2>
+&lt;p>变量可以在使用&lt;code>ansible-playbook&lt;/code>时通过命令行参数&lt;code>--extra-vars&lt;/code>选项传递：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ansible-playbook example.yml --extra-vars &lt;span style="color:#666;font-style:italic">&amp;#34;foo=bar&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>也可以在参数中传递json，yaml格式的数据，甚至是json和yaml文件，就像&lt;code>--extra-vars &amp;quot;@even_more_vars.json&amp;quot;&lt;/code>或者&lt;code>--extra-vars &amp;quot;@even_more_vars.yml&amp;quot;&lt;/code>，但这种方式不建议使用。&lt;/p>
+&lt;p>变量可以直接在playbook中的&lt;code>vars&lt;/code>部分定义：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-weight:bold;font-style:italic">---&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- hosts: example
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vars:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> foo: bar
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> tasks:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#888;font-style:italic"># Prints &amp;#34;Variable &amp;#39;foo&amp;#39; is set to bar&amp;#34;.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - debug: msg=&amp;#34;Variable &amp;#39;foo&amp;#39; is set to {{ foo }}&amp;#34;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>变量也可以在单独的文件中定义，然后在playbook中通过&lt;code>vars_files&lt;/code>引用：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># Main playbook file.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>- hosts: example
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vars_files:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - vars.yml
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> tasks:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	- debug: msg=&amp;#34;Variable &amp;#39;foo&amp;#39; is set to {{ foo }}&amp;#34;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>和playbook同目录下的&lt;code>vars.yml&lt;/code>：&lt;/p></description></item><item><title>Vps Openvpn</title><link>https://number317.github.io/blog/system/vps_openvpn/</link><pubDate>Sat, 28 Apr 2018 15:22:21 +0800</pubDate><guid>https://number317.github.io/blog/system/vps_openvpn/</guid><description>&lt;h1 id="vps-openvpn-翻墙教程">VPS OpenVPN 翻墙教程&lt;/h1>
+&lt;h2 id="服务端配置">服务端配置&lt;/h2>
+&lt;p>首先，需要一台能访问外网的服务器。这里采用的是HostUS的VPS。&lt;/p>
+&lt;p>在部署OpenVPN服务端之前，应该先打开服务器的ip转发功能。修改&lt;code>/etc/sysctl.conf&lt;/code>文件，将对应内容修改为下面一行的值：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>net.ipv4.ip_forward = 1
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>修改后执行&lt;code>sysctl -p /etc/sysctl.conf&lt;/code>使配置生效。&lt;/p>
+&lt;p>服务端采用容器部署，因此VPS应该先安装好docker。以下为容器启动脚本：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-weight:bold">#!/bin/bash
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-weight:bold">&lt;/span>&lt;span style="color:#666;font-weight:bold;font-style:italic">IP&lt;/span>=&lt;span style="color:#666;font-style:italic">&amp;#34;xxx.xxx.xxx.xxx&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-weight:bold;font-style:italic">OVPN_DATA&lt;/span>=&lt;span style="color:#666;font-style:italic">&amp;#34;/root/ovpn_data&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -v &lt;span style="color:#666;font-weight:bold;font-style:italic">$OVPN_DATA&lt;/span>:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig -u udp://&lt;span style="color:#666;font-weight:bold;font-style:italic">$IP&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -v &lt;span style="color:#666;font-weight:bold;font-style:italic">$OVPN_DATA&lt;/span>:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initpki
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -v &lt;span style="color:#666;font-weight:bold;font-style:italic">$OVPN_DATA&lt;/span>:/etc/openvpn --name openvpn -e &lt;span style="color:#666;font-weight:bold;font-style:italic">DEBUG&lt;/span>=1 -d -p 1194:1194/udp --cap-add=NET_ADMIN kylemanna/openvpn
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -v &lt;span style="color:#666;font-weight:bold;font-style:italic">$OVPN_DATA&lt;/span>:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full CLIENTNAME nopass
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -v &lt;span style="color:#666;font-weight:bold;font-style:italic">$OVPN_DATA&lt;/span>:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient CLIENTNAME &amp;gt; CLIENTNAME.ovpn
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>将上述脚本的IP地址替换为自己的IP地址，然后执行脚本，根据提示输入信息即可。中间要求输入密码之类的都写个简单点一样的密码就好。&lt;/p>
+&lt;p>脚本执行完成后会生成一个&lt;code>CLIENTNAME.ovpn&lt;/code>客户端的配置文件，将它下载到自己的电脑上，用于配置客户端。&lt;/p>
+&lt;h2 id="客户端配置">客户端配置&lt;/h2>
+&lt;p>这里的客户端也archlinux为例，要先安装好openvpn，在此不做赘述。客户端直接执行以下命令连接OpenVPN服务端：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>sudo openvpn CLIENTNAME.ovpn
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果日志输出有报错，可以查看服务端的配置文件，修改相应部分。启动好后进行测试：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ping -c 3 www.baidu.com
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ping -c 3 www.google.com
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果无法解析域名可能是DNS服务器没有设置好，查阅资料可知，openvpn客户端命令行不会从服务端拉取DNS设置。我们可以手动进行设置，在&lt;code>/etc/resolv.conf&lt;/code>文件中第一行添加&lt;code>namespace 8.8.8.8&lt;/code>，再次进行测试应该就可以解析域名了，用&lt;code>curl&lt;/code>进行请求也能够请求成功了。&lt;/p></description></item><item><title>Iptables Intro</title><link>https://number317.github.io/blog/system/iptables_intro/</link><pubDate>Thu, 26 Apr 2018 08:32:31 +0800</pubDate><guid>https://number317.github.io/blog/system/iptables_intro/</guid><description>&lt;h1 id="iptables-介绍">iptables 介绍&lt;/h1>
+&lt;h2 id="基本概念">基本概念&lt;/h2>
+&lt;ul>
+&lt;li>iptables 可以检测、修改、转发、重定向和丢弃IPV4数据包。&lt;/li>
+&lt;li>表(tables)
+&lt;ul>
+&lt;li>raw: 用于配置数据包&lt;/li>
+&lt;li>filter: 存放所有与防火墙相关操作的表&lt;/li>
+&lt;li>nat: 用于网络地址转换&lt;/li>
+&lt;li>mangle: 用于对特定数据包的修改&lt;/li>
+&lt;li>security: 用于强制访问控制&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>链(chains): INPUT, OUTPUT, FORWARD, PREROUTING,POSTROUTING&lt;/li>
+&lt;li>规则(rules): 过滤数据包&lt;/li>
+&lt;li>模块(modules): 用于扩展iptables，进行更复杂的过滤&lt;/li>
+&lt;/ul>
+&lt;h2 id="工作流程">工作流程&lt;/h2>
+&lt;p>&lt;img src="https://number317.github.io/blog/system/images/iptables_intro_img1.jpg" alt="iptables 流程图">&lt;/p>
+&lt;p>第一个路由策略包括决定数据包的目的地是本地主机（这种情况下，数据包穿过 INPUT 链），还是其他主机（数据包穿过 FORWARD 链）；&lt;/p>
+&lt;p>中间的路由策略包括决定给传出的数据包使用那个源地址、分配哪个接口；&lt;/p>
+&lt;p>最后一个路由策略存在是因为 mangle 与 nat 链可能会改变数据包的路由信息。&lt;/p>
+&lt;p>数据包通过路径上的每一条链时，链中的每一条规则按顺序匹配；无论何时匹配了一条规则，相应的 target/jump 动作将会执行。最常用的3个 target 是 ACCEPT, DROP ,或者 jump 到用户自定义的链。内置的链有默认的策略，但是用户自定义的链没有默认的策略。在 jump 到的链中，若每一条规则都不能提供完全匹配，那么数据包返回到调用链。在任何时候，若 DROP target 的规则实现完全匹配，那么被匹配的数据包会被丢弃，不会进行进一步处理。如果一个数据包在链中被 ACCEPT，那么它也会被所有的父链 ACCEPT，并且不再遍历其他父链。然而，要注意的是，数据包还会以正常的方式继续遍历其他表中的其他链。&lt;/p>
+&lt;h2 id="常用选项">常用选项&lt;/h2>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th style="text-align: left">参数类型&lt;/th>
+ &lt;th style="text-align: right">可选项&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td style="text-align: left">表&lt;/td>
+ &lt;td style="text-align: right">filter, nat&amp;hellip;&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">链&lt;/td>
+ &lt;td style="text-align: right">INPUT, OUTPUT, FORWARD, PREOUTING（修改目标ip地址）, POSTROUTING（修改源ip地址）&amp;hellip;&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">匹配属性&lt;/td>
+ &lt;td style="text-align: right">源、目标IP，协议（TCP,UDP,ICMP&amp;hellip;），端口号，网卡接口&amp;hellip;&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">模块&lt;/td>
+ &lt;td style="text-align: right">conntrack, multiport, connlimit&amp;hellip;&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">动作&lt;/td>
+ &lt;td style="text-align: right">ACCEPT, DROP, RETURN, REJECT&amp;hellip;&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="配置运行">配置运行&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># systemctl start iptables&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>启动时会读取&lt;code>/etc/iptables/iptables.rules&lt;/code>文件载入规则，如果配置文件不存在会报错
+可以直接生成一个空的iptables.rules文件设定空规则&lt;code>touch /etc/iptables/iptables.rules&lt;/code>&lt;/p></description></item><item><title>Interesting Shell Commands</title><link>https://number317.github.io/blog/shell/interesting_shell_commands/</link><pubDate>Wed, 25 Apr 2018 18:16:49 +0800</pubDate><guid>https://number317.github.io/blog/shell/interesting_shell_commands/</guid><description>&lt;h1 id="一些有意思的shell命令">一些有意思的shell命令&lt;/h1>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ &lt;span style="font-weight:bold;font-style:italic">printf&lt;/span> &lt;span style="color:#666;font-style:italic">&amp;#34;%x&amp;#34;&lt;/span> &lt;span style="color:#666;font-style:italic">\&amp;#39;&lt;/span>$
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ &lt;span style="font-weight:bold;font-style:italic">printf&lt;/span> &lt;span style="color:#666;font-style:italic">\\&lt;/span>x2F
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>将字符转化为16进制(%x), 十进制(%d)&amp;hellip;
+第二个命令将16进制转化为字符&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ python -m SimpleHTTPServer
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ python -m http.server
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>使用python来建立一个简易的web service用于文件传输，第一个时python2的写法，后一个是python3的写法，默认端口为8000，可以在后面直接加端口指定端口&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ nc -l localhost -p 1016
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ nc localhost 1016
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ nc -lu localhost -p 8125
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ nc -u localhost 8125
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>gnu-netcat&lt;/code>软件包，使用&lt;code>nc&lt;/code>命令监听1016端口，然后再用&lt;code>nc&lt;/code>可以发送数据，这可以用于文件传输，做简易的聊天工具&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -OL https://github.com/cmderdev/cmder/releases/download/v1.3.2/cmder.zip
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>curl -Ss &lt;span style="color:#666;font-style:italic">&amp;#34;https://store.docker.com/api/content/v1/repositories/public/library/&lt;/span>&lt;span style="color:#666;font-weight:bold;font-style:italic">$@&lt;/span>&lt;span style="color:#666;font-style:italic">/tags?page_size=25&amp;amp;page=1&amp;#34;&lt;/span> | jq &lt;span style="color:#666;font-style:italic">&amp;#39;.&amp;#34;results&amp;#34;[][&amp;#34;name&amp;#34;]&amp;#39;&lt;/span> | sort -r
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>curl -X POST -H &lt;span style="color:#666;font-style:italic">&amp;#34;Content-Type: application/json&amp;#34;&lt;/span> -H &lt;span style="color:#666;font-style:italic">&amp;#34;Authorization: Basic YWRtaW46YWRtaW4xMjM=&amp;#34;&lt;/span> &lt;span style="color:#666;font-style:italic">&amp;#39;http://localhost:8081/service/siesta/rest/v1/script/&amp;#39;&lt;/span> &lt;span style="color:#666;font-style:italic">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-style:italic">&lt;/span> -d &lt;span style="color:#666;font-style:italic">&amp;#39;{ &amp;#34;name&amp;#34;: &amp;#34;updateAnonymousAccess&amp;#34;, &amp;#34;type&amp;#34;: &amp;#34;groovy&amp;#34;, &amp;#34;content&amp;#34;: &amp;#34;security.setAnonymousAccess(Boolean.valueOf(args))&amp;#34; }&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>第一行命令用于下载文件：&lt;code>-O&lt;/code> 以原文件名字保存，&lt;code>-L&lt;/code> 重定向跟踪，&lt;code>-C&lt;/code> 断点续传，&lt;code>-C -&lt;/code>自动检测断点
+第二行命令用于获取docker镜像的tag：&lt;code>-S&lt;/code> 显示错误信息，&lt;code>-s&lt;/code> 静默模式，&lt;code>jq&lt;/code> 命令行的json处理工具
+第三行命令用于发送POST请求：&lt;code>-H&lt;/code>指定请求头，&lt;code>-d&lt;/code>指定请求参数，这里是json格式，也可以将数据写入文件，通过&lt;code>-d@data.json&lt;/code> 的形式来传递数据&lt;/p></description></item><item><title>Firefox Open Markdown</title><link>https://number317.github.io/blog/solved/firefox_open_markdown/</link><pubDate>Tue, 17 Apr 2018 01:17:33 +0800</pubDate><guid>https://number317.github.io/blog/solved/firefox_open_markdown/</guid><description>&lt;h1 id="使用firefox打开并渲染markdown">使用firefox打开并渲染markdown&lt;/h1>
+&lt;p>如果用firefox打开markdown文件只有下载选项，需要更新mime的数据库:&lt;/p>
+&lt;p>在&lt;code>~/.local/share/mime/packages&lt;/code>目录下创建&lt;code>text-markdown.xml&lt;/code>文件，内容如下&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-xml" data-lang="xml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-weight:bold">&amp;lt;?xml version=&amp;#34;1.0&amp;#34;?&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;mime-info xmlns=&lt;span style="color:#666;font-style:italic">&amp;#39;http://www.freedesktop.org/standards/shared-mime-info&amp;#39;&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;mime-type type=&lt;span style="color:#666;font-style:italic">&amp;#34;text/plain&amp;#34;&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;glob pattern=&lt;span style="color:#666;font-style:italic">&amp;#34;*.md&amp;#34;&lt;/span>/&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;glob pattern=&lt;span style="color:#666;font-style:italic">&amp;#34;*.mkd&amp;#34;&lt;/span>/&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;glob pattern=&lt;span style="color:#666;font-style:italic">&amp;#34;*.markdown&amp;#34;&lt;/span>/&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;/mime-type&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/mime-info&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后执行&lt;code>update-mime-database ~/.local/share/mime&lt;/code>&lt;/p>
+&lt;p>完成后即可用firefox打开markdown文件。若想要查看markdown的渲染效果，可以安装markdown的插件，如markdow viewer webext等&lt;/p></description></item><item><title>Dell Xps 15 9560 Arch Linux Install</title><link>https://number317.github.io/blog/system/dell_xps_15_9560_arch_linux_install/</link><pubDate>Wed, 28 Mar 2018 10:18:12 +0800</pubDate><guid>https://number317.github.io/blog/system/dell_xps_15_9560_arch_linux_install/</guid><description>&lt;h1 id="dell-xps-15-9560-arch-linux-安装教程">Dell XPS 15 9560 Arch Linux 安装教程&lt;/h1>
+&lt;h2 id="bios设置">BIOS设置&lt;/h2>
+&lt;p>打开电脑，等待出现dell图标时按下&lt;code>F12&lt;/code>键，选择进入BIOS设置页面，进行如下操作&lt;/p>
+&lt;ol>
+&lt;li>将&lt;code>SATA Mode&lt;/code>从默认的&lt;code>RAID&lt;/code>模式修改为&lt;code>AHCI&lt;/code>模式。这样可以允许Linux检测到&lt;code>NVME SSD&lt;/code>。&lt;/li>
+&lt;li>将&lt;code>Fastboot&lt;/code>的选项从&lt;code>POST Behaviour&lt;/code>修改为&lt;code>Thorough&lt;/code>，这样可以防止偶尔的启动错误。&lt;/li>
+&lt;li>关闭安全启动来允许linux启动。&lt;/li>
+&lt;/ol>
+&lt;p>保存后退出，会重启电脑。&lt;/p>
+&lt;h2 id="内核启动参数设置">内核启动参数设置&lt;/h2>
+&lt;p>从U盘启动 Arch Linux 引导镜像：在dell图标出现时按下&lt;code>F12&lt;/code>，选择从U盘启动，在出现启动菜单时，按下&lt;code>e&lt;/code>键，添加以下启动参数：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>initrd=\initramfs-linux.img root=/dev/sdb2 acpi_rev_override=1 pci=nommconf nouveau.modeset=0
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这样可以保证系统可以正常关闭和重启，否则关闭和重启时电脑会死机。&lt;/p>
+&lt;h2 id="系统安装">系统安装&lt;/h2>
+&lt;h3 id="tty字体设置">tty字体设置&lt;/h3>
+&lt;p>首先由于4k屏的高分辨率，使得终端字体非常小，应该设置大一点的字体：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>setfont latarcyrheb-sun32
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="网络连接">网络连接&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wifi-menu
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>根据提示选择wifi，输入密码即可。&lt;/p>
+&lt;h3 id="分区">分区&lt;/h3>
+&lt;p>这里采用lvm并使用cryptsetup来加密磁盘，最终分区如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>NAME MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nvme0n1 259:0 0 477G 0 disk 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├─nvme0n1p1 259:1 0 512M 0 part /boot
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└─nvme0n1p2 259:2 0 476.4G 0 part 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> └─luks 254:0 0 476.4G 0 crypt 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ├─entropy--vg0-root 254:1 0 150G 0 lvm /
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ├─entropy--vg0-home 254:2 0 250G 0 lvm /home
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ├─entropy--vg0-swap 254:3 0 16G 0 lvm [SWAP]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> └─entropy--vg0-backup 254:4 0 10G 0 lvm 
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>磁盘创建两个分区，一个分区用于&lt;code>/boot&lt;/code>，另一个分区用于安装系统。&lt;/p></description></item><item><title>Openshift Restart Node</title><link>https://number317.github.io/blog/solved/openshift_restart_node/</link><pubDate>Thu, 08 Mar 2018 18:09:41 +0800</pubDate><guid>https://number317.github.io/blog/solved/openshift_restart_node/</guid><description>&lt;h1 id="openshift-节点无法连接集群">openshift 节点无法连接集群&lt;/h1>
+&lt;p>在openshift master 节点上执行&lt;code>oc get node&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ oc get node
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>NAME STATUS AGE
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>node1 NotReady,SchedulingDisabled 301d
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>master1 Ready 308d
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>master2 Ready 308d
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>master3 Ready 308d
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>master4 Ready 308d
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>master5 Ready 31d
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>其中的node1状态为&lt;code>NotReady,SchedulingDisabled&lt;/code>，改节点没有准备好，并且是无法调度的，其中无法调度是手动设置的：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ openshift admin manage-node node1 --schedulable=&lt;span style="font-weight:bold;font-style:italic">false&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>重启&lt;code>origin-node&lt;/code>服务，让节点重新连接集群：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ systemctl restart origin-node
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>重新查看节点状态：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ oc get node
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>NAME STATUS AGE
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>node1 Ready,SchedulingDisabled 301d
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>master1 Ready 308d
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>master2 Ready 308d
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>master3 Ready 308d
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>master4 Ready 308d
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>master5 Ready 31d
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>节点已经 ready，再将其设置为可调度的：&lt;/p></description></item><item><title>Tomcat Deploy Error</title><link>https://number317.github.io/blog/solved/tomcat_deploy_error/</link><pubDate>Tue, 06 Feb 2018 18:44:13 +0800</pubDate><guid>https://number317.github.io/blog/solved/tomcat_deploy_error/</guid><description>&lt;h1 id="tomcat部署war包出错">tomcat部署war包出错&lt;/h1>
+&lt;h2 id="错误1">错误1&lt;/h2>
+&lt;p>错误日志如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>Caused by: java.lang.IllegalStateException: Unable to complete the scan for annotations for web application [/capitalplan] due to a StackOverflowError. Possible root causes include a too low setting for -Xss and illegal cyclic inheritance dependencies. The class hierarchy being processed was [org.bouncycastle.asn1.ASN1EncodableVector-&amp;gt;org.bouncycastle.asn1.DEREncodableVector-&amp;gt;org.bouncycastle.asn1.ASN1EncodableVector]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.startup.ContextConfig.checkHandlesTypes(ContextConfig.java:2099)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.startup.ContextConfig.processAnnotationsStream(ContextConfig.java:2043)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.startup.ContextConfig.processAnnotationsJar(ContextConfig.java:1989)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.startup.ContextConfig.processAnnotationsUrl(ContextConfig.java:1959)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.startup.ContextConfig.processAnnotations(ContextConfig.java:1912)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.startup.ContextConfig.webConfig(ContextConfig.java:1154)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.startup.ContextConfig.configureStart(ContextConfig.java:771)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.startup.ContextConfig.lifecycleEvent(ContextConfig.java:298)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.util.LifecycleBase.fireLifecycleEvent(LifecycleBase.java:94)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5093)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:152)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	... 10 more
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>解决方案：&lt;/p></description></item><item><title>Lvm Intro</title><link>https://number317.github.io/blog/system/lvm_intro/</link><pubDate>Fri, 26 Jan 2018 15:27:50 +0800</pubDate><guid>https://number317.github.io/blog/system/lvm_intro/</guid><description>&lt;h1 id="lvm-介绍">LVM 介绍&lt;/h1>
+&lt;p>LVM(Logical Volume Management)逻辑卷管理利用linux内核的device-mapper特征来实现存储系统的虚拟化，操作系统不再直接操作磁盘，而是操作LV(Logical Volume)逻辑卷。&lt;/p>
+&lt;p>传统磁盘管理如GPT分区和MBR分区存在着磁盘分区无法动态扩展的缺点，即是增加新的磁盘也只能当作单独的文件系统使用，而无法为已在使用的分区增加空间。LVM正好解决了这个问题，可以动态地为分区扩容，而不影响上层系统的使用。&lt;/p>
+&lt;h1 id="lvm-基本概念">LVM 基本概念&lt;/h1>
+&lt;ul>
+&lt;li>PE(Physical Extend)：物理区域&amp;ndash;逻辑卷管理的最小单位，默认大小为4M&lt;/li>
+&lt;li>PV(Physical Volume)：物理卷&amp;ndash;建立卷组的媒介，可以是磁盘，分区或者回环文件，物理卷包括一个特殊的header，其余部分被切割为一块块物理区域(physical extents)&lt;/li>
+&lt;li>VG(Volume Group)：卷组&amp;ndash;物理卷组成的组，可以被认为是PE池&lt;/li>
+&lt;li>LV(Logical Volume)：逻辑卷&amp;ndash;虚拟分区，由PE组成。组成LV的PE可以来自不同的磁盘&lt;/li>
+&lt;/ul>
+&lt;h1 id="lvm-工作流程">LVM 工作流程&lt;/h1>
+&lt;p>构造逻辑卷LV主要有3个步骤：&lt;/p>
+&lt;ol>
+&lt;li>将磁盘或分区条带化为PV(物理卷)，实际上是将磁盘或分区分割成一个个PE(物理区域)，默认大小是4M&lt;/li>
+&lt;li>将PV组合成VG，VG中的PE供LV使用，创建VG时需要给VG命名，&lt;code>/dev/&lt;/code>目录下会生成一个以VG名字命名的文件夹&lt;/li>
+&lt;li>基于VG创建LV，LV也需要命名，LV创建好后会在对应的卷组目录下创建一个一LV名字命名的设备，该设备呈现给操作系统使用，可以格式化，当作正常的分区使用。&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>Physical disks
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Disk1 (/dev/sda):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> |Partition1 50GB (Physical Volume) |Partition2 80GB (Physical Volume) |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> |/dev/sda1 |/dev/sda2 |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> |_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ |_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Disk2 (/dev/sdb):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> |Partition1 120GB (Physical Volume) |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> |/dev/sdb1 |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> | _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ __ _ _|
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>LVM logical volumes
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Volume Group1 (/dev/MyStorage/ = /dev/sda1 + /dev/sda2 + /dev/sdb1):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> |Logical volume1 15GB |Logical volume2 35GB |Logical volume3 200GB |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> |/dev/MyStorage/rootvol|/dev/MyStorage/homevol |/dev/MyStorage/mediavol |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> |_ _ _ _ _ _ _ _ _ _ _ |_ _ _ _ _ _ _ _ _ _ _ _ _ |_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ |
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如上图中有/dev/sda，/dev/sdb两个磁盘，sda有sda1和sda2两个分区，sdb有sdb1一个分区，三个分区都被条带化成了PV。三个PV组成了一个VG，名字是MyStorage，基于这个VG创建了三个LV，分别叫做rootvol，homevol，mediavol，在/dev/目录下也创建了相应的文件夹和设备。&lt;/p></description></item><item><title>Redhat Enable Ipv6</title><link>https://number317.github.io/blog/system/redhat_enable_ipv6/</link><pubDate>Fri, 26 Jan 2018 14:43:54 +0800</pubDate><guid>https://number317.github.io/blog/system/redhat_enable_ipv6/</guid><description>&lt;h1 id="redhat设置开机启用ipv6">RedHat设置开机启用ipv6&lt;/h1>
+&lt;p>参照的系统信息：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ lsb_release -a
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>LSB Version: :core-4.1-amd64:core-4.1-noarch
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Distributor ID: RedHatEnterpriseServer
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Description: Red Hat Enterprise Linux Server release 7.3 (Maipo)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Release: 7.3
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Codename: Maipo
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>首先查看系统是否开启了ipv6：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ifconfig | grep inet
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>或者&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ip addr | grep inet
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果开启了，则应该有ipv6的字段：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>inet 127.0.0.1/8 scope host lo
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>inet6 ::1/128 scope host 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>inet6 fe80::a00:27ff:fe3a:b67/64 scope link 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>inet 192.168.33.10/24 brd 192.168.33.255 scope global eth1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>inet6 fe80::a00:27ff:fef4:9024/64 scope link 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>inet6 fe80::42:9fff:fe3c:183e/64 scope link 
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果没有开启，则只有inet的字段：&lt;/p></description></item><item><title>Glusterfs Deploy</title><link>https://number317.github.io/blog/struct/glusterfs_deploy/</link><pubDate>Tue, 09 Jan 2018 10:09:35 +0800</pubDate><guid>https://number317.github.io/blog/struct/glusterfs_deploy/</guid><description>&lt;h1 id="glusterfs-centos-部署">glusterfs centos 部署&lt;/h1>
+&lt;p>GlusterFS是一个开源的分布式文件系统，这里部署它主要为了解决文件存储的单点问题。&lt;/p>
+&lt;h2 id="虚拟机配置">虚拟机配置&lt;/h2>
+&lt;p>此处采用vagrant部署centos的虚拟机三台，box可以采用bento/centos7.2，配置文件如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-weight:bold;font-style:italic">Vagrant&lt;/span>.configure(&lt;span style="color:#666;font-style:italic">&amp;#34;2&amp;#34;&lt;/span>) &lt;span style="font-weight:bold">do&lt;/span> |config|
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (1..3).each &lt;span style="font-weight:bold">do&lt;/span> |i|
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> config.vm.define &lt;span style="color:#666;font-style:italic">&amp;#34;gluster-node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span> |node|
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> file_to_disk = &lt;span style="color:#666;font-style:italic">&amp;#34;tmp/gluster_node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">_disk.vdi&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> node.vm.box = &lt;span style="color:#666;font-style:italic">&amp;#34;centos-7.2&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> node.vm.hostname = &lt;span style="color:#666;font-style:italic">&amp;#34;gluster-node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> n = 100 +i
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> node.vm.network &lt;span style="color:#666;font-style:italic">&amp;#34;private_network&amp;#34;&lt;/span>, &lt;span style="color:#666;font-style:italic">ip&lt;/span>: &lt;span style="color:#666;font-style:italic">&amp;#34;192.168.12.&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>n&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> node.vm.provider &lt;span style="color:#666;font-style:italic">&amp;#34;virtualbox&amp;#34;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span> |vb|
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">unless&lt;/span> &lt;span style="color:#666;font-weight:bold;font-style:italic">File&lt;/span>.exist?(file_to_disk)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vb.customize [&lt;span style="color:#666;font-style:italic">&amp;#39;createhd&amp;#39;&lt;/span>, &lt;span style="color:#666;font-style:italic">&amp;#39;--filename&amp;#39;&lt;/span>, file_to_disk, &lt;span style="color:#666;font-style:italic">&amp;#39;--size&amp;#39;&lt;/span>, 10 * 1024]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vb.customize [&lt;span style="color:#666;font-style:italic">&amp;#39;storageattach&amp;#39;&lt;/span>, &lt;span style="color:#666;font-style:italic">:id&lt;/span>, &lt;span style="color:#666;font-style:italic">&amp;#39;--storagectl&amp;#39;&lt;/span>, &lt;span style="color:#666;font-style:italic">&amp;#39;SATA Controller&amp;#39;&lt;/span>, &lt;span style="color:#666;font-style:italic">&amp;#39;--port&amp;#39;&lt;/span>, 1, &lt;span style="color:#666;font-style:italic">&amp;#39;--device&amp;#39;&lt;/span>, 0, &lt;span style="color:#666;font-style:italic">&amp;#39;--type&amp;#39;&lt;/span>, &lt;span style="color:#666;font-style:italic">&amp;#39;hdd&amp;#39;&lt;/span>, &lt;span style="color:#666;font-style:italic">&amp;#39;--medium&amp;#39;&lt;/span>, file_to_disk]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vb.name = &lt;span style="color:#666;font-style:italic">&amp;#34;gluster-node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vb.cpus = 1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vb.memory = 1024
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>该配置文件根据官方&lt;a href="http://docs.gluster.org/en/latest/Quick-Start-Guide/Quickstart/">quick start&lt;/a>文档，为虚拟机配置了第二磁盘，用于GlusterFS存储，大小为10G。&lt;/p>
+&lt;h2 id="格式化并挂载分区">格式化并挂载分区&lt;/h2>
+&lt;p>以下步骤需要在三台虚拟机上都执行一遍，为了方便操作，切换到root用户：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>为磁盘创建分区&lt;/p>
+&lt;p>通过&lt;code>vagrant ssh&lt;/code>命令进入到任意一个节点，执行&lt;code>lsblk&lt;/code>命令应该能查看到类似以下输出：&lt;/p></description></item><item><title>Fluentd Config</title><link>https://number317.github.io/blog/struct/fluentd_config/</link><pubDate>Fri, 05 Jan 2018 10:14:58 +0800</pubDate><guid>https://number317.github.io/blog/struct/fluentd_config/</guid><description>&lt;h1 id="命令列表">命令列表&lt;/h1>
+&lt;p>Fluentd配置文件由以下配置文件组成：&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>source&lt;/code>命令 指明数据输入源&lt;/li>
+&lt;li>&lt;code>match&lt;/code>命令 指明数据输出源&lt;/li>
+&lt;li>&lt;code>filter&lt;/code>命令 指明事件处理的管道&lt;/li>
+&lt;li>&lt;code>system&lt;/code>命令 指明系统级别配置&lt;/li>
+&lt;li>&lt;code>label&lt;/code>命令 为输出分组并过滤内部路由&lt;/li>
+&lt;li>&lt;code>include&lt;/code>命令 包含其他文件&lt;/li>
+&lt;/ol>
+&lt;h1 id="命令详解">命令详解&lt;/h1>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;code>source&lt;/code>: 数据的来源&lt;/p>
+&lt;p>Fluentd的输入源通过&lt;code>source&lt;/code>命令选择和配置想要的输入插件来启用。Fluentd的标准输入插件包括&lt;code>http&lt;/code>和&lt;code>forward&lt;/code>。&lt;code>http&lt;/code>使得Fluentd转变为一个HTTP终端用于接收到来的HTTP信息，而&lt;code>forward&lt;/code>将fluentd转变为一个TCP终端用于接收TCP包。当然，它们可以被同时启用。&lt;/p>
+&lt;pre>&lt;code> # Receive events from 24224/tcp
+ # This is used by log forwarding and the fluent-cat command
+ &amp;lt;source&amp;gt;
+ @type forward
+ port 24224
+ &amp;lt;/source&amp;gt;
+
+ # http://this.host:9880/myapp.access?json={&amp;quot;event&amp;quot;:&amp;quot;data&amp;quot;}
+ &amp;lt;source&amp;gt;
+ @type http
+ port 9880
+ &amp;lt;/source&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;p>每一个&lt;code>source&lt;/code>命令必须包含一个&lt;code>type&lt;/code>参数。&lt;code>type&lt;/code>参数指定使用哪一个输入插件。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>match&lt;/code>: 告诉fluentd做什么&lt;/p>
+&lt;p>&lt;code>match&lt;/code>命令寻找匹配标签的事件并且处理它们。&lt;code>match&lt;/code>命令最常见的用法是将事件输出到其他系统（由于这个原因，这些插件被称为”输出插件“）。Fluentd的标准输出插件包括&lt;code>file&lt;/code>和&lt;code>forward&lt;/code>。&lt;/p>
+&lt;pre>&lt;code> # Receive events from 24224/tcp
+ # This is used by log forwarding and the fluent-cat command
+ &amp;lt;source&amp;gt;
+ @type forward
+ port 24224
+ &amp;lt;/source&amp;gt;
+
+ # http://this.host:9880/myapp.access?json={&amp;quot;event&amp;quot;:&amp;quot;data&amp;quot;}
+ &amp;lt;source&amp;gt;
+ @type http
+ port 9880
+ &amp;lt;/source&amp;gt;
+
+ # Match events tagged with &amp;quot;myapp.access&amp;quot; and
+ # store them to /var/log/fluent/access.%Y-%m-%d
+ # Of course, you can control how you partition your data
+ # with the time_slice_format option.
+ &amp;lt;match myapp.access&amp;gt;
+ @type file
+ path /var/log/fluent/access
+ &amp;lt;/match&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;p>每一个&lt;code>match&lt;/code>命令必须包括一个匹配的样式(match pattern)和一个&lt;code>type&lt;/code>参数。只有拥有一个和匹配样式(match pattern)匹配的标签的事件才会被送到输出源（在上面的例子中，只有拥有&amp;quot;myapp.access&amp;quot;标签的事件是匹配的）。&lt;code>type&lt;/code>参数指定了哪个输出插件被使用。&lt;/p></description></item><item><title>K8s Cluster Deploy</title><link>https://number317.github.io/blog/struct/k8s_cluster_deploy/</link><pubDate>Mon, 04 Dec 2017 09:19:26 +0800</pubDate><guid>https://number317.github.io/blog/struct/k8s_cluster_deploy/</guid><description>&lt;h1 id="vagrant-kubernetes-集群部署">vagrant kubernetes 集群部署&lt;/h1>
+&lt;h2 id="集群说明">集群说明&lt;/h2>
+&lt;p>集群共有四个节点，一个master节点，四个子节点，其中一个节点即是master节点，也是node节点，系统均为centos-7.2。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>k8s-node1 192.168.12.81 master, node
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>k8s-node2 192.168.12.82 node
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>k8s-node3 192.168.12.83 node
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>k8s-node4 192.168.12.84 node
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="vagrant-配置">vagrant 配置&lt;/h2>
+&lt;p>vagrant 的 box 可选用 bento/centos-7.2:&lt;/p>
+&lt;details>
+&lt;summary>Vagrantfile&lt;/summary>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># -*- mode: ruby -*-&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># vi: set ft=ruby :&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># All Vagrant configuration is done below. The &amp;#34;2&amp;#34; in Vagrant.configure&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># configures the configuration version (we support older styles for&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># backwards compatibility). Please don&amp;#39;t change it unless you know what&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># you&amp;#39;re doing.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-weight:bold;font-style:italic">Vagrant&lt;/span>.configure(&lt;span style="color:#666;font-style:italic">&amp;#34;2&amp;#34;&lt;/span>) &lt;span style="font-weight:bold">do&lt;/span> |config|
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (1..4).each &lt;span style="font-weight:bold">do&lt;/span> |i|
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> config.vm.define &lt;span style="color:#666;font-style:italic">&amp;#34;k8s-node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span> |node|
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> file_to_disk = &lt;span style="color:#666;font-style:italic">&amp;#34;tmp/k8s_node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">_disk.vdi&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> node.vm.box = &lt;span style="color:#666;font-style:italic">&amp;#34;centos-7.2&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> node.vm.hostname = &lt;span style="color:#666;font-style:italic">&amp;#34;k8s-node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> n = 80 +i
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> node.vm.network &lt;span style="color:#666;font-style:italic">&amp;#34;private_network&amp;#34;&lt;/span>, &lt;span style="color:#666;font-style:italic">ip&lt;/span>: &lt;span style="color:#666;font-style:italic">&amp;#34;192.168.12.&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>n&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> node.vm.provider &lt;span style="color:#666;font-style:italic">&amp;#34;virtualbox&amp;#34;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span> |vb|
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vb.name = &lt;span style="color:#666;font-style:italic">&amp;#34;k8s-node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vb.cpus = 2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vb.memory = 1024
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> node.vm.provision &lt;span style="color:#666;font-style:italic">&amp;#34;ansible&amp;#34;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span> |ansible|
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ansible.playbook = &lt;span style="color:#666;font-style:italic">&amp;#34;playbook.yml&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ansible.groups = {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-style:italic">&amp;#34;master&amp;#34;&lt;/span> =&amp;gt; [&lt;span style="color:#666;font-style:italic">&amp;#34;k8s-node1&amp;#34;&lt;/span>],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-style:italic">&amp;#34;nodes&amp;#34;&lt;/span> =&amp;gt; (1..4).map {|j| &lt;span style="color:#666;font-style:italic">&amp;#34;k8s-node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>j&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>},
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/details>
+&lt;p>其中的 playbook.yml 主要用于一些软件的安装和简单的配置，内容如下：&lt;/p></description></item><item><title>Maven &amp; Nexus</title><link>https://number317.github.io/blog/struct/maven_nexus/</link><pubDate>Thu, 09 Nov 2017 10:47:30 +0800</pubDate><guid>https://number317.github.io/blog/struct/maven_nexus/</guid><description>&lt;h1 id="maven-配置使用-nexus-私服">maven 配置使用 nexus 私服&lt;/h1>
+&lt;p>修改~/.m2/settings.xml内容如下：&lt;/p>
+&lt;details>
+&lt;summary>mvn config&lt;/summary>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-xml" data-lang="xml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-weight:bold">&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;settings xmlns=&lt;span style="color:#666;font-style:italic">&amp;#34;http://maven.apache.org/SETTINGS/1.0.0&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> xmlns:xsi=&lt;span style="color:#666;font-style:italic">&amp;#34;http://www.w3.org/2001/XMLSchema-instance&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> xsi:schemaLocation=&lt;span style="color:#666;font-style:italic">&amp;#34;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&amp;#34;&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;servers&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;server&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;id&amp;gt;releases&amp;lt;/id&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;username&amp;gt;admin&amp;lt;/username&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;password&amp;gt;admin123&amp;lt;/password&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;/server&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;server&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;id&amp;gt;snapshots&amp;lt;/id&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;username&amp;gt;admin&amp;lt;/username&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;password&amp;gt;admin123&amp;lt;/password&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;/server&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;server&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;id&amp;gt;thirdpart&amp;lt;/id&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;username&amp;gt;admin&amp;lt;/username&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;password&amp;gt;admin123&amp;lt;/password&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;/server&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;/servers&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;mirrors&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;mirror&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;id&amp;gt;central&amp;lt;/id&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;name&amp;gt;central&amp;lt;/name&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;url&amp;gt;http://localhost:8081/nexus/content/groups/public/&amp;lt;/url&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;mirrorOf&amp;gt;*&amp;lt;/mirrorOf&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;/mirror&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;/mirrors&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/settings&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/details>
+&lt;p>在项目的 pom.xml 文件中添加如下内容：&lt;/p></description></item><item><title>Etcd &amp; Flannel</title><link>https://number317.github.io/blog/struct/etcd_and_flannel/</link><pubDate>Wed, 01 Nov 2017 17:58:29 +0800</pubDate><guid>https://number317.github.io/blog/struct/etcd_and_flannel/</guid><description>&lt;h1 id="etcd--flannel-实现跨主机容器通信">etcd &amp;amp; flannel 实现跨主机容器通信&lt;/h1>
+&lt;h2 id="准备工作">准备工作&lt;/h2>
+&lt;ol>
+&lt;li>测试环境：vagrant + centos7.2 虚拟机&lt;/li>
+&lt;li>主机说明：
+&lt;ul>
+&lt;li>ip: &lt;code>192.168.12.101&lt;/code> hostname: &lt;code>node1&lt;/code> 安装软件：etcd, flannel, docker&lt;/li>
+&lt;li>ip: &lt;code>192.168.12.102&lt;/code> hostname: &lt;code>node2&lt;/code> 安装软件：flannel, docker&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="启动虚拟机">启动虚拟机&lt;/h2>
+&lt;p>vagrant配置文件：&lt;/p>
+&lt;details>
+&lt;summary>Vagrantfile&lt;/summary>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># -*- mode: ruby -*-&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># vi: set ft=ruby :&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-weight:bold;font-style:italic">Vagrant&lt;/span>.configure(2) &lt;span style="font-weight:bold">do&lt;/span> |config|
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (1..2).each &lt;span style="font-weight:bold">do&lt;/span> |i|
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> config.vm.define &lt;span style="color:#666;font-style:italic">&amp;#34;node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span> |s|
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> s.vm.box = &lt;span style="color:#666;font-style:italic">&amp;#34;bento/centos-7.2&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> s.vm.hostname = &lt;span style="color:#666;font-style:italic">&amp;#34;node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> n = 100 + i
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> s.vm.network &lt;span style="color:#666;font-style:italic">&amp;#34;private_network&amp;#34;&lt;/span>, &lt;span style="color:#666;font-style:italic">ip&lt;/span>: &lt;span style="color:#666;font-style:italic">&amp;#34;192.168.12.&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>n&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> s.ssh.username = &lt;span style="color:#666;font-style:italic">&amp;#34;vagrant&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> s.ssh.password = &lt;span style="color:#666;font-style:italic">&amp;#34;vagrant&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> s.ssh.insert_key = &lt;span style="font-weight:bold">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> s.vm.provider &lt;span style="color:#666;font-style:italic">&amp;#34;virtualbox&amp;#34;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span> |v|
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> v.name = &lt;span style="color:#666;font-style:italic">&amp;#34;node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> v.cpus = 1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> v.memory = 1024
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/details>
+&lt;p>在该配置文件的目录下执行&lt;code>vagrant up&lt;/code>启动两台测试用虚拟机&lt;/p></description></item><item><title>Rabbitmq Access Control</title><link>https://number317.github.io/blog/struct/rabbitmq_access_control/</link><pubDate>Mon, 30 Oct 2017 09:48:14 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_access_control/</guid><description>&lt;h1 id="rabbitmq-权限控制">Rabbitmq 权限控制&lt;/h1>
+&lt;p>在rabbitmq中，身份验证和授权是分开的。身份验证用于判断用户是谁，授权用于确定用户能做什么和不能做什么。&lt;/p>
+&lt;h2 id="默认虚拟主机和用户">默认虚拟主机和用户&lt;/h2>
+&lt;p>当服务第一次启动或者检测到数据库梅雨初始化或已经被删除，rabbitmq会初始化一个新的数据库，拥有如下资源：&lt;/p>
+&lt;ul>
+&lt;li>一个虚拟主机&lt;code>/&lt;/code>&lt;/li>
+&lt;li>一个用户名和密码都为&lt;code>guest&lt;/code>的用户，拥有&lt;code>/&lt;/code>虚拟主机的所有权限&lt;/li>
+&lt;/ul>
+&lt;p>建议是删除默认用户或者修改默认用户的密码。&lt;code>guest&lt;/code>用户默认情况只能通过localhost连接，无法通过远程连接。这可以通过配置文件修改，设置&lt;code>loopback_users.guest = false&lt;/code>即可。&lt;/p>
+&lt;h2 id="权限工作方式">权限工作方式&lt;/h2>
+&lt;p>rabbitmq的权限控制主要分为两层，第一层是虚拟主机的权限，第二层是资源的权限。&lt;/p>
+&lt;h2 id="虚拟主机virtual-host">虚拟主机(Virtual Host)&lt;/h2>
+&lt;p>当客户端连接到服务器，它会指定一个要操作的虚拟主机，第一层权限控制被启用，服务器会检查用户对该虚拟主机是否有权限，没有权限连接会被拒绝。&lt;/p>
+&lt;p>示例：&lt;/p>
+&lt;p>首先创建一个用户：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>rabbitmqctl add_user cheon 123
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这里创建了一个用户cheon，密码为123（如果rabbitmq是集群，那么在集群中一个节点上创建了用户，虚拟主机等，在其他节点上也都会存在。）。刚创建的用户是没有任何权限的。可以确认一下用户的权限：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>root@rabbitmq-node1:/# rabbitmqctl list_user_permissions cheon
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Listing permissions &lt;span style="font-weight:bold">for&lt;/span> user &lt;span style="color:#666;font-style:italic">&amp;#34;cheon&amp;#34;&lt;/span> ...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>root@rabbitmq-node1:/# rabbitmqctl list_user_permissions guest
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Listing permissions &lt;span style="font-weight:bold">for&lt;/span> user &lt;span style="color:#666;font-style:italic">&amp;#34;guest&amp;#34;&lt;/span> ...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>/	.*	.*	.*
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>可以看到新用户cheon没有任何权限，guest用户拥有虚拟主机&lt;code>/&lt;/code>的全部权限。&lt;/p>
+&lt;p>编写一个简单的脚本，通过用户cheon连接&lt;code>/&lt;/code>虚拟主机，发送Hello World：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-py" data-lang="py">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic">#!/usr/bin/env python&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">import&lt;/span> &lt;span style="color:#666;font-weight:bold;font-style:italic">pika&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>connection = pika.BlockingConnection(pika.ConnectionParameters(&lt;span style="color:#666;font-style:italic">&amp;#39;172.17.0.6&amp;#39;&lt;/span>, 5672, &lt;span style="color:#666;font-style:italic">&amp;#34;/&amp;#34;&lt;/span>, credentials=pika.PlainCredentials(&lt;span style="color:#666;font-style:italic">&amp;#39;cheon&amp;#39;&lt;/span>, &lt;span style="color:#666;font-style:italic">&amp;#39;123&amp;#39;&lt;/span>)))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>channel = connection.channel()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>channel.queue_declare(queue=&lt;span style="color:#666;font-style:italic">&amp;#39;hello&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>channel.basic_publish(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exchange=&lt;span style="color:#666;font-style:italic">&amp;#39;&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> routing_key=&lt;span style="color:#666;font-style:italic">&amp;#39;hello&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> body=&lt;span style="color:#666;font-style:italic">&amp;#39;Hello World!&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> )
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold;font-style:italic">print&lt;/span>(&lt;span style="color:#666;font-style:italic">&amp;#34; [x] Sent &amp;#39;Helllo World!&amp;#39;&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>connection.close()
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>执行代码：&lt;/p></description></item><item><title>Rabbitmq Topic</title><link>https://number317.github.io/blog/struct/rabbitmq_topic/</link><pubDate>Sun, 29 Oct 2017 20:32:52 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_topic/</guid><description>&lt;h1 id="rabbitmq-主题">rabbitmq 主题&lt;/h1>
+&lt;p>虽然之前使用了&lt;code>direct&lt;/code>交换来路由不同级别的日志，但是它无法做到根据设备来路由。在我们的日志系统中，可能不止是想要通过日志级别来订阅，还想通过日志来源订阅。这将会给我们带来更大的灵活性，比如我们可以只监听来自cron的error和来自kern的所有日志。为了达到这个效果，我们可以采用一个更复杂的交换&amp;ndash;&lt;code>topic&lt;/code>。&lt;/p>
+&lt;h2 id="topic-exchange">Topic exchange&lt;/h2>
+&lt;p>发送给&lt;code>topic&lt;/code>交换的信息的&lt;code>routing_key&lt;/code>的属性不能是任意的&amp;ndash;它必须是一个单词的列表，通过&lt;code>.&lt;/code>分隔。单词可以是任意的，但是通常是一些描述信息特征的词语。例如&lt;code>stock.usd.nyse&lt;/code>，&lt;code>nyse.vmw&lt;/code>，&lt;code>quick.orange.rabbit&lt;/code>。你可以设置任意多的词语，只要不超过255字节的限制。&lt;/p>
+&lt;p>&lt;code>binding key&lt;/code>也必须是相同的格式。&lt;code>topic&lt;/code>背后的交换逻辑和&lt;code>direct&lt;/code>是相似的，一个带有特殊&lt;code>routing key&lt;/code>的信息会被发送到所有拥有匹配&lt;code>binding key&lt;/code>的队列，但有两个需要注意的地方：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>*&lt;/code> 可以代表一个单词&lt;/li>
+&lt;li>&lt;code>#&lt;/code> 可以代表0或多个单词&lt;/li>
+&lt;/ul>
+&lt;p>示例：&lt;/p>
+&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_topic_img1.png" alt="topic example">&lt;/p>
+&lt;p>在这个示例中，我们发送描述动物的消息。消息会带有由三个单词组成的&lt;code>routing key&lt;/code>，单词间用&lt;code>.&lt;/code>分隔，用于描述不同的特征。我们创建了三个绑定：&lt;code>Q1&lt;/code>和&lt;code>*.orange.*&lt;/code>绑定，&lt;code>Q2&lt;/code>和&lt;code>*.*.rabbit&lt;/code>，&lt;code>lazy.#&lt;/code>绑定。可以简单得概括为&lt;code>Q1&lt;/code>只关心所有橙色的动物，&lt;code>Q2&lt;/code>只关心兔子和慢吞吞的动物。&lt;/p>
+&lt;p>一条带有&lt;code>quick.orange.rabbit&lt;/code>的&lt;code>routing key&lt;/code>的信息会发送给两个队列，&lt;code>quick.orange.fox&lt;/code>也会发送给两个，&lt;code>lazy.brown.fox&lt;/code>只发送给&lt;code>Q2&lt;/code>，&lt;code>lazy.pink.rabbit&lt;/code>只发送给&lt;code>Q2&lt;/code>一次，即使它匹配了两个绑定。&lt;code>quick.brown.fox&lt;/code>不匹配任何绑定所以会被丢弃。如果我们发送的信息带有一个或四个单词，像&lt;code>orange&lt;/code>，&lt;code>quick.orange.male.rabbit&lt;/code>之类的，也不匹配任何绑定，也会被丢弃 。但是&lt;code>lazy.orange.male.rabbit&lt;/code>虽然有四个单词，也匹配&lt;code>lazy.#&lt;/code>，因为&lt;code>#&lt;/code>代表0或多个单词，所以会被发送给&lt;code>Q2&lt;/code>。&lt;/p>
+&lt;p>&lt;code>topic&lt;/code>是一个强大的交换，可以实现其他交换的功能。当一个队列绑定&lt;code>#&lt;/code>，它可以接收所有信息，就像&lt;code>fanout&lt;/code>交换。当没有使用&lt;code>*&lt;/code>和&lt;code>#&lt;/code>，而是指定明确的字符串，就可以表现地像&lt;code>direct&lt;/code>交换。&lt;/p>
+&lt;h2 id="最终实现">最终实现&lt;/h2>
+&lt;p>我们假设日志的&lt;code>routing key&lt;/code>有两个单词&lt;code>&amp;lt;facility&amp;gt;.&amp;lt;severity&amp;gt;&lt;/code>，那么代码如下：&lt;/p>
+&lt;p>&lt;code>emit_log_topic.py&lt;/code>：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-py" data-lang="py">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic">#!/usr/bin/env python&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">import&lt;/span> &lt;span style="color:#666;font-weight:bold;font-style:italic">pika&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">import&lt;/span> &lt;span style="color:#666;font-weight:bold;font-style:italic">sys&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>connection = pika.BlockingConnection(pika.ConnectionParameters(&lt;span style="color:#666;font-style:italic">&amp;#39;172.17.0.6&amp;#39;&lt;/span>, 5672, credentials=pika.PlainCredentials(&lt;span style="color:#666;font-style:italic">&amp;#39;guest&amp;#39;&lt;/span>, &lt;span style="color:#666;font-style:italic">&amp;#39;guest&amp;#39;&lt;/span>)))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>channel = connection.channel()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>channel.exchange_declare(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exchange=&lt;span style="color:#666;font-style:italic">&amp;#39;topic_logs&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exchange_type=&lt;span style="color:#666;font-style:italic">&amp;#39;topic&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> )
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>severity = sys.argv[1] &lt;span style="font-weight:bold">if&lt;/span> &lt;span style="font-weight:bold;font-style:italic">len&lt;/span>(sys.argv) &amp;gt; 2 &lt;span style="font-weight:bold">else&lt;/span> &lt;span style="color:#666;font-style:italic">&amp;#39;info&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>message = &lt;span style="color:#666;font-style:italic">&amp;#39; &amp;#39;&lt;/span>.join(sys.argv[2:]) &lt;span style="font-weight:bold">or&lt;/span> &lt;span style="color:#666;font-style:italic">&amp;#39;Hello World!&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>channel.basic_publish(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exchange=&lt;span style="color:#666;font-style:italic">&amp;#39;topic_logs&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> routing_key=severity,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> body=message
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> )
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold;font-style:italic">print&lt;/span>(&lt;span style="color:#666;font-style:italic">&amp;#34; [x] Sent &lt;/span>&lt;span style="color:#666;font-style:italic">%r&lt;/span>&lt;span style="color:#666;font-style:italic">:&lt;/span>&lt;span style="color:#666;font-style:italic">%r&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span> % (severity, message))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>connection.close()
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>receive_logs_topic.py&lt;/code>：&lt;/p></description></item><item><title>Rabbitmq Routing</title><link>https://number317.github.io/blog/struct/rabbitmq_routing/</link><pubDate>Sat, 28 Oct 2017 09:26:49 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_routing/</guid><description>&lt;h1 id="rabbitmq-路由">Rabbitmq 路由&lt;/h1>
+&lt;p>这里我们将为日志系统增加一个特性&amp;ndash;只订阅一部分信息。例如，我们可以将错误信息存入日志文件，将其他信息打印出来。&lt;/p>
+&lt;h2 id="绑定bindings">绑定（Bindings）&lt;/h2>
+&lt;p>在日志系统中我们已经使用过绑定，像这样调用代码：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-py" data-lang="py">&lt;span style="display:flex;">&lt;span>channel.queue_bind(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exchange=exchange_name,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> queue=queue_name
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>一个绑定是交换和队列之间的关系，可以简单地理解为这个队列只对这个交换的信息感兴趣。绑定可以指定额外的&lt;code>routing_key&lt;/code>参数。为了避免和一个&lt;code>basic_publish&lt;/code>参数混淆，我们称它&lt;code>binding key&lt;/code>，可以通过一下方式创建一个带有key的绑定：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-py" data-lang="py">&lt;span style="display:flex;">&lt;span>channel.queue_bind(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exchange=exchange_name,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> queue=queue_name,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> routing_key=&lt;span style="color:#666;font-style:italic">&amp;#39;black&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>binding key&lt;/code>的含义依赖于交换的类型。&lt;code>fanout&lt;/code>交换类型会直接忽略这个值。&lt;/p>
+&lt;h2 id="direct-exchange">Direct exchange&lt;/h2>
+&lt;p>我们之前的日志系统使用&lt;code>fanout&lt;/code>交换类型，直接将信息广播给所有消费者。现在我们想要扩展它允许根据根据级别来过滤。例如，将错误级别的日志存入磁盘，将普通的日志直接输出而不浪费磁盘空间。为了达到这个目的，这里将使用&lt;code>direct&lt;/code>交换。&lt;code>direct&lt;/code>交换的路由算法也比较简单，一个消息只推送到&lt;code>binding key&lt;/code>和&lt;code>routing key&lt;/code>匹配的队列，举例如下图：&lt;/p>
+&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_routing_img1.png" alt="direct routing">&lt;/p>
+&lt;p>在上述例子中可以看到&lt;code>direct&lt;/code>交换&lt;code>x&lt;/code>有两个与之绑定的队列。第一个队列的&lt;code>binding key&lt;/code>是&lt;code>orange&lt;/code>，第二个队列有两个&lt;code>binding key&lt;/code>，分别是&lt;code>black&lt;/code>和&lt;code>green&lt;/code>。通过这个配置，一个带有&lt;code>orage&lt;/code>的&lt;code>routing key&lt;/code>的信息推送到交换后会被路由到队列&lt;code>Q1&lt;/code>；一个带有&lt;code>black&lt;/code>或者&lt;code>green&lt;/code>的&lt;code>routing key&lt;/code>的信息推送到交换后会被路由到队列&lt;code>Q2&lt;/code>，其他的信息会被丢弃。&lt;/p>
+&lt;h2 id="多绑定muliple-bindings">多绑定（Muliple bindings）&lt;/h2>
+&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_routing_img2.png" alt="multiple bindings">&lt;/p>
+&lt;p>用相同的&lt;code>binding key&lt;/code>绑定多个队列完全是可行的。在我们的例子中可以在&lt;code>x&lt;/code>和&lt;code>Q1&lt;/code>之间添加一个名为&lt;code>black&lt;/code>的&lt;code>binding key&lt;/code>，这样的话，&lt;code>direct&lt;/code>交换将会表现得像&lt;code>fanout&lt;/code>并且会将信息广播到所有匹配的队列。一个带有&lt;code>black&lt;/code>的&lt;code>routing key&lt;/code>的信息会递送到&lt;code>Q1&lt;/code>和&lt;code>Q2&lt;/code>队列。&lt;/p>
+&lt;h2 id="发送日志">发送日志&lt;/h2>
+&lt;p>我们将使用这个模型来构建日志系统，我们将会发送信息到&lt;code>direct&lt;/code>交换，我们将会以日志的级别作为&lt;code>routing key&lt;/code>。首先创建交换：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-py" data-lang="py">&lt;span style="display:flex;">&lt;span>channel.exchange_declare(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exchange=&lt;span style="color:#666;font-style:italic">&amp;#39;direct_logs&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exchange_type=&lt;span style="color:#666;font-style:italic">&amp;#39;direct&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> )
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后发送消息：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-py" data-lang="py">&lt;span style="display:flex;">&lt;span>channel.basic_publish(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exchange=&lt;span style="color:#666;font-style:italic">&amp;#39;direct_logs&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> routing_key=serverity,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> body=message
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>为了简化程序，我们假设日志级别只有&lt;code>info&lt;/code>，&lt;code>warning&lt;/code>，&lt;code>error&lt;/code>三种情况。&lt;/p>
+&lt;h2 id="订阅">订阅&lt;/h2>
+&lt;p>我们将为每一个需要的日志级别创建一个新的绑定：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-py" data-lang="py">&lt;span style="display:flex;">&lt;span>result = channel.queue_declare(exclusive=&lt;span style="font-weight:bold">True&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>queue_name = result.method.queue
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">for&lt;/span> severity &lt;span style="font-weight:bold">in&lt;/span> severities:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> channel.queue_bind(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exchange=&lt;span style="color:#666;font-style:italic">&amp;#39;direct_logs&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> queue=queue_name,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> routing_key=severity
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> )
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="最终结果">最终结果&lt;/h2>
+&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_routing_img3.png" alt="multiple bindings">&lt;/p></description></item><item><title>Rabbitmq Publish Subscribe</title><link>https://number317.github.io/blog/struct/rabbitmq_publish_subscribe/</link><pubDate>Fri, 27 Oct 2017 15:18:38 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_publish_subscribe/</guid><description>&lt;h1 id="publish-subcribe">Publish Subcribe&lt;/h1>
+&lt;p>发布和订阅模式简单而言就是将一个消息发送个多个消费者。为了阐明这个模式，这里将会构建一个简单的日志系统，这个系统由两部分组成，第一个程序发送消息，第二个程序接收和打印消息。&lt;/p>
+&lt;p>在该日志系统中，接收程序的每一个运行副本都将得到消息，这样我们可以运行一个接收器，并将日志存放在磁盘；同时运行另一个接收器将日志在屏幕上打印出来。&lt;/p>
+&lt;h2 id="交换exchanges">交换(Exchanges)&lt;/h2>
+&lt;p>rabbitmq 消息模型的核心是生产者从不直接发送任何消息到队列。事实上，一个生产者经常不知道一个消息是否被发送到了队列。生产者只能将消息发送给交换。交换是一个非常简单的东西，它一边接收来自生产者的消息，另一边它把消息推入消息队列。交换是一定知道要怎么处理它接收到的消息的。应该被追加到一个特定的队列后，还是应该追加到多个队列中，还是应该被丢弃。这些规则都由交换类型（exchange type）定义。&lt;/p>
+&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_publish_subscribe_img1.png" alt="exchange">&lt;/p>
+&lt;p>有一些可用的交换类型：&lt;code>direct&lt;/code>, &lt;code>topic&lt;/code>, &lt;code>headers&lt;/code> 和 &lt;code>fanout&lt;/code>，这里将使用最后一个类型&amp;ndash;&lt;code>fanout&lt;/code>。创建一个名为&lt;code>logs&lt;/code>的该类型交换：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-py" data-lang="py">&lt;span style="display:flex;">&lt;span>channel.exchange_declare(exchange=&lt;span style="color:#666;font-style:italic">&amp;#39;logs&amp;#39;&lt;/span>, exchange_type=&lt;span style="color:#666;font-style:italic">&amp;#39;fanout&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>fanout&lt;/code>类型的交换非常简单。就如它的名字一样，它只是将它接收到的信息广播到它知道的所有队列，这正是我们日志系统所需要的。&lt;/p>
+&lt;h2 id="查看交换">查看交换&lt;/h2>
+&lt;p>列出服务器上可用的交换可以使用&lt;code>rabbitmqctl&lt;/code>命令:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>rabbitmqctl list_exchanges
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>在列表中会有一些&lt;code>amq.*&lt;/code>的交换和默认（未命名）的交换。这些是默认配置的，但是这里目前用不到他们。&lt;/p>
+&lt;p>有时候我们通过空字符串&lt;code>''&lt;/code>来使用默认的交换：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-py" data-lang="py">&lt;span style="display:flex;">&lt;span>channel.basic_publish(exchange=&lt;span style="color:#666;font-style:italic">&amp;#39;&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> routing_key=&lt;span style="color:#666;font-style:italic">&amp;#39;hello&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> body=message)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>现在我们可以推送到我们的命名交换中：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>channel.basic_publish(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-weight:bold;font-style:italic">exchange&lt;/span>=&lt;span style="color:#666;font-style:italic">&amp;#39;logs&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-weight:bold;font-style:italic">routing_key&lt;/span>=&lt;span style="color:#666;font-style:italic">&amp;#39;&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-weight:bold;font-style:italic">body&lt;/span>=message
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> )
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="临时队列">临时队列&lt;/h2>
+&lt;p>有时我们使用的队列有指定的名字，能够为队列命名是至关重要的，我们需要指定工作到相同的队列。当你想要在生产者和消费者间共享队列时为队列命名是很重要的。但是在我们的日志系统中，我们想要监听所有的日志，而不是一些；我们也只对当前流动的信息感兴趣而不是旧的信息。要达到这个效果我们需要两件事。&lt;/p>
+&lt;p>第一，无论何时连接到rabbitmq我们需要刷新，清空队列。为了做到这个我们可以用随机名字创建一个队列，或者更好的是让服务器为我们选择一个随机的队列名字。可以通过不给&lt;code>queue&lt;/code>参数到&lt;code>queue_declare&lt;/code>来做到这一点：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-py" data-lang="py">&lt;span style="display:flex;">&lt;span>result = channel.queue_declare()
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这个时候&lt;code>result.method.queue&lt;/code>包含了一个随机的队列名。例如它可能看起来像&lt;code>amq.gen-JzTY20BRgKO-HjmUJj0wLg&lt;/code>&lt;/p>
+&lt;p>第二，一旦消费者连接被关闭，队列应该被删除，有一个&lt;code>exclusive&lt;/code>标签：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-weight:bold;font-style:italic">result&lt;/span> = channel.queue_declare(&lt;span style="color:#666;font-weight:bold;font-style:italic">excusive&lt;/span>=True)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>可以在&lt;a href="http://www.rabbitmq.com/queues.html">队列指南&lt;/a>获取更多&lt;code>exclusive&lt;/code>标签和其他队列属性。&lt;/p>
+&lt;h2 id="绑定bindings">绑定（Bindings）&lt;/h2>
+&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_publish_subscribe_img2.png" alt="绑定">&lt;/p>
+&lt;p>我们已经创建了一个&lt;code>fanout&lt;/code>类型的交换。现在我们需要告诉交换发送信息给我们的队列。交换和队列之间的关系叫做绑定：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-py" data-lang="py">&lt;span style="display:flex;">&lt;span>channel.queue_bind(exchange=&lt;span style="color:#666;font-style:italic">&amp;#39;logs&amp;#39;&lt;/span>, queue=result.method.queue)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>现在&lt;code>logs&lt;/code>交换将会追加信息到我们的队列。&lt;/p>
+&lt;h2 id="列出绑定">列出绑定&lt;/h2>
+&lt;p>可以列出当前存在的绑定：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>rabbitmqctl list_bindings
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>最终代码如下&lt;/p>
+&lt;p>生产者&lt;code>emit_log.py&lt;/code>：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-py" data-lang="py">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic">#!/usr/bin/env python&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">import&lt;/span> &lt;span style="color:#666;font-weight:bold;font-style:italic">pika&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">import&lt;/span> &lt;span style="color:#666;font-weight:bold;font-style:italic">sys&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>connection = pika.BlockingConnection(pika.ConnectionParameters(&lt;span style="color:#666;font-style:italic">&amp;#39;172.17.0.6&amp;#39;&lt;/span>, 5672, credentials=pika.PlainCredentials(&lt;span style="color:#666;font-style:italic">&amp;#39;guest&amp;#39;&lt;/span>, &lt;span style="color:#666;font-style:italic">&amp;#39;guest&amp;#39;&lt;/span>)))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>channel = connection.channel()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>channel.exchange_declare(exchange=&lt;span style="color:#666;font-style:italic">&amp;#39;logs&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exchange_type=&lt;span style="color:#666;font-style:italic">&amp;#39;fanout&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>message = &lt;span style="color:#666;font-style:italic">&amp;#39; &amp;#39;&lt;/span>.join(sys.argv[1:]) &lt;span style="font-weight:bold">or&lt;/span> &lt;span style="color:#666;font-style:italic">&amp;#34;info: Hello World!&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>channel.basic_publish(exchange=&lt;span style="color:#666;font-style:italic">&amp;#39;logs&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> routing_key=&lt;span style="color:#666;font-style:italic">&amp;#39;&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> body=message)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold;font-style:italic">print&lt;/span>(&lt;span style="color:#666;font-style:italic">&amp;#34; [x] Sent &lt;/span>&lt;span style="color:#666;font-style:italic">%r&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span> % message)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>connection.close()
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>消费者&lt;code>receive_logs.py&lt;/code>：&lt;/p></description></item><item><title>Rabbitmq Work Queue</title><link>https://number317.github.io/blog/struct/rabbitmq_work_queue/</link><pubDate>Thu, 26 Oct 2017 19:06:17 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_work_queue/</guid><description>&lt;h1 id="work-queue">Work Queue&lt;/h1>
+&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_work_queue_img1.png" alt="Work Queue 架构图">&lt;/p>
+&lt;p>工作队列背后的思想是尽量避免立即做资源密集型任务并等待它完成，而是将这些任务放到计划表中，等会儿完成。我们将一个任务封装为一条信息并把它送入一个队列。一个在后台运行的进程将会弹出这些任务并最终执行这个工作。当你运行很多个进程时，任务将会被他们共享。这个概念在web应用中尤为有用，因为在一个简短的HTTP请求中不太可能去处理过于复杂的任务。&lt;/p></description></item><item><title>Rabbitmq Hello World</title><link>https://number317.github.io/blog/struct/rabbitmq_hello_world/</link><pubDate>Thu, 26 Oct 2017 17:17:47 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_hello_world/</guid><description>&lt;h1 id="hello-world">Hello World&lt;/h1>
+&lt;p>我们将用python写两个简单的程序，一个生产者发送一条信息，一个消费者接受并打印信息。图中的&amp;quot;P&amp;quot;指代生产者，&amp;ldquo;C&amp;quot;指代消费者，中间的盒子指代一个队列——RabbitMQ 的一个消息缓存。&lt;/p></description></item><item><title>Rabbitmq Cluster</title><link>https://number317.github.io/blog/struct/rabbitmq_cluster/</link><pubDate>Thu, 26 Oct 2017 16:28:26 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_cluster/</guid><description>&lt;h1 id="rabbitmq-docker-运行">RabbitMQ docker 运行&lt;/h1>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker run -d -p 15672:15672 -p 5672:5672 --hostname rabbit --name rabbit -e &lt;span style="color:#666;font-weight:bold;font-style:italic">TZ&lt;/span>=Asia/Shanghai -e &lt;span style="color:#666;font-weight:bold;font-style:italic">RABBITMQ_DEFAULT_USER&lt;/span>=admin -e &lt;span style="color:#666;font-weight:bold;font-style:italic">RABBITMQ_DEFAULT_PASS&lt;/span>=admin rabbitmq:3-management
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Discourse Digest</title><link>https://number317.github.io/blog/struct/discourse_digest/</link><pubDate>Tue, 24 Oct 2017 19:27:59 +0800</pubDate><guid>https://number317.github.io/blog/struct/discourse_digest/</guid><description>&lt;h1 id="问题说明">问题说明&lt;/h1>
+&lt;ul>
+&lt;li>discourse 版本：v1.9.0.beta12 +49&lt;/li>
+&lt;li>discourse 域名: &lt;a href="http://test.test.com/community">http://test.test.com/community&lt;/a>&lt;/li>
+&lt;li>详细情况：discourse 配置好二级域名后，摘要邮件中取消订阅链接错误&lt;/li>
+&lt;/ul></description></item><item><title>Discourse Cas</title><link>https://number317.github.io/blog/struct/discourse_cas/</link><pubDate>Mon, 23 Oct 2017 09:15:44 +0800</pubDate><guid>https://number317.github.io/blog/struct/discourse_cas/</guid><description>&lt;h1 id="discourse-cas-登录配置">discourse cas 登录配置&lt;/h1>
+&lt;h2 id="插件安装">插件安装&lt;/h2>
+&lt;p>cas插件使用&lt;a href="https://github.com/tyl3k/cas_sso.git">tyl3k/cas_sso&lt;/a>，在&lt;code>discourse.yml&lt;/code>中添加&lt;code>git clone https://github.com/tyl3k/cas_sso.git&lt;/code>:&lt;/p></description></item><item><title>Discourse Deploy</title><link>https://number317.github.io/blog/struct/discourse_deploy/</link><pubDate>Wed, 18 Oct 2017 20:03:58 +0800</pubDate><guid>https://number317.github.io/blog/struct/discourse_deploy/</guid><description>&lt;h1 id="discourse-docker-部署">discourse docker 部署&lt;/h1>
+&lt;h2 id="部署说明">部署说明&lt;/h2>
+&lt;ul>
+&lt;li>目标：以容器的方式部署discourse到网站的二级域名，如 &lt;code>http://test.test.com/community/&lt;/code>&lt;/li>
+&lt;li>架构：1个postgres数据库，1个redis数据库，1个discourse服务器&lt;/li>
+&lt;/ul></description></item><item><title>Bash Expansion</title><link>https://number317.github.io/blog/shell/bash_expansion/</link><pubDate>Fri, 13 Oct 2017 13:43:35 +0800</pubDate><guid>https://number317.github.io/blog/shell/bash_expansion/</guid><description>&lt;h1 id="bash-扩展">bash 扩展&lt;/h1></description></item><item><title>Bash Tips</title><link>https://number317.github.io/blog/shell/bash_tips/</link><pubDate>Tue, 10 Oct 2017 11:20:29 +0800</pubDate><guid>https://number317.github.io/blog/shell/bash_tips/</guid><description>&lt;h1 id="bash-代码规范建议">bash 代码规范建议&lt;/h1>
+&lt;p>Bash 可以认为是系统编程级的 JavaScript。虽然在某些时候，使用一门像 C，Go 之类的系统语言是一个更好的选择，但是对于一些小的POSIX相关或命令行任务，Bash 是一门理想的系统语言。这里有几个原因：&lt;/p>
+&lt;ul>
+&lt;li>Bash 无处不在。就像 web 上的 JavaScript，Bash 早就在系统上为系统编程准备好了。&lt;/li>
+&lt;li>Bash 可以作为粘合剂。用 C 或 Go （或者其他任意语言）来编写复杂的部分，然后用 Bash 将它们粘合在一起。&lt;/li>
+&lt;/ul></description></item></channel></rss>

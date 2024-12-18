@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>shell script on cheon's blog</title><link>https://number317.github.io/blog/shell/</link><description>Recent content in shell script on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/shell/index.xml" rel="self" type="application/rss+xml"/><item><title>Dockerfile Tips</title><link>https://number317.github.io/blog/shell/dockerfile_tips/</link><pubDate>Thu, 13 Jun 2019 13:51:36 +0800</pubDate><guid>https://number317.github.io/blog/shell/dockerfile_tips/</guid><description>&lt;h1 id="dockerfile-编写建议">Dockerfile 编写建议&lt;/h1>
+&lt;p>日常编写&lt;code>Dockerfile&lt;/code>的过程中总结的一些经验:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>基础镜像尽量选择&lt;code>alpine&lt;/code>版本，减小镜像体积，如果需要glibc，在&lt;code>Dockerfile&lt;/code>中添加以下指令&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span style="display:flex;">&lt;span>RUN apk --no-cache add ca-certificates wget &amp;amp;&amp;amp; \
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub &amp;amp;&amp;amp; \
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.29-r0/glibc-2.29-r0.apk &amp;amp;&amp;amp; \
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> apk --no-cache add glibc-2.29-r0.apk
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>关于在&lt;code>alpine&lt;/code>镜像中安装&lt;code>glibc&lt;/code>，详情可以参考&lt;a href="https://github.com/sgerrand/alpine-pkg-glibc">github&lt;/a>介绍&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在&lt;code>Dockerfile&lt;/code>里需要安装软件的尽量使用国内的源，加快ci构建，常见的操作如下：&lt;/p>
+&lt;ul>
+&lt;li>alpine:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>RUN sed -i &amp;#39;s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g&amp;#39; /etc/apk/repositories
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>debian:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>curl -L &amp;#34;https://mirrors.ustc.edu.cn/repogen/conf/debian-https-4-buster&amp;#34; -o /etc/apt/sources.list
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>centos:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>RUN curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>node:&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>RUN npm install --registry=https://registry.npm.taobao.org \
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;amp;&amp;amp; npm config set phantomjs_cdnurl https://npm.taobao.org/dist/phantomjs \
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;amp;&amp;amp; npm config set chromedriver_cdnurl http://cdn.npm.taobao.org/dist/chromedriver \
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;amp;&amp;amp; npm config set sass_binary_site http://npm.taobao.org/mirrors/node-sass
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>构建镜像时如果需要代理，可以配置以下参数：&lt;/p></description></item><item><title>Es Clean Indices</title><link>https://number317.github.io/blog/shell/es_clean_indices/</link><pubDate>Wed, 12 Jun 2019 16:00:30 +0800</pubDate><guid>https://number317.github.io/blog/shell/es_clean_indices/</guid><description>&lt;h1 id="es-清理索引">ES 清理索引&lt;/h1>
+&lt;p>使用阿里云的 ES 服务存储应用的日志，随着业务的增长和 ES 的资源限制，索引过多会引起 ES 的崩溃。
+日志的采集是通过 logback 发送到 kafka，再用 logstash 消费 kafka 并转发给 ES。logstash 配置了&lt;code>%{[@metadata][kafka][topic]}-%{+YYYY-MM-dd}&lt;/code>作为 ES 的索引。
+经过讨论准备只将日志存储一个月，需要定时去清理索引，防止索引过多。&lt;/p>
+&lt;h2 id="获取索引">获取索引&lt;/h2>
+&lt;p>首先要做的是获取当前的索引，通过查阅 ES 的 &lt;a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices.html">API&lt;/a> 可知，可以用 &lt;code>/_cat/indices&lt;/code> 接口来获取所有索引:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -X POST -s &lt;span style="color:#666;font-style:italic">&amp;#34;http://es.example.site/_cat/indices&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>可以看到如下结果:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>green open test-app1-prod-log-2019-06-11 28NbwQbZTIaGPgb0S5Wkuw 5 1 189385 0 179.7mb 89.9mb
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>green open test-app1-prod-log-2019-06-10 0EiQBNhZTnGZqUZ92J9UEg 5 1 189385 0 179.7mb 93.3mb
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>green open test-app2-prod-log-2019-06-08 N_Th5gahSiu3kiycF26Q_A 5 1 2133105 0 4.5gb 2.2gb
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>需要将结果过滤一下，只保留 &lt;code>%{[@metadata][kafka][topic]}&lt;/code> 的信息:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -X POST -s &lt;span style="color:#666;font-style:italic">&amp;#34;http://es.example.site/_cat/indices&amp;#34;&lt;/span> | awk &lt;span style="color:#666;font-style:italic">&amp;#39;{print $3}&amp;#39;&lt;/span> | sort | grep -oP &lt;span style="color:#666;font-style:italic">&amp;#34;.*(?=-[0-9]*-[0-9]*-[0-9]*)&amp;#34;&lt;/span> | uniq
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>得到如下结果:&lt;/p></description></item><item><title>Interesting Shell Commands</title><link>https://number317.github.io/blog/shell/interesting_shell_commands/</link><pubDate>Wed, 25 Apr 2018 18:16:49 +0800</pubDate><guid>https://number317.github.io/blog/shell/interesting_shell_commands/</guid><description>&lt;h1 id="一些有意思的shell命令">一些有意思的shell命令&lt;/h1>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ &lt;span style="font-weight:bold;font-style:italic">printf&lt;/span> &lt;span style="color:#666;font-style:italic">&amp;#34;%x&amp;#34;&lt;/span> &lt;span style="color:#666;font-style:italic">\&amp;#39;&lt;/span>$
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ &lt;span style="font-weight:bold;font-style:italic">printf&lt;/span> &lt;span style="color:#666;font-style:italic">\\&lt;/span>x2F
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>将字符转化为16进制(%x), 十进制(%d)&amp;hellip;
+第二个命令将16进制转化为字符&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ python -m SimpleHTTPServer
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ python -m http.server
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>使用python来建立一个简易的web service用于文件传输，第一个时python2的写法，后一个是python3的写法，默认端口为8000，可以在后面直接加端口指定端口&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>$ nc -l localhost -p 1016
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ nc localhost 1016
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ nc -lu localhost -p 8125
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ nc -u localhost 8125
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>gnu-netcat&lt;/code>软件包，使用&lt;code>nc&lt;/code>命令监听1016端口，然后再用&lt;code>nc&lt;/code>可以发送数据，这可以用于文件传输，做简易的聊天工具&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -OL https://github.com/cmderdev/cmder/releases/download/v1.3.2/cmder.zip
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>curl -Ss &lt;span style="color:#666;font-style:italic">&amp;#34;https://store.docker.com/api/content/v1/repositories/public/library/&lt;/span>&lt;span style="color:#666;font-weight:bold;font-style:italic">$@&lt;/span>&lt;span style="color:#666;font-style:italic">/tags?page_size=25&amp;amp;page=1&amp;#34;&lt;/span> | jq &lt;span style="color:#666;font-style:italic">&amp;#39;.&amp;#34;results&amp;#34;[][&amp;#34;name&amp;#34;]&amp;#39;&lt;/span> | sort -r
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>curl -X POST -H &lt;span style="color:#666;font-style:italic">&amp;#34;Content-Type: application/json&amp;#34;&lt;/span> -H &lt;span style="color:#666;font-style:italic">&amp;#34;Authorization: Basic YWRtaW46YWRtaW4xMjM=&amp;#34;&lt;/span> &lt;span style="color:#666;font-style:italic">&amp;#39;http://localhost:8081/service/siesta/rest/v1/script/&amp;#39;&lt;/span> &lt;span style="color:#666;font-style:italic">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-style:italic">&lt;/span> -d &lt;span style="color:#666;font-style:italic">&amp;#39;{ &amp;#34;name&amp;#34;: &amp;#34;updateAnonymousAccess&amp;#34;, &amp;#34;type&amp;#34;: &amp;#34;groovy&amp;#34;, &amp;#34;content&amp;#34;: &amp;#34;security.setAnonymousAccess(Boolean.valueOf(args))&amp;#34; }&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>第一行命令用于下载文件：&lt;code>-O&lt;/code> 以原文件名字保存，&lt;code>-L&lt;/code> 重定向跟踪，&lt;code>-C&lt;/code> 断点续传，&lt;code>-C -&lt;/code>自动检测断点
+第二行命令用于获取docker镜像的tag：&lt;code>-S&lt;/code> 显示错误信息，&lt;code>-s&lt;/code> 静默模式，&lt;code>jq&lt;/code> 命令行的json处理工具
+第三行命令用于发送POST请求：&lt;code>-H&lt;/code>指定请求头，&lt;code>-d&lt;/code>指定请求参数，这里是json格式，也可以将数据写入文件，通过&lt;code>-d@data.json&lt;/code> 的形式来传递数据&lt;/p></description></item><item><title>Bash Expansion</title><link>https://number317.github.io/blog/shell/bash_expansion/</link><pubDate>Fri, 13 Oct 2017 13:43:35 +0800</pubDate><guid>https://number317.github.io/blog/shell/bash_expansion/</guid><description>&lt;h1 id="bash-扩展">bash 扩展&lt;/h1></description></item><item><title>Bash Tips</title><link>https://number317.github.io/blog/shell/bash_tips/</link><pubDate>Tue, 10 Oct 2017 11:20:29 +0800</pubDate><guid>https://number317.github.io/blog/shell/bash_tips/</guid><description>&lt;h1 id="bash-代码规范建议">bash 代码规范建议&lt;/h1>
+&lt;p>Bash 可以认为是系统编程级的 JavaScript。虽然在某些时候，使用一门像 C，Go 之类的系统语言是一个更好的选择，但是对于一些小的POSIX相关或命令行任务，Bash 是一门理想的系统语言。这里有几个原因：&lt;/p>
+&lt;ul>
+&lt;li>Bash 无处不在。就像 web 上的 JavaScript，Bash 早就在系统上为系统编程准备好了。&lt;/li>
+&lt;li>Bash 可以作为粘合剂。用 C 或 Go （或者其他任意语言）来编写复杂的部分，然后用 Bash 将它们粘合在一起。&lt;/li>
+&lt;/ul></description></item></channel></rss>

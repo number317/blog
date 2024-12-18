@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tomcat on cheon's blog</title><link>https://number317.github.io/blog/tags/tomcat/</link><description>Recent content in Tomcat on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 14 Jun 2019 01:21:26 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/tomcat/index.xml" rel="self" type="application/rss+xml"/><item><title>Tomcat Deploy Error</title><link>https://number317.github.io/blog/solved/tomcat_deploy_error/</link><pubDate>Tue, 06 Feb 2018 18:44:13 +0800</pubDate><guid>https://number317.github.io/blog/solved/tomcat_deploy_error/</guid><description>&lt;h1 id="tomcat部署war包出错">tomcat部署war包出错&lt;/h1>
+&lt;h2 id="错误1">错误1&lt;/h2>
+&lt;p>错误日志如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>Caused by: java.lang.IllegalStateException: Unable to complete the scan for annotations for web application [/capitalplan] due to a StackOverflowError. Possible root causes include a too low setting for -Xss and illegal cyclic inheritance dependencies. The class hierarchy being processed was [org.bouncycastle.asn1.ASN1EncodableVector-&amp;gt;org.bouncycastle.asn1.DEREncodableVector-&amp;gt;org.bouncycastle.asn1.ASN1EncodableVector]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.startup.ContextConfig.checkHandlesTypes(ContextConfig.java:2099)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.startup.ContextConfig.processAnnotationsStream(ContextConfig.java:2043)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.startup.ContextConfig.processAnnotationsJar(ContextConfig.java:1989)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.startup.ContextConfig.processAnnotationsUrl(ContextConfig.java:1959)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.startup.ContextConfig.processAnnotations(ContextConfig.java:1912)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.startup.ContextConfig.webConfig(ContextConfig.java:1154)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.startup.ContextConfig.configureStart(ContextConfig.java:771)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.startup.ContextConfig.lifecycleEvent(ContextConfig.java:298)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.util.LifecycleBase.fireLifecycleEvent(LifecycleBase.java:94)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5093)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:152)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	... 10 more
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>解决方案：&lt;/p></description></item></channel></rss>

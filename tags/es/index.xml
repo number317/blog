@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Es on cheon's blog</title><link>https://number317.github.io/blog/tags/es/</link><description>Recent content in Es on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/es/index.xml" rel="self" type="application/rss+xml"/><item><title>Logstash to ES</title><link>https://number317.github.io/blog/struct/logstash_to_es/</link><pubDate>Thu, 04 Jul 2019 09:26:33 +0800</pubDate><guid>https://number317.github.io/blog/struct/logstash_to_es/</guid><description>&lt;h1 id="logstash-配置日志发送-es">logstash 配置日志发送 ES&lt;/h1>
+&lt;p>日志收集的架构如下所示:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>┌────────────┐
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│Java logback│\
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└────────────┘ \
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ┌─────┐ ┌────────┐ ┌──────┐ ┌────────┐
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> │kafka│ ───&amp;gt; │logstash│ ───&amp;gt; │ ES │ ───&amp;gt; │ kibana │
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> └─────┘ └────────┘ └──────┘ └────────┘
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>┌────────────┐ /
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│Java logback│/
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└────────────┘
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>java 应用日志通过 logback 发送给 kafka，logstash 从 kafka 消费日志，并将日志转发给 ES。一开始一个应用一个 kafka topic，logstash 消费了之后根据 topic 来确定 ES 的索引。&lt;/p>
+&lt;p>logback 的配置:&lt;/p>
+&lt;details>
+&lt;summary>logback.xml&lt;/summary>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-xml" data-lang="xml">&lt;span style="display:flex;">&lt;span>&amp;lt;appender name=&lt;span style="color:#666;font-style:italic">&amp;#34;KAFKA&amp;#34;&lt;/span> class=&lt;span style="color:#666;font-style:italic">&amp;#34;com.github.danielwegener.logback.kafka.KafkaAppender&amp;#34;&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;encoder class=&lt;span style="color:#666;font-style:italic">&amp;#34;ch.qos.logback.classic.encoder.PatternLayoutEncoder&amp;#34;&lt;/span> charset=&lt;span style="color:#666;font-style:italic">&amp;#34;UTF-8&amp;#34;&lt;/span> &amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;pattern&amp;gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n&amp;lt;/pattern&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;/encoder&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;topic&amp;gt;spring-boot-demo&amp;lt;/topic&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;keyingStrategy class=&lt;span style="color:#666;font-style:italic">&amp;#34;com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy&amp;#34;&lt;/span>/&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;deliveryStrategy class=&lt;span style="color:#666;font-style:italic">&amp;#34;com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy&amp;#34;&lt;/span>/&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;producerConfig&amp;gt;bootstrap.servers=192.168.0.107:9092&amp;lt;/producerConfig&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>　 　　&amp;lt;producerConfig&amp;gt;retries=1&amp;lt;/producerConfig&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>　 　　&amp;lt;producerConfig&amp;gt;batch-size=16384&amp;lt;/producerConfig&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>　 　　&amp;lt;producerConfig&amp;gt;buffer-memory=33554432&amp;lt;/producerConfig&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>　 　　&amp;lt;producerConfig&amp;gt;properties.max.request.size==2097152&amp;lt;/producerConfig&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/appender&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;logger name=&lt;span style="color:#666;font-style:italic">&amp;#34;com.cheon.demo&amp;#34;&lt;/span> level=&lt;span style="color:#666;font-style:italic">&amp;#34;INFO&amp;#34;&lt;/span> additivity=&lt;span style="color:#666;font-style:italic">&amp;#34;false&amp;#34;&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &amp;lt;appender-ref ref=&lt;span style="color:#666;font-style:italic">&amp;#34;KAFKA&amp;#34;&lt;/span> /&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;/logger&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/details>
+&lt;p>pom 文件依赖:&lt;/p></description></item><item><title>Es Clean Indices</title><link>https://number317.github.io/blog/shell/es_clean_indices/</link><pubDate>Wed, 12 Jun 2019 16:00:30 +0800</pubDate><guid>https://number317.github.io/blog/shell/es_clean_indices/</guid><description>&lt;h1 id="es-清理索引">ES 清理索引&lt;/h1>
+&lt;p>使用阿里云的 ES 服务存储应用的日志，随着业务的增长和 ES 的资源限制，索引过多会引起 ES 的崩溃。
+日志的采集是通过 logback 发送到 kafka，再用 logstash 消费 kafka 并转发给 ES。logstash 配置了&lt;code>%{[@metadata][kafka][topic]}-%{+YYYY-MM-dd}&lt;/code>作为 ES 的索引。
+经过讨论准备只将日志存储一个月，需要定时去清理索引，防止索引过多。&lt;/p>
+&lt;h2 id="获取索引">获取索引&lt;/h2>
+&lt;p>首先要做的是获取当前的索引，通过查阅 ES 的 &lt;a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices.html">API&lt;/a> 可知，可以用 &lt;code>/_cat/indices&lt;/code> 接口来获取所有索引:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -X POST -s &lt;span style="color:#666;font-style:italic">&amp;#34;http://es.example.site/_cat/indices&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>可以看到如下结果:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>green open test-app1-prod-log-2019-06-11 28NbwQbZTIaGPgb0S5Wkuw 5 1 189385 0 179.7mb 89.9mb
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>green open test-app1-prod-log-2019-06-10 0EiQBNhZTnGZqUZ92J9UEg 5 1 189385 0 179.7mb 93.3mb
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>green open test-app2-prod-log-2019-06-08 N_Th5gahSiu3kiycF26Q_A 5 1 2133105 0 4.5gb 2.2gb
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>需要将结果过滤一下，只保留 &lt;code>%{[@metadata][kafka][topic]}&lt;/code> 的信息:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>curl -X POST -s &lt;span style="color:#666;font-style:italic">&amp;#34;http://es.example.site/_cat/indices&amp;#34;&lt;/span> | awk &lt;span style="color:#666;font-style:italic">&amp;#39;{print $3}&amp;#39;&lt;/span> | sort | grep -oP &lt;span style="color:#666;font-style:italic">&amp;#34;.*(?=-[0-9]*-[0-9]*-[0-9]*)&amp;#34;&lt;/span> | uniq
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>得到如下结果:&lt;/p></description></item></channel></rss>

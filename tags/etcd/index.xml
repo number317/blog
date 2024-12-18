@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Etcd on cheon's blog</title><link>https://number317.github.io/blog/tags/etcd/</link><description>Recent content in Etcd on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/etcd/index.xml" rel="self" type="application/rss+xml"/><item><title>Etcd &amp; Flannel</title><link>https://number317.github.io/blog/struct/etcd_and_flannel/</link><pubDate>Wed, 01 Nov 2017 17:58:29 +0800</pubDate><guid>https://number317.github.io/blog/struct/etcd_and_flannel/</guid><description>&lt;h1 id="etcd--flannel-实现跨主机容器通信">etcd &amp;amp; flannel 实现跨主机容器通信&lt;/h1>
+&lt;h2 id="准备工作">准备工作&lt;/h2>
+&lt;ol>
+&lt;li>测试环境：vagrant + centos7.2 虚拟机&lt;/li>
+&lt;li>主机说明：
+&lt;ul>
+&lt;li>ip: &lt;code>192.168.12.101&lt;/code> hostname: &lt;code>node1&lt;/code> 安装软件：etcd, flannel, docker&lt;/li>
+&lt;li>ip: &lt;code>192.168.12.102&lt;/code> hostname: &lt;code>node2&lt;/code> 安装软件：flannel, docker&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="启动虚拟机">启动虚拟机&lt;/h2>
+&lt;p>vagrant配置文件：&lt;/p>
+&lt;details>
+&lt;summary>Vagrantfile&lt;/summary>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># -*- mode: ruby -*-&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># vi: set ft=ruby :&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#666;font-weight:bold;font-style:italic">Vagrant&lt;/span>.configure(2) &lt;span style="font-weight:bold">do&lt;/span> |config|
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (1..2).each &lt;span style="font-weight:bold">do&lt;/span> |i|
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> config.vm.define &lt;span style="color:#666;font-style:italic">&amp;#34;node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span> |s|
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> s.vm.box = &lt;span style="color:#666;font-style:italic">&amp;#34;bento/centos-7.2&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> s.vm.hostname = &lt;span style="color:#666;font-style:italic">&amp;#34;node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> n = 100 + i
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> s.vm.network &lt;span style="color:#666;font-style:italic">&amp;#34;private_network&amp;#34;&lt;/span>, &lt;span style="color:#666;font-style:italic">ip&lt;/span>: &lt;span style="color:#666;font-style:italic">&amp;#34;192.168.12.&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>n&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> s.ssh.username = &lt;span style="color:#666;font-style:italic">&amp;#34;vagrant&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> s.ssh.password = &lt;span style="color:#666;font-style:italic">&amp;#34;vagrant&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> s.ssh.insert_key = &lt;span style="font-weight:bold">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> s.vm.provider &lt;span style="color:#666;font-style:italic">&amp;#34;virtualbox&amp;#34;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span> |v|
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> v.name = &lt;span style="color:#666;font-style:italic">&amp;#34;node&lt;/span>&lt;span style="color:#666;font-style:italic">#{&lt;/span>i&lt;span style="color:#666;font-style:italic">}&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> v.cpus = 1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> v.memory = 1024
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/details>
+&lt;p>在该配置文件的目录下执行&lt;code>vagrant up&lt;/code>启动两台测试用虚拟机&lt;/p></description></item></channel></rss>

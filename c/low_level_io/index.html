@@ -1,0 +1,106 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel=stylesheet><link href=//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
+<a href=https://number317.github.io/blog/>cheon's blog</a></li><li>»
+<a href=https://number317.github.io/blog/c/>c</a></li><li class=active>»
+<a href=https://number317.github.io/blog/c/low_level_io/>Low Level I/O</a></li></ul><div id=content><main id=main><h1>Low Level I/O</h1><time>Last updated Tue Aug 27, 2019</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents><ul><li><a href=#文件描述符>文件描述符</a></li><li><a href=#打开和创建文件>打开和创建文件</a></li><li><a href=#关闭文件>关闭文件</a></li><li><a href=#读写文件>读写文件</a></li><li><a href=#在文件中移动>在文件中移动</a></li><li><a href=#重复文件描述符>重复文件描述符</a></li><li><a href=#将文件描述符转化为文件指针>将文件描述符转化为文件指针</a></li></ul></nav></aside><article id=content><h1 id=底层-io>底层 I/O</h1><p>任务由标准 I/O 库函数执行，即缓冲和输入/输出转换，不总是可取的。例如，直接和诸如磁带驱动器之类的设备执行输入和输出时，程序员需要能够确定缓冲区要使用的大小，而不是让 stdio 的函数执行它。当然，系统提供这一层级的控制。标准 I/O 库是底层 I/O 库的一个用户友好的接口。</p><h2 id=文件描述符>文件描述符</h2><p>在标准 I/O 中，文件由文件指针引用。使用底层接口时，文件由文件描述符引用，由一个简单的整数来指代。在标准 I/O 中，有三个预先定义的文件描述符，0,1,2，分别指向标准输入，标准输出和标准错误输出。</p><p>不同于标准 I/O 库，为标准输入输出提供了速记函数，所有的底层 I/O 函数需要一个合适的文件描述符传递给它们。</p><h2 id=打开和创建文件>打开和创建文件</h2><p><code>open</code> 函数用于打开一个文件用于读写或创建。它接收三个参数：要打开文件名的字符串，一个整数指定文件的打开方式，一个整数 <code>mode</code> 当创建一个文件。成功时，它返回一个整数的文件描述符，失败时返回 -1。第二个参数在 <code>sys/file.h</code>(Berkeley) 或 <code>sys/fcntl.h</code>(System V)中定义如下：</p><ul><li><code>O_RDONLY</code> 只读模式</li><li><code>O_WRONLY</code> 只写模式</li><li><code>O_RDWR</code> 读写模式</li><li><code>O_APPEND</code> 追加模式</li><li><code>O_CREAT</code> 创建文件如果不存在，这个模式应该给出第三个参数</li><li><code>O_TRUNC</code> 截断文件长度为0用于写</li><li><code>O_EXCL</code> 返回错误如果创建文件时文件存在</li><li><code>O_NDELAY</code> 打开文件时不阻塞</li></ul><h2 id=关闭文件>关闭文件</h2><p><code>close</code> 函数用于关闭文件，只接收一个参数，引用于要关闭文件的文件描述符。成功时返回0；出错时返回-1。</p><h2 id=读写文件>读写文件</h2><p>在底层接口中读写文件只有一个办法，一次一个缓冲区。缓冲区大小留给程序员定义，需要确定一个合适的值。例如，如果一个程序一侧值读写一个字符而不是几千个字符，操作系统将为每个字符都访问一次硬盘（或其他设备），导致程序执行非常缓慢。</p><p><code>read</code> 系统调用接收三个参数：一个文件描述符用于读取，一个指针指向缓冲区等待填写数据，一个整数表示要读取的字节数。返回实际读取的字节数，或者出错时返回 -1，到达文件末尾时返回 0。</p><p><code>write</code> 系统调用接收三个参数：一个文件描述符用于写入，一个指针指向缓冲区存放要写的数据，一个整数表示要写入的字节数。返回实际写入的字节数，或者出错时返回 -1。</p><p>下面的代码实现了文件追加的功能：</p><details><summary>code</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#888;font-weight:700>#include</span> <span style=color:#888;font-weight:700>&lt;unistd.h&gt;</span><span style=color:#888;font-weight:700>
+</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700>#include</span> <span style=color:#888;font-weight:700>&lt;fcntl.h&gt;</span><span style=color:#888;font-weight:700>
+</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700>#include</span> <span style=color:#888;font-weight:700>&lt;stdio.h&gt;</span><span style=color:#888;font-weight:700>
+</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700>#include</span> <span style=color:#888;font-weight:700>&lt;string.h&gt;</span><span style=color:#888;font-weight:700>
+</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700></span><span style=font-weight:700>int</span> <span style=color:#666;font-weight:700;font-style:italic>main</span>(<span style=font-weight:700>int</span> argc, <span style=font-weight:700>char</span> *argv[]) {
+</span></span><span style=display:flex><span>    <span style=font-weight:700>int</span> n;
+</span></span><span style=display:flex><span>    <span style=font-weight:700>int</span> from, to;
+</span></span><span style=display:flex><span>    <span style=font-weight:700>char</span> buf[1024];
+</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span>(argc!=3) {
+</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>write</span>(2, <span style=color:#666;font-style:italic>&#34;Usage: &#34;</span>, 7);
+</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>write</span>(2, *argv, <span style=color:#666;font-weight:700;font-style:italic>strlen</span>(*argv));
+</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>write</span>(2, <span style=color:#666;font-style:italic>&#34;from-file to-file</span><span style=color:#666;font-style:italic>\n</span><span style=color:#666;font-style:italic>&#34;</span>, 19);
+</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> 1;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span> ((from=<span style=color:#666;font-weight:700;font-style:italic>open</span>(argv[1], O_RDONLY))&lt;0) {
+</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>perror</span>(argv[1]);
+</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> 1;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span>((to=<span style=color:#666;font-weight:700;font-style:italic>open</span>(argv[2], O_WRONLY|O_CREAT|O_APPEND, 0644))&lt;0) {
+</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>perror</span>(argv[2]);
+</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> 1;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=font-weight:700>while</span> (( n = <span style=color:#666;font-weight:700;font-style:italic>read</span>(from, buf, <span style=font-weight:700>sizeof</span>(buf)))&gt;0)
+</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>write</span>(to, buf, n);
+</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>close</span>(from);
+</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>close</span>(to);
+</span></span><span style=display:flex><span>    <span style=font-weight:700>return</span> 0;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></details><h2 id=在文件中移动>在文件中移动</h2><p>底层 I/O 库中在文件中移动调用 <code>lseek</code> 函数。就像 <code>fseek</code>，它接收三个参数：一个文件描述符指向一个打开的文件，一个长整型指定移动的字节数，称为偏移量，一个整型指定偏移量的起始位置。<code>L_SET</code>，即 0，设置为文件起始位置；<code>L_INCR</code>，即 1，设置为文件当前位置；<code>L_XTND</code>，即 2，设置为文件末尾位置。<code>lseek</code> 返回新的相对于文件起始的偏移量。要移动到文件末尾，调用 <code>lseek(fd, 0L, L_XTND)</code>。要移动到文件开头，调用 <code>lseek(fd, 0L, L_SET)</code>。</p><details><summary>code</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#888;font-weight:700>#include</span> <span style=color:#888;font-weight:700>&lt;stdio.h&gt;</span><span style=color:#888;font-weight:700>
+</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700>#include</span> <span style=color:#888;font-weight:700>&lt;fcntl.h&gt;</span><span style=color:#888;font-weight:700>
+</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700>#include</span> <span style=color:#888;font-weight:700>&lt;unistd.h&gt;</span><span style=color:#888;font-weight:700>
+</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700>#include</span> <span style=color:#888;font-weight:700>&lt;string.h&gt;</span><span style=color:#888;font-weight:700>
+</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700></span>
+</span></span><span style=display:flex><span><span style=font-weight:700>typedef</span> <span style=font-weight:700>struct</span> record {
+</span></span><span style=display:flex><span>    <span style=font-weight:700>int</span> uid;
+</span></span><span style=display:flex><span>    <span style=font-weight:700>char</span> login[8];
+</span></span><span style=display:flex><span>}record;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>char</span> *logins[]={<span style=color:#666;font-style:italic>&#34;user1&#34;</span>, <span style=color:#666;font-style:italic>&#34;user2&#34;</span>, <span style=color:#666;font-style:italic>&#34;user3&#34;</span>, <span style=color:#666;font-style:italic>&#34;user4&#34;</span>, <span style=color:#666;font-style:italic>&#34;user5&#34;</span>};
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>void</span> <span style=color:#666;font-weight:700;font-style:italic>putrec</span>(<span style=font-weight:700>int</span>, <span style=font-weight:700>int</span>, record *);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>int</span> <span style=color:#666;font-weight:700;font-style:italic>main</span>(<span style=font-weight:700>int</span> argc, <span style=font-weight:700>char</span> *argv[]) {
+</span></span><span style=display:flex><span>    <span style=font-weight:700>int</span> i, fd;
+</span></span><span style=display:flex><span>    record rec;
+</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span> ((fd=<span style=color:#666;font-weight:700;font-style:italic>open</span>(<span style=color:#666;font-style:italic>&#34;datafile&#34;</span>, O_WRONLY | O_CREAT, 0644)) &lt; 0) {
+</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>perror</span>(<span style=color:#666;font-style:italic>&#34;datafile&#34;</span>);
+</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> 1;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=font-weight:700>for</span> (i=4; i&gt;=0; i--) {
+</span></span><span style=display:flex><span>        rec.uid=i;
+</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>strcpy</span>(rec.login, logins[i]);
+</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>putrec</span>(fd, i, &amp;rec);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>close</span>(fd);
+</span></span><span style=display:flex><span>    <span style=font-weight:700>return</span> 0;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>void</span> <span style=color:#666;font-weight:700;font-style:italic>putrec</span>(<span style=font-weight:700>int</span> fd, <span style=font-weight:700>int</span> i, record *rec) {
+</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>lseek</span>(fd, (<span style=font-weight:700>long</span>)i*<span style=font-weight:700>sizeof</span>(record), L_SET);
+</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>write</span>(fd, rec, <span style=font-weight:700>sizeof</span>(record));
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></details><p>下面的代码实现了以 3,0,2,1,4 的顺序读取刚刚创建的用户数据文件。</p><details><summary>code</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#888;font-weight:700>#include</span> <span style=color:#888;font-weight:700>&lt;stdio.h&gt;</span><span style=color:#888;font-weight:700>
+</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700>#include</span> <span style=color:#888;font-weight:700>&lt;fcntl.h&gt;</span><span style=color:#888;font-weight:700>
+</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700>#include</span> <span style=color:#888;font-weight:700>&lt;unistd.h&gt;</span><span style=color:#888;font-weight:700>
+</span></span></span><span style=display:flex><span><span style=color:#888;font-weight:700></span>
+</span></span><span style=display:flex><span><span style=font-weight:700>typedef</span> <span style=font-weight:700>struct</span> record {
+</span></span><span style=display:flex><span>    <span style=font-weight:700>int</span> uid;
+</span></span><span style=display:flex><span>    <span style=font-weight:700>char</span> login[8];
+</span></span><span style=display:flex><span>}record;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>int</span> step[]={3, 0, 2, 1, 4};
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>void</span> <span style=color:#666;font-weight:700;font-style:italic>readrec</span>(<span style=font-weight:700>int</span>, <span style=font-weight:700>int</span>, record *);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>int</span> <span style=color:#666;font-weight:700;font-style:italic>main</span>(<span style=font-weight:700>int</span> argc, <span style=font-weight:700>char</span> *argv[]) {
+</span></span><span style=display:flex><span>    <span style=font-weight:700>int</span> i, fd;
+</span></span><span style=display:flex><span>    record rec;
+</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span> ((fd=<span style=color:#666;font-weight:700;font-style:italic>open</span>(<span style=color:#666;font-style:italic>&#34;datafile&#34;</span>, O_RDONLY)) &lt; 0) {
+</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>perror</span>(<span style=color:#666;font-style:italic>&#34;datafile&#34;</span>);
+</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> 1;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=font-weight:700>for</span> (i=0; i&lt;5; i++) {
+</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>readrec</span>(fd, step[i], &amp;rec);
+</span></span><span style=display:flex><span>        <span style=color:#666;font-weight:700;font-style:italic>printf</span>(<span style=color:#666;font-style:italic>&#34;%d</span><span style=color:#666;font-style:italic>\t</span><span style=color:#666;font-style:italic>%s</span><span style=color:#666;font-style:italic>\n</span><span style=color:#666;font-style:italic>&#34;</span>, rec.uid, rec.login);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>close</span>(fd);
+</span></span><span style=display:flex><span>    <span style=font-weight:700>return</span> 0;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>void</span> <span style=color:#666;font-weight:700;font-style:italic>readrec</span>(<span style=font-weight:700>int</span> fd, <span style=font-weight:700>int</span> i, record *rec) {
+</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>lseek</span>(fd, (<span style=font-weight:700>long</span>)i*<span style=font-weight:700>sizeof</span>(record), L_SET);
+</span></span><span style=display:flex><span>    <span style=color:#666;font-weight:700;font-style:italic>read</span>(fd, rec, <span style=font-weight:700>sizeof</span>(record));
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></details><h2 id=重复文件描述符>重复文件描述符</h2><p>我们偶尔需要超过一个文件描述符来指向同一个文件。这在另起新的进程时很常见。要生成一个和原来的 fd 指向同一个文件的新文件描述符，可以调用 <code>fd2=dup(fd)</code>。<code>fd2</code> 会和 <code>fd</code> 指向同一个文件并拥有相同的偏移量。如果调用失败，则返回 -1。</p><p>另一种调用方式允许程序员选择哪个文件描述符。例如，假设标准输入应该被连接到一个被<code>fd</code>引用的硬盘文件（这在 shell 中用 <code>&lt;</code> 来处理重定向），我们可以调用 <code>dup2(fd, 0)</code>。这将会使文件描述符 0 关闭如果它正在被使用，然后连接到 <code>fd</code> 指向的文件。</p><p>一个在 UNIX 源代码中很常见的代码块看起来像这样：</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>close</span>(0);
+</span></span><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>dup</span>(fd);
+</span></span></code></pre></div><p>这里 <code>dup</code> 的返回值被忽略了。实际上，这里依赖了 UNIX 系统的特性，最小的可用文件描述符总是最新被分配。</p><h2 id=将文件描述符转化为文件指针>将文件描述符转化为文件指针</h2><p><code>fdopen</code> 接收两个参数：一个文件描述符指向一个文件，一个字符串表明文件描述符被怎样使用。第二个参数和 <code>fopen</code> 一样。<code>fdopen</code> 返回一个文件指针，它的流和我文件描述符指向同一个文件，当失败时返回 <code>NULL</code>。</p></article></div></main><div><h4 id=signature>Tue Aug 27, 2019
+cheon</h4><ul class=tags><li><a href=https://number317.github.io/blog/tags/library>library</a></li></ul><ul class=related><li><a class=previous href=https://number317.github.io/blog/c/standard_io/>Standard I/O</a></li><li><a class=next href=https://number317.github.io/blog/c/gnu_argp/>GNU Argp</a></li></ul></div></div><section id=footer><div id=author><h2>About Author</h2><hr><img src=https://number317.github.io/images/author.jpg></img><p>Life is dance we all have to do.</p></div><ul id=link><li><a href=https://github.com/number317/aloha.git target=_blank><i class="fa fa-github" alt=github></i></a></li><li><a href="mailto:cheon0112358d@gmail.com?subject=blog%27s%20feedback" target=_blank><i class="fa fa-envelope" alt=email></i></a></li><li id=wechat><i class="fa fa-wechat"></i></li><img class=qrcode src=https://number317.github.io/images/wechat.jpg></ul></section></body></html>

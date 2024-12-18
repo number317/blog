@@ -1,0 +1,157 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel=stylesheet><link href=//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
+<a href=https://number317.github.io/blog/>cheon's blog</a></li><li>»
+<a href=https://number317.github.io/blog/struct/>struct</a></li><li class=active>»
+<a href=https://number317.github.io/blog/struct/k8s_cluster_deploy/>K8s Cluster Deploy</a></li></ul><div id=content><main id=main><h1>K8s Cluster Deploy</h1><time>Last updated Tue Dec 17, 2024</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents><ul><li><a href=#集群说明>集群说明</a></li><li><a href=#vagrant-配置>vagrant 配置</a></li></ul></nav></aside><article id=content><h1 id=vagrant-kubernetes-集群部署>vagrant kubernetes 集群部署</h1><h2 id=集群说明>集群说明</h2><p>集群共有四个节点，一个master节点，四个子节点，其中一个节点即是master节点，也是node节点，系统均为centos-7.2。</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>k8s-node1      192.168.12.81       master, node
+</span></span><span style=display:flex><span>k8s-node2      192.168.12.82       node
+</span></span><span style=display:flex><span>k8s-node3      192.168.12.83       node
+</span></span><span style=display:flex><span>k8s-node4      192.168.12.84       node
+</span></span></code></pre></div><h2 id=vagrant-配置>vagrant 配置</h2><p>vagrant 的 box 可选用 bento/centos-7.2:</p><details><summary>Vagrantfile</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ruby data-lang=ruby><span style=display:flex><span><span style=color:#888;font-style:italic># -*- mode: ruby -*-</span>
+</span></span><span style=display:flex><span><span style=color:#888;font-style:italic># vi: set ft=ruby :</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#888;font-style:italic># All Vagrant configuration is done below. The &#34;2&#34; in Vagrant.configure</span>
+</span></span><span style=display:flex><span><span style=color:#888;font-style:italic># configures the configuration version (we support older styles for</span>
+</span></span><span style=display:flex><span><span style=color:#888;font-style:italic># backwards compatibility). Please don&#39;t change it unless you know what</span>
+</span></span><span style=display:flex><span><span style=color:#888;font-style:italic># you&#39;re doing.</span>
+</span></span><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>Vagrant</span>.configure(<span style=color:#666;font-style:italic>&#34;2&#34;</span>) <span style=font-weight:700>do</span> |config|
+</span></span><span style=display:flex><span>    (1..4).each <span style=font-weight:700>do</span> |i|
+</span></span><span style=display:flex><span>        config.vm.define <span style=color:#666;font-style:italic>&#34;k8s-node</span><span style=color:#666;font-style:italic>#{</span>i<span style=color:#666;font-style:italic>}</span><span style=color:#666;font-style:italic>&#34;</span> <span style=font-weight:700>do</span> |node|
+</span></span><span style=display:flex><span>            file_to_disk = <span style=color:#666;font-style:italic>&#34;tmp/k8s_node</span><span style=color:#666;font-style:italic>#{</span>i<span style=color:#666;font-style:italic>}</span><span style=color:#666;font-style:italic>_disk.vdi&#34;</span>
+</span></span><span style=display:flex><span>            node.vm.box = <span style=color:#666;font-style:italic>&#34;centos-7.2&#34;</span>
+</span></span><span style=display:flex><span>            node.vm.hostname = <span style=color:#666;font-style:italic>&#34;k8s-node</span><span style=color:#666;font-style:italic>#{</span>i<span style=color:#666;font-style:italic>}</span><span style=color:#666;font-style:italic>&#34;</span>
+</span></span><span style=display:flex><span>            n = 80 +i
+</span></span><span style=display:flex><span>            node.vm.network <span style=color:#666;font-style:italic>&#34;private_network&#34;</span>, <span style=color:#666;font-style:italic>ip</span>: <span style=color:#666;font-style:italic>&#34;192.168.12.</span><span style=color:#666;font-style:italic>#{</span>n<span style=color:#666;font-style:italic>}</span><span style=color:#666;font-style:italic>&#34;</span>
+</span></span><span style=display:flex><span>            node.vm.provider <span style=color:#666;font-style:italic>&#34;virtualbox&#34;</span> <span style=font-weight:700>do</span> |vb|
+</span></span><span style=display:flex><span>                vb.name = <span style=color:#666;font-style:italic>&#34;k8s-node</span><span style=color:#666;font-style:italic>#{</span>i<span style=color:#666;font-style:italic>}</span><span style=color:#666;font-style:italic>&#34;</span>
+</span></span><span style=display:flex><span>                vb.cpus = 2
+</span></span><span style=display:flex><span>                vb.memory = 1024
+</span></span><span style=display:flex><span>            <span style=font-weight:700>end</span>
+</span></span><span style=display:flex><span>            node.vm.provision <span style=color:#666;font-style:italic>&#34;ansible&#34;</span> <span style=font-weight:700>do</span> |ansible|
+</span></span><span style=display:flex><span>                ansible.playbook = <span style=color:#666;font-style:italic>&#34;playbook.yml&#34;</span>
+</span></span><span style=display:flex><span>                ansible.groups = {
+</span></span><span style=display:flex><span>                <span style=color:#666;font-style:italic>&#34;master&#34;</span> =&gt; [<span style=color:#666;font-style:italic>&#34;k8s-node1&#34;</span>],
+</span></span><span style=display:flex><span>                <span style=color:#666;font-style:italic>&#34;nodes&#34;</span> =&gt; (1..4).map {|j| <span style=color:#666;font-style:italic>&#34;k8s-node</span><span style=color:#666;font-style:italic>#{</span>j<span style=color:#666;font-style:italic>}</span><span style=color:#666;font-style:italic>&#34;</span>},
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>            <span style=font-weight:700>end</span>
+</span></span><span style=display:flex><span>        <span style=font-weight:700>end</span>
+</span></span><span style=display:flex><span>    <span style=font-weight:700>end</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>end</span>
+</span></span></code></pre></div></details><p>其中的 playbook.yml 主要用于一些软件的安装和简单的配置，内容如下：</p><details><summary>playbook</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>---</span>
+</span></span><span style=display:flex><span>- hosts: all
+</span></span><span style=display:flex><span>  tasks:
+</span></span><span style=display:flex><span>    - name: install epel-release
+</span></span><span style=display:flex><span>      yum:
+</span></span><span style=display:flex><span>        name: epel-release
+</span></span><span style=display:flex><span>        state: latest
+</span></span><span style=display:flex><span>      become: <span style=font-weight:700>true</span>
+</span></span><span style=display:flex><span>    - name: stop &amp; disable firewall
+</span></span><span style=display:flex><span>      shell: systemctl stop firewalld &amp;&amp; systemctl disable firewalld
+</span></span><span style=display:flex><span>      become: <span style=font-weight:700>true</span>
+</span></span><span style=display:flex><span>- hosts: master
+</span></span><span style=display:flex><span>  tasks:
+</span></span><span style=display:flex><span>    - name: master install softwares
+</span></span><span style=display:flex><span>      yum:
+</span></span><span style=display:flex><span>        name={{item}}
+</span></span><span style=display:flex><span>        state=latest
+</span></span><span style=display:flex><span>      with_items:
+</span></span><span style=display:flex><span>        - etcd
+</span></span><span style=display:flex><span>        - kubernetes-master
+</span></span><span style=display:flex><span>      become: <span style=font-weight:700>true</span>
+</span></span><span style=display:flex><span>- hosts: nodes
+</span></span><span style=display:flex><span>  tasks:
+</span></span><span style=display:flex><span>    - name: nodes install softwares
+</span></span><span style=display:flex><span>      yum:
+</span></span><span style=display:flex><span>        name={{item}}
+</span></span><span style=display:flex><span>        state=latest
+</span></span><span style=display:flex><span>      with_items:
+</span></span><span style=display:flex><span>        - vim
+</span></span><span style=display:flex><span>        - bash-completion
+</span></span><span style=display:flex><span>        - docker
+</span></span><span style=display:flex><span>        - flannel
+</span></span><span style=display:flex><span>        - kubernetes-node
+</span></span><span style=display:flex><span>      become: <span style=font-weight:700>true</span>
+</span></span></code></pre></div></details><p>上面的 playbook 定义了一些任务，分别是关闭了所有虚拟机的防火墙；在 master 节点上安装了 etcd，kubernetes-master 等软件；在 node 节点上安装了 vim，bash-completion，docker，flannel，kubernetes-node 等软件。运行<code>vagrant up</code>启动定义好的四个虚拟机。</p><h1 id=master-节点配置>master 节点配置</h1><p>执行<code>vagrant ssh k8s-node1</code>登录到 master 节点上，执行<code>sudo su</code>切换到 root 用户</p><ol><li><p>编辑<code>/etc/etcd/etcd.conf</code>文件:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-gdscript3 data-lang=gdscript3><span style=display:flex><span>ETCD_NAME=master
+</span></span><span style=display:flex><span>ETCD_DATA_DIR=<span style=color:#666;font-style:italic>&#34;/var/lib/etcd/default.etcd&#34;</span>
+</span></span><span style=display:flex><span>ETCD_LISTEN_CLIENT_URLS=<span style=color:#666;font-style:italic>&#34;http://0.0.0.0:2379&#34;</span>
+</span></span><span style=display:flex><span>ETCD_ADVERTISE_CLIENT_URLS=<span style=color:#666;font-style:italic>&#34;http://192.168.12.81:2379&#34;</span>
+</span></span></code></pre></div></li><li><p>编辑<code>/etc/kubernetes/apiserver</code>文件:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>KUBE_API_ADDRESS=&#34;--insecure-bind-address=0.0.0.0&#34;
+</span></span><span style=display:flex><span>KUBE_API_PORT=&#34;--port=8080&#34;
+</span></span><span style=display:flex><span>KUBELET_PORT=&#34;--kubelet-port=10250&#34;
+</span></span><span style=display:flex><span>KUBE_ETCD_SERVERS=&#34;--etcd-servers=http://127.0.0.1:2379&#34;
+</span></span><span style=display:flex><span>KUBE_SERVICE_ADDRESSES=&#34;--service-cluster-ip-range=10.254.0.0/16&#34;
+</span></span><span style=display:flex><span>KUBE_ADMISSION_CONTROL=&#34;--admission-control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ResourceQuota&#34;
+</span></span><span style=display:flex><span>KUBE_API_ARGS=&#34;&#34;
+</span></span></code></pre></div></li><li><p>启动 etcd、kube-apiserver、kube-controller-manager、kube-scheduler、docker 等服务，并设置开机启动。</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=font-weight:700>for</span> service in etcd kube-apiserver kube-controller-manager kube-scheduler docker; <span style=font-weight:700>do</span> systemctl restart <span style=color:#666;font-weight:700;font-style:italic>$service</span>;systemctl <span style=font-weight:700;font-style:italic>enable</span> <span style=color:#666;font-weight:700;font-style:italic>$service</span>;systemctl status <span style=color:#666;font-weight:700;font-style:italic>$service</span> ; <span style=font-weight:700>done</span>
+</span></span></code></pre></div></li></ol><h1 id=node-节点配置>node 节点配置</h1><p>登录到各个 node 节点上（包括即作为 master 也作为 node 的 k8s-node1 节点），执行以下操作。</p><ol><li><p>为 flannel 网络指定 etcd 服务，修改<code>/etc/sysconfig/flanneld</code>文件:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>FLANNEL_ETCD=&#34;http://192.168.12.81:2379&#34;
+</span></span><span style=display:flex><span>FLANNEL_ETCD_KEY=&#34;/atomic.io/network&#34;
+</span></span><span style=display:flex><span>FLANNEL_OPTIONS=&#34;--iface=enp0s8&#34;
+</span></span></code></pre></div><p>etcd和flannel用于配置容器的跨主机通信，具体见<a href=./struct/etcd--flannel/>etcd & flannel</a></p></li><li><p>修改<code>/etc/kubernetes/config</code>文件:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>KUBE_LOGTOSTDERR=&#34;--logtostderr=true&#34;
+</span></span><span style=display:flex><span>KUBE_LOG_LEVEL=&#34;--v=0&#34;
+</span></span><span style=display:flex><span>KUBE_ALLOW_PRIV=&#34;--allow-privileged=false&#34;
+</span></span><span style=display:flex><span>KUBE_MASTER=&#34;--master=http://192.168.12.81:8080&#34;
+</span></span></code></pre></div></li><li><p>修改kubelet配置文件<code>/etc/kubernetes/kubelet</code>:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>KUBELET_ADDRESS=&#34;--address=0.0.0.0&#34;
+</span></span><span style=display:flex><span>KUBELET_PORT=&#34;--port=10250&#34;
+</span></span><span style=display:flex><span>#这里的KUBELET_HOSTNAME是该node的ip地址
+</span></span><span style=display:flex><span>KUBELET_HOSTNAME=&#34;--hostname-override=192.168.12.82&#34;
+</span></span><span style=display:flex><span>KUBELET_API_SERVER=&#34;--api-servers=http://192.168.12.81:8080&#34;
+</span></span><span style=display:flex><span>KUBELET_POD_INFRA_CONTAINER=&#34;--pod-infra-container-image=registry.cn-hangzhou.aliyuncs.com/architect/pod-infrastructure&#34;
+</span></span><span style=display:flex><span>KUBELET_ARGS=&#34;&#34;
+</span></span></code></pre></div><p>这里的<code>KUBELET_POD_INFRA_CONTAINER</code>默认的镜像需要翻墙，这里改成了阿里云的镜像，便于下载。</p></li><li><p>在所有 Node节点上启动 kube-proxy,kubelet,docker,flanneld 等服务，并设置开机启动。</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=font-weight:700>for</span> service in kube-proxy kubelet docker flanneld;<span style=font-weight:700>do</span> systemctl restart <span style=color:#666;font-weight:700;font-style:italic>$service</span>;systemctl <span style=font-weight:700;font-style:italic>enable</span> <span style=color:#666;font-weight:700;font-style:italic>$service</span>;systemctl status <span style=color:#666;font-weight:700;font-style:italic>$service</span>; <span style=font-weight:700>done</span>
+</span></span></code></pre></div></li></ol><h1 id=查看集群状态>查看集群状态</h1><p>在master节点 k8s-node1 上执行<code>kubectl get nodes</code>:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl get nodes
+</span></span><span style=display:flex><span>NAME            STATUS    AGE
+</span></span><span style=display:flex><span>192.168.12.81   Ready     22h
+</span></span><span style=display:flex><span>192.168.12.82   Ready     22h
+</span></span><span style=display:flex><span>192.168.12.83   Ready     22h
+</span></span><span style=display:flex><span>192.168.12.84   Ready     22h
+</span></span></code></pre></div><p>看到节点的状态是 ready 说明集群已经搭建成功。</p><h1 id=配置dashboard>配置dashboard</h1><p>部署文件 dashboard.yml 如下：</p><details><summary>dashboard deploy</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>---</span>
+</span></span><span style=display:flex><span>apiVersion: extensions/v1beta1
+</span></span><span style=display:flex><span>kind: Deployment
+</span></span><span style=display:flex><span>metadata:
+</span></span><span style=display:flex><span>  name: kubernetes-dashboard-v1.7.1
+</span></span><span style=display:flex><span>  namespace: kube-system
+</span></span><span style=display:flex><span>spec:
+</span></span><span style=display:flex><span>  replicas: 1
+</span></span><span style=display:flex><span>  template:
+</span></span><span style=display:flex><span>    metadata:
+</span></span><span style=display:flex><span>      labels:
+</span></span><span style=display:flex><span>        k8s-app: kubernetes-dashboard
+</span></span><span style=display:flex><span>        version: v1.7.1
+</span></span><span style=display:flex><span>        kubernetes.io/cluster-service: <span style=color:#666;font-style:italic>&#34;true&#34;</span>
+</span></span><span style=display:flex><span>    spec:
+</span></span><span style=display:flex><span>      containers:
+</span></span><span style=display:flex><span>      - name: kubernetes-dashboard
+</span></span><span style=display:flex><span>        image: registry.cn-hangzhou.aliyuncs.com/google-containers/kubernetes-dashboard-amd64
+</span></span><span style=display:flex><span>        resources:
+</span></span><span style=display:flex><span>          limits:
+</span></span><span style=display:flex><span>            cpu: 100m
+</span></span><span style=display:flex><span>            memory: 50Mi
+</span></span><span style=display:flex><span>          requests:
+</span></span><span style=display:flex><span>            cpu: 100m
+</span></span><span style=display:flex><span>            memory: 50Mi
+</span></span><span style=display:flex><span>        ports:
+</span></span><span style=display:flex><span>        - containerPort: 9090
+</span></span><span style=display:flex><span>        args:
+</span></span><span style=display:flex><span>         -  --apiserver-host=http://192.168.12.81:8080
+</span></span><span style=display:flex><span>        livenessProbe:
+</span></span><span style=display:flex><span>          httpGet:
+</span></span><span style=display:flex><span>            path: /
+</span></span><span style=display:flex><span>            port: 9090
+</span></span><span style=display:flex><span>          initialDelaySeconds: 30
+</span></span><span style=display:flex><span>          timeoutSeconds: 30
+</span></span><span style=display:flex><span><span style=color:#666;font-weight:700;font-style:italic>---</span>
+</span></span><span style=display:flex><span>apiVersion: v1
+</span></span><span style=display:flex><span>kind: Service
+</span></span><span style=display:flex><span>metadata:
+</span></span><span style=display:flex><span>  name: kubernetes-dashboard
+</span></span><span style=display:flex><span>  namespace: kube-system
+</span></span><span style=display:flex><span>  labels:
+</span></span><span style=display:flex><span>    k8s-app: kubernetes-dashboard
+</span></span><span style=display:flex><span>    kubernetes.io/cluster-service: <span style=color:#666;font-style:italic>&#34;true&#34;</span>
+</span></span><span style=display:flex><span>spec:
+</span></span><span style=display:flex><span>  selector:
+</span></span><span style=display:flex><span>    k8s-app: kubernetes-dashboard
+</span></span><span style=display:flex><span>  ports:
+</span></span><span style=display:flex><span>  - port: 80
+</span></span><span style=display:flex><span>    targetPort: 9090
+</span></span></code></pre></div></details><p>在master节点192.168.12.81上执行</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl apply -f dashboard.yml
+</span></span></code></pre></div><p>等待 pod 部署好后，访问<code>192.168.12.81:8080/ui</code>即可看到 dashboard 的界面。</p></article></div></main><div><h4 id=signature>Mon Dec 4, 2017
+cheon</h4><ul class=tags><li><a href=https://number317.github.io/blog/tags/k8s>k8s</a></li></ul><ul class=related><li><a class=previous href=https://number317.github.io/blog/struct/maven_nexus/>Maven & Nexus</a></li><li><a class=next href=https://number317.github.io/blog/struct/fluentd_config/>Fluentd Config</a></li></ul></div></div><section id=footer><div id=author><h2>About Author</h2><hr><img src=https://number317.github.io/images/author.jpg></img><p>Life is dance we all have to do.</p></div><ul id=link><li><a href=https://github.com/number317/aloha.git target=_blank><i class="fa fa-github" alt=github></i></a></li><li><a href="mailto:cheon0112358d@gmail.com?subject=blog%27s%20feedback" target=_blank><i class="fa fa-envelope" alt=email></i></a></li><li id=wechat><i class="fa fa-wechat"></i></li><img class=qrcode src=https://number317.github.io/images/wechat.jpg></ul></section></body></html>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Iptables on cheon's blog</title><link>https://number317.github.io/blog/tags/iptables/</link><description>Recent content in Iptables on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Wed, 18 Sep 2019 15:59:10 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/iptables/index.xml" rel="self" type="application/rss+xml"/><item><title>Iptables Intro</title><link>https://number317.github.io/blog/system/iptables_intro/</link><pubDate>Thu, 26 Apr 2018 08:32:31 +0800</pubDate><guid>https://number317.github.io/blog/system/iptables_intro/</guid><description>&lt;h1 id="iptables-介绍">iptables 介绍&lt;/h1>
+&lt;h2 id="基本概念">基本概念&lt;/h2>
+&lt;ul>
+&lt;li>iptables 可以检测、修改、转发、重定向和丢弃IPV4数据包。&lt;/li>
+&lt;li>表(tables)
+&lt;ul>
+&lt;li>raw: 用于配置数据包&lt;/li>
+&lt;li>filter: 存放所有与防火墙相关操作的表&lt;/li>
+&lt;li>nat: 用于网络地址转换&lt;/li>
+&lt;li>mangle: 用于对特定数据包的修改&lt;/li>
+&lt;li>security: 用于强制访问控制&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>链(chains): INPUT, OUTPUT, FORWARD, PREROUTING,POSTROUTING&lt;/li>
+&lt;li>规则(rules): 过滤数据包&lt;/li>
+&lt;li>模块(modules): 用于扩展iptables，进行更复杂的过滤&lt;/li>
+&lt;/ul>
+&lt;h2 id="工作流程">工作流程&lt;/h2>
+&lt;p>&lt;img src="https://number317.github.io/blog/system/images/iptables_intro_img1.jpg" alt="iptables 流程图">&lt;/p>
+&lt;p>第一个路由策略包括决定数据包的目的地是本地主机（这种情况下，数据包穿过 INPUT 链），还是其他主机（数据包穿过 FORWARD 链）；&lt;/p>
+&lt;p>中间的路由策略包括决定给传出的数据包使用那个源地址、分配哪个接口；&lt;/p>
+&lt;p>最后一个路由策略存在是因为 mangle 与 nat 链可能会改变数据包的路由信息。&lt;/p>
+&lt;p>数据包通过路径上的每一条链时，链中的每一条规则按顺序匹配；无论何时匹配了一条规则，相应的 target/jump 动作将会执行。最常用的3个 target 是 ACCEPT, DROP ,或者 jump 到用户自定义的链。内置的链有默认的策略，但是用户自定义的链没有默认的策略。在 jump 到的链中，若每一条规则都不能提供完全匹配，那么数据包返回到调用链。在任何时候，若 DROP target 的规则实现完全匹配，那么被匹配的数据包会被丢弃，不会进行进一步处理。如果一个数据包在链中被 ACCEPT，那么它也会被所有的父链 ACCEPT，并且不再遍历其他父链。然而，要注意的是，数据包还会以正常的方式继续遍历其他表中的其他链。&lt;/p>
+&lt;h2 id="常用选项">常用选项&lt;/h2>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th style="text-align: left">参数类型&lt;/th>
+ &lt;th style="text-align: right">可选项&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td style="text-align: left">表&lt;/td>
+ &lt;td style="text-align: right">filter, nat&amp;hellip;&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">链&lt;/td>
+ &lt;td style="text-align: right">INPUT, OUTPUT, FORWARD, PREOUTING（修改目标ip地址）, POSTROUTING（修改源ip地址）&amp;hellip;&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">匹配属性&lt;/td>
+ &lt;td style="text-align: right">源、目标IP，协议（TCP,UDP,ICMP&amp;hellip;），端口号，网卡接口&amp;hellip;&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">模块&lt;/td>
+ &lt;td style="text-align: right">conntrack, multiport, connlimit&amp;hellip;&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">动作&lt;/td>
+ &lt;td style="text-align: right">ACCEPT, DROP, RETURN, REJECT&amp;hellip;&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="配置运行">配置运行&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-style:italic"># systemctl start iptables&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>启动时会读取&lt;code>/etc/iptables/iptables.rules&lt;/code>文件载入规则，如果配置文件不存在会报错
+可以直接生成一个空的iptables.rules文件设定空规则&lt;code>touch /etc/iptables/iptables.rules&lt;/code>&lt;/p></description></item></channel></rss>

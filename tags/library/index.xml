@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Library on cheon's blog</title><link>https://number317.github.io/blog/tags/library/</link><description>Recent content in Library on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/library/index.xml" rel="self" type="application/rss+xml"/><item><title>GNU Argp</title><link>https://number317.github.io/blog/c/gnu_argp/</link><pubDate>Thu, 28 Nov 2019 15:21:52 +0800</pubDate><guid>https://number317.github.io/blog/c/gnu_argp/</guid><description>&lt;h1 id="gnu-argp-库">GNU Argp 库&lt;/h1>
+&lt;p>c 命令行程序中的参数处理是很常见的需求，要做到这点我们可以用 GNU 的标准库 argp，大部分 GNU 组件都用这个库来解析参数。&lt;/p>
+&lt;h2 id="前置知识">前置知识&lt;/h2>
+&lt;h3 id="从一个示例开始">从一个示例开始&lt;/h3>
+&lt;p>先来看一个例子:&lt;/p>
+&lt;details>
+&lt;summary> &lt;code>sum --help&lt;/code> &lt;/summary>
+&lt;pre>&lt;code>sum --help
+Usage: sum [OPTION]... [FILE]...
+Print checksum and block counts for each FILE.
+
+With no FILE, or when FILE is -, read standard input.
+
+ -r use BSD sum algorithm, use 1K blocks
+ -s, --sysv use System V sum algorithm, use 512 bytes blocks
+ --help display this help and exit
+ --version output version information and exit
+
+GNU coreutils online help: &amp;lt;https://www.gnu.org/software/coreutils/&amp;gt;
+Full documentation &amp;lt;https://www.gnu.org/software/coreutils/sum&amp;gt;
+or available locally via: info '(coreutils) sum invocation'
+&lt;/code>&lt;/pre>
+&lt;/details>
+&lt;p>这是一个调用 &lt;code>--help&lt;/code> 选项常见的输出。受到 BNF 影响， &lt;code>[]&lt;/code> 意味着是可选的项， &lt;code>...&lt;/code> 意味着是可重复的项。因此上面的输出意味着 &lt;code>sum&lt;/code> 命令可以有 0 个或多个选项，可以有 0 个或多个文件。&lt;/p></description></item><item><title>Low Level I/O</title><link>https://number317.github.io/blog/c/low_level_io/</link><pubDate>Tue, 27 Aug 2019 09:07:47 +0800</pubDate><guid>https://number317.github.io/blog/c/low_level_io/</guid><description>&lt;h1 id="底层-io">底层 I/O&lt;/h1>
+&lt;p>任务由标准 I/O 库函数执行，即缓冲和输入/输出转换，不总是可取的。例如，直接和诸如磁带驱动器之类的设备执行输入和输出时，程序员需要能够确定缓冲区要使用的大小，而不是让 stdio 的函数执行它。当然，系统提供这一层级的控制。标准 I/O 库是底层 I/O 库的一个用户友好的接口。&lt;/p>
+&lt;h2 id="文件描述符">文件描述符&lt;/h2>
+&lt;p>在标准 I/O 中，文件由文件指针引用。使用底层接口时，文件由文件描述符引用，由一个简单的整数来指代。在标准 I/O 中，有三个预先定义的文件描述符，0,1,2，分别指向标准输入，标准输出和标准错误输出。&lt;/p>
+&lt;p>不同于标准 I/O 库，为标准输入输出提供了速记函数，所有的底层 I/O 函数需要一个合适的文件描述符传递给它们。&lt;/p>
+&lt;h2 id="打开和创建文件">打开和创建文件&lt;/h2>
+&lt;p>&lt;code>open&lt;/code> 函数用于打开一个文件用于读写或创建。它接收三个参数：要打开文件名的字符串，一个整数指定文件的打开方式，一个整数 &lt;code>mode&lt;/code> 当创建一个文件。成功时，它返回一个整数的文件描述符，失败时返回 -1。第二个参数在 &lt;code>sys/file.h&lt;/code>(Berkeley) 或 &lt;code>sys/fcntl.h&lt;/code>(System V)中定义如下：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>O_RDONLY&lt;/code> 只读模式&lt;/li>
+&lt;li>&lt;code>O_WRONLY&lt;/code> 只写模式&lt;/li>
+&lt;li>&lt;code>O_RDWR&lt;/code> 读写模式&lt;/li>
+&lt;li>&lt;code>O_APPEND&lt;/code> 追加模式&lt;/li>
+&lt;li>&lt;code>O_CREAT&lt;/code> 创建文件如果不存在，这个模式应该给出第三个参数&lt;/li>
+&lt;li>&lt;code>O_TRUNC&lt;/code> 截断文件长度为0用于写&lt;/li>
+&lt;li>&lt;code>O_EXCL&lt;/code> 返回错误如果创建文件时文件存在&lt;/li>
+&lt;li>&lt;code>O_NDELAY&lt;/code> 打开文件时不阻塞&lt;/li>
+&lt;/ul>
+&lt;h2 id="关闭文件">关闭文件&lt;/h2>
+&lt;p>&lt;code>close&lt;/code> 函数用于关闭文件，只接收一个参数，引用于要关闭文件的文件描述符。成功时返回0；出错时返回-1。&lt;/p>
+&lt;h2 id="读写文件">读写文件&lt;/h2>
+&lt;p>在底层接口中读写文件只有一个办法，一次一个缓冲区。缓冲区大小留给程序员定义，需要确定一个合适的值。例如，如果一个程序一侧值读写一个字符而不是几千个字符，操作系统将为每个字符都访问一次硬盘（或其他设备），导致程序执行非常缓慢。&lt;/p>
+&lt;p>&lt;code>read&lt;/code> 系统调用接收三个参数：一个文件描述符用于读取，一个指针指向缓冲区等待填写数据，一个整数表示要读取的字节数。返回实际读取的字节数，或者出错时返回 -1，到达文件末尾时返回 0。&lt;/p>
+&lt;p>&lt;code>write&lt;/code> 系统调用接收三个参数：一个文件描述符用于写入，一个指针指向缓冲区存放要写的数据，一个整数表示要写入的字节数。返回实际写入的字节数，或者出错时返回 -1。&lt;/p>
+&lt;p>下面的代码实现了文件追加的功能：&lt;/p>
+&lt;details>
+&lt;summary>code&lt;/summary>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c" data-lang="c">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-weight:bold">#include&lt;/span> &lt;span style="color:#888;font-weight:bold">&amp;lt;unistd.h&amp;gt;&lt;/span>&lt;span style="color:#888;font-weight:bold">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-weight:bold">#include&lt;/span> &lt;span style="color:#888;font-weight:bold">&amp;lt;fcntl.h&amp;gt;&lt;/span>&lt;span style="color:#888;font-weight:bold">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-weight:bold">#include&lt;/span> &lt;span style="color:#888;font-weight:bold">&amp;lt;stdio.h&amp;gt;&lt;/span>&lt;span style="color:#888;font-weight:bold">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-weight:bold">#include&lt;/span> &lt;span style="color:#888;font-weight:bold">&amp;lt;string.h&amp;gt;&lt;/span>&lt;span style="color:#888;font-weight:bold">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#888;font-weight:bold">&lt;/span>&lt;span style="font-weight:bold">int&lt;/span> &lt;span style="color:#666;font-weight:bold;font-style:italic">main&lt;/span>(&lt;span style="font-weight:bold">int&lt;/span> argc, &lt;span style="font-weight:bold">char&lt;/span> *argv[]) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">int&lt;/span> n;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">int&lt;/span> from, to;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">char&lt;/span> buf[1024];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">if&lt;/span>(argc!=3) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-weight:bold;font-style:italic">write&lt;/span>(2, &lt;span style="color:#666;font-style:italic">&amp;#34;Usage: &amp;#34;&lt;/span>, 7);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-weight:bold;font-style:italic">write&lt;/span>(2, *argv, &lt;span style="color:#666;font-weight:bold;font-style:italic">strlen&lt;/span>(*argv));
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-weight:bold;font-style:italic">write&lt;/span>(2, &lt;span style="color:#666;font-style:italic">&amp;#34;from-file to-file&lt;/span>&lt;span style="color:#666;font-style:italic">\n&lt;/span>&lt;span style="color:#666;font-style:italic">&amp;#34;&lt;/span>, 19);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> 1;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">if&lt;/span> ((from=&lt;span style="color:#666;font-weight:bold;font-style:italic">open&lt;/span>(argv[1], O_RDONLY))&amp;lt;0) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-weight:bold;font-style:italic">perror&lt;/span>(argv[1]);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> 1;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">if&lt;/span>((to=&lt;span style="color:#666;font-weight:bold;font-style:italic">open&lt;/span>(argv[2], O_WRONLY|O_CREAT|O_APPEND, 0644))&amp;lt;0) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-weight:bold;font-style:italic">perror&lt;/span>(argv[2]);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> 1;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">while&lt;/span> (( n = &lt;span style="color:#666;font-weight:bold;font-style:italic">read&lt;/span>(from, buf, &lt;span style="font-weight:bold">sizeof&lt;/span>(buf)))&amp;gt;0)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-weight:bold;font-style:italic">write&lt;/span>(to, buf, n);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-weight:bold;font-style:italic">close&lt;/span>(from);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#666;font-weight:bold;font-style:italic">close&lt;/span>(to);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> 0;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/details>
+&lt;h2 id="在文件中移动">在文件中移动&lt;/h2>
+&lt;p>底层 I/O 库中在文件中移动调用 &lt;code>lseek&lt;/code> 函数。就像 &lt;code>fseek&lt;/code>，它接收三个参数：一个文件描述符指向一个打开的文件，一个长整型指定移动的字节数，称为偏移量，一个整型指定偏移量的起始位置。&lt;code>L_SET&lt;/code>，即 0，设置为文件起始位置；&lt;code>L_INCR&lt;/code>，即 1，设置为文件当前位置；&lt;code>L_XTND&lt;/code>，即 2，设置为文件末尾位置。&lt;code>lseek&lt;/code> 返回新的相对于文件起始的偏移量。要移动到文件末尾，调用 &lt;code>lseek(fd, 0L, L_XTND)&lt;/code>。要移动到文件开头，调用 &lt;code>lseek(fd, 0L, L_SET)&lt;/code>。&lt;/p></description></item><item><title>Standard I/O</title><link>https://number317.github.io/blog/c/standard_io/</link><pubDate>Fri, 23 Aug 2019 09:29:15 +0800</pubDate><guid>https://number317.github.io/blog/c/standard_io/</guid><description>&lt;h1 id="c-常用标准输入输出">c 常用标准输入输出&lt;/h1>
+&lt;p>在 c 程序中，常使用标准 I/O 库(stdio)中的方法来实现输入输出操作。这些方法是高层次的输入输出，因为他们有三个重要的功能:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>缓冲区自动操作。相对于一次写入几个字节数据，这些方法实际上一次可以写入一大块数据，通常有数千个字节。缓冲区的大小在 &lt;code>stdio.h&lt;/code> 的常量 &lt;code>BUFSIZ&lt;/code> 定义。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>输入和输出的转换。例如当使用 &lt;code>printf&lt;/code> 来打印一个整数(用 &lt;code>%d&lt;/code> 控制)，代表那个整数的字符将会被打印。相似的，当使用 &lt;code>scanf&lt;/code>，代表那个数字的字符被转换成数值。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>输入和输出自动格式化。你可以指定宽度以及其他任何格式来打印数字和字符串。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="文件指针">文件指针&lt;/h2>
+&lt;p>在标准 I/O 库中，一个文件被称为一个流(stream)，用一个指向 &lt;code>FILE&lt;/code> 类型的对象指针来描述，叫做文件指针(&lt;code>file pointer&lt;/code>)。&lt;code>FILE&lt;/code> 文件类型在 &lt;code>stdio.h&lt;/code> 中定义。有三个预先定义好的文件指针：&lt;code>stdin&lt;/code>，&lt;code>stdout&lt;/code>，&lt;code>stderr&lt;/code>，分别代表标准输入（键盘），标准输出（终端屏幕），和标准错误输出。&lt;/p>
+&lt;p>大多数标准输入输出库中的函数需要一个文件指针代表一个打开的流作为参数。当从标准输入读取数据或输出到标准输出时，标准 I/O 库提供了一些速记函数来指定这些流而无需再传递参数。下表指明了这些速记函数和他们的等价函数:&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th style="text-align: left">Shorthand&lt;/th>
+ &lt;th style="text-align: left">Equivalent&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;code>getchar()&lt;/code>&lt;/td>
+ &lt;td style="text-align: left">&lt;code>fgetc(stdin)&lt;/code>, &lt;code>getc(stdin)&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;code>gets(buf)&lt;/code>&lt;/td>
+ &lt;td style="text-align: left">&lt;code>fgets(buf, BUFSIZ, stdin)&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;code>printf(args)&lt;/code>&lt;/td>
+ &lt;td style="text-align: left">&lt;code>fprintf(stdout, args)&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;code>putchar(c)&lt;/code>&lt;/td>
+ &lt;td style="text-align: left">&lt;code>fputc(c, stdout)&lt;/code>, &lt;code>putc(c, stdout)&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;code>puts(buf)&lt;/code>&lt;/td>
+ &lt;td style="text-align: left">&lt;code>fputs(buf, stdout)&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td style="text-align: left">&lt;code>scanf(args)&lt;/code>&lt;/td>
+ &lt;td style="text-align: left">&lt;code>fscanf(stdin, args)&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="打开和创建文件">打开和创建文件&lt;/h2>
+&lt;p>为了能够从文件读或写入文件，那个文件必须被打开用于读写。&lt;code>fopen&lt;/code> 函数就是用于这个目的。这个函数读取两个参数：一个字符串代表文件名，一个字符串用于描述文件被怎样打开。它返回一个打开的 &lt;code>FILE&lt;/code> 文件流，或者如果无法打开指定文件时会返回常量 &lt;code>NULL&lt;/code>。&lt;code>fopen&lt;/code> 的第二个参数可以是以下值：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>r&lt;/code>: 文件会以只读模式打开。文件必须存在且有读的权限。&lt;/li>
+&lt;li>&lt;code>w&lt;/code>: 文件会以只写模式打开。如果文件不存在，会创建一个空文件。如果文件已存在，文件原有内容会被清空。&lt;/li>
+&lt;li>&lt;code>a&lt;/code>: 文件会以只写模式打开。如果文件不存在，会创建一个空文件。如果文件已存在，文件原有内容不会被清空。新写的数据会追加到文件末尾。&lt;/li>
+&lt;/ul>
+&lt;p>另外，一个加号 &lt;code>+&lt;/code> 可以添加到上述值的后面，表示文件以可读可写的模式打开。&lt;code>r+&lt;/code> 需要文件已存在，不会清空数据。&lt;code>w+&lt;/code> 和 &lt;code>a+&lt;/code> 会创建文件如果文件不存在。&lt;/p></description></item></channel></rss>

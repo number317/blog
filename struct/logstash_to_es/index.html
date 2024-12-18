@@ -1,0 +1,167 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.googleapis.com/css?family=Fira+Mono|Noto+Sans+SC|Old+Standard+TT&display=swap" rel=stylesheet><link href=//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
+<a href=https://number317.github.io/blog/>cheon's blog</a></li><li>»
+<a href=https://number317.github.io/blog/struct/>struct</a></li><li class=active>»
+<a href=https://number317.github.io/blog/struct/logstash_to_es/>Logstash to ES</a></li></ul><div id=content><main id=main><h1>Logstash to ES</h1><time>Last updated Tue Dec 17, 2024</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents></nav></aside><article id=content><h1 id=logstash-配置日志发送-es>logstash 配置日志发送 ES</h1><p>日志收集的架构如下所示:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>┌────────────┐
+</span></span><span style=display:flex><span>│Java logback│\
+</span></span><span style=display:flex><span>└────────────┘ \
+</span></span><span style=display:flex><span>                  ┌─────┐      ┌────────┐      ┌──────┐      ┌────────┐
+</span></span><span style=display:flex><span>                  │kafka│ ───&gt; │logstash│ ───&gt; │  ES  │ ───&gt; │ kibana │
+</span></span><span style=display:flex><span>                  └─────┘      └────────┘      └──────┘      └────────┘
+</span></span><span style=display:flex><span>┌────────────┐ /
+</span></span><span style=display:flex><span>│Java logback│/
+</span></span><span style=display:flex><span>└────────────┘
+</span></span></code></pre></div><p>java 应用日志通过 logback 发送给 kafka，logstash 从 kafka 消费日志，并将日志转发给 ES。一开始一个应用一个 kafka topic，logstash 消费了之后根据 topic 来确定 ES 的索引。</p><p>logback 的配置:</p><details><summary>logback.xml</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span>&lt;appender name=<span style=color:#666;font-style:italic>&#34;KAFKA&#34;</span> class=<span style=color:#666;font-style:italic>&#34;com.github.danielwegener.logback.kafka.KafkaAppender&#34;</span>&gt;
+</span></span><span style=display:flex><span>  &lt;encoder class=<span style=color:#666;font-style:italic>&#34;ch.qos.logback.classic.encoder.PatternLayoutEncoder&#34;</span>  charset=<span style=color:#666;font-style:italic>&#34;UTF-8&#34;</span> &gt;
+</span></span><span style=display:flex><span>      &lt;pattern&gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n&lt;/pattern&gt;
+</span></span><span style=display:flex><span>  &lt;/encoder&gt;
+</span></span><span style=display:flex><span>  &lt;topic&gt;spring-boot-demo&lt;/topic&gt;
+</span></span><span style=display:flex><span>  &lt;keyingStrategy class=<span style=color:#666;font-style:italic>&#34;com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy&#34;</span>/&gt;
+</span></span><span style=display:flex><span>  &lt;deliveryStrategy class=<span style=color:#666;font-style:italic>&#34;com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy&#34;</span>/&gt;
+</span></span><span style=display:flex><span>  &lt;producerConfig&gt;bootstrap.servers=192.168.0.107:9092&lt;/producerConfig&gt;
+</span></span><span style=display:flex><span>　 　　&lt;producerConfig&gt;retries=1&lt;/producerConfig&gt;
+</span></span><span style=display:flex><span>　 　　&lt;producerConfig&gt;batch-size=16384&lt;/producerConfig&gt;
+</span></span><span style=display:flex><span>　 　　&lt;producerConfig&gt;buffer-memory=33554432&lt;/producerConfig&gt;
+</span></span><span style=display:flex><span>　 　　&lt;producerConfig&gt;properties.max.request.size==2097152&lt;/producerConfig&gt;
+</span></span><span style=display:flex><span>&lt;/appender&gt;
+</span></span><span style=display:flex><span>&lt;logger name=<span style=color:#666;font-style:italic>&#34;com.cheon.demo&#34;</span> level=<span style=color:#666;font-style:italic>&#34;INFO&#34;</span> additivity=<span style=color:#666;font-style:italic>&#34;false&#34;</span>&gt;
+</span></span><span style=display:flex><span>    &lt;appender-ref ref=<span style=color:#666;font-style:italic>&#34;KAFKA&#34;</span> /&gt;
+</span></span><span style=display:flex><span>&lt;/logger&gt;
+</span></span></code></pre></div></details><p>pom 文件依赖:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span>&lt;dependency&gt;
+</span></span><span style=display:flex><span>  &lt;groupId&gt;com.github.danielwegener&lt;/groupId&gt;
+</span></span><span style=display:flex><span>  &lt;artifactId&gt;logback-kafka-appender&lt;/artifactId&gt;
+</span></span><span style=display:flex><span>  &lt;version&gt;0.2.0-RC2&lt;/version&gt;
+</span></span><span style=display:flex><span>&lt;/dependency&gt;
+</span></span></code></pre></div><p>logstash 配置:</p><details><summary>logstash.conf</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>input {
+</span></span><span style=display:flex><span>    kafka {
+</span></span><span style=display:flex><span>        id =&gt; &#34;spring-boot-demo&#34;
+</span></span><span style=display:flex><span>        bootstrap_servers =&gt; &#34;192.168.0.107:9092&#34;
+</span></span><span style=display:flex><span>        group_id =&gt; &#34;spring-boot-demo&#34;
+</span></span><span style=display:flex><span>        topics_pattern =&gt; &#34;spring-boot-demo&#34;
+</span></span><span style=display:flex><span>        consumer_threads =&gt; 3
+</span></span><span style=display:flex><span>        decorate_events =&gt; true
+</span></span><span style=display:flex><span>        auto_offset_reset =&gt; &#34;earliest&#34;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>filter {
+</span></span><span style=display:flex><span>    ruby {
+</span></span><span style=display:flex><span>        code =&gt; &#34;event.set(&#39;timestamp&#39;, event.get(&#39;@timestamp&#39;).time.localtime)&#34;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    ruby {
+</span></span><span style=display:flex><span>        code =&gt; &#34;event.set(&#39;@timestamp&#39;, event.get(&#39;timestamp&#39;))&#34;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    mutate {
+</span></span><span style=display:flex><span>        remove_field =&gt; [&#34;timestamp&#34;]
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>output {
+</span></span><span style=display:flex><span>    stdout{
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    elasticsearch {
+</span></span><span style=display:flex><span>       hosts =&gt; &#34;http://192.168.0.112:9200&#34;
+</span></span><span style=display:flex><span>       index =&gt; &#34;%{[@metadata][kafka][topic]}-%{+YYYY-MM-dd}&#34;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></details><p>正常运行了一段时间之后，日志发送 kafka 报错了。查看了才发现是 kafka topic 数量达到限制了。改变方案，将同一项目下应用的日志发送给一个 topic，在日志开头添加索引字段用于区分 ES 索引。</p><p>修改后的 logback 的配置:</p><details><summary>logback.xml</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span>&lt;appender name=<span style=color:#666;font-style:italic>&#34;KAFKA&#34;</span> class=<span style=color:#666;font-style:italic>&#34;com.github.danielwegener.logback.kafka.KafkaAppender&#34;</span>&gt;
+</span></span><span style=display:flex><span>  &lt;encoder class=<span style=color:#666;font-style:italic>&#34;ch.qos.logback.classic.encoder.PatternLayoutEncoder&#34;</span>  charset=<span style=color:#666;font-style:italic>&#34;UTF-8&#34;</span> &gt;
+</span></span><span style=display:flex><span>      &lt;pattern&gt;[spring-app1-demo] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n&lt;/pattern&gt;
+</span></span><span style=display:flex><span>  &lt;/encoder&gt;
+</span></span><span style=display:flex><span>  &lt;topic&gt;spring-boot-demo&lt;/topic&gt;
+</span></span><span style=display:flex><span>  &lt;keyingStrategy class=<span style=color:#666;font-style:italic>&#34;com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy&#34;</span>/&gt;
+</span></span><span style=display:flex><span>  &lt;deliveryStrategy class=<span style=color:#666;font-style:italic>&#34;com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy&#34;</span>/&gt;
+</span></span><span style=display:flex><span>  &lt;producerConfig&gt;bootstrap.servers=192.168.0.107:9092&lt;/producerConfig&gt;
+</span></span><span style=display:flex><span>　 　　&lt;producerConfig&gt;retries=1&lt;/producerConfig&gt;
+</span></span><span style=display:flex><span>　 　　&lt;producerConfig&gt;batch-size=16384&lt;/producerConfig&gt;
+</span></span><span style=display:flex><span>　 　　&lt;producerConfig&gt;buffer-memory=33554432&lt;/producerConfig&gt;
+</span></span><span style=display:flex><span>　 　　&lt;producerConfig&gt;properties.max.request.size==2097152&lt;/producerConfig&gt;
+</span></span><span style=display:flex><span>&lt;/appender&gt;
+</span></span><span style=display:flex><span>&lt;logger name=<span style=color:#666;font-style:italic>&#34;com.cheon.demo&#34;</span> level=<span style=color:#666;font-style:italic>&#34;INFO&#34;</span> additivity=<span style=color:#666;font-style:italic>&#34;false&#34;</span>&gt;
+</span></span><span style=display:flex><span>    &lt;appender-ref ref=<span style=color:#666;font-style:italic>&#34;KAFKA&#34;</span> /&gt;
+</span></span><span style=display:flex><span>&lt;/logger&gt;
+</span></span></code></pre></div></details><p>配置中 pattern 最开始 <code>[spring-app1-demo]</code> 的字段即为用于区分 ES 索引的字段。这一部分内容由 logstash 的 grok 模块正则匹配出来。</p><p>修改后的 logstash 配置:</p><details><summary>logstash.conf</summary><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>input {
+</span></span><span style=display:flex><span>    kafka {
+</span></span><span style=display:flex><span>        id =&gt; &#34;spring-boot-demo&#34;
+</span></span><span style=display:flex><span>        bootstrap_servers =&gt; &#34;192.168.0.107:9092&#34;
+</span></span><span style=display:flex><span>        group_id =&gt; &#34;spring-boot-demo&#34;
+</span></span><span style=display:flex><span>        topics_pattern =&gt; &#34;spring-boot-demo&#34;
+</span></span><span style=display:flex><span>        consumer_threads =&gt; 3
+</span></span><span style=display:flex><span>        decorate_events =&gt; true
+</span></span><span style=display:flex><span>        auto_offset_reset =&gt; &#34;earliest&#34;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>filter {
+</span></span><span style=display:flex><span>    ruby {
+</span></span><span style=display:flex><span>        code =&gt; &#34;event.set(&#39;timestamp&#39;, event.get(&#39;@timestamp&#39;).time.localtime)&#34;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    ruby {
+</span></span><span style=display:flex><span>        code =&gt; &#34;event.set(&#39;@timestamp&#39;, event.get(&#39;timestamp&#39;))&#34;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    mutate {
+</span></span><span style=display:flex><span>        remove_field =&gt; [&#34;timestamp&#34;]
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    grok {
+</span></span><span style=display:flex><span>        match =&gt; {
+</span></span><span style=display:flex><span>            &#34;message&#34; =&gt; &#34;\[(?&lt;index_name&gt;[^ ]*)\]&#34;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>output {
+</span></span><span style=display:flex><span>    stdout{
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    elasticsearch {
+</span></span><span style=display:flex><span>       hosts =&gt; &#34;http://192.168.0.112:9200&#34;
+</span></span><span style=display:flex><span>       index =&gt; &#34;%{[@metadata][kafka][topic]}-%{index_name}-%{+YYYY-MM-dd}&#34;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></details><p>根据配置可以预测，ES 的索引应为 <code>spring-boot-demo-spring-app1-demo-2019-07-04</code>。</p><p>运行一段时间后，项目组有新的需求，需要将日志各个字段解析以便于做统计分析。这里就需要修改<code>grok</code>的正则。并且由于一个topic中有多个应用的日志，每个应用的日志格式可能不一样，所以可以写多个正则表达式，匹配不到就用下一个正则。测试 grok 正则可以用<a href=grokdebug.herokuapp.com>grok debugger</a>网站。</p><p>最终的配置:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>input {
+</span></span><span style=display:flex><span>    kafka {
+</span></span><span style=display:flex><span>        id =&gt; &#34;spring-boot-demo&#34;
+</span></span><span style=display:flex><span>        bootstrap_servers =&gt; &#34;192.168.0.107:9092&#34;
+</span></span><span style=display:flex><span>        group_id =&gt; &#34;spring-boot-demo&#34;
+</span></span><span style=display:flex><span>        topics_pattern =&gt; &#34;spring-boot-demo&#34;
+</span></span><span style=display:flex><span>        consumer_threads =&gt; 3
+</span></span><span style=display:flex><span>        decorate_events =&gt; true
+</span></span><span style=display:flex><span>        auto_offset_reset =&gt; &#34;earliest&#34;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>filter {
+</span></span><span style=display:flex><span>    ruby {
+</span></span><span style=display:flex><span>        code =&gt; &#34;event.set(&#39;timestamp&#39;, event.get(&#39;@timestamp&#39;).time.localtime)&#34;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    ruby {
+</span></span><span style=display:flex><span>        code =&gt; &#34;event.set(&#39;@timestamp&#39;, event.get(&#39;timestamp&#39;))&#34;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    mutate {
+</span></span><span style=display:flex><span>        remove_field =&gt; [&#34;timestamp&#34;]
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    grok {
+</span></span><span style=display:flex><span>        match =&gt; {
+</span></span><span style=display:flex><span>            &#34;message&#34; =&gt; [&#34;\[(?&lt;index_name&gt;[A-Za-z\-_0-9]*)\] (?&lt;date&gt;[0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}.[0-9]{3}) (?&lt;level&gt;[A-Z]*) \[[^ ]*\] \- \[[^ ]*\] \[(?&lt;api_id&gt;[^ ]*)\] \[(?&lt;request_addr&gt;[^,]*),(?&lt;request_start&gt;[0-9]*),(?&lt;request_end&gt;[0-9]*),(?&lt;response_time&gt;[0-9]*)\] (?&lt;status&gt;[0-9]*) : (?&lt;request_and_response&gt;.*)&#34;,&#34;\[(?&lt;index_name&gt;[a-zA-Z\-1-9]*)\]&#34;]
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    mutate {
+</span></span><span style=display:flex><span>        convert =&gt; [&#34;response_time&#34;, &#34;integer&#34;]
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>output {
+</span></span><span style=display:flex><span>    stdout{
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    elasticsearch {
+</span></span><span style=display:flex><span>       hosts =&gt; &#34;http://192.168.0.112:9200&#34;
+</span></span><span style=display:flex><span>       index =&gt; &#34;%{[@metadata][kafka][topic]}-%{index_name}-%{+YYYY-MM-dd}&#34;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>注意配置中正则解析结束后还将<code>response_time</code>做了数据类型转化，转成了整数类型，便于分析。</p></article></div></main><div><h4 id=signature>Thu Jul 4, 2019
+cheon</h4><ul class=tags><li><a href=https://number317.github.io/blog/tags/log>log</a></li><li><a href=https://number317.github.io/blog/tags/es>es</a></li></ul><ul class=related><li><a class=previous href=https://number317.github.io/blog/struct/ceph_ansible/>Ceph Ansible</a></li><li><a class=next href=https://number317.github.io/blog/struct/k8s_note/>K8s Note</a></li></ul></div></div><section id=footer><div id=author><h2>About Author</h2><hr><img src=https://number317.github.io/images/author.jpg></img><p>Life is dance we all have to do.</p></div><ul id=link><li><a href=https://github.com/number317/aloha.git target=_blank><i class="fa fa-github" alt=github></i></a></li><li><a href="mailto:cheon0112358d@gmail.com?subject=blog%27s%20feedback" target=_blank><i class="fa fa-envelope" alt=email></i></a></li><li id=wechat><i class="fa fa-wechat"></i></li><img class=qrcode src=https://number317.github.io/images/wechat.jpg></ul></section></body></html>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Archlinux on cheon's blog</title><link>https://number317.github.io/blog/tags/archlinux/</link><description>Recent content in Archlinux on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/archlinux/index.xml" rel="self" type="application/rss+xml"/><item><title>Dell Xps 15 9560 Arch Linux Install</title><link>https://number317.github.io/blog/system/dell_xps_15_9560_arch_linux_install/</link><pubDate>Wed, 28 Mar 2018 10:18:12 +0800</pubDate><guid>https://number317.github.io/blog/system/dell_xps_15_9560_arch_linux_install/</guid><description>&lt;h1 id="dell-xps-15-9560-arch-linux-安装教程">Dell XPS 15 9560 Arch Linux 安装教程&lt;/h1>
+&lt;h2 id="bios设置">BIOS设置&lt;/h2>
+&lt;p>打开电脑，等待出现dell图标时按下&lt;code>F12&lt;/code>键，选择进入BIOS设置页面，进行如下操作&lt;/p>
+&lt;ol>
+&lt;li>将&lt;code>SATA Mode&lt;/code>从默认的&lt;code>RAID&lt;/code>模式修改为&lt;code>AHCI&lt;/code>模式。这样可以允许Linux检测到&lt;code>NVME SSD&lt;/code>。&lt;/li>
+&lt;li>将&lt;code>Fastboot&lt;/code>的选项从&lt;code>POST Behaviour&lt;/code>修改为&lt;code>Thorough&lt;/code>，这样可以防止偶尔的启动错误。&lt;/li>
+&lt;li>关闭安全启动来允许linux启动。&lt;/li>
+&lt;/ol>
+&lt;p>保存后退出，会重启电脑。&lt;/p>
+&lt;h2 id="内核启动参数设置">内核启动参数设置&lt;/h2>
+&lt;p>从U盘启动 Arch Linux 引导镜像：在dell图标出现时按下&lt;code>F12&lt;/code>，选择从U盘启动，在出现启动菜单时，按下&lt;code>e&lt;/code>键，添加以下启动参数：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-fallback" data-lang="fallback">&lt;span style="display:flex;">&lt;span>initrd=\initramfs-linux.img root=/dev/sdb2 acpi_rev_override=1 pci=nommconf nouveau.modeset=0
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这样可以保证系统可以正常关闭和重启，否则关闭和重启时电脑会死机。&lt;/p>
+&lt;h2 id="系统安装">系统安装&lt;/h2>
+&lt;h3 id="tty字体设置">tty字体设置&lt;/h3>
+&lt;p>首先由于4k屏的高分辨率，使得终端字体非常小，应该设置大一点的字体：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>setfont latarcyrheb-sun32
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="网络连接">网络连接&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>wifi-menu
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>根据提示选择wifi，输入密码即可。&lt;/p>
+&lt;h3 id="分区">分区&lt;/h3>
+&lt;p>这里采用lvm并使用cryptsetup来加密磁盘，最终分区如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>NAME MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nvme0n1 259:0 0 477G 0 disk 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├─nvme0n1p1 259:1 0 512M 0 part /boot
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└─nvme0n1p2 259:2 0 476.4G 0 part 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> └─luks 254:0 0 476.4G 0 crypt 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ├─entropy--vg0-root 254:1 0 150G 0 lvm /
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ├─entropy--vg0-home 254:2 0 250G 0 lvm /home
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ├─entropy--vg0-swap 254:3 0 16G 0 lvm [SWAP]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> └─entropy--vg0-backup 254:4 0 10G 0 lvm 
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>磁盘创建两个分区，一个分区用于&lt;code>/boot&lt;/code>，另一个分区用于安装系统。&lt;/p></description></item></channel></rss>
