@@ -20,7 +20,7 @@ function copyCode(elementId, button) {
     });
 }
 
-function addCopyButtonsToIndentedCodeBlocks() {
+function addCodeCopyButton() {
   const codeBlocks = document.querySelectorAll('pre code');
   codeBlocks.forEach((codeBlock) => {
     if (!codeBlock.closest('.code-block')) {
@@ -44,4 +44,30 @@ function addCopyButtonsToIndentedCodeBlocks() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', addCopyButtonsToIndentedCodeBlocks);
+function addImagePreview() {
+  const content = document.getElementById('content');
+  // wait until window.Viewer is ready
+  if (!window.Viewer) {
+    setTimeout(addImagePreview, 1000);
+    return;
+  }
+  const viewer = new Viewer(content, {
+    toolbar: {
+      zoomIn: { show: true },
+      zoomOut: { show: true },
+      oneToOne: { show: true },
+      reset: { show: true },
+      prev: { show: true },
+      play: { show: true },
+      next: { show: true },
+      rotateLeft: { show: true },
+      rotateRight: { show: true },
+      flipHorizontal: { show: true },
+      flipVertical: { show: true },
+    },
+    fullscreen: true,
+  });
+}
+
+document.addEventListener('DOMContentLoaded', addCodeCopyButton);
+document.addEventListener('DOMContentLoaded', addImagePreview);

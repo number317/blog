@@ -22,3 +22,8 @@
 .date {
     font-family: 'Fira Mono', monospace;
 }
+
+.summary {
+    font-size: 0.8rem;
+    color: #b3b3b3;
+}

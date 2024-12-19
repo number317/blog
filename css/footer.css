@@ -22,6 +22,11 @@
     text-align: right;
 }
 
+.page-item {
+  width: 1.2rem;
+  text-align: center;
+}
+
 #author {
     text-align: left;
 }

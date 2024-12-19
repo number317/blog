@@ -6,3 +6,7 @@
     list-style: none;
     display: inline-block;
 }
+
+.active {
+    font-weight: bold;
+}
