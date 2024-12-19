@@ -22,7 +22,7 @@ pygmentsCodefencesGuessSyntax = true
     sitename = "cheon's blog"
     description = "Aloha! Welcome to cheon's blog."
     disableWebFonts = false
-    showSummary = true
+    showSummary = false
 
 [[menu.main]]
     name = "Home"
