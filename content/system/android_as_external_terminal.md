@@ -34,3 +34,9 @@ Android As External Terminal
 切换到新的虚拟显示器并聚焦标签9，以便在切换显示器时自动聚焦 scrcpy 窗口。
 
 现在你可以在安卓设备上打开 Termux 应用，并通过 `ssh` 连接到你的计算机。它就变成了你的 herbstluftwm 的外部终端。你可以通过 herbstulfwm 配置的快捷键来在安卓和计算机之间循环聚焦，并且它们共享同一个键盘。
+
+# 遇到的问题
+
+- 输入法
+
+  Moaan InkpadX 自带的输入法是搜狗输入法，在 `Termux` 中，如果中文输入不生效，需要在 `Termux` 从左侧边缘向右滑动，出现侧边栏，点击 `Keyboard`，这时就可以输入中文了。可以通过 `Shift` 来切换中英文。但是搜狗输入法在英文状态下 Shift 会被强制认定为切换中英文，导致无法输入符号。最后我通过安装 [trime](https://github.com/osfans/trime "trime") 输入法解决了这个问题。
