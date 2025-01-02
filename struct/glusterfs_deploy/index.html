@@ -21,7 +21,9 @@
         end
     end
 end</code></pre><button class=copy-code-button onclick='copyCode("code-0dbaa6085bc2e658d20f713b5fc0fdcc",this)' title=copy>
-<i class="fa fa-copy"></i></button></div><p>该配置文件根据官方<a href=http://docs.gluster.org/en/latest/Quick-Start-Guide/Quickstart/>quick start</a>文档，为虚拟机配置了第二磁盘，用于GlusterFS存储，大小为10G。</p><h2 id=格式化并挂载分区>格式化并挂载分区</h2><p>以下步骤需要在三台虚拟机上都执行一遍，为了方便操作，切换到root用户：</p><ol><li><p>为磁盘创建分区</p><p>通过<code>vagrant ssh</code>命令进入到任意一个节点，执行<code>lsblk</code>命令应该能查看到类似以下输出：</p><div class="code-block code-block-container-indented"><pre><code id=code-631b1e89e5cc7ce743d3439fd8f00c19>[root@gluster-node1 ~]# lsblk
+<i class="fa fa-copy"></i></button></div><p>该配置文件根据官方<a href=http://docs.gluster.org/en/latest/Quick-Start-Guide/Quickstart/ target=_blank rel="noopener noreferrer">
+quick start
+</a>文档，为虚拟机配置了第二磁盘，用于GlusterFS存储，大小为10G。</p><h2 id=格式化并挂载分区>格式化并挂载分区</h2><p>以下步骤需要在三台虚拟机上都执行一遍，为了方便操作，切换到root用户：</p><ol><li><p>为磁盘创建分区</p><p>通过<code>vagrant ssh</code>命令进入到任意一个节点，执行<code>lsblk</code>命令应该能查看到类似以下输出：</p><div class="code-block code-block-container-indented"><pre><code id=code-631b1e89e5cc7ce743d3439fd8f00c19>[root@gluster-node1 ~]# lsblk
 NAME            MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
 sda               8:0    0   40G  0 disk
 ├─sda1            8:1    0  500M  0 part /boot

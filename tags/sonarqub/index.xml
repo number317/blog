@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Sonarqub on cheon's blog</title><link>https://number317.github.io/blog/tags/sonarqub/</link><description>Recent content in Sonarqub on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 14 Jun 2019 01:21:26 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/sonarqub/index.xml" rel="self" type="application/rss+xml"/><item><title>C Sonarcloud</title><link>https://number317.github.io/blog/c/c_sonarcloud/</link><pubDate>Mon, 06 May 2019 14:55:56 +0800</pubDate><guid>https://number317.github.io/blog/c/c_sonarcloud/</guid><description>&lt;h1 id="c-配置-sonarcloud">C 配置 Sonarcloud&lt;/h1>
-&lt;p>SonarQube 用于代码质量分析，可以检测出代码的 bug，代码异味，测试覆盖率等，有助于提高代码质量。SonarCloud 是 SonarQube 的在线使用版本，可以集成 github，travisCI。具体操作可以看&lt;a href="https://sonarcloud.io/documentation">官方文档&lt;/a>。&lt;/p>
-&lt;p>之前写了一个终端管理 ssh 登录的小工具，想着检测一下代码质量，就想到用这个工具来检测一下。由于不需要每次提交都进行质量检测，所以没有集成到 CI 里面，而是在服务器上利用 SonarQube Scanner 手动执行。从&lt;a href="https://sonarcloud.io/dashboard?id=number317_ssh-tool">检测结果&lt;/a>来看，代码中确实有一些 bug 和代码异味。&lt;/p>
+&lt;p>SonarQube 用于代码质量分析，可以检测出代码的 bug，代码异味，测试覆盖率等，有助于提高代码质量。SonarCloud 是 SonarQube 的在线使用版本，可以集成 github，travisCI。具体操作可以看&lt;a href="https://sonarcloud.io/documentation" target="_blank" rel="noopener noreferrer" >
+ 官方文档
+&lt;/a>
+。&lt;/p>
+&lt;p>之前写了一个终端管理 ssh 登录的小工具，想着检测一下代码质量，就想到用这个工具来检测一下。由于不需要每次提交都进行质量检测，所以没有集成到 CI 里面，而是在服务器上利用 SonarQube Scanner 手动执行。从&lt;a href="https://sonarcloud.io/dashboard?id=number317_ssh-tool" target="_blank" rel="noopener noreferrer" >
+ 检测结果
+&lt;/a>
+来看，代码中确实有一些 bug 和代码异味。&lt;/p>
 &lt;h2 id="安装-build-wrapper">安装 build wrapper&lt;/h2>
-&lt;p>在&lt;a href="https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip">下载页&lt;/a>下载 linux 版的 build wrapper，解压出来应该有两个可执行文件。&lt;/p>
+&lt;p>在&lt;a href="https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip" target="_blank" rel="noopener noreferrer" >
+ 下载页
+&lt;/a>
+下载 linux 版的 build wrapper，解压出来应该有两个可执行文件。&lt;/p>
 
 
 &lt;div class="code-block code-block-container-indented">
@@ -18,7 +27,10 @@
 
 &lt;p>可以将该目录加进&lt;code>PATH&lt;/code>变量，方便调用。&lt;/p>
 &lt;h2 id="安装-sonarqube-scanner">安装 SonarQube Scanner&lt;/h2>
-&lt;p>在&lt;a href="https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner">下载页&lt;/a>找到对应的平台，下载压缩包。解压后得到如下目录：&lt;/p>
+&lt;p>在&lt;a href="https://docs.sonarqube.org/display/SCAN/Analyzing&amp;#43;with&amp;#43;SonarQube&amp;#43;Scanner" target="_blank" rel="noopener noreferrer" >
+ 下载页
+&lt;/a>
+找到对应的平台，下载压缩包。解压后得到如下目录：&lt;/p>
 
 
 &lt;div class="code-block code-block-container-indented">
@@ -34,27 +46,4 @@
 
 &lt;p>可以将上面的&lt;code>bin&lt;/code>目录添加到&lt;code>PATH&lt;/code>环境变量中。&lt;/p>
 &lt;h2 id="构建并分析代码">构建并分析代码&lt;/h2>
-&lt;p>在项目的根目录下执行命令：&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-721041699b280559edf1e846650fbff5">build-wrapper-linux-x86-64 --out-dir bw-output make
-export JAVA_TOOL_OPTIONS=&amp;#34;-Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=443 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=443&amp;#34;
-sonar-scanner \
- -Dsonar.projectKey=number317_ssh-tool \
- -Dsonar.organization=number317-github \
- -Dsonar.sources=. \
- -Dsonar.cfamily.gcov.reportsPath=. \
- -Dsonar.cfamily.build-wrapper-output=bw-output \
- -Dsonar.host.url=https://sonarcloud.io \
- -Dsonar.login=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-721041699b280559edf1e846650fbff5', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;ul>
-&lt;li>&lt;code>JAVA_TOOL_OPTIONS&lt;/code>里面配置了代理服务器。&lt;/li>
-&lt;li>&lt;code>-Dsonar.cfamily.gcov.reportsPath&lt;/code>配置了 gcov 测试结果的路径，用于覆盖率测试。覆盖率测试不达到 80%，代码质量检测无法通过。&lt;/li>
-&lt;li>&lt;code>-Dsonar.login&lt;/code>需要配置 Token，可以在 account → security 生成&lt;/li>
-&lt;/ul></description></item></channel></rss>
+&lt;p>在项目的根目录下执行命令：&lt;/p></description></item></channel></rss>

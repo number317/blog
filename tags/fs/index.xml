@@ -30,4 +30,7 @@ end&lt;/code>&lt;/pre>
  &lt;/button>
 &lt;/div>
 
-&lt;p>该配置文件根据官方&lt;a href="http://docs.gluster.org/en/latest/Quick-Start-Guide/Quickstart/">quick start&lt;/a>文档，为虚拟机配置了第二磁盘，用于GlusterFS存储，大小为10G。&lt;/p></description></item></channel></rss>
+&lt;p>该配置文件根据官方&lt;a href="http://docs.gluster.org/en/latest/Quick-Start-Guide/Quickstart/" target="_blank" rel="noopener noreferrer" >
+ quick start
+&lt;/a>
+文档，为虚拟机配置了第二磁盘，用于GlusterFS存储，大小为10G。&lt;/p></description></item></channel></rss>

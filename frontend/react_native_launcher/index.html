@@ -2,7 +2,9 @@
 <a href=https://number317.github.io/blog/>cheon's blog</a></li><li>»
 <a href=https://number317.github.io/blog/frontend/>frontend</a></li><li class=active>»
 <a href=https://number317.github.io/blog/frontend/react_native_launcher/>React Native Launcher</a></li></ul><div id=content><main id=main><h1>React Native Launcher</h1><time>Last updated Tue Dec 17, 2024</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents><ul><li><a href=#启动器需求>启动器需求</a></li><li><a href=#技术选型>技术选型</a></li><li><a href=#框架搭建>框架搭建</a></li><li><a href=#启动器配置>启动器配置</a></li></ul></nav></aside><article id=content><h1 id=react-native-launcher>React Native Launcher</h1><p>多年前买的 Kindle Paperwhite3 刷了 android4.4 的系统，没有找到专门为阅读器适配的启动器，身为程序员，那就自己开发一个。</p><h2 id=启动器需求>启动器需求</h2><ul><li><p>阅读相关</p><ul><li>能展示指定目录的书籍</li><li>书籍可以展示自定义的封面</li><li>可以展示目录</li><li>可以支持 txt, epub, pdf 格式的书籍</li><li>txt 可以自动拆分章节</li></ul></li><li><p>应用相关</p><ul><li>可以展示系统安装的应用</li><li>可以隐藏指定应用</li></ul></li></ul><h2 id=技术选型>技术选型</h2><p>涉及到复杂计算，如处理 txt 章节，计算渲染文本，存储书籍数据之类的都用 android 原生来实现；
-涉及到 UI 绘制的部分，都采用 react-native 来实现。这样可以兼顾开发效率和运行效率。</p><p>习惯了前端热加载，之前有在原生 android 应用里调试样式，感觉实在是太麻烦了。</p><h2 id=框架搭建>框架搭建</h2><p>react-native 最新版本已经不支持 android4.4 了，查看了<a href=https://www.npmjs.com/package/react-native/v/0.63.5>历史版本</a>，发现 0.63.5 支持 android4.1：</p><pre><code>npx react-native init BookLauncher --version 0.63.5
+涉及到 UI 绘制的部分，都采用 react-native 来实现。这样可以兼顾开发效率和运行效率。</p><p>习惯了前端热加载，之前有在原生 android 应用里调试样式，感觉实在是太麻烦了。</p><h2 id=框架搭建>框架搭建</h2><p>react-native 最新版本已经不支持 android4.4 了，查看了<a href=https://www.npmjs.com/package/react-native/v/0.63.5 target=_blank rel="noopener noreferrer">
+历史版本
+</a>，发现 0.63.5 支持 android4.1：</p><pre><code>npx react-native init BookLauncher --version 0.63.5
 </code></pre><p>项目初始化完成后，启动项目：</p><pre><code>cd BookLauncher
 npm run start
 </code></pre><p>将 kindle 通过 usb 连接上电脑，确保 <code>adb devices -l</code> 可以看到设备后，另开终端运行 android 端应用：</p><pre><code>npm run android

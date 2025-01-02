@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Aop on cheon's blog</title><link>https://number317.github.io/blog/tags/aop/</link><description>Recent content in Aop on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 14 Jun 2019 01:21:26 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/aop/index.xml" rel="self" type="application/rss+xml"/><item><title>Skywalking Deploy</title><link>https://number317.github.io/blog/struct/skywalking_deploy/</link><pubDate>Thu, 25 Apr 2019 17:16:15 +0800</pubDate><guid>https://number317.github.io/blog/struct/skywalking_deploy/</guid><description>&lt;h1 id="skywalking-部署">skywalking 部署&lt;/h1>
-&lt;p>skywalking 是一个国产开源的调用链监控工具，可用于分析请求中哪些操作比较慢。&lt;a href="https://github.com/apache/skywalking-kubernetes">官方&lt;/a>提供了 k8s 的部署配置，但这个配置里的镜像是不对的，具体版本对应的镜像可以在&lt;a href="https://hub.docker.com/r/apache/skywalking-oap-server">Dockerhub&lt;/a>上找到。如果想要更换版本，最好把 ES 中的索引先删除，否则可能会导致应用报错。&lt;/p>
+&lt;p>skywalking 是一个国产开源的调用链监控工具，可用于分析请求中哪些操作比较慢。&lt;a href="https://github.com/apache/skywalking-kubernetes" target="_blank" rel="noopener noreferrer" >
+ 官方
+&lt;/a>
+提供了 k8s 的部署配置，但这个配置里的镜像是不对的，具体版本对应的镜像可以在&lt;a href="https://hub.docker.com/r/apache/skywalking-oap-server" target="_blank" rel="noopener noreferrer" >
+ Dockerhub
+&lt;/a>
+上找到。如果想要更换版本，最好把 ES 中的索引先删除，否则可能会导致应用报错。&lt;/p>
 &lt;h2 id="架构说明">架构说明&lt;/h2>
 &lt;ul>
 &lt;li>elasticsearch: 用于存储 skywalking 数据，这里使用的是腾讯云的 ES 服务，因此无需搭建&lt;/li>
 &lt;li>skywalking-oap-server: skywalking 后端&lt;/li>
 &lt;li>ui: 默认 ui 界面&lt;/li>
-&lt;li>&lt;a href="https://github.com/apache/skywalking-rocketbot-ui">rocketbot-ui&lt;/a>: skywalking 的另一个官方前端界面，没有现成的镜像，需要自己构建&lt;/li>
+&lt;li>&lt;a href="https://github.com/apache/skywalking-rocketbot-ui" target="_blank" rel="noopener noreferrer" >
+ rocketbot-ui
+&lt;/a>
+: skywalking 的另一个官方前端界面，没有现成的镜像，需要自己构建&lt;/li>
 &lt;/ul>
 &lt;h2 id="部署">部署&lt;/h2>
 &lt;p>将官方的部署文件克隆到本地，将 oap， ui 的镜像换成对应的版本镜像。修改 oap 配置中的 ES 地址：&lt;/p>

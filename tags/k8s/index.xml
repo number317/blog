@@ -43,7 +43,10 @@
  &lt;/button>
 &lt;/div>
 
-&lt;p>更多的 annotations 配置可以查看 &lt;a href="https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/annotations.md">github 文档&lt;/a>&lt;/p></description></item><item><title>Graylog K8s Install</title><link>https://number317.github.io/blog/struct/graylog_k8s_install/</link><pubDate>Wed, 14 Nov 2018 16:20:50 +0800</pubDate><guid>https://number317.github.io/blog/struct/graylog_k8s_install/</guid><description>&lt;h1 id="graylog-k8s-部署">graylog k8s 部署&lt;/h1>
+&lt;p>更多的 annotations 配置可以查看 &lt;a href="https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/annotations.md" target="_blank" rel="noopener noreferrer" >
+ github 文档
+&lt;/a>
+&lt;/p></description></item><item><title>Graylog K8s Install</title><link>https://number317.github.io/blog/struct/graylog_k8s_install/</link><pubDate>Wed, 14 Nov 2018 16:20:50 +0800</pubDate><guid>https://number317.github.io/blog/struct/graylog_k8s_install/</guid><description>&lt;h1 id="graylog-k8s-部署">graylog k8s 部署&lt;/h1>
 &lt;p>graylog是一个日志聚合工具，用于统一展示应用日志。这里基于官方文档，在k8s集群中部署一套简单的单节点graylog服务。&lt;/p>
 &lt;h2 id="mongodb-部署">mongodb 部署&lt;/h2>
 &lt;p>mongodb 在服务中用于存储graylog的配置信息。以下是部署文件（没有进行数据持久化操作）：&lt;/p>

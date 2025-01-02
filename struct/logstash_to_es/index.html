@@ -120,7 +120,9 @@ output {
        index =&gt; &#34;%{[@metadata][kafka][topic]}-%{index_name}-%{&#43;YYYY-MM-dd}&#34;
     }
 }</code></pre><button class=copy-code-button onclick='copyCode("code-a27fecdbb8bc6ff949088c2b9e8713b6",this)' title=copy>
-<i class="fa fa-copy"></i></button></div></details><p>根据配置可以预测，ES 的索引应为 <code>spring-boot-demo-spring-app1-demo-2019-07-04</code>。</p><p>运行一段时间后，项目组有新的需求，需要将日志各个字段解析以便于做统计分析。这里就需要修改<code>grok</code>的正则。并且由于一个topic中有多个应用的日志，每个应用的日志格式可能不一样，所以可以写多个正则表达式，匹配不到就用下一个正则。测试 grok 正则可以用<a href=grokdebug.herokuapp.com>grok debugger</a>网站。</p><p>最终的配置:</p><div class="code-block code-block-container-indented"><pre><code id=code-55ea8516e66b6e2a6df16a79a8be899f>input {
+<i class="fa fa-copy"></i></button></div></details><p>根据配置可以预测，ES 的索引应为 <code>spring-boot-demo-spring-app1-demo-2019-07-04</code>。</p><p>运行一段时间后，项目组有新的需求，需要将日志各个字段解析以便于做统计分析。这里就需要修改<code>grok</code>的正则。并且由于一个topic中有多个应用的日志，每个应用的日志格式可能不一样，所以可以写多个正则表达式，匹配不到就用下一个正则。测试 grok 正则可以用<a href=grokdebug.herokuapp.com target=_blank rel="noopener noreferrer">
+grok debugger
+</a>网站。</p><p>最终的配置:</p><div class="code-block code-block-container-indented"><pre><code id=code-55ea8516e66b6e2a6df16a79a8be899f>input {
     kafka {
         id =&gt; &#34;spring-boot-demo&#34;
         bootstrap_servers =&gt; &#34;192.168.0.107:9092&#34;

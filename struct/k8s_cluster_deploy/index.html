@@ -84,7 +84,8 @@ KUBE_API_ARGS=&#34;&#34;</code></pre><button class=copy-code-button onclick='cop
 <i class="fa fa-copy"></i></button></div></li></ol><h1 id=node-节点配置>node 节点配置</h1><p>登录到各个 node 节点上（包括即作为 master 也作为 node 的 k8s-node1 节点），执行以下操作。</p><ol><li><p>为 flannel 网络指定 etcd 服务，修改<code>/etc/sysconfig/flanneld</code>文件:</p><div class="code-block code-block-container-indented"><pre><code id=code-98e0713b8c8fe228e7b32da64075895b>FLANNEL_ETCD=&#34;http://192.168.12.81:2379&#34;
 FLANNEL_ETCD_KEY=&#34;/atomic.io/network&#34;
 FLANNEL_OPTIONS=&#34;--iface=enp0s8&#34;</code></pre><button class=copy-code-button onclick='copyCode("code-98e0713b8c8fe228e7b32da64075895b",this)' title=copy>
-<i class="fa fa-copy"></i></button></div><p>etcd和flannel用于配置容器的跨主机通信，具体见<a href=./struct/etcd--flannel/>etcd & flannel</a></p></li><li><p>修改<code>/etc/kubernetes/config</code>文件:</p><div class="code-block code-block-container-indented"><pre><code id=code-68c9fe85d5c3016b6a0e0d9e338cda87>KUBE_LOGTOSTDERR=&#34;--logtostderr=true&#34;
+<i class="fa fa-copy"></i></button></div><p>etcd和flannel用于配置容器的跨主机通信，具体见<a href=./struct/etcd--flannel/ target=_blank rel="noopener noreferrer">
+etcd & flannel</a></p></li><li><p>修改<code>/etc/kubernetes/config</code>文件:</p><div class="code-block code-block-container-indented"><pre><code id=code-68c9fe85d5c3016b6a0e0d9e338cda87>KUBE_LOGTOSTDERR=&#34;--logtostderr=true&#34;
 KUBE_LOG_LEVEL=&#34;--v=0&#34;
 KUBE_ALLOW_PRIV=&#34;--allow-privileged=false&#34;
 KUBE_MASTER=&#34;--master=http://192.168.12.81:8080&#34;</code></pre><button class=copy-code-button onclick='copyCode("code-68c9fe85d5c3016b6a0e0d9e338cda87",this)' title=copy>

@@ -49,7 +49,10 @@
 &lt;p>pom 文件依赖:&lt;/p></description></item><item><title>Graylog Sidecar</title><link>https://number317.github.io/blog/struct/graylog_sidecar/</link><pubDate>Wed, 14 Nov 2018 17:24:04 +0800</pubDate><guid>https://number317.github.io/blog/struct/graylog_sidecar/</guid><description>&lt;h1 id="graylog-sidecar-部署配置">graylog sidecar 部署配置&lt;/h1>
 &lt;p>graylog sidecar 用于配置从文件读取日志，具体读取文件可以采用filebeat和nxlog。这里在debian的容器中部署sidecar来示例。&lt;/p>
 &lt;h2 id="安装sidecar">安装sidecar&lt;/h2>
-&lt;p>从&lt;a href="https://github.com/Graylog2/collector-sidecar/releases">下载页面&lt;/a>下载对应的包，这里是debian系统，graylog版本是2.4。所以根据文档，下载&lt;code>collector-sidecar_0.1.7-1_amd64.deb&lt;/code>：&lt;/p>
+&lt;p>从&lt;a href="https://github.com/Graylog2/collector-sidecar/releases" target="_blank" rel="noopener noreferrer" >
+ 下载页面
+&lt;/a>
+下载对应的包，这里是debian系统，graylog版本是2.4。所以根据文档，下载&lt;code>collector-sidecar_0.1.7-1_amd64.deb&lt;/code>：&lt;/p>
 
 
 &lt;div class="code-block code-block-container-indented">

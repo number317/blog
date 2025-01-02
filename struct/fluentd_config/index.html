@@ -52,7 +52,9 @@
  &lt;match **&gt;
    @type blackhole_plugin
  &lt;/match&gt;
-</code></pre><p>当然，如果使用两个相同的样式，第二个<code>match</code>不会被匹配。</p><p>如果想要发送事件到多个输出，可以考虑<a href=https://docs.fluentd.org/v1.0/articles/out_copy>out_copy</a>插件</p></li><li><p><code>filter</code>: 事件处理管道</p><p><code>filter</code>命令和<code>match</code>有相同的语法，但是<code>filter</code>可以被链起来用于处理管道。使用过滤器，事件流看起来像下面这样：</p><pre><code> Input -&gt; filter 1 -&gt; ... -&gt; filter N -&gt; Output
+</code></pre><p>当然，如果使用两个相同的样式，第二个<code>match</code>不会被匹配。</p><p>如果想要发送事件到多个输出，可以考虑<a href=https://docs.fluentd.org/v1.0/articles/out_copy target=_blank rel="noopener noreferrer">
+out_copy
+</a>插件</p></li><li><p><code>filter</code>: 事件处理管道</p><p><code>filter</code>命令和<code>match</code>有相同的语法，但是<code>filter</code>可以被链起来用于处理管道。使用过滤器，事件流看起来像下面这样：</p><pre><code> Input -&gt; filter 1 -&gt; ... -&gt; filter N -&gt; Output
 </code></pre><p>添加一个标准的<code>record_transformer</code>过滤器到"match"例子</p><pre><code> # http://this.host:9880/myapp.access?json={&quot;event&quot;:&quot;data&quot;}
  &lt;source&gt;
    @type http

@@ -277,7 +277,10 @@ for severity in severities:
  &lt;/button>
 &lt;/div>
 
-&lt;p>可以在&lt;a href="http://www.rabbitmq.com/queues.html">队列指南&lt;/a>获取更多&lt;code>exclusive&lt;/code>标签和其他队列属性。&lt;/p>
+&lt;p>可以在&lt;a href="http://www.rabbitmq.com/queues.html" target="_blank" rel="noopener noreferrer" >
+ 队列指南
+&lt;/a>
+获取更多&lt;code>exclusive&lt;/code>标签和其他队列属性。&lt;/p>
 &lt;h2 id="绑定bindings">绑定（Bindings）&lt;/h2>
 &lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_publish_subscribe_img2.png" alt="绑定">&lt;/p>
 &lt;p>我们已经创建了一个&lt;code>fanout&lt;/code>类型的交换。现在我们需要告诉交换发送信息给我们的队列。交换和队列之间的关系叫做绑定：&lt;/p>

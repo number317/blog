@@ -1,17 +1,53 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>cheon's blog</title><link>https://number317.github.io/blog/</link><description>Recent content on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 31 Dec 2024 12:12:58 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/index.xml" rel="self" type="application/rss+xml"/><item><title>Android As External Terminal</title><link>https://number317.github.io/blog/system/android_as_external_terminal/</link><pubDate>Fri, 20 Dec 2024 10:41:51 +0800</pubDate><guid>https://number317.github.io/blog/system/android_as_external_terminal/</guid><description>Make your android device as an external terminal.</description></item><item><title>React Native Launcher</title><link>https://number317.github.io/blog/frontend/react_native_launcher/</link><pubDate>Thu, 27 Apr 2023 11:02:10 +0800</pubDate><guid>https://number317.github.io/blog/frontend/react_native_launcher/</guid><description>为 kindle 上的 android 4.4 开发一个自定义启动器</description></item><item><title>Web Rtsp Play</title><link>https://number317.github.io/blog/frontend/web_rtsp_play/</link><pubDate>Tue, 31 Aug 2021 19:30:22 +0800</pubDate><guid>https://number317.github.io/blog/frontend/web_rtsp_play/</guid><description>网页播放 rtsp 视频流</description></item><item><title>React 嵌入 Tableau 图表</title><link>https://number317.github.io/blog/frontend/react_embed_tableau/</link><pubDate>Sun, 22 Nov 2020 20:03:34 +0800</pubDate><guid>https://number317.github.io/blog/frontend/react_embed_tableau/</guid><description>在 react 中嵌入 tableau server 的图表</description></item><item><title>Emqx Backend Mysql</title><link>https://number317.github.io/blog/struct/emqx_backend_mysql/</link><pubDate>Wed, 14 Oct 2020 18:19:31 +0800</pubDate><guid>https://number317.github.io/blog/struct/emqx_backend_mysql/</guid><description>&lt;ul>
-&lt;li>&lt;a href="#orgc3804b0">emqx mysql 插件&lt;/a>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>cheon's blog</title><link>https://number317.github.io/blog/</link><description>Recent content on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 02 Jan 2025 18:07:16 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/index.xml" rel="self" type="application/rss+xml"/><item><title>Android As External Terminal</title><link>https://number317.github.io/blog/system/android_as_external_terminal/</link><pubDate>Fri, 20 Dec 2024 10:41:51 +0800</pubDate><guid>https://number317.github.io/blog/system/android_as_external_terminal/</guid><description>Make your android device as an external terminal.</description></item><item><title>React Native Launcher</title><link>https://number317.github.io/blog/frontend/react_native_launcher/</link><pubDate>Thu, 27 Apr 2023 11:02:10 +0800</pubDate><guid>https://number317.github.io/blog/frontend/react_native_launcher/</guid><description>为 kindle 上的 android 4.4 开发一个自定义启动器</description></item><item><title>Web Rtsp Play</title><link>https://number317.github.io/blog/frontend/web_rtsp_play/</link><pubDate>Tue, 31 Aug 2021 19:30:22 +0800</pubDate><guid>https://number317.github.io/blog/frontend/web_rtsp_play/</guid><description>网页播放 rtsp 视频流</description></item><item><title>React 嵌入 Tableau 图表</title><link>https://number317.github.io/blog/frontend/react_embed_tableau/</link><pubDate>Sun, 22 Nov 2020 20:03:34 +0800</pubDate><guid>https://number317.github.io/blog/frontend/react_embed_tableau/</guid><description>在 react 中嵌入 tableau server 的图表</description></item><item><title>Emqx Backend Mysql</title><link>https://number317.github.io/blog/struct/emqx_backend_mysql/</link><pubDate>Wed, 14 Oct 2020 18:19:31 +0800</pubDate><guid>https://number317.github.io/blog/struct/emqx_backend_mysql/</guid><description>&lt;ul>
+&lt;li>&lt;a href="#orgc3804b0" target="_blank" rel="noopener noreferrer" >
+ emqx mysql 插件
+&lt;/a>
+
 &lt;ul>
-&lt;li>&lt;a href="#org5864efb">erlang 环境配置&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#orgeb79a2a">emacs 编辑器配置&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#org0232e02">emqx 源码编译&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#org63abe84">添加自定义插件&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#org91c1187">启用自定义插件&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#org8c85d4f">反编译 &lt;code>emqx_backend_mysql&lt;/code> 插件&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#org4dafec4">构造插件&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#orgaadf956">搭建临时 git 服务&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#org2054d0d">重新编译&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#org773634b">测试插件&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#org314e5bf">构建镜像&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#org5864efb" target="_blank" rel="noopener noreferrer" >
+ erlang 环境配置
+&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="#orgeb79a2a" target="_blank" rel="noopener noreferrer" >
+ emacs 编辑器配置
+&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="#org0232e02" target="_blank" rel="noopener noreferrer" >
+ emqx 源码编译
+&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="#org63abe84" target="_blank" rel="noopener noreferrer" >
+ 添加自定义插件
+&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="#org91c1187" target="_blank" rel="noopener noreferrer" >
+ 启用自定义插件
+&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="#org8c85d4f" target="_blank" rel="noopener noreferrer" >
+ 反编译 &lt;code>emqx_backend_mysql&lt;/code> 插件
+&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="#org4dafec4" target="_blank" rel="noopener noreferrer" >
+ 构造插件
+&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="#orgaadf956" target="_blank" rel="noopener noreferrer" >
+ 搭建临时 git 服务
+&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="#org2054d0d" target="_blank" rel="noopener noreferrer" >
+ 重新编译
+&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="#org773634b" target="_blank" rel="noopener noreferrer" >
+ 测试插件
+&lt;/a>
+&lt;/li>
+&lt;li>&lt;a href="#org314e5bf" target="_blank" rel="noopener noreferrer" >
+ 构建镜像
+&lt;/a>
+&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
@@ -19,37 +55,7 @@
 &lt;h1 id="emqx-mysql-插件">emqx mysql 插件&lt;/h1>
 &lt;p>&lt;a id="org5864efb">&lt;/a>&lt;/p>
 &lt;h2 id="erlang-环境配置">erlang 环境配置&lt;/h2>
-&lt;p>erlang 推荐使用 22 版本，经过测试用 23 版本编译出来运行有问题。各平台安装 erlang 详情请参考官方文档。 linux 系统可以使用 kerl 脚本安装，构建最新版本的 emqx 时注意编译的 gcc 版本不能用 10，编译通不过，推荐用 gcc-9&lt;/p>
-&lt;p>下载 kerl&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-a57440808827080a0e0e51f851f0bc3f">curl -O https://raw.githubusercontent.com/kerl/kerl/master/kerl
-chmod &amp;#43;x kerl&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-a57440808827080a0e0e51f851f0bc3f', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>安装 erlang&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-b30d2fd5d28dc372555154c4eca82504">kerl update releases
-# 如果直接构建报错，修改 ~/.kerl/builds/22.3/otp_src_22.3/Makefile
-# 将 gcc 改为 gcc9
-kerl build 22.3 22.3
-kerl install 22.3 /opt/erlang/22.3
-# 启用环境
-source /opt/erlang/22.3/activate
-# 设置环境变量，这样不用每次手动启用
-echo &amp;#39;source /opt/erlang/22.3/activate&amp;#39; &amp;gt;&amp;gt; ~/.bashrc&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-b30d2fd5d28dc372555154c4eca82504', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>安装 rebar3&lt;/p></description></item><item><title>用 hugo 组织 org 文件写博客</title><link>https://number317.github.io/blog/struct/org_blog_with_hugo/</link><pubDate>Mon, 14 Sep 2020 20:03:07 +0800</pubDate><guid>https://number317.github.io/blog/struct/org_blog_with_hugo/</guid><description>用 hugo 和 emacs org 格式来构建博客</description></item><item><title>Proxy Settings</title><link>https://number317.github.io/blog/solved/proxy_settings/</link><pubDate>Mon, 16 Dec 2019 16:40:16 +0800</pubDate><guid>https://number317.github.io/blog/solved/proxy_settings/</guid><description>&lt;h1 id="常见代理设置">常见代理设置&lt;/h1>
+&lt;p>erlang 推荐使用 22 版本，经过测试用 23 版本编译出来运行有问题。各平台安装 erlang 详情请参考官方文档。 linux 系统可以使用 kerl 脚本安装，构建最新版本的 emqx 时注意编译的 gcc 版本不能用 10，编译通不过，推荐用 gcc-9&lt;/p></description></item><item><title>用 hugo 组织 org 文件写博客</title><link>https://number317.github.io/blog/struct/org_blog_with_hugo/</link><pubDate>Mon, 14 Sep 2020 20:03:07 +0800</pubDate><guid>https://number317.github.io/blog/struct/org_blog_with_hugo/</guid><description>用 hugo 和 emacs org 格式来构建博客</description></item><item><title>Proxy Settings</title><link>https://number317.github.io/blog/solved/proxy_settings/</link><pubDate>Mon, 16 Dec 2019 16:40:16 +0800</pubDate><guid>https://number317.github.io/blog/solved/proxy_settings/</guid><description>&lt;h1 id="常见代理设置">常见代理设置&lt;/h1>
 &lt;h2 id="git">git&lt;/h2>
 
 
@@ -141,7 +147,13 @@ or available locally via: info '(coreutils) sum invocation'
 &lt;/code>&lt;/pre>
 &lt;/details>
 &lt;p>这是一个调用 &lt;code>--help&lt;/code> 选项常见的输出。受到 BNF 影响， &lt;code>[]&lt;/code> 意味着是可选的项， &lt;code>...&lt;/code> 意味着是可重复的项。因此上面的输出意味着 &lt;code>sum&lt;/code> 命令可以有 0 个或多个选项，可以有 0 个或多个文件。&lt;/p></description></item><item><title>Archlinux Nvidia</title><link>https://number317.github.io/blog/system/archlinux_nvidia/</link><pubDate>Sun, 29 Sep 2019 14:07:53 +0800</pubDate><guid>https://number317.github.io/blog/system/archlinux_nvidia/</guid><description>&lt;h1 id="archlinux-配置-nvidia-独立显卡">ArchLinux 配置 nvidia 独立显卡&lt;/h1>
-&lt;p>按照 &lt;a href="https://download.nvidia.com/XFree86/Linux-x86_64/435.21/README/primerenderoffload.html">PRIME Render Offload&lt;/a> 文档，安装新版本的 nvidia 驱动和 xorg，新版本的 xorg 安装包可以从 &lt;a href="https://gitlab.freedesktop.org/aplattner/arch-xorg-server">arch-xorg-server&lt;/a> 构建。
+&lt;p>按照 &lt;a href="https://download.nvidia.com/XFree86/Linux-x86_64/435.21/README/primerenderoffload.html" target="_blank" rel="noopener noreferrer" >
+ PRIME Render Offload
+&lt;/a>
+ 文档，安装新版本的 nvidia 驱动和 xorg，新版本的 xorg 安装包可以从 &lt;a href="https://gitlab.freedesktop.org/aplattner/arch-xorg-server" target="_blank" rel="noopener noreferrer" >
+ arch-xorg-server
+&lt;/a>
+ 构建。
 修改配置文件 &lt;code>/etc/X11/xorg.conf&lt;/code> ，主要添加&lt;/p>
 &lt;pre>&lt;code>Section &amp;quot;ServerLayout&amp;quot;
  Identifier &amp;quot;layout&amp;quot;
@@ -425,7 +437,10 @@ int main(int argc, char *argv[]) {
  &lt;/button>
 &lt;/div>
 
-&lt;p>更多的 annotations 配置可以查看 &lt;a href="https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/annotations.md">github 文档&lt;/a>&lt;/p></description></item><item><title>Logstash to ES</title><link>https://number317.github.io/blog/struct/logstash_to_es/</link><pubDate>Thu, 04 Jul 2019 09:26:33 +0800</pubDate><guid>https://number317.github.io/blog/struct/logstash_to_es/</guid><description>&lt;h1 id="logstash-配置日志发送-es">logstash 配置日志发送 ES&lt;/h1>
+&lt;p>更多的 annotations 配置可以查看 &lt;a href="https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/annotations.md" target="_blank" rel="noopener noreferrer" >
+ github 文档
+&lt;/a>
+&lt;/p></description></item><item><title>Logstash to ES</title><link>https://number317.github.io/blog/struct/logstash_to_es/</link><pubDate>Thu, 04 Jul 2019 09:26:33 +0800</pubDate><guid>https://number317.github.io/blog/struct/logstash_to_es/</guid><description>&lt;h1 id="logstash-配置日志发送-es">logstash 配置日志发送 ES&lt;/h1>
 &lt;p>日志收集的架构如下所示:&lt;/p>
 
 
@@ -474,21 +489,57 @@ int main(int argc, char *argv[]) {
 
 &lt;/details>
 &lt;p>pom 文件依赖:&lt;/p></description></item><item><title>Ceph Ansible</title><link>https://number317.github.io/blog/struct/ceph_ansible/</link><pubDate>Sun, 23 Jun 2019 16:45:52 +0800</pubDate><guid>https://number317.github.io/blog/struct/ceph_ansible/</guid><description>&lt;h1 id="ceph-介绍">Ceph 介绍&lt;/h1>
-&lt;p>无论是想要为云平台提供 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-object-storage">Ceph Object Storage&lt;/a> 或 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-block-device">Ceph Block Device&lt;/a> 服务，部署一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-filesystem">Ceph Filesystem&lt;/a> 总是从设置每一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-node">Ceph 节点&lt;/a>，网络和 Ceph 存储集群开始。一个 Ceph 存储集群至少需要一个 Ceph Monitor，Ceph Manger，和 Ceph OSD(Object Storage Daemon)。当运行 Ceph 文件系统客户端时也需要 Ceph Metadata Server。&lt;/p>
+&lt;p>无论是想要为云平台提供 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-object-storage" target="_blank" rel="noopener noreferrer" >
+ Ceph Object Storage
+&lt;/a>
+ 或 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-block-device" target="_blank" rel="noopener noreferrer" >
+ Ceph Block Device
+&lt;/a>
+ 服务，部署一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-filesystem" target="_blank" rel="noopener noreferrer" >
+ Ceph Filesystem
+&lt;/a>
+ 总是从设置每一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-node" target="_blank" rel="noopener noreferrer" >
+ Ceph 节点
+&lt;/a>
+，网络和 Ceph 存储集群开始。一个 Ceph 存储集群至少需要一个 Ceph Monitor，Ceph Manger，和 Ceph OSD(Object Storage Daemon)。当运行 Ceph 文件系统客户端时也需要 Ceph Metadata Server。&lt;/p>
 &lt;ul>
 &lt;li>
-&lt;p>Monitors: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-monitor">Ceph 监视器(ceph-mon)&lt;/a> 维护集群状态的映射，包括监视器，管理，OSD 和 CURSH 映射。这些映射是 Ceph 守护进程之间相互协调的关键。监视器还负责管理守护进程和客户端之间的身份验证。为了保证冗余和高可用，至少需要3个监视器。&lt;/p>
+&lt;p>Monitors: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-monitor" target="_blank" rel="noopener noreferrer" >
+ Ceph 监视器(ceph-mon)
+&lt;/a>
+ 维护集群状态的映射，包括监视器，管理，OSD 和 CURSH 映射。这些映射是 Ceph 守护进程之间相互协调的关键。监视器还负责管理守护进程和客户端之间的身份验证。为了保证冗余和高可用，至少需要3个监视器。&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>Mangers: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-manager">Ceph 管理(ceph-mgr)&lt;/a>守护进程负责保持追踪 Ceph 集群运行时指标和当前集群状态，包括存储利用率，当前的性能指标和系统负载。Ceph 管理进程还托管基于 python 的模块来管理和公开 Ceph 集群信息，包括一个基于网页的 &lt;a href="http://docs.ceph.com/docs/master/mgr/dashboard/#mgr-dashboard">Ceph Dashboard&lt;/a> 和 &lt;a href="http://docs.ceph.com/docs/master/mgr/restful">REST API&lt;/a>。为了保证高可用，至少需要2个管理节点。&lt;/p>
+&lt;p>Mangers: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-manager" target="_blank" rel="noopener noreferrer" >
+ Ceph 管理(ceph-mgr)
+&lt;/a>
+守护进程负责保持追踪 Ceph 集群运行时指标和当前集群状态，包括存储利用率，当前的性能指标和系统负载。Ceph 管理进程还托管基于 python 的模块来管理和公开 Ceph 集群信息，包括一个基于网页的 &lt;a href="http://docs.ceph.com/docs/master/mgr/dashboard/#mgr-dashboard" target="_blank" rel="noopener noreferrer" >
+ Ceph Dashboard
+&lt;/a>
+ 和 &lt;a href="http://docs.ceph.com/docs/master/mgr/restful" target="_blank" rel="noopener noreferrer" >
+ REST API
+&lt;/a>
+。为了保证高可用，至少需要2个管理节点。&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>Ceph OSDs: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-osd">Ceph OSD(object storage daemon, ceph-osd)&lt;/a>存储数据，处理数据复制、恢复、重新平衡，并通过检查其他 Ceph OSD 进程的心跳来提供一些监控信息给 Ceph 监视器和管理。为了保证冗余和高可用，至少需要3个 Ceph OSDs。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>MDSs: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-metadata-server">Ceph 元数据服务(MDS, ceph-mds)&lt;/a>存储代表 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-filesystem">Ceph 文件系统&lt;/a>（例如 Ceph 快设备和 Ceph 对象存储就不使用 MDS）的元数据。Ceph 元数据服务允许 POSIX 文件系统用户执行基本的命令（像 &lt;code>ls&lt;/code>, &lt;code>find&lt;/code> 等）而不会给 Ceph 存储集群代理极大的负载。&lt;/p></description></item><item><title>Nerd Font</title><link>https://number317.github.io/blog/system/nerd_font/</link><pubDate>Fri, 21 Jun 2019 14:32:35 +0800</pubDate><guid>https://number317.github.io/blog/system/nerd_font/</guid><description>&lt;h1 id="图标字体">图标字体&lt;/h1>
-&lt;p>在用 &lt;a href="https://github.com/robm/dzen">dzen2&lt;/a> 给桌面添加一个 panel 的时候用到了 &lt;a href="http://fontawesome.com">FontAwesome&lt;/a>，但是在 urxvt 终端下 FontAwesome 无法正常显示出来（不知是不是配置有误）。这样在用 vim 写脚本时不够直观。又不想换终端，所以只能从字体下手。&lt;/p>
-&lt;p>之前就了解到过 &lt;a href="https://github.com/ryanoasis/nerd-fonts">nerd-fonts&lt;/a> 这个项目，可以将图标字体整合进一个你想要的字体中。项目主页提供了一些已经预先构建好的字体，可以在&lt;a href="https://nerdfonts.com/">官网&lt;/a>直接下载使用。目前终端用的字体是从另一台 Mac 上复制出来的 SFMono，这也是 Mac 内置终端默认的字体。已经习惯了这款字体后就不想换了，因此准备构建自己的字体。&lt;/p>
+&lt;p>Ceph OSDs: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-osd" target="_blank" rel="noopener noreferrer" >
+ Ceph OSD(object storage daemon, ceph-osd)
+&lt;/a>
+存储数据，处理数据复制、恢复、重新平衡，并通过检查其他 Ceph OSD 进程的心跳来提供一些监控信息给 Ceph 监视器和管理。为了保证冗余和高可用，至少需要3个 Ceph OSDs。&lt;/p></description></item><item><title>Nerd Font</title><link>https://number317.github.io/blog/system/nerd_font/</link><pubDate>Fri, 21 Jun 2019 14:32:35 +0800</pubDate><guid>https://number317.github.io/blog/system/nerd_font/</guid><description>&lt;h1 id="图标字体">图标字体&lt;/h1>
+&lt;p>在用 &lt;a href="https://github.com/robm/dzen" target="_blank" rel="noopener noreferrer" >
+ dzen2
+&lt;/a>
+ 给桌面添加一个 panel 的时候用到了 &lt;a href="http://fontawesome.com" target="_blank" rel="noopener noreferrer" >
+ FontAwesome
+&lt;/a>
+，但是在 urxvt 终端下 FontAwesome 无法正常显示出来（不知是不是配置有误）。这样在用 vim 写脚本时不够直观。又不想换终端，所以只能从字体下手。&lt;/p>
+&lt;p>之前就了解到过 &lt;a href="https://github.com/ryanoasis/nerd-fonts" target="_blank" rel="noopener noreferrer" >
+ nerd-fonts
+&lt;/a>
+ 这个项目，可以将图标字体整合进一个你想要的字体中。项目主页提供了一些已经预先构建好的字体，可以在&lt;a href="https://nerdfonts.com/" target="_blank" rel="noopener noreferrer" >
+ 官网
+&lt;/a>
+直接下载使用。目前终端用的字体是从另一台 Mac 上复制出来的 SFMono，这也是 Mac 内置终端默认的字体。已经习惯了这款字体后就不想换了，因此准备构建自己的字体。&lt;/p>
 &lt;p>根据项目主页的教程，执行它提供给你的 &lt;code>font-patcher&lt;/code> 脚本前需要安装 &lt;code>fontforge&lt;/code>:&lt;/p>
 
 
@@ -525,9 +576,11 @@ chmod &amp;#43;x font-patcher&lt;/code>&lt;/pre>
 &lt;li>&lt;code>-l&lt;/code> 表示适应行高（尝试将 powerline 的分隔符均匀地放在中间）&lt;/li>
 &lt;li>&lt;code>-s&lt;/code> 表示使用单个字符宽度&lt;/li>
 &lt;/ul>
-&lt;p>运行脚本发现报错，提示找不到 &lt;code>src&lt;/code> 目录下的字体文件。这提示我们还需要去下载 &lt;code>src&lt;/code> 目录下的字体文件。这里有一个技巧，关于如何从 github 下载某个文件夹。&lt;/p>
-&lt;p>以此处为例，需要下载&lt;a href="https://github.com/ryanoasis/nerd-fonts/tree/master/src/glyphs">https://github.com/ryanoasis/nerd-fonts/tree/master/src/glyphs&lt;/a>目录下的所有字体文件。可以将 url 中的 &amp;ldquo;tree/master&amp;rdquo; 替换为 ”trunk“，再用 svn 去下载就好了。&lt;/p></description></item><item><title>Ssh Config</title><link>https://number317.github.io/blog/solved/ssh_config/</link><pubDate>Fri, 14 Jun 2019 17:22:12 +0800</pubDate><guid>https://number317.github.io/blog/solved/ssh_config/</guid><description>&lt;h1 id="ssh-错误排查">ssh 错误排查&lt;/h1>
-&lt;p>新拿到的6台服务器，通过&lt;a href="https://github.com/jumpserver/jumpserver">jumpserver&lt;/a>用密钥登录到其中一台服务器，用 ssh 以账户密码的方式登录到其中另外一台服务器时遇见如下错误:&lt;/p>
+&lt;p>运行脚本发现报错，提示找不到 &lt;code>src&lt;/code> 目录下的字体文件。这提示我们还需要去下载 &lt;code>src&lt;/code> 目录下的字体文件。这里有一个技巧，关于如何从 github 下载某个文件夹。&lt;/p></description></item><item><title>Ssh Config</title><link>https://number317.github.io/blog/solved/ssh_config/</link><pubDate>Fri, 14 Jun 2019 17:22:12 +0800</pubDate><guid>https://number317.github.io/blog/solved/ssh_config/</guid><description>&lt;h1 id="ssh-错误排查">ssh 错误排查&lt;/h1>
+&lt;p>新拿到的6台服务器，通过&lt;a href="https://github.com/jumpserver/jumpserver" target="_blank" rel="noopener noreferrer" >
+ jumpserver
+&lt;/a>
+用密钥登录到其中一台服务器，用 ssh 以账户密码的方式登录到其中另外一台服务器时遇见如下错误:&lt;/p>
 
 
 &lt;div class="code-block code-block-container-indented">
@@ -575,7 +628,10 @@ chmod &amp;#43;x font-patcher&lt;/code>&lt;/pre>
  &lt;/button>
 &lt;/div>
 
-&lt;p>关于在&lt;code>alpine&lt;/code>镜像中安装&lt;code>glibc&lt;/code>，详情可以参考&lt;a href="https://github.com/sgerrand/alpine-pkg-glibc">github&lt;/a>介绍&lt;/p>
+&lt;p>关于在&lt;code>alpine&lt;/code>镜像中安装&lt;code>glibc&lt;/code>，详情可以参考&lt;a href="https://github.com/sgerrand/alpine-pkg-glibc" target="_blank" rel="noopener noreferrer" >
+ github
+&lt;/a>
+介绍&lt;/p>
 &lt;/li>
 &lt;li>
 &lt;p>在&lt;code>Dockerfile&lt;/code>里需要安装软件的尽量使用国内的源，加快ci构建，常见的操作如下：&lt;/p>
@@ -637,7 +693,10 @@ chmod &amp;#43;x font-patcher&lt;/code>&lt;/pre>
 日志的采集是通过 logback 发送到 kafka，再用 logstash 消费 kafka 并转发给 ES。logstash 配置了&lt;code>%{[@metadata][kafka][topic]}-%{+YYYY-MM-dd}&lt;/code>作为 ES 的索引。
 经过讨论准备只将日志存储一个月，需要定时去清理索引，防止索引过多。&lt;/p>
 &lt;h2 id="获取索引">获取索引&lt;/h2>
-&lt;p>首先要做的是获取当前的索引，通过查阅 ES 的 &lt;a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices.html">API&lt;/a> 可知，可以用 &lt;code>/_cat/indices&lt;/code> 接口来获取所有索引:&lt;/p>
+&lt;p>首先要做的是获取当前的索引，通过查阅 ES 的 &lt;a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices.html" target="_blank" rel="noopener noreferrer" >
+ API
+&lt;/a>
+ 可知，可以用 &lt;code>/_cat/indices&lt;/code> 接口来获取所有索引:&lt;/p>
 
 
 &lt;div class="code-block code-block-container-indented">
@@ -706,10 +765,19 @@ vdb 253:16 0 200G 0 disk&lt;/code>&lt;/pre>
 &lt;/div>
 
 &lt;p>将 lv 格式化为 xfs 文件系统：&lt;/p></description></item><item><title>C Sonarcloud</title><link>https://number317.github.io/blog/c/c_sonarcloud/</link><pubDate>Mon, 06 May 2019 14:55:56 +0800</pubDate><guid>https://number317.github.io/blog/c/c_sonarcloud/</guid><description>&lt;h1 id="c-配置-sonarcloud">C 配置 Sonarcloud&lt;/h1>
-&lt;p>SonarQube 用于代码质量分析，可以检测出代码的 bug，代码异味，测试覆盖率等，有助于提高代码质量。SonarCloud 是 SonarQube 的在线使用版本，可以集成 github，travisCI。具体操作可以看&lt;a href="https://sonarcloud.io/documentation">官方文档&lt;/a>。&lt;/p>
-&lt;p>之前写了一个终端管理 ssh 登录的小工具，想着检测一下代码质量，就想到用这个工具来检测一下。由于不需要每次提交都进行质量检测，所以没有集成到 CI 里面，而是在服务器上利用 SonarQube Scanner 手动执行。从&lt;a href="https://sonarcloud.io/dashboard?id=number317_ssh-tool">检测结果&lt;/a>来看，代码中确实有一些 bug 和代码异味。&lt;/p>
+&lt;p>SonarQube 用于代码质量分析，可以检测出代码的 bug，代码异味，测试覆盖率等，有助于提高代码质量。SonarCloud 是 SonarQube 的在线使用版本，可以集成 github，travisCI。具体操作可以看&lt;a href="https://sonarcloud.io/documentation" target="_blank" rel="noopener noreferrer" >
+ 官方文档
+&lt;/a>
+。&lt;/p>
+&lt;p>之前写了一个终端管理 ssh 登录的小工具，想着检测一下代码质量，就想到用这个工具来检测一下。由于不需要每次提交都进行质量检测，所以没有集成到 CI 里面，而是在服务器上利用 SonarQube Scanner 手动执行。从&lt;a href="https://sonarcloud.io/dashboard?id=number317_ssh-tool" target="_blank" rel="noopener noreferrer" >
+ 检测结果
+&lt;/a>
+来看，代码中确实有一些 bug 和代码异味。&lt;/p>
 &lt;h2 id="安装-build-wrapper">安装 build wrapper&lt;/h2>
-&lt;p>在&lt;a href="https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip">下载页&lt;/a>下载 linux 版的 build wrapper，解压出来应该有两个可执行文件。&lt;/p>
+&lt;p>在&lt;a href="https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip" target="_blank" rel="noopener noreferrer" >
+ 下载页
+&lt;/a>
+下载 linux 版的 build wrapper，解压出来应该有两个可执行文件。&lt;/p>
 
 
 &lt;div class="code-block code-block-container-indented">
@@ -725,7 +793,10 @@ vdb 253:16 0 200G 0 disk&lt;/code>&lt;/pre>
 
 &lt;p>可以将该目录加进&lt;code>PATH&lt;/code>变量，方便调用。&lt;/p>
 &lt;h2 id="安装-sonarqube-scanner">安装 SonarQube Scanner&lt;/h2>
-&lt;p>在&lt;a href="https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner">下载页&lt;/a>找到对应的平台，下载压缩包。解压后得到如下目录：&lt;/p>
+&lt;p>在&lt;a href="https://docs.sonarqube.org/display/SCAN/Analyzing&amp;#43;with&amp;#43;SonarQube&amp;#43;Scanner" target="_blank" rel="noopener noreferrer" >
+ 下载页
+&lt;/a>
+找到对应的平台，下载压缩包。解压后得到如下目录：&lt;/p>
 
 
 &lt;div class="code-block code-block-container-indented">
@@ -741,37 +812,23 @@ vdb 253:16 0 200G 0 disk&lt;/code>&lt;/pre>
 
 &lt;p>可以将上面的&lt;code>bin&lt;/code>目录添加到&lt;code>PATH&lt;/code>环境变量中。&lt;/p>
 &lt;h2 id="构建并分析代码">构建并分析代码&lt;/h2>
-&lt;p>在项目的根目录下执行命令：&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-721041699b280559edf1e846650fbff5">build-wrapper-linux-x86-64 --out-dir bw-output make
-export JAVA_TOOL_OPTIONS=&amp;#34;-Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=443 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=443&amp;#34;
-sonar-scanner \
- -Dsonar.projectKey=number317_ssh-tool \
- -Dsonar.organization=number317-github \
- -Dsonar.sources=. \
- -Dsonar.cfamily.gcov.reportsPath=. \
- -Dsonar.cfamily.build-wrapper-output=bw-output \
- -Dsonar.host.url=https://sonarcloud.io \
- -Dsonar.login=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-721041699b280559edf1e846650fbff5', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;ul>
-&lt;li>&lt;code>JAVA_TOOL_OPTIONS&lt;/code>里面配置了代理服务器。&lt;/li>
-&lt;li>&lt;code>-Dsonar.cfamily.gcov.reportsPath&lt;/code>配置了 gcov 测试结果的路径，用于覆盖率测试。覆盖率测试不达到 80%，代码质量检测无法通过。&lt;/li>
-&lt;li>&lt;code>-Dsonar.login&lt;/code>需要配置 Token，可以在 account → security 生成&lt;/li>
-&lt;/ul></description></item><item><title>Skywalking Deploy</title><link>https://number317.github.io/blog/struct/skywalking_deploy/</link><pubDate>Thu, 25 Apr 2019 17:16:15 +0800</pubDate><guid>https://number317.github.io/blog/struct/skywalking_deploy/</guid><description>&lt;h1 id="skywalking-部署">skywalking 部署&lt;/h1>
-&lt;p>skywalking 是一个国产开源的调用链监控工具，可用于分析请求中哪些操作比较慢。&lt;a href="https://github.com/apache/skywalking-kubernetes">官方&lt;/a>提供了 k8s 的部署配置，但这个配置里的镜像是不对的，具体版本对应的镜像可以在&lt;a href="https://hub.docker.com/r/apache/skywalking-oap-server">Dockerhub&lt;/a>上找到。如果想要更换版本，最好把 ES 中的索引先删除，否则可能会导致应用报错。&lt;/p>
+&lt;p>在项目的根目录下执行命令：&lt;/p></description></item><item><title>Skywalking Deploy</title><link>https://number317.github.io/blog/struct/skywalking_deploy/</link><pubDate>Thu, 25 Apr 2019 17:16:15 +0800</pubDate><guid>https://number317.github.io/blog/struct/skywalking_deploy/</guid><description>&lt;h1 id="skywalking-部署">skywalking 部署&lt;/h1>
+&lt;p>skywalking 是一个国产开源的调用链监控工具，可用于分析请求中哪些操作比较慢。&lt;a href="https://github.com/apache/skywalking-kubernetes" target="_blank" rel="noopener noreferrer" >
+ 官方
+&lt;/a>
+提供了 k8s 的部署配置，但这个配置里的镜像是不对的，具体版本对应的镜像可以在&lt;a href="https://hub.docker.com/r/apache/skywalking-oap-server" target="_blank" rel="noopener noreferrer" >
+ Dockerhub
+&lt;/a>
+上找到。如果想要更换版本，最好把 ES 中的索引先删除，否则可能会导致应用报错。&lt;/p>
 &lt;h2 id="架构说明">架构说明&lt;/h2>
 &lt;ul>
 &lt;li>elasticsearch: 用于存储 skywalking 数据，这里使用的是腾讯云的 ES 服务，因此无需搭建&lt;/li>
 &lt;li>skywalking-oap-server: skywalking 后端&lt;/li>
 &lt;li>ui: 默认 ui 界面&lt;/li>
-&lt;li>&lt;a href="https://github.com/apache/skywalking-rocketbot-ui">rocketbot-ui&lt;/a>: skywalking 的另一个官方前端界面，没有现成的镜像，需要自己构建&lt;/li>
+&lt;li>&lt;a href="https://github.com/apache/skywalking-rocketbot-ui" target="_blank" rel="noopener noreferrer" >
+ rocketbot-ui
+&lt;/a>
+: skywalking 的另一个官方前端界面，没有现成的镜像，需要自己构建&lt;/li>
 &lt;/ul>
 &lt;h2 id="部署">部署&lt;/h2>
 &lt;p>将官方的部署文件克隆到本地，将 oap， ui 的镜像换成对应的版本镜像。修改 oap 配置中的 ES 地址：&lt;/p>
@@ -819,7 +876,10 @@ sonar-scanner \
 &lt;p>为了集群外部访问，可以为前端配置一个域名或者在 service 中添加 externalIPs。&lt;/p></description></item><item><title>Graylog Sidecar</title><link>https://number317.github.io/blog/struct/graylog_sidecar/</link><pubDate>Wed, 14 Nov 2018 17:24:04 +0800</pubDate><guid>https://number317.github.io/blog/struct/graylog_sidecar/</guid><description>&lt;h1 id="graylog-sidecar-部署配置">graylog sidecar 部署配置&lt;/h1>
 &lt;p>graylog sidecar 用于配置从文件读取日志，具体读取文件可以采用filebeat和nxlog。这里在debian的容器中部署sidecar来示例。&lt;/p>
 &lt;h2 id="安装sidecar">安装sidecar&lt;/h2>
-&lt;p>从&lt;a href="https://github.com/Graylog2/collector-sidecar/releases">下载页面&lt;/a>下载对应的包，这里是debian系统，graylog版本是2.4。所以根据文档，下载&lt;code>collector-sidecar_0.1.7-1_amd64.deb&lt;/code>：&lt;/p>
+&lt;p>从&lt;a href="https://github.com/Graylog2/collector-sidecar/releases" target="_blank" rel="noopener noreferrer" >
+ 下载页面
+&lt;/a>
+下载对应的包，这里是debian系统，graylog版本是2.4。所以根据文档，下载&lt;code>collector-sidecar_0.1.7-1_amd64.deb&lt;/code>：&lt;/p>
 
 
 &lt;div class="code-block code-block-container-indented">
@@ -1505,7 +1565,10 @@ end&lt;/code>&lt;/pre>
  &lt;/button>
 &lt;/div>
 
-&lt;p>该配置文件根据官方&lt;a href="http://docs.gluster.org/en/latest/Quick-Start-Guide/Quickstart/">quick start&lt;/a>文档，为虚拟机配置了第二磁盘，用于GlusterFS存储，大小为10G。&lt;/p></description></item><item><title>Fluentd Config</title><link>https://number317.github.io/blog/struct/fluentd_config/</link><pubDate>Fri, 05 Jan 2018 10:14:58 +0800</pubDate><guid>https://number317.github.io/blog/struct/fluentd_config/</guid><description>&lt;h1 id="命令列表">命令列表&lt;/h1>
+&lt;p>该配置文件根据官方&lt;a href="http://docs.gluster.org/en/latest/Quick-Start-Guide/Quickstart/" target="_blank" rel="noopener noreferrer" >
+ quick start
+&lt;/a>
+文档，为虚拟机配置了第二磁盘，用于GlusterFS存储，大小为10G。&lt;/p></description></item><item><title>Fluentd Config</title><link>https://number317.github.io/blog/struct/fluentd_config/</link><pubDate>Fri, 05 Jan 2018 10:14:58 +0800</pubDate><guid>https://number317.github.io/blog/struct/fluentd_config/</guid><description>&lt;h1 id="命令列表">命令列表&lt;/h1>
 &lt;p>Fluentd配置文件由以下配置文件组成：&lt;/p>
 &lt;ol>
 &lt;li>&lt;code>source&lt;/code>命令 指明数据输入源&lt;/li>
@@ -2062,7 +2125,10 @@ for severity in severities:
  &lt;/button>
 &lt;/div>
 
-&lt;p>可以在&lt;a href="http://www.rabbitmq.com/queues.html">队列指南&lt;/a>获取更多&lt;code>exclusive&lt;/code>标签和其他队列属性。&lt;/p>
+&lt;p>可以在&lt;a href="http://www.rabbitmq.com/queues.html" target="_blank" rel="noopener noreferrer" >
+ 队列指南
+&lt;/a>
+获取更多&lt;code>exclusive&lt;/code>标签和其他队列属性。&lt;/p>
 &lt;h2 id="绑定bindings">绑定（Bindings）&lt;/h2>
 &lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_publish_subscribe_img2.png" alt="绑定">&lt;/p>
 &lt;p>我们已经创建了一个&lt;code>fanout&lt;/code>类型的交换。现在我们需要告诉交换发送信息给我们的队列。交换和队列之间的关系叫做绑定：&lt;/p>
@@ -2089,11 +2155,17 @@ for severity in severities:
 &lt;/div></description></item><item><title>Discourse Digest</title><link>https://number317.github.io/blog/struct/discourse_digest/</link><pubDate>Tue, 24 Oct 2017 19:27:59 +0800</pubDate><guid>https://number317.github.io/blog/struct/discourse_digest/</guid><description>&lt;h1 id="问题说明">问题说明&lt;/h1>
 &lt;ul>
 &lt;li>discourse 版本：v1.9.0.beta12 +49&lt;/li>
-&lt;li>discourse 域名: &lt;a href="http://test.test.com/community">http://test.test.com/community&lt;/a>&lt;/li>
+&lt;li>discourse 域名: &lt;a href="http://test.test.com/community" target="_blank" rel="noopener noreferrer" >
+ http://test.test.com/community
+&lt;/a>
+&lt;/li>
 &lt;li>详细情况：discourse 配置好二级域名后，摘要邮件中取消订阅链接错误&lt;/li>
 &lt;/ul></description></item><item><title>Discourse Cas</title><link>https://number317.github.io/blog/struct/discourse_cas/</link><pubDate>Mon, 23 Oct 2017 09:15:44 +0800</pubDate><guid>https://number317.github.io/blog/struct/discourse_cas/</guid><description>&lt;h1 id="discourse-cas-登录配置">discourse cas 登录配置&lt;/h1>
 &lt;h2 id="插件安装">插件安装&lt;/h2>
-&lt;p>cas插件使用&lt;a href="https://github.com/tyl3k/cas_sso.git">tyl3k/cas_sso&lt;/a>，在&lt;code>discourse.yml&lt;/code>中添加&lt;code>git clone https://github.com/tyl3k/cas_sso.git&lt;/code>:&lt;/p></description></item><item><title>Discourse Deploy</title><link>https://number317.github.io/blog/struct/discourse_deploy/</link><pubDate>Wed, 18 Oct 2017 20:03:58 +0800</pubDate><guid>https://number317.github.io/blog/struct/discourse_deploy/</guid><description>&lt;h1 id="discourse-docker-部署">discourse docker 部署&lt;/h1>
+&lt;p>cas插件使用&lt;a href="https://github.com/tyl3k/cas_sso.git" target="_blank" rel="noopener noreferrer" >
+ tyl3k/cas_sso
+&lt;/a>
+，在&lt;code>discourse.yml&lt;/code>中添加&lt;code>git clone https://github.com/tyl3k/cas_sso.git&lt;/code>:&lt;/p></description></item><item><title>Discourse Deploy</title><link>https://number317.github.io/blog/struct/discourse_deploy/</link><pubDate>Wed, 18 Oct 2017 20:03:58 +0800</pubDate><guid>https://number317.github.io/blog/struct/discourse_deploy/</guid><description>&lt;h1 id="discourse-docker-部署">discourse docker 部署&lt;/h1>
 &lt;h2 id="部署说明">部署说明&lt;/h2>
 &lt;ul>
 &lt;li>目标：以容器的方式部署discourse到网站的二级域名，如 &lt;code>http://test.test.com/community/&lt;/code>&lt;/li>

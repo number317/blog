@@ -15,7 +15,10 @@
  &lt;/button>
 &lt;/div>
 
-&lt;p>关于在&lt;code>alpine&lt;/code>镜像中安装&lt;code>glibc&lt;/code>，详情可以参考&lt;a href="https://github.com/sgerrand/alpine-pkg-glibc">github&lt;/a>介绍&lt;/p>
+&lt;p>关于在&lt;code>alpine&lt;/code>镜像中安装&lt;code>glibc&lt;/code>，详情可以参考&lt;a href="https://github.com/sgerrand/alpine-pkg-glibc" target="_blank" rel="noopener noreferrer" >
+ github
+&lt;/a>
+介绍&lt;/p>
 &lt;/li>
 &lt;li>
 &lt;p>在&lt;code>Dockerfile&lt;/code>里需要安装软件的尽量使用国内的源，加快ci构建，常见的操作如下：&lt;/p>
