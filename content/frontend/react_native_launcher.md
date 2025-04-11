@@ -122,4 +122,4 @@ react-native 最新版本已经不支持 android4.4 了，查看了[历史版本
 
 ![img](/frontend/images/react_native_launcher_6.png)
 
-后续等开发了再补上...
+App 目前已经大致开发完成，代码可见[github](https://github.com/number317/BookLauncher)。

@@ -251,7 +251,7 @@ convert gray.png -monochrome two.png
 第二个命令将图片二值化
 
 ```bash
-echo "hello worlc" | curl -F 'f:1=<-' ix.io
+echo "hello world" | curl -F 'f:1=<-' ix.io
 ```
 
 在线剪切板，会返回一个链接
