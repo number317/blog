@@ -5,13 +5,18 @@ author = "cheon"
 canonifyurls = true
 uglyurls = false
 languagecode = "en"
-pagination.pagerSize = 10
 enableGitInfo = true
 pygmentsCodefences = true
 pygmentsUseClasses = false
 #https://help.farbox.com/pygments.html
 pygmentsStyle = "algol_nu"
 pygmentsCodefencesGuessSyntax = true
+
+[pagination]
+  disableAliases = false
+  pagerSize = 10
+  path = 'page'
+
 
 [markup]
   [markup.goldmark]
@@ -48,7 +53,7 @@ pygmentsCodefencesGuessSyntax = true
     disable = true
   [privacy.instagram]
     disable = true
-  [privacy.twitter]
+  [privacy.x]
     disable = true
   [privacy.vimeo]
     disable = true
