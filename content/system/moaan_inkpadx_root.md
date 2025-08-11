@@ -21,7 +21,7 @@ categories = ["system"]
 
 前置环境配置，打开设备调试模式，安装 adb 之类的就不说了。
 
-根据文档所说的原理，提供的[dump_kernel_to_system_signed.zip](https://github.com/qwerty12/inm-5-EPD105-root/raw/main/du_mpkernel_t_o_systemsigned.zip)在我的 InkpadX 上同样适用。将 InkpadX 连接上电脑，选择文件传输模式，电脑上应该可以通过 `adb devices -l` 看到 InkpadX 设备，执行
+根据文档所说的原理，提供的[dump_kernel_to_system_signed.zip](https://github.com/qwerty12/inkPalm-5-EPD105-root/blob/main/dump_kernel_to_system_signed.zip)在我的 InkpadX 上同样适用。将 InkpadX 连接上电脑，选择文件传输模式，电脑上应该可以通过 `adb devices -l` 看到 InkpadX 设备，执行
 
 ```bash
 adb reboot recovery
