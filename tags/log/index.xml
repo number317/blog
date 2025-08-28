@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Log on cheon's blog</title><link>https://number317.github.io/blog/tags/log/</link><description>Recent content in Log on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/log/index.xml" rel="self" type="application/rss+xml"/><item><title>Logstash to ES</title><link>https://number317.github.io/blog/struct/logstash_to_es/</link><pubDate>Thu, 04 Jul 2019 09:26:33 +0800</pubDate><guid>https://number317.github.io/blog/struct/logstash_to_es/</guid><description>&lt;h1 id="logstash-配置日志发送-es">logstash 配置日志发送 ES&lt;/h1>
-&lt;p>日志收集的架构如下所示:&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Log on cheon's blog</title><link>https://number317.github.io/blog/tags/log/</link><description>Recent content in Log on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/log/index.xml" rel="self" type="application/rss+xml"/><item><title>Logstash to ES</title><link>https://number317.github.io/blog/struct/logstash_to_es/</link><pubDate>Thu, 04 Jul 2019 09:26:33 +0800</pubDate><guid>https://number317.github.io/blog/struct/logstash_to_es/</guid><description>&lt;h1 id="logstash-配置日志发送-es"&gt;logstash 配置日志发送 ES&lt;/h1&gt;
+&lt;p&gt;日志收集的架构如下所示:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-dd776a9148333f861a20a507e07ee50e">┌────────────┐
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-dd776a9148333f861a20a507e07ee50e"&gt;┌────────────┐
 │Java logback│\
 └────────────┘ \
  ┌─────┐ ┌────────┐ ┌──────┐ ┌────────┐
@@ -11,20 +11,20 @@
  └─────┘ └────────┘ └──────┘ └────────┘
 ┌────────────┐ /
 │Java logback│/
-└────────────┘&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-dd776a9148333f861a20a507e07ee50e', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+└────────────┘&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-dd776a9148333f861a20a507e07ee50e', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>java 应用日志通过 logback 发送给 kafka，logstash 从 kafka 消费日志，并将日志转发给 ES。一开始一个应用一个 kafka topic，logstash 消费了之后根据 topic 来确定 ES 的索引。&lt;/p>
-&lt;p>logback 的配置:&lt;/p>
-&lt;details>
-&lt;summary>logback.xml&lt;/summary>
+&lt;p&gt;java 应用日志通过 logback 发送给 kafka，logstash 从 kafka 消费日志，并将日志转发给 ES。一开始一个应用一个 kafka topic，logstash 消费了之后根据 topic 来确定 ES 的索引。&lt;/p&gt;
+&lt;p&gt;logback 的配置:&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;logback.xml&lt;/summary&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-83d902ab8f9eb43f320752d9fbc549f6">&amp;lt;appender name=&amp;#34;KAFKA&amp;#34; class=&amp;#34;com.github.danielwegener.logback.kafka.KafkaAppender&amp;#34;&amp;gt;
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-83d902ab8f9eb43f320752d9fbc549f6"&gt;&amp;lt;appender name=&amp;#34;KAFKA&amp;#34; class=&amp;#34;com.github.danielwegener.logback.kafka.KafkaAppender&amp;#34;&amp;gt;
  &amp;lt;encoder class=&amp;#34;ch.qos.logback.classic.encoder.PatternLayoutEncoder&amp;#34; charset=&amp;#34;UTF-8&amp;#34; &amp;gt;
  &amp;lt;pattern&amp;gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n&amp;lt;/pattern&amp;gt;
  &amp;lt;/encoder&amp;gt;
@@ -39,56 +39,56 @@
 &amp;lt;/appender&amp;gt;
 &amp;lt;logger name=&amp;#34;com.cheon.demo&amp;#34; level=&amp;#34;INFO&amp;#34; additivity=&amp;#34;false&amp;#34;&amp;gt;
  &amp;lt;appender-ref ref=&amp;#34;KAFKA&amp;#34; /&amp;gt;
-&amp;lt;/logger&amp;gt;&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-83d902ab8f9eb43f320752d9fbc549f6', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&amp;lt;/logger&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-83d902ab8f9eb43f320752d9fbc549f6', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;/details>
-&lt;p>pom 文件依赖:&lt;/p></description></item><item><title>Graylog Sidecar</title><link>https://number317.github.io/blog/struct/graylog_sidecar/</link><pubDate>Wed, 14 Nov 2018 17:24:04 +0800</pubDate><guid>https://number317.github.io/blog/struct/graylog_sidecar/</guid><description>&lt;h1 id="graylog-sidecar-部署配置">graylog sidecar 部署配置&lt;/h1>
-&lt;p>graylog sidecar 用于配置从文件读取日志，具体读取文件可以采用filebeat和nxlog。这里在debian的容器中部署sidecar来示例。&lt;/p>
-&lt;h2 id="安装sidecar">安装sidecar&lt;/h2>
-&lt;p>从&lt;a href="https://github.com/Graylog2/collector-sidecar/releases" target="_blank" rel="noopener noreferrer" >
+&lt;/details&gt;
+&lt;p&gt;pom 文件依赖:&lt;/p&gt;</description></item><item><title>Graylog Sidecar</title><link>https://number317.github.io/blog/struct/graylog_sidecar/</link><pubDate>Wed, 14 Nov 2018 17:24:04 +0800</pubDate><guid>https://number317.github.io/blog/struct/graylog_sidecar/</guid><description>&lt;h1 id="graylog-sidecar-部署配置"&gt;graylog sidecar 部署配置&lt;/h1&gt;
+&lt;p&gt;graylog sidecar 用于配置从文件读取日志，具体读取文件可以采用filebeat和nxlog。这里在debian的容器中部署sidecar来示例。&lt;/p&gt;
+&lt;h2 id="安装sidecar"&gt;安装sidecar&lt;/h2&gt;
+&lt;p&gt;从&lt;a href="https://github.com/Graylog2/collector-sidecar/releases" target="_blank" rel="noopener noreferrer" &gt;
  下载页面
-&lt;/a>
-下载对应的包，这里是debian系统，graylog版本是2.4。所以根据文档，下载&lt;code>collector-sidecar_0.1.7-1_amd64.deb&lt;/code>：&lt;/p>
+&lt;/a&gt;
+下载对应的包，这里是debian系统，graylog版本是2.4。所以根据文档，下载&lt;code&gt;collector-sidecar_0.1.7-1_amd64.deb&lt;/code&gt;：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-0e2bc5b8c0291399e63a0940370f4c54">curl -OL &amp;#34;https://github.com/Graylog2/collector-sidecar/releases/download/0.1.7/collector-sidecar_0.1.7-1_amd64.deb&amp;#34;&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-0e2bc5b8c0291399e63a0940370f4c54', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-0e2bc5b8c0291399e63a0940370f4c54"&gt;curl -OL &amp;#34;https://github.com/Graylog2/collector-sidecar/releases/download/0.1.7/collector-sidecar_0.1.7-1_amd64.deb&amp;#34;&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-0e2bc5b8c0291399e63a0940370f4c54', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>下载好后安装：&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-000bd49e39ed30b1c5a0457b05aca32e">dpkg -i collector-sidecar_0.1.7-1_amd64.deb&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-000bd49e39ed30b1c5a0457b05aca32e', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>安装好后配置system服务：&lt;/p>
+&lt;p&gt;下载好后安装：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-280a7782acdc4aff590046950709e3c9">graylog-collector-sidecar -service install&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-280a7782acdc4aff590046950709e3c9', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-000bd49e39ed30b1c5a0457b05aca32e"&gt;dpkg -i collector-sidecar_0.1.7-1_amd64.deb&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-000bd49e39ed30b1c5a0457b05aca32e', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>这个命令会生成&lt;code>/etc/init.d/collector-sidecar&lt;/code>脚步，但是在容器中可能systemctl命令执行不了，可以直接执行该脚本。&lt;/p>
-&lt;h2 id="配置sidecar">配置sidecar&lt;/h2>
-&lt;p>编辑配置文件&lt;code>/etc/graylog/collector-sidecar&lt;/code>，改为以下内容：&lt;/p>
+&lt;p&gt;安装好后配置system服务：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-1b3d2131eb0dc8acdb078abe7cd29206">server_url: http://graylog.test.com/api/
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-280a7782acdc4aff590046950709e3c9"&gt;graylog-collector-sidecar -service install&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-280a7782acdc4aff590046950709e3c9', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;p&gt;这个命令会生成&lt;code&gt;/etc/init.d/collector-sidecar&lt;/code&gt;脚步，但是在容器中可能systemctl命令执行不了，可以直接执行该脚本。&lt;/p&gt;
+&lt;h2 id="配置sidecar"&gt;配置sidecar&lt;/h2&gt;
+&lt;p&gt;编辑配置文件&lt;code&gt;/etc/graylog/collector-sidecar&lt;/code&gt;，改为以下内容：&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-1b3d2131eb0dc8acdb078abe7cd29206"&gt;server_url: http://graylog.test.com/api/
 update_interval: 10
 tls_skip_verify: false
 send_status: true
@@ -109,18 +109,18 @@ backends:
  - name: filebeat
  enabled: true
  binary_path: /usr/bin/filebeat
- configuration_path: /etc/graylog/collector-sidecar/generated/filebeat.yml&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-1b3d2131eb0dc8acdb078abe7cd29206', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+ configuration_path: /etc/graylog/collector-sidecar/generated/filebeat.yml&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-1b3d2131eb0dc8acdb078abe7cd29206', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>主要是修改&lt;code>server_url&lt;/code>和&lt;code>tags&lt;/code>两项内容。&lt;/p></description></item><item><title>Graylog K8s Install</title><link>https://number317.github.io/blog/struct/graylog_k8s_install/</link><pubDate>Wed, 14 Nov 2018 16:20:50 +0800</pubDate><guid>https://number317.github.io/blog/struct/graylog_k8s_install/</guid><description>&lt;h1 id="graylog-k8s-部署">graylog k8s 部署&lt;/h1>
-&lt;p>graylog是一个日志聚合工具，用于统一展示应用日志。这里基于官方文档，在k8s集群中部署一套简单的单节点graylog服务。&lt;/p>
-&lt;h2 id="mongodb-部署">mongodb 部署&lt;/h2>
-&lt;p>mongodb 在服务中用于存储graylog的配置信息。以下是部署文件（没有进行数据持久化操作）：&lt;/p>
-&lt;details>
-&lt;summary>mongodb deploy&lt;/summary>
+&lt;p&gt;主要是修改&lt;code&gt;server_url&lt;/code&gt;和&lt;code&gt;tags&lt;/code&gt;两项内容。&lt;/p&gt;</description></item><item><title>Graylog K8s Install</title><link>https://number317.github.io/blog/struct/graylog_k8s_install/</link><pubDate>Wed, 14 Nov 2018 16:20:50 +0800</pubDate><guid>https://number317.github.io/blog/struct/graylog_k8s_install/</guid><description>&lt;h1 id="graylog-k8s-部署"&gt;graylog k8s 部署&lt;/h1&gt;
+&lt;p&gt;graylog是一个日志聚合工具，用于统一展示应用日志。这里基于官方文档，在k8s集群中部署一套简单的单节点graylog服务。&lt;/p&gt;
+&lt;h2 id="mongodb-部署"&gt;mongodb 部署&lt;/h2&gt;
+&lt;p&gt;mongodb 在服务中用于存储graylog的配置信息。以下是部署文件（没有进行数据持久化操作）：&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;mongodb deploy&lt;/summary&gt;
 ```yaml
 # {{{ deploy
 ---
@@ -186,24 +186,24 @@ status:
  loadBalancer: {}
 # }}}
 ```
-&lt;/details>
-&lt;h2 id="elasticsearch-部署">elasticsearch 部署&lt;/h2>
-&lt;p>elasticsearch 在服务中用于存储日志数据。以下是部署文件（没有进行数据持久化操作）：&lt;/p></description></item><item><title>Fluentd Config</title><link>https://number317.github.io/blog/struct/fluentd_config/</link><pubDate>Fri, 05 Jan 2018 10:14:58 +0800</pubDate><guid>https://number317.github.io/blog/struct/fluentd_config/</guid><description>&lt;h1 id="命令列表">命令列表&lt;/h1>
-&lt;p>Fluentd配置文件由以下配置文件组成：&lt;/p>
-&lt;ol>
-&lt;li>&lt;code>source&lt;/code>命令 指明数据输入源&lt;/li>
-&lt;li>&lt;code>match&lt;/code>命令 指明数据输出源&lt;/li>
-&lt;li>&lt;code>filter&lt;/code>命令 指明事件处理的管道&lt;/li>
-&lt;li>&lt;code>system&lt;/code>命令 指明系统级别配置&lt;/li>
-&lt;li>&lt;code>label&lt;/code>命令 为输出分组并过滤内部路由&lt;/li>
-&lt;li>&lt;code>include&lt;/code>命令 包含其他文件&lt;/li>
-&lt;/ol>
-&lt;h1 id="命令详解">命令详解&lt;/h1>
-&lt;ol>
-&lt;li>
-&lt;p>&lt;code>source&lt;/code>: 数据的来源&lt;/p>
-&lt;p>Fluentd的输入源通过&lt;code>source&lt;/code>命令选择和配置想要的输入插件来启用。Fluentd的标准输入插件包括&lt;code>http&lt;/code>和&lt;code>forward&lt;/code>。&lt;code>http&lt;/code>使得Fluentd转变为一个HTTP终端用于接收到来的HTTP信息，而&lt;code>forward&lt;/code>将fluentd转变为一个TCP终端用于接收TCP包。当然，它们可以被同时启用。&lt;/p>
-&lt;pre>&lt;code> # Receive events from 24224/tcp
+&lt;/details&gt;
+&lt;h2 id="elasticsearch-部署"&gt;elasticsearch 部署&lt;/h2&gt;
+&lt;p&gt;elasticsearch 在服务中用于存储日志数据。以下是部署文件（没有进行数据持久化操作）：&lt;/p&gt;</description></item><item><title>Fluentd Config</title><link>https://number317.github.io/blog/struct/fluentd_config/</link><pubDate>Fri, 05 Jan 2018 10:14:58 +0800</pubDate><guid>https://number317.github.io/blog/struct/fluentd_config/</guid><description>&lt;h1 id="命令列表"&gt;命令列表&lt;/h1&gt;
+&lt;p&gt;Fluentd配置文件由以下配置文件组成：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;source&lt;/code&gt;命令 指明数据输入源&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;match&lt;/code&gt;命令 指明数据输出源&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;filter&lt;/code&gt;命令 指明事件处理的管道&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;system&lt;/code&gt;命令 指明系统级别配置&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;label&lt;/code&gt;命令 为输出分组并过滤内部路由&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;include&lt;/code&gt;命令 包含其他文件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id="命令详解"&gt;命令详解&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;source&lt;/code&gt;: 数据的来源&lt;/p&gt;
+&lt;p&gt;Fluentd的输入源通过&lt;code&gt;source&lt;/code&gt;命令选择和配置想要的输入插件来启用。Fluentd的标准输入插件包括&lt;code&gt;http&lt;/code&gt;和&lt;code&gt;forward&lt;/code&gt;。&lt;code&gt;http&lt;/code&gt;使得Fluentd转变为一个HTTP终端用于接收到来的HTTP信息，而&lt;code&gt;forward&lt;/code&gt;将fluentd转变为一个TCP终端用于接收TCP包。当然，它们可以被同时启用。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; # Receive events from 24224/tcp
  # This is used by log forwarding and the fluent-cat command
  &amp;lt;source&amp;gt;
  @type forward
@@ -215,13 +215,13 @@ status:
  @type http
  port 9880
  &amp;lt;/source&amp;gt;
-&lt;/code>&lt;/pre>
-&lt;p>每一个&lt;code>source&lt;/code>命令必须包含一个&lt;code>type&lt;/code>参数。&lt;code>type&lt;/code>参数指定使用哪一个输入插件。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;code>match&lt;/code>: 告诉fluentd做什么&lt;/p>
-&lt;p>&lt;code>match&lt;/code>命令寻找匹配标签的事件并且处理它们。&lt;code>match&lt;/code>命令最常见的用法是将事件输出到其他系统（由于这个原因，这些插件被称为”输出插件“）。Fluentd的标准输出插件包括&lt;code>file&lt;/code>和&lt;code>forward&lt;/code>。&lt;/p>
-&lt;pre>&lt;code> # Receive events from 24224/tcp
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;每一个&lt;code&gt;source&lt;/code&gt;命令必须包含一个&lt;code&gt;type&lt;/code&gt;参数。&lt;code&gt;type&lt;/code&gt;参数指定使用哪一个输入插件。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;match&lt;/code&gt;: 告诉fluentd做什么&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;match&lt;/code&gt;命令寻找匹配标签的事件并且处理它们。&lt;code&gt;match&lt;/code&gt;命令最常见的用法是将事件输出到其他系统（由于这个原因，这些插件被称为”输出插件“）。Fluentd的标准输出插件包括&lt;code&gt;file&lt;/code&gt;和&lt;code&gt;forward&lt;/code&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; # Receive events from 24224/tcp
  # This is used by log forwarding and the fluent-cat command
  &amp;lt;source&amp;gt;
  @type forward
@@ -242,5 +242,5 @@ status:
  @type file
  path /var/log/fluent/access
  &amp;lt;/match&amp;gt;
-&lt;/code>&lt;/pre>
-&lt;p>每一个&lt;code>match&lt;/code>命令必须包括一个匹配的样式(match pattern)和一个&lt;code>type&lt;/code>参数。只有拥有一个和匹配样式(match pattern)匹配的标签的事件才会被送到输出源（在上面的例子中，只有拥有&amp;quot;myapp.access&amp;quot;标签的事件是匹配的）。&lt;code>type&lt;/code>参数指定了哪个输出插件被使用。&lt;/p></description></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;每一个&lt;code&gt;match&lt;/code&gt;命令必须包括一个匹配的样式(match pattern)和一个&lt;code&gt;type&lt;/code&gt;参数。只有拥有一个和匹配样式(match pattern)匹配的标签的事件才会被送到输出源（在上面的例子中，只有拥有&amp;quot;myapp.access&amp;quot;标签的事件是匹配的）。&lt;code&gt;type&lt;/code&gt;参数指定了哪个输出插件被使用。&lt;/p&gt;</description></item></channel></rss>

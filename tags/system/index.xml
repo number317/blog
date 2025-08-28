@@ -1,21 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>System on cheon's blog</title><link>https://number317.github.io/blog/tags/system/</link><description>Recent content in System on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/system/index.xml" rel="self" type="application/rss+xml"/><item><title>Archlinux Nvidia</title><link>https://number317.github.io/blog/system/archlinux_nvidia/</link><pubDate>Sun, 29 Sep 2019 14:07:53 +0800</pubDate><guid>https://number317.github.io/blog/system/archlinux_nvidia/</guid><description>&lt;h1 id="archlinux-配置-nvidia-独立显卡">ArchLinux 配置 nvidia 独立显卡&lt;/h1>
-&lt;p>按照 &lt;a href="https://download.nvidia.com/XFree86/Linux-x86_64/435.21/README/primerenderoffload.html" target="_blank" rel="noopener noreferrer" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>System on cheon's blog</title><link>https://number317.github.io/blog/tags/system/</link><description>Recent content in System on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/system/index.xml" rel="self" type="application/rss+xml"/><item><title>Archlinux Nvidia</title><link>https://number317.github.io/blog/system/archlinux_nvidia/</link><pubDate>Sun, 29 Sep 2019 14:07:53 +0800</pubDate><guid>https://number317.github.io/blog/system/archlinux_nvidia/</guid><description>&lt;h1 id="archlinux-配置-nvidia-独立显卡"&gt;ArchLinux 配置 nvidia 独立显卡&lt;/h1&gt;
+&lt;p&gt;按照 &lt;a href="https://download.nvidia.com/XFree86/Linux-x86_64/435.21/README/primerenderoffload.html" target="_blank" rel="noopener noreferrer" &gt;
  PRIME Render Offload
-&lt;/a>
- 文档，安装新版本的 nvidia 驱动和 xorg，新版本的 xorg 安装包可以从 &lt;a href="https://gitlab.freedesktop.org/aplattner/arch-xorg-server" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+ 文档，安装新版本的 nvidia 驱动和 xorg，新版本的 xorg 安装包可以从 &lt;a href="https://gitlab.freedesktop.org/aplattner/arch-xorg-server" target="_blank" rel="noopener noreferrer" &gt;
  arch-xorg-server
-&lt;/a>
+&lt;/a&gt;
  构建。
-修改配置文件 &lt;code>/etc/X11/xorg.conf&lt;/code> ，主要添加&lt;/p>
-&lt;pre>&lt;code>Section &amp;quot;ServerLayout&amp;quot;
+修改配置文件 &lt;code&gt;/etc/X11/xorg.conf&lt;/code&gt; ，主要添加&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Section &amp;quot;ServerLayout&amp;quot;
  Identifier &amp;quot;layout&amp;quot;
  Option &amp;quot;AllowNVIDIAGPUScreens&amp;quot;
 EndSection
-&lt;/code>&lt;/pre>
-&lt;p>完整配置如下:&lt;/p>
-&lt;details>
-&lt;summary>xorg.conf&lt;/summary>
-&lt;pre>&lt;code>Section &amp;quot;ServerLayout&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;完整配置如下:&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;xorg.conf&lt;/summary&gt;
+&lt;pre&gt;&lt;code&gt;Section &amp;quot;ServerLayout&amp;quot;
  Identifier &amp;quot;X.org Configured&amp;quot;
  Screen 0 &amp;quot;Screen0&amp;quot; 0 0
  #Screen 1 &amp;quot;Screen1&amp;quot; RightOf &amp;quot;Screen0&amp;quot;
@@ -118,6 +118,6 @@ Section &amp;quot;Screen&amp;quot;
  Depth 24
  EndSubSection
 EndSection
-&lt;/code>&lt;/pre>
-&lt;/details>
-&lt;p>安装好软件后需要重启电脑，开启桌面后执行 &lt;code>xrandr --listproviders&lt;/code> ，应该可以看到如下结果:&lt;/p></description></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/details&gt;
+&lt;p&gt;安装好软件后需要重启电脑，开启桌面后执行 &lt;code&gt;xrandr --listproviders&lt;/code&gt; ，应该可以看到如下结果:&lt;/p&gt;</description></item></channel></rss>

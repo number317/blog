@@ -1,62 +1,62 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Aop on cheon's blog</title><link>https://number317.github.io/blog/tags/aop/</link><description>Recent content in Aop on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 14 Jun 2019 01:21:26 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/aop/index.xml" rel="self" type="application/rss+xml"/><item><title>Skywalking Deploy</title><link>https://number317.github.io/blog/struct/skywalking_deploy/</link><pubDate>Thu, 25 Apr 2019 17:16:15 +0800</pubDate><guid>https://number317.github.io/blog/struct/skywalking_deploy/</guid><description>&lt;h1 id="skywalking-部署">skywalking 部署&lt;/h1>
-&lt;p>skywalking 是一个国产开源的调用链监控工具，可用于分析请求中哪些操作比较慢。&lt;a href="https://github.com/apache/skywalking-kubernetes" target="_blank" rel="noopener noreferrer" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Aop on cheon's blog</title><link>https://number317.github.io/blog/tags/aop/</link><description>Recent content in Aop on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 14 Jun 2019 01:21:26 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/aop/index.xml" rel="self" type="application/rss+xml"/><item><title>Skywalking Deploy</title><link>https://number317.github.io/blog/struct/skywalking_deploy/</link><pubDate>Thu, 25 Apr 2019 17:16:15 +0800</pubDate><guid>https://number317.github.io/blog/struct/skywalking_deploy/</guid><description>&lt;h1 id="skywalking-部署"&gt;skywalking 部署&lt;/h1&gt;
+&lt;p&gt;skywalking 是一个国产开源的调用链监控工具，可用于分析请求中哪些操作比较慢。&lt;a href="https://github.com/apache/skywalking-kubernetes" target="_blank" rel="noopener noreferrer" &gt;
  官方
-&lt;/a>
-提供了 k8s 的部署配置，但这个配置里的镜像是不对的，具体版本对应的镜像可以在&lt;a href="https://hub.docker.com/r/apache/skywalking-oap-server" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+提供了 k8s 的部署配置，但这个配置里的镜像是不对的，具体版本对应的镜像可以在&lt;a href="https://hub.docker.com/r/apache/skywalking-oap-server" target="_blank" rel="noopener noreferrer" &gt;
  Dockerhub
-&lt;/a>
-上找到。如果想要更换版本，最好把 ES 中的索引先删除，否则可能会导致应用报错。&lt;/p>
-&lt;h2 id="架构说明">架构说明&lt;/h2>
-&lt;ul>
-&lt;li>elasticsearch: 用于存储 skywalking 数据，这里使用的是腾讯云的 ES 服务，因此无需搭建&lt;/li>
-&lt;li>skywalking-oap-server: skywalking 后端&lt;/li>
-&lt;li>ui: 默认 ui 界面&lt;/li>
-&lt;li>&lt;a href="https://github.com/apache/skywalking-rocketbot-ui" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+上找到。如果想要更换版本，最好把 ES 中的索引先删除，否则可能会导致应用报错。&lt;/p&gt;
+&lt;h2 id="架构说明"&gt;架构说明&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;elasticsearch: 用于存储 skywalking 数据，这里使用的是腾讯云的 ES 服务，因此无需搭建&lt;/li&gt;
+&lt;li&gt;skywalking-oap-server: skywalking 后端&lt;/li&gt;
+&lt;li&gt;ui: 默认 ui 界面&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/apache/skywalking-rocketbot-ui" target="_blank" rel="noopener noreferrer" &gt;
  rocketbot-ui
-&lt;/a>
-: skywalking 的另一个官方前端界面，没有现成的镜像，需要自己构建&lt;/li>
-&lt;/ul>
-&lt;h2 id="部署">部署&lt;/h2>
-&lt;p>将官方的部署文件克隆到本地，将 oap， ui 的镜像换成对应的版本镜像。修改 oap 配置中的 ES 地址：&lt;/p>
+&lt;/a&gt;
+: skywalking 的另一个官方前端界面，没有现成的镜像，需要自己构建&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="部署"&gt;部署&lt;/h2&gt;
+&lt;p&gt;将官方的部署文件克隆到本地，将 oap， ui 的镜像换成对应的版本镜像。修改 oap 配置中的 ES 地址：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-3ae6d3faa77420609b72248e47aae35d">storage:
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-3ae6d3faa77420609b72248e47aae35d"&gt;storage:
  elasticsearch:
- clusterNodes: elasticsearch:9200&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-3ae6d3faa77420609b72248e47aae35d', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+ clusterNodes: elasticsearch:9200&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-3ae6d3faa77420609b72248e47aae35d', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>先创建命名空间：&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-9913ba93459ca53e19605a2037cfc70f">kubectl create ns skywalking&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-9913ba93459ca53e19605a2037cfc70f', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>接着部署 oap 后端：&lt;/p>
+&lt;p&gt;先创建命名空间：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-0c383f50b102b983a9d4459d8e47871b">kubectl apply -f oap/&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-0c383f50b102b983a9d4459d8e47871b', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-9913ba93459ca53e19605a2037cfc70f"&gt;kubectl create ns skywalking&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-9913ba93459ca53e19605a2037cfc70f', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>再部署前端：&lt;/p>
+&lt;p&gt;接着部署 oap 后端：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-a3fbf1dcbbbdff45c9974ac7c3dfad27">kubectl apply -f ui/&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-a3fbf1dcbbbdff45c9974ac7c3dfad27', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-0c383f50b102b983a9d4459d8e47871b"&gt;kubectl apply -f oap/&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-0c383f50b102b983a9d4459d8e47871b', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>为了集群外部访问，可以为前端配置一个域名或者在 service 中添加 externalIPs。&lt;/p></description></item></channel></rss>
+&lt;p&gt;再部署前端：&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-a3fbf1dcbbbdff45c9974ac7c3dfad27"&gt;kubectl apply -f ui/&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-a3fbf1dcbbbdff45c9974ac7c3dfad27', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;p&gt;为了集群外部访问，可以为前端配置一个域名或者在 service 中添加 externalIPs。&lt;/p&gt;</description></item></channel></rss>

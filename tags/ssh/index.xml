@@ -1,36 +1,36 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ssh on cheon's blog</title><link>https://number317.github.io/blog/tags/ssh/</link><description>Recent content in Ssh on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 14 Jun 2019 18:04:33 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/ssh/index.xml" rel="self" type="application/rss+xml"/><item><title>Ssh Config</title><link>https://number317.github.io/blog/solved/ssh_config/</link><pubDate>Fri, 14 Jun 2019 17:22:12 +0800</pubDate><guid>https://number317.github.io/blog/solved/ssh_config/</guid><description>&lt;h1 id="ssh-错误排查">ssh 错误排查&lt;/h1>
-&lt;p>新拿到的6台服务器，通过&lt;a href="https://github.com/jumpserver/jumpserver" target="_blank" rel="noopener noreferrer" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ssh on cheon's blog</title><link>https://number317.github.io/blog/tags/ssh/</link><description>Recent content in Ssh on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 14 Jun 2019 18:04:33 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/ssh/index.xml" rel="self" type="application/rss+xml"/><item><title>Ssh Config</title><link>https://number317.github.io/blog/solved/ssh_config/</link><pubDate>Fri, 14 Jun 2019 17:22:12 +0800</pubDate><guid>https://number317.github.io/blog/solved/ssh_config/</guid><description>&lt;h1 id="ssh-错误排查"&gt;ssh 错误排查&lt;/h1&gt;
+&lt;p&gt;新拿到的6台服务器，通过&lt;a href="https://github.com/jumpserver/jumpserver" target="_blank" rel="noopener noreferrer" &gt;
  jumpserver
-&lt;/a>
-用密钥登录到其中一台服务器，用 ssh 以账户密码的方式登录到其中另外一台服务器时遇见如下错误:&lt;/p>
+&lt;/a&gt;
+用密钥登录到其中一台服务器，用 ssh 以账户密码的方式登录到其中另外一台服务器时遇见如下错误:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-7fa12cf86017b099c457a16e39bfbf17">Permission denied (publickey,gssapi-keyex,gssapi-with-mic).&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-7fa12cf86017b099c457a16e39bfbf17', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-7fa12cf86017b099c457a16e39bfbf17"&gt;Permission denied (publickey,gssapi-keyex,gssapi-with-mic).&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-7fa12cf86017b099c457a16e39bfbf17', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>测试登录另外一台服务器，发现可以正常登录；测试登录自己，报相同的错误。可以判断应该是 ssh 服务端配置有问题。&lt;br>
-经过排查，发现应该是服务端没有开启密码认证，修改&lt;code>/etc/ssh/sshd_config&lt;/code>，修改为如下配置，将&lt;code>no&lt;/code>替换为&lt;code>yes&lt;/code>:&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-cd94e87e5216cd088acdc4de0e9c30f1">PasswordAuthentication yes&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-cd94e87e5216cd088acdc4de0e9c30f1', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>保存配置重新启动 sshd 服务:&lt;/p>
+&lt;p&gt;测试登录另外一台服务器，发现可以正常登录；测试登录自己，报相同的错误。可以判断应该是 ssh 服务端配置有问题。&lt;br&gt;
+经过排查，发现应该是服务端没有开启密码认证，修改&lt;code&gt;/etc/ssh/sshd_config&lt;/code&gt;，修改为如下配置，将&lt;code&gt;no&lt;/code&gt;替换为&lt;code&gt;yes&lt;/code&gt;:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-e06691039677b69f72b0d32bc8826664">systemctl restart sshd&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-e06691039677b69f72b0d32bc8826664', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-cd94e87e5216cd088acdc4de0e9c30f1"&gt;PasswordAuthentication yes&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-cd94e87e5216cd088acdc4de0e9c30f1', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>再次测试发现已经可以登录了&lt;/p></description></item></channel></rss>
+&lt;p&gt;保存配置重新启动 sshd 服务:&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-e06691039677b69f72b0d32bc8826664"&gt;systemctl restart sshd&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-e06691039677b69f72b0d32bc8826664', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;p&gt;再次测试发现已经可以登录了&lt;/p&gt;</description></item></channel></rss>

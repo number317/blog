@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Fs on cheon's blog</title><link>https://number317.github.io/blog/tags/fs/</link><description>Recent content in Fs on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 14 Jun 2019 01:21:26 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/fs/index.xml" rel="self" type="application/rss+xml"/><item><title>Glusterfs Deploy</title><link>https://number317.github.io/blog/struct/glusterfs_deploy/</link><pubDate>Tue, 09 Jan 2018 10:09:35 +0800</pubDate><guid>https://number317.github.io/blog/struct/glusterfs_deploy/</guid><description>&lt;h1 id="glusterfs-centos-部署">glusterfs centos 部署&lt;/h1>
-&lt;p>GlusterFS是一个开源的分布式文件系统，这里部署它主要为了解决文件存储的单点问题。&lt;/p>
-&lt;h2 id="虚拟机配置">虚拟机配置&lt;/h2>
-&lt;p>此处采用vagrant部署centos的虚拟机三台，box可以采用bento/centos7.2，配置文件如下：&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Fs on cheon's blog</title><link>https://number317.github.io/blog/tags/fs/</link><description>Recent content in Fs on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 14 Jun 2019 01:21:26 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/fs/index.xml" rel="self" type="application/rss+xml"/><item><title>Glusterfs Deploy</title><link>https://number317.github.io/blog/struct/glusterfs_deploy/</link><pubDate>Tue, 09 Jan 2018 10:09:35 +0800</pubDate><guid>https://number317.github.io/blog/struct/glusterfs_deploy/</guid><description>&lt;h1 id="glusterfs-centos-部署"&gt;glusterfs centos 部署&lt;/h1&gt;
+&lt;p&gt;GlusterFS是一个开源的分布式文件系统，这里部署它主要为了解决文件存储的单点问题。&lt;/p&gt;
+&lt;h2 id="虚拟机配置"&gt;虚拟机配置&lt;/h2&gt;
+&lt;p&gt;此处采用vagrant部署centos的虚拟机三台，box可以采用bento/centos7.2，配置文件如下：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-0dbaa6085bc2e658d20f713b5fc0fdcc">Vagrant.configure(&amp;#34;2&amp;#34;) do |config|
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-0dbaa6085bc2e658d20f713b5fc0fdcc"&gt;Vagrant.configure(&amp;#34;2&amp;#34;) do |config|
  (1..3).each do |i|
  config.vm.define &amp;#34;gluster-node#{i}&amp;#34; do |node|
  file_to_disk = &amp;#34;tmp/gluster_node#{i}_disk.vdi&amp;#34;
@@ -24,13 +24,13 @@
  end
  end
  end
-end&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-0dbaa6085bc2e658d20f713b5fc0fdcc', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+end&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-0dbaa6085bc2e658d20f713b5fc0fdcc', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>该配置文件根据官方&lt;a href="http://docs.gluster.org/en/latest/Quick-Start-Guide/Quickstart/" target="_blank" rel="noopener noreferrer" >
+&lt;p&gt;该配置文件根据官方&lt;a href="http://docs.gluster.org/en/latest/Quick-Start-Guide/Quickstart/" target="_blank" rel="noopener noreferrer" &gt;
  quick start
-&lt;/a>
-文档，为虚拟机配置了第二磁盘，用于GlusterFS存储，大小为10G。&lt;/p></description></item></channel></rss>
+&lt;/a&gt;
+文档，为虚拟机配置了第二磁盘，用于GlusterFS存储，大小为10G。&lt;/p&gt;</description></item></channel></rss>

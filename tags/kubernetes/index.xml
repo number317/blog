@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes on cheon's blog</title><link>https://number317.github.io/blog/tags/kubernetes/</link><description>Recent content in Kubernetes on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/kubernetes/index.xml" rel="self" type="application/rss+xml"/><item><title>Redis Somaxconn</title><link>https://number317.github.io/blog/solved/redis_somaxconn/</link><pubDate>Mon, 13 Aug 2018 11:07:55 +0800</pubDate><guid>https://number317.github.io/blog/solved/redis_somaxconn/</guid><description>&lt;h1 id="kubernetes-redis-最大连接数设置">kubernetes redis 最大连接数设置&lt;/h1>
-&lt;p>应用在进行压力测试的时候发现请求多（5000并发）的时候会报出redis连接超时错误，查看了redis的配置，发现如下配置：&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes on cheon's blog</title><link>https://number317.github.io/blog/tags/kubernetes/</link><description>Recent content in Kubernetes on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/kubernetes/index.xml" rel="self" type="application/rss+xml"/><item><title>Redis Somaxconn</title><link>https://number317.github.io/blog/solved/redis_somaxconn/</link><pubDate>Mon, 13 Aug 2018 11:07:55 +0800</pubDate><guid>https://number317.github.io/blog/solved/redis_somaxconn/</guid><description>&lt;h1 id="kubernetes-redis-最大连接数设置"&gt;kubernetes redis 最大连接数设置&lt;/h1&gt;
+&lt;p&gt;应用在进行压力测试的时候发现请求多（5000并发）的时候会报出redis连接超时错误，查看了redis的配置，发现如下配置：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-613973e7a69fce8ca9840d8695f0ce9b"># TCP listen() backlog.
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-613973e7a69fce8ca9840d8695f0ce9b"&gt;# TCP listen() backlog.
 #
 # In high requests-per-second environments you need an high backlog in order
 # to avoid slow clients connections issues. Note that the Linux kernel
 # will silently truncate it to the value of /proc/sys/net/core/somaxconn so
 # make sure to raise both the value of somaxconn and tcp_max_syn_backlog
 # in order to get the desired effect.
-tcp-backlog 511&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-613973e7a69fce8ca9840d8695f0ce9b', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+tcp-backlog 511&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-613973e7a69fce8ca9840d8695f0ce9b', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>从这个配置可以看到，reids的最大连接数配置了511，所以应该将这个配置调高。注释里有提醒这个配置会受到linux内核配置的限制，查看&lt;code>/proc/sys/net/core/somaxconn&lt;/code>，发现这个值只有128，所以redis配置&lt;code>tcp-backlog 511&lt;/code>并没有生效，实际值只有128。&lt;/p></description></item></channel></rss>
+&lt;p&gt;从这个配置可以看到，reids的最大连接数配置了511，所以应该将这个配置调高。注释里有提醒这个配置会受到linux内核配置的限制，查看&lt;code&gt;/proc/sys/net/core/somaxconn&lt;/code&gt;，发现这个值只有128，所以redis配置&lt;code&gt;tcp-backlog 511&lt;/code&gt;并没有生效，实际值只有128。&lt;/p&gt;</description></item></channel></rss>

@@ -1,32 +1,32 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vpn on cheon's blog</title><link>https://number317.github.io/blog/tags/vpn/</link><description>Recent content in Vpn on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 17 Sep 2020 23:57:42 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/vpn/index.xml" rel="self" type="application/rss+xml"/><item><title>Vps Openvpn</title><link>https://number317.github.io/blog/system/vps_openvpn/</link><pubDate>Sat, 28 Apr 2018 15:22:21 +0800</pubDate><guid>https://number317.github.io/blog/system/vps_openvpn/</guid><description>&lt;h1 id="vps-openvpn-翻墙教程">VPS OpenVPN 翻墙教程&lt;/h1>
-&lt;h2 id="服务端配置">服务端配置&lt;/h2>
-&lt;p>首先，需要一台能访问外网的服务器。这里采用的是HostUS的VPS。&lt;/p>
-&lt;p>在部署OpenVPN服务端之前，应该先打开服务器的ip转发功能。修改&lt;code>/etc/sysctl.conf&lt;/code>文件，将对应内容修改为下面一行的值：&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vpn on cheon's blog</title><link>https://number317.github.io/blog/tags/vpn/</link><description>Recent content in Vpn on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 17 Sep 2020 23:57:42 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/vpn/index.xml" rel="self" type="application/rss+xml"/><item><title>Vps Openvpn</title><link>https://number317.github.io/blog/system/vps_openvpn/</link><pubDate>Sat, 28 Apr 2018 15:22:21 +0800</pubDate><guid>https://number317.github.io/blog/system/vps_openvpn/</guid><description>&lt;h1 id="vps-openvpn-翻墙教程"&gt;VPS OpenVPN 翻墙教程&lt;/h1&gt;
+&lt;h2 id="服务端配置"&gt;服务端配置&lt;/h2&gt;
+&lt;p&gt;首先，需要一台能访问外网的服务器。这里采用的是HostUS的VPS。&lt;/p&gt;
+&lt;p&gt;在部署OpenVPN服务端之前，应该先打开服务器的ip转发功能。修改&lt;code&gt;/etc/sysctl.conf&lt;/code&gt;文件，将对应内容修改为下面一行的值：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-409a7e4d9ec16d872ccc23215286b8b1">net.ipv4.ip_forward = 1&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-409a7e4d9ec16d872ccc23215286b8b1', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-409a7e4d9ec16d872ccc23215286b8b1"&gt;net.ipv4.ip_forward = 1&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-409a7e4d9ec16d872ccc23215286b8b1', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>修改后执行&lt;code>sysctl -p /etc/sysctl.conf&lt;/code>使配置生效。&lt;/p>
-&lt;p>服务端采用容器部署，因此VPS应该先安装好docker。以下为容器启动脚本：&lt;/p>
+&lt;p&gt;修改后执行&lt;code&gt;sysctl -p /etc/sysctl.conf&lt;/code&gt;使配置生效。&lt;/p&gt;
+&lt;p&gt;服务端采用容器部署，因此VPS应该先安装好docker。以下为容器启动脚本：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-3124ff72f6cb7be6c66245c5c68a0ba3">#!/bin/bash
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-3124ff72f6cb7be6c66245c5c68a0ba3"&gt;#!/bin/bash
 IP=&amp;#34;xxx.xxx.xxx.xxx&amp;#34;
 OVPN_DATA=&amp;#34;/root/ovpn_data&amp;#34;
 docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig -u udp://$IP
 docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initpki
 docker run -v $OVPN_DATA:/etc/openvpn --name openvpn -e DEBUG=1 -d -p 1194:1194/udp --cap-add=NET_ADMIN kylemanna/openvpn
 docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full CLIENTNAME nopass
-docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient CLIENTNAME &amp;gt; CLIENTNAME.ovpn&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-3124ff72f6cb7be6c66245c5c68a0ba3', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient CLIENTNAME &amp;gt; CLIENTNAME.ovpn&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-3124ff72f6cb7be6c66245c5c68a0ba3', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>将上述脚本的IP地址替换为自己的IP地址，然后执行脚本，根据提示输入信息即可。中间要求输入密码之类的都写个简单点一样的密码就好。&lt;/p></description></item></channel></rss>
+&lt;p&gt;将上述脚本的IP地址替换为自己的IP地址，然后执行脚本，根据提示输入信息即可。中间要求输入密码之类的都写个简单点一样的密码就好。&lt;/p&gt;</description></item></channel></rss>

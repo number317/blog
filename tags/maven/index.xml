@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Maven on cheon's blog</title><link>https://number317.github.io/blog/tags/maven/</link><description>Recent content in Maven on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/maven/index.xml" rel="self" type="application/rss+xml"/><item><title>Maven &amp; Nexus</title><link>https://number317.github.io/blog/struct/maven_nexus/</link><pubDate>Thu, 09 Nov 2017 10:47:30 +0800</pubDate><guid>https://number317.github.io/blog/struct/maven_nexus/</guid><description>&lt;h1 id="maven-配置使用-nexus-私服">maven 配置使用 nexus 私服&lt;/h1>
-&lt;p>修改~/.m2/settings.xml内容如下：&lt;/p>
-&lt;details>
-&lt;summary>mvn config&lt;/summary>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Maven on cheon's blog</title><link>https://number317.github.io/blog/tags/maven/</link><description>Recent content in Maven on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/maven/index.xml" rel="self" type="application/rss+xml"/><item><title>Maven &amp; Nexus</title><link>https://number317.github.io/blog/struct/maven_nexus/</link><pubDate>Thu, 09 Nov 2017 10:47:30 +0800</pubDate><guid>https://number317.github.io/blog/struct/maven_nexus/</guid><description>&lt;h1 id="maven-配置使用-nexus-私服"&gt;maven 配置使用 nexus 私服&lt;/h1&gt;
+&lt;p&gt;修改~/.m2/settings.xml内容如下：&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;mvn config&lt;/summary&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-d8fa3395edc36936174f2b1448cba094">&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-d8fa3395edc36936174f2b1448cba094"&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;
 &amp;lt;settings xmlns=&amp;#34;http://maven.apache.org/SETTINGS/1.0.0&amp;#34;
  xmlns:xsi=&amp;#34;http://www.w3.org/2001/XMLSchema-instance&amp;#34;
  xsi:schemaLocation=&amp;#34;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&amp;#34;&amp;gt;
@@ -36,20 +36,20 @@
  &amp;lt;/mirror&amp;gt;
  &amp;lt;/mirrors&amp;gt;
 
-&amp;lt;/settings&amp;gt;&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-d8fa3395edc36936174f2b1448cba094', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&amp;lt;/settings&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-d8fa3395edc36936174f2b1448cba094', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;/details>
-&lt;p>在项目的 pom.xml 文件中添加如下内容：&lt;/p>
-&lt;details>
-&lt;summary>pom config&lt;/summary>
+&lt;/details&gt;
+&lt;p&gt;在项目的 pom.xml 文件中添加如下内容：&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;pom config&lt;/summary&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-b1596d3d190666d8d0dfbeac4244120f">&amp;lt;distributionManagement&amp;gt;
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-b1596d3d190666d8d0dfbeac4244120f"&gt;&amp;lt;distributionManagement&amp;gt;
  &amp;lt;snapshotRepository&amp;gt;
  &amp;lt;id&amp;gt;snapshots&amp;lt;/id&amp;gt;
  &amp;lt;name&amp;gt;Snapshot Repository&amp;lt;/name&amp;gt;
@@ -107,14 +107,14 @@
  &amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;
  &amp;lt;/snapshots&amp;gt;
  &amp;lt;/pluginRepository&amp;gt;
-&amp;lt;/pluginRepositories&amp;gt;&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-b1596d3d190666d8d0dfbeac4244120f', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&amp;lt;/pluginRepositories&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-b1596d3d190666d8d0dfbeac4244120f', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;/details>
-&lt;h1 id="向-nexus-中部署-snapshot-版本的包">向 nexus 中部署 snapshot 版本的包&lt;/h1>
-&lt;ol>
-&lt;li>
-&lt;p>如果是在项目中(已配置好私服环境)，可以直接运行&lt;code>mvn deploy&lt;/code>来将文件上传到nexus私服中&lt;/p></description></item></channel></rss>
+&lt;/details&gt;
+&lt;h1 id="向-nexus-中部署-snapshot-版本的包"&gt;向 nexus 中部署 snapshot 版本的包&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;如果是在项目中(已配置好私服环境)，可以直接运行&lt;code&gt;mvn deploy&lt;/code&gt;来将文件上传到nexus私服中&lt;/p&gt;</description></item></channel></rss>

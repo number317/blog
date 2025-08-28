@@ -1,21 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hello linux on cheon's blog</title><link>https://number317.github.io/blog/system/</link><description>Recent content in Hello linux on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Mon, 11 Aug 2025 09:22:54 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/system/index.xml" rel="self" type="application/rss+xml"/><item><title>Moaan InkpadX Root</title><link>https://number317.github.io/blog/system/moaan_inkpadx_root/</link><pubDate>Tue, 14 Jan 2025 09:24:15 +0000</pubDate><guid>https://number317.github.io/blog/system/moaan_inkpadx_root/</guid><description>Moaan InkpadX root</description></item><item><title>Android As External Terminal</title><link>https://number317.github.io/blog/system/android_as_external_terminal/</link><pubDate>Fri, 20 Dec 2024 10:41:51 +0800</pubDate><guid>https://number317.github.io/blog/system/android_as_external_terminal/</guid><description>Make your android device as an external terminal.</description></item><item><title>Archlinux Nvidia</title><link>https://number317.github.io/blog/system/archlinux_nvidia/</link><pubDate>Sun, 29 Sep 2019 14:07:53 +0800</pubDate><guid>https://number317.github.io/blog/system/archlinux_nvidia/</guid><description>&lt;h1 id="archlinux-配置-nvidia-独立显卡">ArchLinux 配置 nvidia 独立显卡&lt;/h1>
-&lt;p>按照 &lt;a href="https://download.nvidia.com/XFree86/Linux-x86_64/435.21/README/primerenderoffload.html" target="_blank" rel="noopener noreferrer" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hello linux on cheon's blog</title><link>https://number317.github.io/blog/system/</link><description>Recent content in Hello linux on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 28 Aug 2025 23:53:07 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/system/index.xml" rel="self" type="application/rss+xml"/><item><title>Hanvon Ed310B Adb</title><link>https://number317.github.io/blog/system/hanvon_ed310b_adb/</link><pubDate>Sat, 12 Jul 2025 20:42:07 +0800</pubDate><guid>https://number317.github.io/blog/system/hanvon_ed310b_adb/</guid><description>summary</description></item><item><title>Moaan InkpadX Root</title><link>https://number317.github.io/blog/system/moaan_inkpadx_root/</link><pubDate>Tue, 14 Jan 2025 09:24:15 +0000</pubDate><guid>https://number317.github.io/blog/system/moaan_inkpadx_root/</guid><description>Moaan InkpadX root</description></item><item><title>Android As External Terminal</title><link>https://number317.github.io/blog/system/android_as_external_terminal/</link><pubDate>Fri, 20 Dec 2024 10:41:51 +0800</pubDate><guid>https://number317.github.io/blog/system/android_as_external_terminal/</guid><description>Make your android device as an external terminal.</description></item><item><title>Archlinux Nvidia</title><link>https://number317.github.io/blog/system/archlinux_nvidia/</link><pubDate>Sun, 29 Sep 2019 14:07:53 +0800</pubDate><guid>https://number317.github.io/blog/system/archlinux_nvidia/</guid><description>&lt;h1 id="archlinux-配置-nvidia-独立显卡"&gt;ArchLinux 配置 nvidia 独立显卡&lt;/h1&gt;
+&lt;p&gt;按照 &lt;a href="https://download.nvidia.com/XFree86/Linux-x86_64/435.21/README/primerenderoffload.html" target="_blank" rel="noopener noreferrer" &gt;
  PRIME Render Offload
-&lt;/a>
- 文档，安装新版本的 nvidia 驱动和 xorg，新版本的 xorg 安装包可以从 &lt;a href="https://gitlab.freedesktop.org/aplattner/arch-xorg-server" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+ 文档，安装新版本的 nvidia 驱动和 xorg，新版本的 xorg 安装包可以从 &lt;a href="https://gitlab.freedesktop.org/aplattner/arch-xorg-server" target="_blank" rel="noopener noreferrer" &gt;
  arch-xorg-server
-&lt;/a>
+&lt;/a&gt;
  构建。
-修改配置文件 &lt;code>/etc/X11/xorg.conf&lt;/code> ，主要添加&lt;/p>
-&lt;pre>&lt;code>Section &amp;quot;ServerLayout&amp;quot;
+修改配置文件 &lt;code&gt;/etc/X11/xorg.conf&lt;/code&gt; ，主要添加&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Section &amp;quot;ServerLayout&amp;quot;
  Identifier &amp;quot;layout&amp;quot;
  Option &amp;quot;AllowNVIDIAGPUScreens&amp;quot;
 EndSection
-&lt;/code>&lt;/pre>
-&lt;p>完整配置如下:&lt;/p>
-&lt;details>
-&lt;summary>xorg.conf&lt;/summary>
-&lt;pre>&lt;code>Section &amp;quot;ServerLayout&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;完整配置如下:&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;xorg.conf&lt;/summary&gt;
+&lt;pre&gt;&lt;code&gt;Section &amp;quot;ServerLayout&amp;quot;
  Identifier &amp;quot;X.org Configured&amp;quot;
  Screen 0 &amp;quot;Screen0&amp;quot; 0 0
  #Screen 1 &amp;quot;Screen1&amp;quot; RightOf &amp;quot;Screen0&amp;quot;
@@ -118,205 +118,205 @@ Section &amp;quot;Screen&amp;quot;
  Depth 24
  EndSubSection
 EndSection
-&lt;/code>&lt;/pre>
-&lt;/details>
-&lt;p>安装好软件后需要重启电脑，开启桌面后执行 &lt;code>xrandr --listproviders&lt;/code> ，应该可以看到如下结果:&lt;/p></description></item><item><title>Nerd Font</title><link>https://number317.github.io/blog/system/nerd_font/</link><pubDate>Fri, 21 Jun 2019 14:32:35 +0800</pubDate><guid>https://number317.github.io/blog/system/nerd_font/</guid><description>&lt;h1 id="图标字体">图标字体&lt;/h1>
-&lt;p>在用 &lt;a href="https://github.com/robm/dzen" target="_blank" rel="noopener noreferrer" >
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/details&gt;
+&lt;p&gt;安装好软件后需要重启电脑，开启桌面后执行 &lt;code&gt;xrandr --listproviders&lt;/code&gt; ，应该可以看到如下结果:&lt;/p&gt;</description></item><item><title>Nerd Font</title><link>https://number317.github.io/blog/system/nerd_font/</link><pubDate>Fri, 21 Jun 2019 14:32:35 +0800</pubDate><guid>https://number317.github.io/blog/system/nerd_font/</guid><description>&lt;h1 id="图标字体"&gt;图标字体&lt;/h1&gt;
+&lt;p&gt;在用 &lt;a href="https://github.com/robm/dzen" target="_blank" rel="noopener noreferrer" &gt;
  dzen2
-&lt;/a>
- 给桌面添加一个 panel 的时候用到了 &lt;a href="http://fontawesome.com" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+ 给桌面添加一个 panel 的时候用到了 &lt;a href="http://fontawesome.com" target="_blank" rel="noopener noreferrer" &gt;
  FontAwesome
-&lt;/a>
-，但是在 urxvt 终端下 FontAwesome 无法正常显示出来（不知是不是配置有误）。这样在用 vim 写脚本时不够直观。又不想换终端，所以只能从字体下手。&lt;/p>
-&lt;p>之前就了解到过 &lt;a href="https://github.com/ryanoasis/nerd-fonts" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+，但是在 urxvt 终端下 FontAwesome 无法正常显示出来（不知是不是配置有误）。这样在用 vim 写脚本时不够直观。又不想换终端，所以只能从字体下手。&lt;/p&gt;
+&lt;p&gt;之前就了解到过 &lt;a href="https://github.com/ryanoasis/nerd-fonts" target="_blank" rel="noopener noreferrer" &gt;
  nerd-fonts
-&lt;/a>
- 这个项目，可以将图标字体整合进一个你想要的字体中。项目主页提供了一些已经预先构建好的字体，可以在&lt;a href="https://nerdfonts.com/" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+ 这个项目，可以将图标字体整合进一个你想要的字体中。项目主页提供了一些已经预先构建好的字体，可以在&lt;a href="https://nerdfonts.com/" target="_blank" rel="noopener noreferrer" &gt;
  官网
-&lt;/a>
-直接下载使用。目前终端用的字体是从另一台 Mac 上复制出来的 SFMono，这也是 Mac 内置终端默认的字体。已经习惯了这款字体后就不想换了，因此准备构建自己的字体。&lt;/p>
-&lt;p>根据项目主页的教程，执行它提供给你的 &lt;code>font-patcher&lt;/code> 脚本前需要安装 &lt;code>fontforge&lt;/code>:&lt;/p>
+&lt;/a&gt;
+直接下载使用。目前终端用的字体是从另一台 Mac 上复制出来的 SFMono，这也是 Mac 内置终端默认的字体。已经习惯了这款字体后就不想换了，因此准备构建自己的字体。&lt;/p&gt;
+&lt;p&gt;根据项目主页的教程，执行它提供给你的 &lt;code&gt;font-patcher&lt;/code&gt; 脚本前需要安装 &lt;code&gt;fontforge&lt;/code&gt;:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-ae96ead43bb8ee44d7d067c253707e89">pacman -S fontforge&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-ae96ead43bb8ee44d7d067c253707e89', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-ae96ead43bb8ee44d7d067c253707e89"&gt;pacman -S fontforge&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-ae96ead43bb8ee44d7d067c253707e89', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>安装完依赖，下载 &lt;code>font-patcher&lt;/code> 脚本并添加可执行权限:&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-802d0a9bb95b903bc578e9153d38d6c2">curl -OL https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/font-patcher
-chmod &amp;#43;x font-patcher&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-802d0a9bb95b903bc578e9153d38d6c2', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>执行脚本进行构建字体:&lt;/p>
+&lt;p&gt;安装完依赖，下载 &lt;code&gt;font-patcher&lt;/code&gt; 脚本并添加可执行权限:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-69f567c89c65863623ec9bc893ca6e94">./font-patcher path/to/SFMono-Regular.otf -out path/to/SFMono-Nerd/ -c -l -s&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-69f567c89c65863623ec9bc893ca6e94', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-802d0a9bb95b903bc578e9153d38d6c2"&gt;curl -OL https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/font-patcher
+chmod &amp;#43;x font-patcher&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-802d0a9bb95b903bc578e9153d38d6c2', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;ul>
-&lt;li>&lt;code>-c&lt;/code> 表示添加所有可用字形&lt;/li>
-&lt;li>&lt;code>-l&lt;/code> 表示适应行高（尝试将 powerline 的分隔符均匀地放在中间）&lt;/li>
-&lt;li>&lt;code>-s&lt;/code> 表示使用单个字符宽度&lt;/li>
-&lt;/ul>
-&lt;p>运行脚本发现报错，提示找不到 &lt;code>src&lt;/code> 目录下的字体文件。这提示我们还需要去下载 &lt;code>src&lt;/code> 目录下的字体文件。这里有一个技巧，关于如何从 github 下载某个文件夹。&lt;/p></description></item><item><title>Vps Openvpn</title><link>https://number317.github.io/blog/system/vps_openvpn/</link><pubDate>Sat, 28 Apr 2018 15:22:21 +0800</pubDate><guid>https://number317.github.io/blog/system/vps_openvpn/</guid><description>&lt;h1 id="vps-openvpn-翻墙教程">VPS OpenVPN 翻墙教程&lt;/h1>
-&lt;h2 id="服务端配置">服务端配置&lt;/h2>
-&lt;p>首先，需要一台能访问外网的服务器。这里采用的是HostUS的VPS。&lt;/p>
-&lt;p>在部署OpenVPN服务端之前，应该先打开服务器的ip转发功能。修改&lt;code>/etc/sysctl.conf&lt;/code>文件，将对应内容修改为下面一行的值：&lt;/p>
+&lt;p&gt;执行脚本进行构建字体:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-409a7e4d9ec16d872ccc23215286b8b1">net.ipv4.ip_forward = 1&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-409a7e4d9ec16d872ccc23215286b8b1', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-69f567c89c65863623ec9bc893ca6e94"&gt;./font-patcher path/to/SFMono-Regular.otf -out path/to/SFMono-Nerd/ -c -l -s&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-69f567c89c65863623ec9bc893ca6e94', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>修改后执行&lt;code>sysctl -p /etc/sysctl.conf&lt;/code>使配置生效。&lt;/p>
-&lt;p>服务端采用容器部署，因此VPS应该先安装好docker。以下为容器启动脚本：&lt;/p>
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;-c&lt;/code&gt; 表示添加所有可用字形&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-l&lt;/code&gt; 表示适应行高（尝试将 powerline 的分隔符均匀地放在中间）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-s&lt;/code&gt; 表示使用单个字符宽度&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;运行脚本发现报错，提示找不到 &lt;code&gt;src&lt;/code&gt; 目录下的字体文件。这提示我们还需要去下载 &lt;code&gt;src&lt;/code&gt; 目录下的字体文件。这里有一个技巧，关于如何从 github 下载某个文件夹。&lt;/p&gt;</description></item><item><title>Vps Openvpn</title><link>https://number317.github.io/blog/system/vps_openvpn/</link><pubDate>Sat, 28 Apr 2018 15:22:21 +0800</pubDate><guid>https://number317.github.io/blog/system/vps_openvpn/</guid><description>&lt;h1 id="vps-openvpn-翻墙教程"&gt;VPS OpenVPN 翻墙教程&lt;/h1&gt;
+&lt;h2 id="服务端配置"&gt;服务端配置&lt;/h2&gt;
+&lt;p&gt;首先，需要一台能访问外网的服务器。这里采用的是HostUS的VPS。&lt;/p&gt;
+&lt;p&gt;在部署OpenVPN服务端之前，应该先打开服务器的ip转发功能。修改&lt;code&gt;/etc/sysctl.conf&lt;/code&gt;文件，将对应内容修改为下面一行的值：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-3124ff72f6cb7be6c66245c5c68a0ba3">#!/bin/bash
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-409a7e4d9ec16d872ccc23215286b8b1"&gt;net.ipv4.ip_forward = 1&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-409a7e4d9ec16d872ccc23215286b8b1', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;p&gt;修改后执行&lt;code&gt;sysctl -p /etc/sysctl.conf&lt;/code&gt;使配置生效。&lt;/p&gt;
+&lt;p&gt;服务端采用容器部署，因此VPS应该先安装好docker。以下为容器启动脚本：&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-3124ff72f6cb7be6c66245c5c68a0ba3"&gt;#!/bin/bash
 IP=&amp;#34;xxx.xxx.xxx.xxx&amp;#34;
 OVPN_DATA=&amp;#34;/root/ovpn_data&amp;#34;
 docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig -u udp://$IP
 docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initpki
 docker run -v $OVPN_DATA:/etc/openvpn --name openvpn -e DEBUG=1 -d -p 1194:1194/udp --cap-add=NET_ADMIN kylemanna/openvpn
 docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full CLIENTNAME nopass
-docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient CLIENTNAME &amp;gt; CLIENTNAME.ovpn&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-3124ff72f6cb7be6c66245c5c68a0ba3', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient CLIENTNAME &amp;gt; CLIENTNAME.ovpn&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-3124ff72f6cb7be6c66245c5c68a0ba3', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>将上述脚本的IP地址替换为自己的IP地址，然后执行脚本，根据提示输入信息即可。中间要求输入密码之类的都写个简单点一样的密码就好。&lt;/p></description></item><item><title>Iptables Intro</title><link>https://number317.github.io/blog/system/iptables_intro/</link><pubDate>Thu, 26 Apr 2018 08:32:31 +0800</pubDate><guid>https://number317.github.io/blog/system/iptables_intro/</guid><description>&lt;h1 id="iptables-介绍">iptables 介绍&lt;/h1>
-&lt;h2 id="基本概念">基本概念&lt;/h2>
-&lt;ul>
-&lt;li>iptables 可以检测、修改、转发、重定向和丢弃IPV4数据包。&lt;/li>
-&lt;li>表(tables)
-&lt;ul>
-&lt;li>raw: 用于配置数据包&lt;/li>
-&lt;li>filter: 存放所有与防火墙相关操作的表&lt;/li>
-&lt;li>nat: 用于网络地址转换&lt;/li>
-&lt;li>mangle: 用于对特定数据包的修改&lt;/li>
-&lt;li>security: 用于强制访问控制&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>链(chains): INPUT, OUTPUT, FORWARD, PREROUTING,POSTROUTING&lt;/li>
-&lt;li>规则(rules): 过滤数据包&lt;/li>
-&lt;li>模块(modules): 用于扩展iptables，进行更复杂的过滤&lt;/li>
-&lt;/ul>
-&lt;h2 id="工作流程">工作流程&lt;/h2>
-&lt;p>&lt;img src="https://number317.github.io/blog/system/images/iptables_intro_img1.jpg" alt="iptables 流程图">&lt;/p>
-&lt;p>第一个路由策略包括决定数据包的目的地是本地主机（这种情况下，数据包穿过 INPUT 链），还是其他主机（数据包穿过 FORWARD 链）；&lt;/p>
-&lt;p>中间的路由策略包括决定给传出的数据包使用那个源地址、分配哪个接口；&lt;/p>
-&lt;p>最后一个路由策略存在是因为 mangle 与 nat 链可能会改变数据包的路由信息。&lt;/p>
-&lt;p>数据包通过路径上的每一条链时，链中的每一条规则按顺序匹配；无论何时匹配了一条规则，相应的 target/jump 动作将会执行。最常用的3个 target 是 ACCEPT, DROP ,或者 jump 到用户自定义的链。内置的链有默认的策略，但是用户自定义的链没有默认的策略。在 jump 到的链中，若每一条规则都不能提供完全匹配，那么数据包返回到调用链。在任何时候，若 DROP target 的规则实现完全匹配，那么被匹配的数据包会被丢弃，不会进行进一步处理。如果一个数据包在链中被 ACCEPT，那么它也会被所有的父链 ACCEPT，并且不再遍历其他父链。然而，要注意的是，数据包还会以正常的方式继续遍历其他表中的其他链。&lt;/p>
-&lt;h2 id="常用选项">常用选项&lt;/h2>
-&lt;table>
- &lt;thead>
- &lt;tr>
- &lt;th style="text-align: left">参数类型&lt;/th>
- &lt;th style="text-align: right">可选项&lt;/th>
- &lt;/tr>
- &lt;/thead>
- &lt;tbody>
- &lt;tr>
- &lt;td style="text-align: left">表&lt;/td>
- &lt;td style="text-align: right">filter, nat&amp;hellip;&lt;/td>
- &lt;/tr>
- &lt;tr>
- &lt;td style="text-align: left">链&lt;/td>
- &lt;td style="text-align: right">INPUT, OUTPUT, FORWARD, PREOUTING（修改目标ip地址）, POSTROUTING（修改源ip地址）&amp;hellip;&lt;/td>
- &lt;/tr>
- &lt;tr>
- &lt;td style="text-align: left">匹配属性&lt;/td>
- &lt;td style="text-align: right">源、目标IP，协议（TCP,UDP,ICMP&amp;hellip;），端口号，网卡接口&amp;hellip;&lt;/td>
- &lt;/tr>
- &lt;tr>
- &lt;td style="text-align: left">模块&lt;/td>
- &lt;td style="text-align: right">conntrack, multiport, connlimit&amp;hellip;&lt;/td>
- &lt;/tr>
- &lt;tr>
- &lt;td style="text-align: left">动作&lt;/td>
- &lt;td style="text-align: right">ACCEPT, DROP, RETURN, REJECT&amp;hellip;&lt;/td>
- &lt;/tr>
- &lt;/tbody>
-&lt;/table>
-&lt;h2 id="配置运行">配置运行&lt;/h2>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-c2aec37cf7f1bedbfd479d2999495759"># systemctl start iptables&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-c2aec37cf7f1bedbfd479d2999495759', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>启动时会读取&lt;code>/etc/iptables/iptables.rules&lt;/code>文件载入规则，如果配置文件不存在会报错
-可以直接生成一个空的iptables.rules文件设定空规则&lt;code>touch /etc/iptables/iptables.rules&lt;/code>&lt;/p></description></item><item><title>Dell Xps 15 9560 Arch Linux Install</title><link>https://number317.github.io/blog/system/dell_xps_15_9560_arch_linux_install/</link><pubDate>Wed, 28 Mar 2018 10:18:12 +0800</pubDate><guid>https://number317.github.io/blog/system/dell_xps_15_9560_arch_linux_install/</guid><description>&lt;h1 id="dell-xps-15-9560-arch-linux-安装教程">Dell XPS 15 9560 Arch Linux 安装教程&lt;/h1>
-&lt;h2 id="bios设置">BIOS设置&lt;/h2>
-&lt;p>打开电脑，等待出现dell图标时按下&lt;code>F12&lt;/code>键，选择进入BIOS设置页面，进行如下操作&lt;/p>
-&lt;ol>
-&lt;li>将&lt;code>SATA Mode&lt;/code>从默认的&lt;code>RAID&lt;/code>模式修改为&lt;code>AHCI&lt;/code>模式。这样可以允许Linux检测到&lt;code>NVME SSD&lt;/code>。&lt;/li>
-&lt;li>将&lt;code>Fastboot&lt;/code>的选项从&lt;code>POST Behaviour&lt;/code>修改为&lt;code>Thorough&lt;/code>，这样可以防止偶尔的启动错误。&lt;/li>
-&lt;li>关闭安全启动来允许linux启动。&lt;/li>
-&lt;/ol>
-&lt;p>保存后退出，会重启电脑。&lt;/p>
-&lt;h2 id="内核启动参数设置">内核启动参数设置&lt;/h2>
-&lt;p>从U盘启动 Arch Linux 引导镜像：在dell图标出现时按下&lt;code>F12&lt;/code>，选择从U盘启动，在出现启动菜单时，按下&lt;code>e&lt;/code>键，添加以下启动参数：&lt;/p>
+&lt;p&gt;将上述脚本的IP地址替换为自己的IP地址，然后执行脚本，根据提示输入信息即可。中间要求输入密码之类的都写个简单点一样的密码就好。&lt;/p&gt;</description></item><item><title>Iptables Intro</title><link>https://number317.github.io/blog/system/iptables_intro/</link><pubDate>Thu, 26 Apr 2018 08:32:31 +0800</pubDate><guid>https://number317.github.io/blog/system/iptables_intro/</guid><description>&lt;h1 id="iptables-介绍"&gt;iptables 介绍&lt;/h1&gt;
+&lt;h2 id="基本概念"&gt;基本概念&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;iptables 可以检测、修改、转发、重定向和丢弃IPV4数据包。&lt;/li&gt;
+&lt;li&gt;表(tables)
+&lt;ul&gt;
+&lt;li&gt;raw: 用于配置数据包&lt;/li&gt;
+&lt;li&gt;filter: 存放所有与防火墙相关操作的表&lt;/li&gt;
+&lt;li&gt;nat: 用于网络地址转换&lt;/li&gt;
+&lt;li&gt;mangle: 用于对特定数据包的修改&lt;/li&gt;
+&lt;li&gt;security: 用于强制访问控制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;链(chains): INPUT, OUTPUT, FORWARD, PREROUTING,POSTROUTING&lt;/li&gt;
+&lt;li&gt;规则(rules): 过滤数据包&lt;/li&gt;
+&lt;li&gt;模块(modules): 用于扩展iptables，进行更复杂的过滤&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="工作流程"&gt;工作流程&lt;/h2&gt;
+&lt;p&gt;&lt;img src="https://number317.github.io/blog/system/images/iptables_intro_img1.jpg" alt="iptables 流程图"&gt;&lt;/p&gt;
+&lt;p&gt;第一个路由策略包括决定数据包的目的地是本地主机（这种情况下，数据包穿过 INPUT 链），还是其他主机（数据包穿过 FORWARD 链）；&lt;/p&gt;
+&lt;p&gt;中间的路由策略包括决定给传出的数据包使用那个源地址、分配哪个接口；&lt;/p&gt;
+&lt;p&gt;最后一个路由策略存在是因为 mangle 与 nat 链可能会改变数据包的路由信息。&lt;/p&gt;
+&lt;p&gt;数据包通过路径上的每一条链时，链中的每一条规则按顺序匹配；无论何时匹配了一条规则，相应的 target/jump 动作将会执行。最常用的3个 target 是 ACCEPT, DROP ,或者 jump 到用户自定义的链。内置的链有默认的策略，但是用户自定义的链没有默认的策略。在 jump 到的链中，若每一条规则都不能提供完全匹配，那么数据包返回到调用链。在任何时候，若 DROP target 的规则实现完全匹配，那么被匹配的数据包会被丢弃，不会进行进一步处理。如果一个数据包在链中被 ACCEPT，那么它也会被所有的父链 ACCEPT，并且不再遍历其他父链。然而，要注意的是，数据包还会以正常的方式继续遍历其他表中的其他链。&lt;/p&gt;
+&lt;h2 id="常用选项"&gt;常用选项&lt;/h2&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th style="text-align: left"&gt;参数类型&lt;/th&gt;
+ &lt;th style="text-align: right"&gt;可选项&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;表&lt;/td&gt;
+ &lt;td style="text-align: right"&gt;filter, nat&amp;hellip;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;链&lt;/td&gt;
+ &lt;td style="text-align: right"&gt;INPUT, OUTPUT, FORWARD, PREOUTING（修改目标ip地址）, POSTROUTING（修改源ip地址）&amp;hellip;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;匹配属性&lt;/td&gt;
+ &lt;td style="text-align: right"&gt;源、目标IP，协议（TCP,UDP,ICMP&amp;hellip;），端口号，网卡接口&amp;hellip;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;模块&lt;/td&gt;
+ &lt;td style="text-align: right"&gt;conntrack, multiport, connlimit&amp;hellip;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;动作&lt;/td&gt;
+ &lt;td style="text-align: right"&gt;ACCEPT, DROP, RETURN, REJECT&amp;hellip;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id="配置运行"&gt;配置运行&lt;/h2&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-4dfc81a5b3bb7f51052eb4880900dbf2">initrd=\initramfs-linux.img root=/dev/sdb2 acpi_rev_override=1 pci=nommconf nouveau.modeset=0&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-4dfc81a5b3bb7f51052eb4880900dbf2', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-c2aec37cf7f1bedbfd479d2999495759"&gt;# systemctl start iptables&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-c2aec37cf7f1bedbfd479d2999495759', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>这样可以保证系统可以正常关闭和重启，否则关闭和重启时电脑会死机。&lt;/p>
-&lt;h2 id="系统安装">系统安装&lt;/h2>
-&lt;h3 id="tty字体设置">tty字体设置&lt;/h3>
-&lt;p>首先由于4k屏的高分辨率，使得终端字体非常小，应该设置大一点的字体：&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-76777c0980dd284227a1a9fbe2a10c06">setfont latarcyrheb-sun32&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-76777c0980dd284227a1a9fbe2a10c06', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;h3 id="网络连接">网络连接&lt;/h3>
+&lt;p&gt;启动时会读取&lt;code&gt;/etc/iptables/iptables.rules&lt;/code&gt;文件载入规则，如果配置文件不存在会报错
+可以直接生成一个空的iptables.rules文件设定空规则&lt;code&gt;touch /etc/iptables/iptables.rules&lt;/code&gt;&lt;/p&gt;</description></item><item><title>Dell Xps 15 9560 Arch Linux Install</title><link>https://number317.github.io/blog/system/dell_xps_15_9560_arch_linux_install/</link><pubDate>Wed, 28 Mar 2018 10:18:12 +0800</pubDate><guid>https://number317.github.io/blog/system/dell_xps_15_9560_arch_linux_install/</guid><description>&lt;h1 id="dell-xps-15-9560-arch-linux-安装教程"&gt;Dell XPS 15 9560 Arch Linux 安装教程&lt;/h1&gt;
+&lt;h2 id="bios设置"&gt;BIOS设置&lt;/h2&gt;
+&lt;p&gt;打开电脑，等待出现dell图标时按下&lt;code&gt;F12&lt;/code&gt;键，选择进入BIOS设置页面，进行如下操作&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;将&lt;code&gt;SATA Mode&lt;/code&gt;从默认的&lt;code&gt;RAID&lt;/code&gt;模式修改为&lt;code&gt;AHCI&lt;/code&gt;模式。这样可以允许Linux检测到&lt;code&gt;NVME SSD&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;将&lt;code&gt;Fastboot&lt;/code&gt;的选项从&lt;code&gt;POST Behaviour&lt;/code&gt;修改为&lt;code&gt;Thorough&lt;/code&gt;，这样可以防止偶尔的启动错误。&lt;/li&gt;
+&lt;li&gt;关闭安全启动来允许linux启动。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;保存后退出，会重启电脑。&lt;/p&gt;
+&lt;h2 id="内核启动参数设置"&gt;内核启动参数设置&lt;/h2&gt;
+&lt;p&gt;从U盘启动 Arch Linux 引导镜像：在dell图标出现时按下&lt;code&gt;F12&lt;/code&gt;，选择从U盘启动，在出现启动菜单时，按下&lt;code&gt;e&lt;/code&gt;键，添加以下启动参数：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-010cfe9793d5445cb7d139f2aaffc898">wifi-menu&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-010cfe9793d5445cb7d139f2aaffc898', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-4dfc81a5b3bb7f51052eb4880900dbf2"&gt;initrd=\initramfs-linux.img root=/dev/sdb2 acpi_rev_override=1 pci=nommconf nouveau.modeset=0&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-4dfc81a5b3bb7f51052eb4880900dbf2', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>根据提示选择wifi，输入密码即可。&lt;/p>
-&lt;h3 id="分区">分区&lt;/h3>
-&lt;p>这里采用lvm并使用cryptsetup来加密磁盘，最终分区如下：&lt;/p>
+&lt;p&gt;这样可以保证系统可以正常关闭和重启，否则关闭和重启时电脑会死机。&lt;/p&gt;
+&lt;h2 id="系统安装"&gt;系统安装&lt;/h2&gt;
+&lt;h3 id="tty字体设置"&gt;tty字体设置&lt;/h3&gt;
+&lt;p&gt;首先由于4k屏的高分辨率，使得终端字体非常小，应该设置大一点的字体：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-ff6d9cbbf901bd0d8191360bf156daeb">NAME MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-76777c0980dd284227a1a9fbe2a10c06"&gt;setfont latarcyrheb-sun32&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-76777c0980dd284227a1a9fbe2a10c06', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;h3 id="网络连接"&gt;网络连接&lt;/h3&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-010cfe9793d5445cb7d139f2aaffc898"&gt;wifi-menu&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-010cfe9793d5445cb7d139f2aaffc898', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;p&gt;根据提示选择wifi，输入密码即可。&lt;/p&gt;
+&lt;h3 id="分区"&gt;分区&lt;/h3&gt;
+&lt;p&gt;这里采用lvm并使用cryptsetup来加密磁盘，最终分区如下：&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-ff6d9cbbf901bd0d8191360bf156daeb"&gt;NAME MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
 nvme0n1 259:0 0 477G 0 disk 
 ├─nvme0n1p1 259:1 0 512M 0 part /boot
 └─nvme0n1p2 259:2 0 476.4G 0 part 
@@ -324,33 +324,33 @@ nvme0n1 259:0 0 477G 0 disk
  ├─entropy--vg0-root 254:1 0 150G 0 lvm /
  ├─entropy--vg0-home 254:2 0 250G 0 lvm /home
  ├─entropy--vg0-swap 254:3 0 16G 0 lvm [SWAP]
- └─entropy--vg0-backup 254:4 0 10G 0 lvm &lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-ff6d9cbbf901bd0d8191360bf156daeb', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+ └─entropy--vg0-backup 254:4 0 10G 0 lvm &lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-ff6d9cbbf901bd0d8191360bf156daeb', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>磁盘创建两个分区，一个分区用于&lt;code>/boot&lt;/code>，另一个分区用于安装系统。&lt;/p></description></item><item><title>Lvm Intro</title><link>https://number317.github.io/blog/system/lvm_intro/</link><pubDate>Fri, 26 Jan 2018 15:27:50 +0800</pubDate><guid>https://number317.github.io/blog/system/lvm_intro/</guid><description>&lt;h1 id="lvm-介绍">LVM 介绍&lt;/h1>
-&lt;p>LVM(Logical Volume Management)逻辑卷管理利用linux内核的device-mapper特征来实现存储系统的虚拟化，操作系统不再直接操作磁盘，而是操作LV(Logical Volume)逻辑卷。&lt;/p>
-&lt;p>传统磁盘管理如GPT分区和MBR分区存在着磁盘分区无法动态扩展的缺点，即是增加新的磁盘也只能当作单独的文件系统使用，而无法为已在使用的分区增加空间。LVM正好解决了这个问题，可以动态地为分区扩容，而不影响上层系统的使用。&lt;/p>
-&lt;h1 id="lvm-基本概念">LVM 基本概念&lt;/h1>
-&lt;ul>
-&lt;li>PE(Physical Extend)：物理区域&amp;ndash;逻辑卷管理的最小单位，默认大小为4M&lt;/li>
-&lt;li>PV(Physical Volume)：物理卷&amp;ndash;建立卷组的媒介，可以是磁盘，分区或者回环文件，物理卷包括一个特殊的header，其余部分被切割为一块块物理区域(physical extents)&lt;/li>
-&lt;li>VG(Volume Group)：卷组&amp;ndash;物理卷组成的组，可以被认为是PE池&lt;/li>
-&lt;li>LV(Logical Volume)：逻辑卷&amp;ndash;虚拟分区，由PE组成。组成LV的PE可以来自不同的磁盘&lt;/li>
-&lt;/ul>
-&lt;h1 id="lvm-工作流程">LVM 工作流程&lt;/h1>
-&lt;p>构造逻辑卷LV主要有3个步骤：&lt;/p>
-&lt;ol>
-&lt;li>将磁盘或分区条带化为PV(物理卷)，实际上是将磁盘或分区分割成一个个PE(物理区域)，默认大小是4M&lt;/li>
-&lt;li>将PV组合成VG，VG中的PE供LV使用，创建VG时需要给VG命名，&lt;code>/dev/&lt;/code>目录下会生成一个以VG名字命名的文件夹&lt;/li>
-&lt;li>基于VG创建LV，LV也需要命名，LV创建好后会在对应的卷组目录下创建一个一LV名字命名的设备，该设备呈现给操作系统使用，可以格式化，当作正常的分区使用。&lt;/li>
-&lt;/ol>
+&lt;p&gt;磁盘创建两个分区，一个分区用于&lt;code&gt;/boot&lt;/code&gt;，另一个分区用于安装系统。&lt;/p&gt;</description></item><item><title>Lvm Intro</title><link>https://number317.github.io/blog/system/lvm_intro/</link><pubDate>Fri, 26 Jan 2018 15:27:50 +0800</pubDate><guid>https://number317.github.io/blog/system/lvm_intro/</guid><description>&lt;h1 id="lvm-介绍"&gt;LVM 介绍&lt;/h1&gt;
+&lt;p&gt;LVM(Logical Volume Management)逻辑卷管理利用linux内核的device-mapper特征来实现存储系统的虚拟化，操作系统不再直接操作磁盘，而是操作LV(Logical Volume)逻辑卷。&lt;/p&gt;
+&lt;p&gt;传统磁盘管理如GPT分区和MBR分区存在着磁盘分区无法动态扩展的缺点，即是增加新的磁盘也只能当作单独的文件系统使用，而无法为已在使用的分区增加空间。LVM正好解决了这个问题，可以动态地为分区扩容，而不影响上层系统的使用。&lt;/p&gt;
+&lt;h1 id="lvm-基本概念"&gt;LVM 基本概念&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;PE(Physical Extend)：物理区域&amp;ndash;逻辑卷管理的最小单位，默认大小为4M&lt;/li&gt;
+&lt;li&gt;PV(Physical Volume)：物理卷&amp;ndash;建立卷组的媒介，可以是磁盘，分区或者回环文件，物理卷包括一个特殊的header，其余部分被切割为一块块物理区域(physical extents)&lt;/li&gt;
+&lt;li&gt;VG(Volume Group)：卷组&amp;ndash;物理卷组成的组，可以被认为是PE池&lt;/li&gt;
+&lt;li&gt;LV(Logical Volume)：逻辑卷&amp;ndash;虚拟分区，由PE组成。组成LV的PE可以来自不同的磁盘&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="lvm-工作流程"&gt;LVM 工作流程&lt;/h1&gt;
+&lt;p&gt;构造逻辑卷LV主要有3个步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;将磁盘或分区条带化为PV(物理卷)，实际上是将磁盘或分区分割成一个个PE(物理区域)，默认大小是4M&lt;/li&gt;
+&lt;li&gt;将PV组合成VG，VG中的PE供LV使用，创建VG时需要给VG命名，&lt;code&gt;/dev/&lt;/code&gt;目录下会生成一个以VG名字命名的文件夹&lt;/li&gt;
+&lt;li&gt;基于VG创建LV，LV也需要命名，LV创建好后会在对应的卷组目录下创建一个一LV名字命名的设备，该设备呈现给操作系统使用，可以格式化，当作正常的分区使用。&lt;/li&gt;
+&lt;/ol&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-89ba57a15726e823016a0c444d7134ee">Physical disks
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-89ba57a15726e823016a0c444d7134ee"&gt;Physical disks
  
  Disk1 (/dev/sda):
  _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -370,63 +370,63 @@ LVM logical volumes
  _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
  |Logical volume1 15GB |Logical volume2 35GB |Logical volume3 200GB |
  |/dev/MyStorage/rootvol|/dev/MyStorage/homevol |/dev/MyStorage/mediavol |
- |_ _ _ _ _ _ _ _ _ _ _ |_ _ _ _ _ _ _ _ _ _ _ _ _ |_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ |&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-89ba57a15726e823016a0c444d7134ee', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+ |_ _ _ _ _ _ _ _ _ _ _ |_ _ _ _ _ _ _ _ _ _ _ _ _ |_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ |&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-89ba57a15726e823016a0c444d7134ee', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>如上图中有/dev/sda，/dev/sdb两个磁盘，sda有sda1和sda2两个分区，sdb有sdb1一个分区，三个分区都被条带化成了PV。三个PV组成了一个VG，名字是MyStorage，基于这个VG创建了三个LV，分别叫做rootvol，homevol，mediavol，在/dev/目录下也创建了相应的文件夹和设备。&lt;/p></description></item><item><title>Redhat Enable Ipv6</title><link>https://number317.github.io/blog/system/redhat_enable_ipv6/</link><pubDate>Fri, 26 Jan 2018 14:43:54 +0800</pubDate><guid>https://number317.github.io/blog/system/redhat_enable_ipv6/</guid><description>&lt;h1 id="redhat设置开机启用ipv6">RedHat设置开机启用ipv6&lt;/h1>
-&lt;p>参照的系统信息：&lt;/p>
+&lt;p&gt;如上图中有/dev/sda，/dev/sdb两个磁盘，sda有sda1和sda2两个分区，sdb有sdb1一个分区，三个分区都被条带化成了PV。三个PV组成了一个VG，名字是MyStorage，基于这个VG创建了三个LV，分别叫做rootvol，homevol，mediavol，在/dev/目录下也创建了相应的文件夹和设备。&lt;/p&gt;</description></item><item><title>Redhat Enable Ipv6</title><link>https://number317.github.io/blog/system/redhat_enable_ipv6/</link><pubDate>Fri, 26 Jan 2018 14:43:54 +0800</pubDate><guid>https://number317.github.io/blog/system/redhat_enable_ipv6/</guid><description>&lt;h1 id="redhat设置开机启用ipv6"&gt;RedHat设置开机启用ipv6&lt;/h1&gt;
+&lt;p&gt;参照的系统信息：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-2ea9032289a0089c52ef7bee9d6e4192">$ lsb_release -a
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-2ea9032289a0089c52ef7bee9d6e4192"&gt;$ lsb_release -a
 LSB Version: :core-4.1-amd64:core-4.1-noarch
 Distributor ID: RedHatEnterpriseServer
 Description: Red Hat Enterprise Linux Server release 7.3 (Maipo)
 Release: 7.3
-Codename: Maipo&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-2ea9032289a0089c52ef7bee9d6e4192', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+Codename: Maipo&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-2ea9032289a0089c52ef7bee9d6e4192', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>首先查看系统是否开启了ipv6：&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-37fd02954a848ae7308aa336d5dc5249">ifconfig | grep inet&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-37fd02954a848ae7308aa336d5dc5249', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>或者&lt;/p>
+&lt;p&gt;首先查看系统是否开启了ipv6：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-a24fa64881aa812352e93bc9b17b3201">ip addr | grep inet&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-a24fa64881aa812352e93bc9b17b3201', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-37fd02954a848ae7308aa336d5dc5249"&gt;ifconfig | grep inet&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-37fd02954a848ae7308aa336d5dc5249', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>如果开启了，则应该有ipv6的字段：&lt;/p>
+&lt;p&gt;或者&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-6617fb0265cc14ef838a14b60ccefa97">inet 127.0.0.1/8 scope host lo
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-a24fa64881aa812352e93bc9b17b3201"&gt;ip addr | grep inet&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-a24fa64881aa812352e93bc9b17b3201', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;p&gt;如果开启了，则应该有ipv6的字段：&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-6617fb0265cc14ef838a14b60ccefa97"&gt;inet 127.0.0.1/8 scope host lo
 inet6 ::1/128 scope host 
 inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
 inet6 fe80::a00:27ff:fe3a:b67/64 scope link 
 inet 192.168.33.10/24 brd 192.168.33.255 scope global eth1
 inet6 fe80::a00:27ff:fef4:9024/64 scope link 
 inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
-inet6 fe80::42:9fff:fe3c:183e/64 scope link &lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-6617fb0265cc14ef838a14b60ccefa97', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+inet6 fe80::42:9fff:fe3c:183e/64 scope link &lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-6617fb0265cc14ef838a14b60ccefa97', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>如果没有开启，则只有inet的字段：&lt;/p></description></item></channel></rss>
+&lt;p&gt;如果没有开启，则只有inet的字段：&lt;/p&gt;</description></item></channel></rss>

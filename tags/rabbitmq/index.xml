@@ -1,48 +1,48 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Rabbitmq on cheon's blog</title><link>https://number317.github.io/blog/tags/rabbitmq/</link><description>Recent content in Rabbitmq on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 14 Jun 2019 01:21:26 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/rabbitmq/index.xml" rel="self" type="application/rss+xml"/><item><title>Rabbitmq Access Control</title><link>https://number317.github.io/blog/struct/rabbitmq_access_control/</link><pubDate>Mon, 30 Oct 2017 09:48:14 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_access_control/</guid><description>&lt;h1 id="rabbitmq-权限控制">Rabbitmq 权限控制&lt;/h1>
-&lt;p>在rabbitmq中，身份验证和授权是分开的。身份验证用于判断用户是谁，授权用于确定用户能做什么和不能做什么。&lt;/p>
-&lt;h2 id="默认虚拟主机和用户">默认虚拟主机和用户&lt;/h2>
-&lt;p>当服务第一次启动或者检测到数据库梅雨初始化或已经被删除，rabbitmq会初始化一个新的数据库，拥有如下资源：&lt;/p>
-&lt;ul>
-&lt;li>一个虚拟主机&lt;code>/&lt;/code>&lt;/li>
-&lt;li>一个用户名和密码都为&lt;code>guest&lt;/code>的用户，拥有&lt;code>/&lt;/code>虚拟主机的所有权限&lt;/li>
-&lt;/ul>
-&lt;p>建议是删除默认用户或者修改默认用户的密码。&lt;code>guest&lt;/code>用户默认情况只能通过localhost连接，无法通过远程连接。这可以通过配置文件修改，设置&lt;code>loopback_users.guest = false&lt;/code>即可。&lt;/p>
-&lt;h2 id="权限工作方式">权限工作方式&lt;/h2>
-&lt;p>rabbitmq的权限控制主要分为两层，第一层是虚拟主机的权限，第二层是资源的权限。&lt;/p>
-&lt;h2 id="虚拟主机virtual-host">虚拟主机(Virtual Host)&lt;/h2>
-&lt;p>当客户端连接到服务器，它会指定一个要操作的虚拟主机，第一层权限控制被启用，服务器会检查用户对该虚拟主机是否有权限，没有权限连接会被拒绝。&lt;/p>
-&lt;p>示例：&lt;/p>
-&lt;p>首先创建一个用户：&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Rabbitmq on cheon's blog</title><link>https://number317.github.io/blog/tags/rabbitmq/</link><description>Recent content in Rabbitmq on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 14 Jun 2019 01:21:26 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/rabbitmq/index.xml" rel="self" type="application/rss+xml"/><item><title>Rabbitmq Access Control</title><link>https://number317.github.io/blog/struct/rabbitmq_access_control/</link><pubDate>Mon, 30 Oct 2017 09:48:14 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_access_control/</guid><description>&lt;h1 id="rabbitmq-权限控制"&gt;Rabbitmq 权限控制&lt;/h1&gt;
+&lt;p&gt;在rabbitmq中，身份验证和授权是分开的。身份验证用于判断用户是谁，授权用于确定用户能做什么和不能做什么。&lt;/p&gt;
+&lt;h2 id="默认虚拟主机和用户"&gt;默认虚拟主机和用户&lt;/h2&gt;
+&lt;p&gt;当服务第一次启动或者检测到数据库梅雨初始化或已经被删除，rabbitmq会初始化一个新的数据库，拥有如下资源：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;一个虚拟主机&lt;code&gt;/&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;一个用户名和密码都为&lt;code&gt;guest&lt;/code&gt;的用户，拥有&lt;code&gt;/&lt;/code&gt;虚拟主机的所有权限&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;建议是删除默认用户或者修改默认用户的密码。&lt;code&gt;guest&lt;/code&gt;用户默认情况只能通过localhost连接，无法通过远程连接。这可以通过配置文件修改，设置&lt;code&gt;loopback_users.guest = false&lt;/code&gt;即可。&lt;/p&gt;
+&lt;h2 id="权限工作方式"&gt;权限工作方式&lt;/h2&gt;
+&lt;p&gt;rabbitmq的权限控制主要分为两层，第一层是虚拟主机的权限，第二层是资源的权限。&lt;/p&gt;
+&lt;h2 id="虚拟主机virtual-host"&gt;虚拟主机(Virtual Host)&lt;/h2&gt;
+&lt;p&gt;当客户端连接到服务器，它会指定一个要操作的虚拟主机，第一层权限控制被启用，服务器会检查用户对该虚拟主机是否有权限，没有权限连接会被拒绝。&lt;/p&gt;
+&lt;p&gt;示例：&lt;/p&gt;
+&lt;p&gt;首先创建一个用户：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-ba34622ccbb0f3d027260dce1ade3cf8">rabbitmqctl add_user cheon 123&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-ba34622ccbb0f3d027260dce1ade3cf8', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-ba34622ccbb0f3d027260dce1ade3cf8"&gt;rabbitmqctl add_user cheon 123&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-ba34622ccbb0f3d027260dce1ade3cf8', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>这里创建了一个用户cheon，密码为123（如果rabbitmq是集群，那么在集群中一个节点上创建了用户，虚拟主机等，在其他节点上也都会存在。）。刚创建的用户是没有任何权限的。可以确认一下用户的权限：&lt;/p>
+&lt;p&gt;这里创建了一个用户cheon，密码为123（如果rabbitmq是集群，那么在集群中一个节点上创建了用户，虚拟主机等，在其他节点上也都会存在。）。刚创建的用户是没有任何权限的。可以确认一下用户的权限：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-1bbcd6d76dde15cc0020c6b0a2b1d2c0">root@rabbitmq-node1:/# rabbitmqctl list_user_permissions cheon
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-1bbcd6d76dde15cc0020c6b0a2b1d2c0"&gt;root@rabbitmq-node1:/# rabbitmqctl list_user_permissions cheon
 Listing permissions for user &amp;#34;cheon&amp;#34; ...
 
 root@rabbitmq-node1:/# rabbitmqctl list_user_permissions guest
 Listing permissions for user &amp;#34;guest&amp;#34; ...
-/	.*	.*	.*&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-1bbcd6d76dde15cc0020c6b0a2b1d2c0', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+/	.*	.*	.*&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-1bbcd6d76dde15cc0020c6b0a2b1d2c0', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>可以看到新用户cheon没有任何权限，guest用户拥有虚拟主机&lt;code>/&lt;/code>的全部权限。&lt;/p>
-&lt;p>编写一个简单的脚本，通过用户cheon连接&lt;code>/&lt;/code>虚拟主机，发送Hello World：&lt;/p>
+&lt;p&gt;可以看到新用户cheon没有任何权限，guest用户拥有虚拟主机&lt;code&gt;/&lt;/code&gt;的全部权限。&lt;/p&gt;
+&lt;p&gt;编写一个简单的脚本，通过用户cheon连接&lt;code&gt;/&lt;/code&gt;虚拟主机，发送Hello World：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-cff890a549acc4ec7c284405cb9758c9">#!/usr/bin/env python
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-cff890a549acc4ec7c284405cb9758c9"&gt;#!/usr/bin/env python
 
 import pika
 
@@ -59,33 +59,33 @@ channel.basic_publish(
 
 print(&amp;#34; [x] Sent &amp;#39;Helllo World!&amp;#39;&amp;#34;)
 
-connection.close()&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-cff890a549acc4ec7c284405cb9758c9', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+connection.close()&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-cff890a549acc4ec7c284405cb9758c9', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>执行代码：&lt;/p></description></item><item><title>Rabbitmq Topic</title><link>https://number317.github.io/blog/struct/rabbitmq_topic/</link><pubDate>Sun, 29 Oct 2017 20:32:52 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_topic/</guid><description>&lt;h1 id="rabbitmq-主题">rabbitmq 主题&lt;/h1>
-&lt;p>虽然之前使用了&lt;code>direct&lt;/code>交换来路由不同级别的日志，但是它无法做到根据设备来路由。在我们的日志系统中，可能不止是想要通过日志级别来订阅，还想通过日志来源订阅。这将会给我们带来更大的灵活性，比如我们可以只监听来自cron的error和来自kern的所有日志。为了达到这个效果，我们可以采用一个更复杂的交换&amp;ndash;&lt;code>topic&lt;/code>。&lt;/p>
-&lt;h2 id="topic-exchange">Topic exchange&lt;/h2>
-&lt;p>发送给&lt;code>topic&lt;/code>交换的信息的&lt;code>routing_key&lt;/code>的属性不能是任意的&amp;ndash;它必须是一个单词的列表，通过&lt;code>.&lt;/code>分隔。单词可以是任意的，但是通常是一些描述信息特征的词语。例如&lt;code>stock.usd.nyse&lt;/code>，&lt;code>nyse.vmw&lt;/code>，&lt;code>quick.orange.rabbit&lt;/code>。你可以设置任意多的词语，只要不超过255字节的限制。&lt;/p>
-&lt;p>&lt;code>binding key&lt;/code>也必须是相同的格式。&lt;code>topic&lt;/code>背后的交换逻辑和&lt;code>direct&lt;/code>是相似的，一个带有特殊&lt;code>routing key&lt;/code>的信息会被发送到所有拥有匹配&lt;code>binding key&lt;/code>的队列，但有两个需要注意的地方：&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>*&lt;/code> 可以代表一个单词&lt;/li>
-&lt;li>&lt;code>#&lt;/code> 可以代表0或多个单词&lt;/li>
-&lt;/ul>
-&lt;p>示例：&lt;/p>
-&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_topic_img1.png" alt="topic example">&lt;/p>
-&lt;p>在这个示例中，我们发送描述动物的消息。消息会带有由三个单词组成的&lt;code>routing key&lt;/code>，单词间用&lt;code>.&lt;/code>分隔，用于描述不同的特征。我们创建了三个绑定：&lt;code>Q1&lt;/code>和&lt;code>*.orange.*&lt;/code>绑定，&lt;code>Q2&lt;/code>和&lt;code>*.*.rabbit&lt;/code>，&lt;code>lazy.#&lt;/code>绑定。可以简单得概括为&lt;code>Q1&lt;/code>只关心所有橙色的动物，&lt;code>Q2&lt;/code>只关心兔子和慢吞吞的动物。&lt;/p>
-&lt;p>一条带有&lt;code>quick.orange.rabbit&lt;/code>的&lt;code>routing key&lt;/code>的信息会发送给两个队列，&lt;code>quick.orange.fox&lt;/code>也会发送给两个，&lt;code>lazy.brown.fox&lt;/code>只发送给&lt;code>Q2&lt;/code>，&lt;code>lazy.pink.rabbit&lt;/code>只发送给&lt;code>Q2&lt;/code>一次，即使它匹配了两个绑定。&lt;code>quick.brown.fox&lt;/code>不匹配任何绑定所以会被丢弃。如果我们发送的信息带有一个或四个单词，像&lt;code>orange&lt;/code>，&lt;code>quick.orange.male.rabbit&lt;/code>之类的，也不匹配任何绑定，也会被丢弃 。但是&lt;code>lazy.orange.male.rabbit&lt;/code>虽然有四个单词，也匹配&lt;code>lazy.#&lt;/code>，因为&lt;code>#&lt;/code>代表0或多个单词，所以会被发送给&lt;code>Q2&lt;/code>。&lt;/p>
-&lt;p>&lt;code>topic&lt;/code>是一个强大的交换，可以实现其他交换的功能。当一个队列绑定&lt;code>#&lt;/code>，它可以接收所有信息，就像&lt;code>fanout&lt;/code>交换。当没有使用&lt;code>*&lt;/code>和&lt;code>#&lt;/code>，而是指定明确的字符串，就可以表现地像&lt;code>direct&lt;/code>交换。&lt;/p>
-&lt;h2 id="最终实现">最终实现&lt;/h2>
-&lt;p>我们假设日志的&lt;code>routing key&lt;/code>有两个单词&lt;code>&amp;lt;facility&amp;gt;.&amp;lt;severity&amp;gt;&lt;/code>，那么代码如下：&lt;/p>
-&lt;p>&lt;code>emit_log_topic.py&lt;/code>：&lt;/p>
+&lt;p&gt;执行代码：&lt;/p&gt;</description></item><item><title>Rabbitmq Topic</title><link>https://number317.github.io/blog/struct/rabbitmq_topic/</link><pubDate>Sun, 29 Oct 2017 20:32:52 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_topic/</guid><description>&lt;h1 id="rabbitmq-主题"&gt;rabbitmq 主题&lt;/h1&gt;
+&lt;p&gt;虽然之前使用了&lt;code&gt;direct&lt;/code&gt;交换来路由不同级别的日志，但是它无法做到根据设备来路由。在我们的日志系统中，可能不止是想要通过日志级别来订阅，还想通过日志来源订阅。这将会给我们带来更大的灵活性，比如我们可以只监听来自cron的error和来自kern的所有日志。为了达到这个效果，我们可以采用一个更复杂的交换&amp;ndash;&lt;code&gt;topic&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id="topic-exchange"&gt;Topic exchange&lt;/h2&gt;
+&lt;p&gt;发送给&lt;code&gt;topic&lt;/code&gt;交换的信息的&lt;code&gt;routing_key&lt;/code&gt;的属性不能是任意的&amp;ndash;它必须是一个单词的列表，通过&lt;code&gt;.&lt;/code&gt;分隔。单词可以是任意的，但是通常是一些描述信息特征的词语。例如&lt;code&gt;stock.usd.nyse&lt;/code&gt;，&lt;code&gt;nyse.vmw&lt;/code&gt;，&lt;code&gt;quick.orange.rabbit&lt;/code&gt;。你可以设置任意多的词语，只要不超过255字节的限制。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;binding key&lt;/code&gt;也必须是相同的格式。&lt;code&gt;topic&lt;/code&gt;背后的交换逻辑和&lt;code&gt;direct&lt;/code&gt;是相似的，一个带有特殊&lt;code&gt;routing key&lt;/code&gt;的信息会被发送到所有拥有匹配&lt;code&gt;binding key&lt;/code&gt;的队列，但有两个需要注意的地方：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;*&lt;/code&gt; 可以代表一个单词&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;#&lt;/code&gt; 可以代表0或多个单词&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;示例：&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_topic_img1.png" alt="topic example"&gt;&lt;/p&gt;
+&lt;p&gt;在这个示例中，我们发送描述动物的消息。消息会带有由三个单词组成的&lt;code&gt;routing key&lt;/code&gt;，单词间用&lt;code&gt;.&lt;/code&gt;分隔，用于描述不同的特征。我们创建了三个绑定：&lt;code&gt;Q1&lt;/code&gt;和&lt;code&gt;*.orange.*&lt;/code&gt;绑定，&lt;code&gt;Q2&lt;/code&gt;和&lt;code&gt;*.*.rabbit&lt;/code&gt;，&lt;code&gt;lazy.#&lt;/code&gt;绑定。可以简单得概括为&lt;code&gt;Q1&lt;/code&gt;只关心所有橙色的动物，&lt;code&gt;Q2&lt;/code&gt;只关心兔子和慢吞吞的动物。&lt;/p&gt;
+&lt;p&gt;一条带有&lt;code&gt;quick.orange.rabbit&lt;/code&gt;的&lt;code&gt;routing key&lt;/code&gt;的信息会发送给两个队列，&lt;code&gt;quick.orange.fox&lt;/code&gt;也会发送给两个，&lt;code&gt;lazy.brown.fox&lt;/code&gt;只发送给&lt;code&gt;Q2&lt;/code&gt;，&lt;code&gt;lazy.pink.rabbit&lt;/code&gt;只发送给&lt;code&gt;Q2&lt;/code&gt;一次，即使它匹配了两个绑定。&lt;code&gt;quick.brown.fox&lt;/code&gt;不匹配任何绑定所以会被丢弃。如果我们发送的信息带有一个或四个单词，像&lt;code&gt;orange&lt;/code&gt;，&lt;code&gt;quick.orange.male.rabbit&lt;/code&gt;之类的，也不匹配任何绑定，也会被丢弃 。但是&lt;code&gt;lazy.orange.male.rabbit&lt;/code&gt;虽然有四个单词，也匹配&lt;code&gt;lazy.#&lt;/code&gt;，因为&lt;code&gt;#&lt;/code&gt;代表0或多个单词，所以会被发送给&lt;code&gt;Q2&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;topic&lt;/code&gt;是一个强大的交换，可以实现其他交换的功能。当一个队列绑定&lt;code&gt;#&lt;/code&gt;，它可以接收所有信息，就像&lt;code&gt;fanout&lt;/code&gt;交换。当没有使用&lt;code&gt;*&lt;/code&gt;和&lt;code&gt;#&lt;/code&gt;，而是指定明确的字符串，就可以表现地像&lt;code&gt;direct&lt;/code&gt;交换。&lt;/p&gt;
+&lt;h2 id="最终实现"&gt;最终实现&lt;/h2&gt;
+&lt;p&gt;我们假设日志的&lt;code&gt;routing key&lt;/code&gt;有两个单词&lt;code&gt;&amp;lt;facility&amp;gt;.&amp;lt;severity&amp;gt;&lt;/code&gt;，那么代码如下：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;emit_log_topic.py&lt;/code&gt;：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-ba74fd4cc400b5dcbde10e52ccd6d02c">#!/usr/bin/env python
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-ba74fd4cc400b5dcbde10e52ccd6d02c"&gt;#!/usr/bin/env python
 
 import pika
 import sys
@@ -106,85 +106,85 @@ channel.basic_publish(
  body=message
  )
 print(&amp;#34; [x] Sent %r:%r&amp;#34; % (severity, message))
-connection.close()&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-ba74fd4cc400b5dcbde10e52ccd6d02c', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+connection.close()&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-ba74fd4cc400b5dcbde10e52ccd6d02c', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>&lt;code>receive_logs_topic.py&lt;/code>：&lt;/p></description></item><item><title>Rabbitmq Routing</title><link>https://number317.github.io/blog/struct/rabbitmq_routing/</link><pubDate>Sat, 28 Oct 2017 09:26:49 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_routing/</guid><description>&lt;h1 id="rabbitmq-路由">Rabbitmq 路由&lt;/h1>
-&lt;p>这里我们将为日志系统增加一个特性&amp;ndash;只订阅一部分信息。例如，我们可以将错误信息存入日志文件，将其他信息打印出来。&lt;/p>
-&lt;h2 id="绑定bindings">绑定（Bindings）&lt;/h2>
-&lt;p>在日志系统中我们已经使用过绑定，像这样调用代码：&lt;/p>
+&lt;p&gt;&lt;code&gt;receive_logs_topic.py&lt;/code&gt;：&lt;/p&gt;</description></item><item><title>Rabbitmq Routing</title><link>https://number317.github.io/blog/struct/rabbitmq_routing/</link><pubDate>Sat, 28 Oct 2017 09:26:49 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_routing/</guid><description>&lt;h1 id="rabbitmq-路由"&gt;Rabbitmq 路由&lt;/h1&gt;
+&lt;p&gt;这里我们将为日志系统增加一个特性&amp;ndash;只订阅一部分信息。例如，我们可以将错误信息存入日志文件，将其他信息打印出来。&lt;/p&gt;
+&lt;h2 id="绑定bindings"&gt;绑定（Bindings）&lt;/h2&gt;
+&lt;p&gt;在日志系统中我们已经使用过绑定，像这样调用代码：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-9bf980e2b47d5e6ea2adc66088cb7aeb">channel.queue_bind(
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-9bf980e2b47d5e6ea2adc66088cb7aeb"&gt;channel.queue_bind(
  exchange=exchange_name,
  queue=queue_name
-)&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-9bf980e2b47d5e6ea2adc66088cb7aeb', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+)&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-9bf980e2b47d5e6ea2adc66088cb7aeb', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>一个绑定是交换和队列之间的关系，可以简单地理解为这个队列只对这个交换的信息感兴趣。绑定可以指定额外的&lt;code>routing_key&lt;/code>参数。为了避免和一个&lt;code>basic_publish&lt;/code>参数混淆，我们称它&lt;code>binding key&lt;/code>，可以通过一下方式创建一个带有key的绑定：&lt;/p>
+&lt;p&gt;一个绑定是交换和队列之间的关系，可以简单地理解为这个队列只对这个交换的信息感兴趣。绑定可以指定额外的&lt;code&gt;routing_key&lt;/code&gt;参数。为了避免和一个&lt;code&gt;basic_publish&lt;/code&gt;参数混淆，我们称它&lt;code&gt;binding key&lt;/code&gt;，可以通过一下方式创建一个带有key的绑定：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-7367e6d23435468c2923ec4a94da88a2">channel.queue_bind(
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-7367e6d23435468c2923ec4a94da88a2"&gt;channel.queue_bind(
  exchange=exchange_name,
  queue=queue_name,
  routing_key=&amp;#39;black&amp;#39;
-)&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-7367e6d23435468c2923ec4a94da88a2', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+)&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-7367e6d23435468c2923ec4a94da88a2', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>&lt;code>binding key&lt;/code>的含义依赖于交换的类型。&lt;code>fanout&lt;/code>交换类型会直接忽略这个值。&lt;/p>
-&lt;h2 id="direct-exchange">Direct exchange&lt;/h2>
-&lt;p>我们之前的日志系统使用&lt;code>fanout&lt;/code>交换类型，直接将信息广播给所有消费者。现在我们想要扩展它允许根据根据级别来过滤。例如，将错误级别的日志存入磁盘，将普通的日志直接输出而不浪费磁盘空间。为了达到这个目的，这里将使用&lt;code>direct&lt;/code>交换。&lt;code>direct&lt;/code>交换的路由算法也比较简单，一个消息只推送到&lt;code>binding key&lt;/code>和&lt;code>routing key&lt;/code>匹配的队列，举例如下图：&lt;/p>
-&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_routing_img1.png" alt="direct routing">&lt;/p>
-&lt;p>在上述例子中可以看到&lt;code>direct&lt;/code>交换&lt;code>x&lt;/code>有两个与之绑定的队列。第一个队列的&lt;code>binding key&lt;/code>是&lt;code>orange&lt;/code>，第二个队列有两个&lt;code>binding key&lt;/code>，分别是&lt;code>black&lt;/code>和&lt;code>green&lt;/code>。通过这个配置，一个带有&lt;code>orage&lt;/code>的&lt;code>routing key&lt;/code>的信息推送到交换后会被路由到队列&lt;code>Q1&lt;/code>；一个带有&lt;code>black&lt;/code>或者&lt;code>green&lt;/code>的&lt;code>routing key&lt;/code>的信息推送到交换后会被路由到队列&lt;code>Q2&lt;/code>，其他的信息会被丢弃。&lt;/p>
-&lt;h2 id="多绑定muliple-bindings">多绑定（Muliple bindings）&lt;/h2>
-&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_routing_img2.png" alt="multiple bindings">&lt;/p>
-&lt;p>用相同的&lt;code>binding key&lt;/code>绑定多个队列完全是可行的。在我们的例子中可以在&lt;code>x&lt;/code>和&lt;code>Q1&lt;/code>之间添加一个名为&lt;code>black&lt;/code>的&lt;code>binding key&lt;/code>，这样的话，&lt;code>direct&lt;/code>交换将会表现得像&lt;code>fanout&lt;/code>并且会将信息广播到所有匹配的队列。一个带有&lt;code>black&lt;/code>的&lt;code>routing key&lt;/code>的信息会递送到&lt;code>Q1&lt;/code>和&lt;code>Q2&lt;/code>队列。&lt;/p>
-&lt;h2 id="发送日志">发送日志&lt;/h2>
-&lt;p>我们将使用这个模型来构建日志系统，我们将会发送信息到&lt;code>direct&lt;/code>交换，我们将会以日志的级别作为&lt;code>routing key&lt;/code>。首先创建交换：&lt;/p>
+&lt;p&gt;&lt;code&gt;binding key&lt;/code&gt;的含义依赖于交换的类型。&lt;code&gt;fanout&lt;/code&gt;交换类型会直接忽略这个值。&lt;/p&gt;
+&lt;h2 id="direct-exchange"&gt;Direct exchange&lt;/h2&gt;
+&lt;p&gt;我们之前的日志系统使用&lt;code&gt;fanout&lt;/code&gt;交换类型，直接将信息广播给所有消费者。现在我们想要扩展它允许根据根据级别来过滤。例如，将错误级别的日志存入磁盘，将普通的日志直接输出而不浪费磁盘空间。为了达到这个目的，这里将使用&lt;code&gt;direct&lt;/code&gt;交换。&lt;code&gt;direct&lt;/code&gt;交换的路由算法也比较简单，一个消息只推送到&lt;code&gt;binding key&lt;/code&gt;和&lt;code&gt;routing key&lt;/code&gt;匹配的队列，举例如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_routing_img1.png" alt="direct routing"&gt;&lt;/p&gt;
+&lt;p&gt;在上述例子中可以看到&lt;code&gt;direct&lt;/code&gt;交换&lt;code&gt;x&lt;/code&gt;有两个与之绑定的队列。第一个队列的&lt;code&gt;binding key&lt;/code&gt;是&lt;code&gt;orange&lt;/code&gt;，第二个队列有两个&lt;code&gt;binding key&lt;/code&gt;，分别是&lt;code&gt;black&lt;/code&gt;和&lt;code&gt;green&lt;/code&gt;。通过这个配置，一个带有&lt;code&gt;orage&lt;/code&gt;的&lt;code&gt;routing key&lt;/code&gt;的信息推送到交换后会被路由到队列&lt;code&gt;Q1&lt;/code&gt;；一个带有&lt;code&gt;black&lt;/code&gt;或者&lt;code&gt;green&lt;/code&gt;的&lt;code&gt;routing key&lt;/code&gt;的信息推送到交换后会被路由到队列&lt;code&gt;Q2&lt;/code&gt;，其他的信息会被丢弃。&lt;/p&gt;
+&lt;h2 id="多绑定muliple-bindings"&gt;多绑定（Muliple bindings）&lt;/h2&gt;
+&lt;p&gt;&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_routing_img2.png" alt="multiple bindings"&gt;&lt;/p&gt;
+&lt;p&gt;用相同的&lt;code&gt;binding key&lt;/code&gt;绑定多个队列完全是可行的。在我们的例子中可以在&lt;code&gt;x&lt;/code&gt;和&lt;code&gt;Q1&lt;/code&gt;之间添加一个名为&lt;code&gt;black&lt;/code&gt;的&lt;code&gt;binding key&lt;/code&gt;，这样的话，&lt;code&gt;direct&lt;/code&gt;交换将会表现得像&lt;code&gt;fanout&lt;/code&gt;并且会将信息广播到所有匹配的队列。一个带有&lt;code&gt;black&lt;/code&gt;的&lt;code&gt;routing key&lt;/code&gt;的信息会递送到&lt;code&gt;Q1&lt;/code&gt;和&lt;code&gt;Q2&lt;/code&gt;队列。&lt;/p&gt;
+&lt;h2 id="发送日志"&gt;发送日志&lt;/h2&gt;
+&lt;p&gt;我们将使用这个模型来构建日志系统，我们将会发送信息到&lt;code&gt;direct&lt;/code&gt;交换，我们将会以日志的级别作为&lt;code&gt;routing key&lt;/code&gt;。首先创建交换：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-7cf2079eb4d334d8fb3f47b5f9ed6443">channel.exchange_declare(
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-7cf2079eb4d334d8fb3f47b5f9ed6443"&gt;channel.exchange_declare(
  exchange=&amp;#39;direct_logs&amp;#39;,
  exchange_type=&amp;#39;direct&amp;#39;
- )&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-7cf2079eb4d334d8fb3f47b5f9ed6443', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+ )&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-7cf2079eb4d334d8fb3f47b5f9ed6443', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>然后发送消息：&lt;/p>
+&lt;p&gt;然后发送消息：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-b38c04936ccff3e28d5338c64f20c72e">channel.basic_publish(
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-b38c04936ccff3e28d5338c64f20c72e"&gt;channel.basic_publish(
  exchange=&amp;#39;direct_logs&amp;#39;,
  routing_key=serverity,
  body=message
-)&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-b38c04936ccff3e28d5338c64f20c72e', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+)&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-b38c04936ccff3e28d5338c64f20c72e', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>为了简化程序，我们假设日志级别只有&lt;code>info&lt;/code>，&lt;code>warning&lt;/code>，&lt;code>error&lt;/code>三种情况。&lt;/p>
-&lt;h2 id="订阅">订阅&lt;/h2>
-&lt;p>我们将为每一个需要的日志级别创建一个新的绑定：&lt;/p>
+&lt;p&gt;为了简化程序，我们假设日志级别只有&lt;code&gt;info&lt;/code&gt;，&lt;code&gt;warning&lt;/code&gt;，&lt;code&gt;error&lt;/code&gt;三种情况。&lt;/p&gt;
+&lt;h2 id="订阅"&gt;订阅&lt;/h2&gt;
+&lt;p&gt;我们将为每一个需要的日志级别创建一个新的绑定：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-92d844f1877c9141b976ecc376cf953a">result = channel.queue_declare(exclusive=True)
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-92d844f1877c9141b976ecc376cf953a"&gt;result = channel.queue_declare(exclusive=True)
 queue_name = result.method.queue
 
 for severity in severities:
@@ -192,116 +192,116 @@ for severity in severities:
  exchange=&amp;#39;direct_logs&amp;#39;,
  queue=queue_name,
  routing_key=severity
- )&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-92d844f1877c9141b976ecc376cf953a', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+ )&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-92d844f1877c9141b976ecc376cf953a', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;h2 id="最终结果">最终结果&lt;/h2>
-&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_routing_img3.png" alt="multiple bindings">&lt;/p></description></item><item><title>Rabbitmq Publish Subscribe</title><link>https://number317.github.io/blog/struct/rabbitmq_publish_subscribe/</link><pubDate>Fri, 27 Oct 2017 15:18:38 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_publish_subscribe/</guid><description>&lt;h1 id="publish-subcribe">Publish Subcribe&lt;/h1>
-&lt;p>发布和订阅模式简单而言就是将一个消息发送个多个消费者。为了阐明这个模式，这里将会构建一个简单的日志系统，这个系统由两部分组成，第一个程序发送消息，第二个程序接收和打印消息。&lt;/p>
-&lt;p>在该日志系统中，接收程序的每一个运行副本都将得到消息，这样我们可以运行一个接收器，并将日志存放在磁盘；同时运行另一个接收器将日志在屏幕上打印出来。&lt;/p>
-&lt;h2 id="交换exchanges">交换(Exchanges)&lt;/h2>
-&lt;p>rabbitmq 消息模型的核心是生产者从不直接发送任何消息到队列。事实上，一个生产者经常不知道一个消息是否被发送到了队列。生产者只能将消息发送给交换。交换是一个非常简单的东西，它一边接收来自生产者的消息，另一边它把消息推入消息队列。交换是一定知道要怎么处理它接收到的消息的。应该被追加到一个特定的队列后，还是应该追加到多个队列中，还是应该被丢弃。这些规则都由交换类型（exchange type）定义。&lt;/p>
-&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_publish_subscribe_img1.png" alt="exchange">&lt;/p>
-&lt;p>有一些可用的交换类型：&lt;code>direct&lt;/code>, &lt;code>topic&lt;/code>, &lt;code>headers&lt;/code> 和 &lt;code>fanout&lt;/code>，这里将使用最后一个类型&amp;ndash;&lt;code>fanout&lt;/code>。创建一个名为&lt;code>logs&lt;/code>的该类型交换：&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-42119b434e68b013904293cc2777c71d">channel.exchange_declare(exchange=&amp;#39;logs&amp;#39;, exchange_type=&amp;#39;fanout&amp;#39;)&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-42119b434e68b013904293cc2777c71d', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>&lt;code>fanout&lt;/code>类型的交换非常简单。就如它的名字一样，它只是将它接收到的信息广播到它知道的所有队列，这正是我们日志系统所需要的。&lt;/p>
-&lt;h2 id="查看交换">查看交换&lt;/h2>
-&lt;p>列出服务器上可用的交换可以使用&lt;code>rabbitmqctl&lt;/code>命令:&lt;/p>
+&lt;h2 id="最终结果"&gt;最终结果&lt;/h2&gt;
+&lt;p&gt;&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_routing_img3.png" alt="multiple bindings"&gt;&lt;/p&gt;</description></item><item><title>Rabbitmq Publish Subscribe</title><link>https://number317.github.io/blog/struct/rabbitmq_publish_subscribe/</link><pubDate>Fri, 27 Oct 2017 15:18:38 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_publish_subscribe/</guid><description>&lt;h1 id="publish-subcribe"&gt;Publish Subcribe&lt;/h1&gt;
+&lt;p&gt;发布和订阅模式简单而言就是将一个消息发送个多个消费者。为了阐明这个模式，这里将会构建一个简单的日志系统，这个系统由两部分组成，第一个程序发送消息，第二个程序接收和打印消息。&lt;/p&gt;
+&lt;p&gt;在该日志系统中，接收程序的每一个运行副本都将得到消息，这样我们可以运行一个接收器，并将日志存放在磁盘；同时运行另一个接收器将日志在屏幕上打印出来。&lt;/p&gt;
+&lt;h2 id="交换exchanges"&gt;交换(Exchanges)&lt;/h2&gt;
+&lt;p&gt;rabbitmq 消息模型的核心是生产者从不直接发送任何消息到队列。事实上，一个生产者经常不知道一个消息是否被发送到了队列。生产者只能将消息发送给交换。交换是一个非常简单的东西，它一边接收来自生产者的消息，另一边它把消息推入消息队列。交换是一定知道要怎么处理它接收到的消息的。应该被追加到一个特定的队列后，还是应该追加到多个队列中，还是应该被丢弃。这些规则都由交换类型（exchange type）定义。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_publish_subscribe_img1.png" alt="exchange"&gt;&lt;/p&gt;
+&lt;p&gt;有一些可用的交换类型：&lt;code&gt;direct&lt;/code&gt;, &lt;code&gt;topic&lt;/code&gt;, &lt;code&gt;headers&lt;/code&gt; 和 &lt;code&gt;fanout&lt;/code&gt;，这里将使用最后一个类型&amp;ndash;&lt;code&gt;fanout&lt;/code&gt;。创建一个名为&lt;code&gt;logs&lt;/code&gt;的该类型交换：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-fe8529258c2e6a31681463d365d1192c">rabbitmqctl list_exchanges&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-fe8529258c2e6a31681463d365d1192c', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-42119b434e68b013904293cc2777c71d"&gt;channel.exchange_declare(exchange=&amp;#39;logs&amp;#39;, exchange_type=&amp;#39;fanout&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-42119b434e68b013904293cc2777c71d', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>在列表中会有一些&lt;code>amq.*&lt;/code>的交换和默认（未命名）的交换。这些是默认配置的，但是这里目前用不到他们。&lt;/p>
-&lt;p>有时候我们通过空字符串&lt;code>''&lt;/code>来使用默认的交换：&lt;/p>
+&lt;p&gt;&lt;code&gt;fanout&lt;/code&gt;类型的交换非常简单。就如它的名字一样，它只是将它接收到的信息广播到它知道的所有队列，这正是我们日志系统所需要的。&lt;/p&gt;
+&lt;h2 id="查看交换"&gt;查看交换&lt;/h2&gt;
+&lt;p&gt;列出服务器上可用的交换可以使用&lt;code&gt;rabbitmqctl&lt;/code&gt;命令:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-65059426646634072d6c75c399df085e">channel.basic_publish(exchange=&amp;#39;&amp;#39;,
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-fe8529258c2e6a31681463d365d1192c"&gt;rabbitmqctl list_exchanges&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-fe8529258c2e6a31681463d365d1192c', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;p&gt;在列表中会有一些&lt;code&gt;amq.*&lt;/code&gt;的交换和默认（未命名）的交换。这些是默认配置的，但是这里目前用不到他们。&lt;/p&gt;
+&lt;p&gt;有时候我们通过空字符串&lt;code&gt;''&lt;/code&gt;来使用默认的交换：&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-65059426646634072d6c75c399df085e"&gt;channel.basic_publish(exchange=&amp;#39;&amp;#39;,
  routing_key=&amp;#39;hello&amp;#39;,
- body=message)&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-65059426646634072d6c75c399df085e', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+ body=message)&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-65059426646634072d6c75c399df085e', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>现在我们可以推送到我们的命名交换中：&lt;/p>
+&lt;p&gt;现在我们可以推送到我们的命名交换中：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-f960d287d0bdb44e4e3538a20b1d50a5">channel.basic_publish(
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-f960d287d0bdb44e4e3538a20b1d50a5"&gt;channel.basic_publish(
  exchange=&amp;#39;logs&amp;#39;
  routing_key=&amp;#39;&amp;#39;,
  body=message
- )&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-f960d287d0bdb44e4e3538a20b1d50a5', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+ )&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-f960d287d0bdb44e4e3538a20b1d50a5', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;h2 id="临时队列">临时队列&lt;/h2>
-&lt;p>有时我们使用的队列有指定的名字，能够为队列命名是至关重要的，我们需要指定工作到相同的队列。当你想要在生产者和消费者间共享队列时为队列命名是很重要的。但是在我们的日志系统中，我们想要监听所有的日志，而不是一些；我们也只对当前流动的信息感兴趣而不是旧的信息。要达到这个效果我们需要两件事。&lt;/p>
-&lt;p>第一，无论何时连接到rabbitmq我们需要刷新，清空队列。为了做到这个我们可以用随机名字创建一个队列，或者更好的是让服务器为我们选择一个随机的队列名字。可以通过不给&lt;code>queue&lt;/code>参数到&lt;code>queue_declare&lt;/code>来做到这一点：&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-335b918329e5af6c3b864655da098623">result = channel.queue_declare()&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-335b918329e5af6c3b864655da098623', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>这个时候&lt;code>result.method.queue&lt;/code>包含了一个随机的队列名。例如它可能看起来像&lt;code>amq.gen-JzTY20BRgKO-HjmUJj0wLg&lt;/code>&lt;/p>
-&lt;p>第二，一旦消费者连接被关闭，队列应该被删除，有一个&lt;code>exclusive&lt;/code>标签：&lt;/p>
+&lt;h2 id="临时队列"&gt;临时队列&lt;/h2&gt;
+&lt;p&gt;有时我们使用的队列有指定的名字，能够为队列命名是至关重要的，我们需要指定工作到相同的队列。当你想要在生产者和消费者间共享队列时为队列命名是很重要的。但是在我们的日志系统中，我们想要监听所有的日志，而不是一些；我们也只对当前流动的信息感兴趣而不是旧的信息。要达到这个效果我们需要两件事。&lt;/p&gt;
+&lt;p&gt;第一，无论何时连接到rabbitmq我们需要刷新，清空队列。为了做到这个我们可以用随机名字创建一个队列，或者更好的是让服务器为我们选择一个随机的队列名字。可以通过不给&lt;code&gt;queue&lt;/code&gt;参数到&lt;code&gt;queue_declare&lt;/code&gt;来做到这一点：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-27a98c5afdf848826dc46ace59a822c0">result = channel.queue_declare(excusive=True)&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-27a98c5afdf848826dc46ace59a822c0', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-335b918329e5af6c3b864655da098623"&gt;result = channel.queue_declare()&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-335b918329e5af6c3b864655da098623', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>可以在&lt;a href="http://www.rabbitmq.com/queues.html" target="_blank" rel="noopener noreferrer" >
+&lt;p&gt;这个时候&lt;code&gt;result.method.queue&lt;/code&gt;包含了一个随机的队列名。例如它可能看起来像&lt;code&gt;amq.gen-JzTY20BRgKO-HjmUJj0wLg&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;第二，一旦消费者连接被关闭，队列应该被删除，有一个&lt;code&gt;exclusive&lt;/code&gt;标签：&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-27a98c5afdf848826dc46ace59a822c0"&gt;result = channel.queue_declare(excusive=True)&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-27a98c5afdf848826dc46ace59a822c0', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;p&gt;可以在&lt;a href="http://www.rabbitmq.com/queues.html" target="_blank" rel="noopener noreferrer" &gt;
  队列指南
-&lt;/a>
-获取更多&lt;code>exclusive&lt;/code>标签和其他队列属性。&lt;/p>
-&lt;h2 id="绑定bindings">绑定（Bindings）&lt;/h2>
-&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_publish_subscribe_img2.png" alt="绑定">&lt;/p>
-&lt;p>我们已经创建了一个&lt;code>fanout&lt;/code>类型的交换。现在我们需要告诉交换发送信息给我们的队列。交换和队列之间的关系叫做绑定：&lt;/p>
+&lt;/a&gt;
+获取更多&lt;code&gt;exclusive&lt;/code&gt;标签和其他队列属性。&lt;/p&gt;
+&lt;h2 id="绑定bindings"&gt;绑定（Bindings）&lt;/h2&gt;
+&lt;p&gt;&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_publish_subscribe_img2.png" alt="绑定"&gt;&lt;/p&gt;
+&lt;p&gt;我们已经创建了一个&lt;code&gt;fanout&lt;/code&gt;类型的交换。现在我们需要告诉交换发送信息给我们的队列。交换和队列之间的关系叫做绑定：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-67648d8d550c438dfc9399ec05b19e46">channel.queue_bind(exchange=&amp;#39;logs&amp;#39;, queue=result.method.queue)&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-67648d8d550c438dfc9399ec05b19e46', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-67648d8d550c438dfc9399ec05b19e46"&gt;channel.queue_bind(exchange=&amp;#39;logs&amp;#39;, queue=result.method.queue)&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-67648d8d550c438dfc9399ec05b19e46', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>现在&lt;code>logs&lt;/code>交换将会追加信息到我们的队列。&lt;/p></description></item><item><title>Rabbitmq Work Queue</title><link>https://number317.github.io/blog/struct/rabbitmq_work_queue/</link><pubDate>Thu, 26 Oct 2017 19:06:17 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_work_queue/</guid><description>&lt;h1 id="work-queue">Work Queue&lt;/h1>
-&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_work_queue_img1.png" alt="Work Queue 架构图">&lt;/p>
-&lt;p>工作队列背后的思想是尽量避免立即做资源密集型任务并等待它完成，而是将这些任务放到计划表中，等会儿完成。我们将一个任务封装为一条信息并把它送入一个队列。一个在后台运行的进程将会弹出这些任务并最终执行这个工作。当你运行很多个进程时，任务将会被他们共享。这个概念在web应用中尤为有用，因为在一个简短的HTTP请求中不太可能去处理过于复杂的任务。&lt;/p></description></item><item><title>Rabbitmq Hello World</title><link>https://number317.github.io/blog/struct/rabbitmq_hello_world/</link><pubDate>Thu, 26 Oct 2017 17:17:47 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_hello_world/</guid><description>&lt;h1 id="hello-world">Hello World&lt;/h1>
-&lt;p>我们将用python写两个简单的程序，一个生产者发送一条信息，一个消费者接受并打印信息。图中的&amp;quot;P&amp;quot;指代生产者，&amp;ldquo;C&amp;quot;指代消费者，中间的盒子指代一个队列——RabbitMQ 的一个消息缓存。&lt;/p></description></item><item><title>Rabbitmq Cluster</title><link>https://number317.github.io/blog/struct/rabbitmq_cluster/</link><pubDate>Thu, 26 Oct 2017 16:28:26 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_cluster/</guid><description>&lt;h1 id="rabbitmq-docker-运行">RabbitMQ docker 运行&lt;/h1>
+&lt;p&gt;现在&lt;code&gt;logs&lt;/code&gt;交换将会追加信息到我们的队列。&lt;/p&gt;</description></item><item><title>Rabbitmq Work Queue</title><link>https://number317.github.io/blog/struct/rabbitmq_work_queue/</link><pubDate>Thu, 26 Oct 2017 19:06:17 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_work_queue/</guid><description>&lt;h1 id="work-queue"&gt;Work Queue&lt;/h1&gt;
+&lt;p&gt;&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_work_queue_img1.png" alt="Work Queue 架构图"&gt;&lt;/p&gt;
+&lt;p&gt;工作队列背后的思想是尽量避免立即做资源密集型任务并等待它完成，而是将这些任务放到计划表中，等会儿完成。我们将一个任务封装为一条信息并把它送入一个队列。一个在后台运行的进程将会弹出这些任务并最终执行这个工作。当你运行很多个进程时，任务将会被他们共享。这个概念在web应用中尤为有用，因为在一个简短的HTTP请求中不太可能去处理过于复杂的任务。&lt;/p&gt;</description></item><item><title>Rabbitmq Hello World</title><link>https://number317.github.io/blog/struct/rabbitmq_hello_world/</link><pubDate>Thu, 26 Oct 2017 17:17:47 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_hello_world/</guid><description>&lt;h1 id="hello-world"&gt;Hello World&lt;/h1&gt;
+&lt;p&gt;我们将用python写两个简单的程序，一个生产者发送一条信息，一个消费者接受并打印信息。图中的&amp;quot;P&amp;quot;指代生产者，&amp;ldquo;C&amp;quot;指代消费者，中间的盒子指代一个队列——RabbitMQ 的一个消息缓存。&lt;/p&gt;</description></item><item><title>Rabbitmq Cluster</title><link>https://number317.github.io/blog/struct/rabbitmq_cluster/</link><pubDate>Thu, 26 Oct 2017 16:28:26 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_cluster/</guid><description>&lt;h1 id="rabbitmq-docker-运行"&gt;RabbitMQ docker 运行&lt;/h1&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-e547502136fee14cac6315bf6f950fd3">docker run -d -p 15672:15672 -p 5672:5672 --hostname rabbit --name rabbit -e TZ=Asia/Shanghai -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin rabbitmq:3-management&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-e547502136fee14cac6315bf6f950fd3', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div></description></item></channel></rss>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-e547502136fee14cac6315bf6f950fd3"&gt;docker run -d -p 15672:15672 -p 5672:5672 --hostname rabbit --name rabbit -e TZ=Asia/Shanghai -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin rabbitmq:3-management&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-e547502136fee14cac6315bf6f950fd3', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;</description></item></channel></rss>

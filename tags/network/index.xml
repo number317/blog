@@ -1,29 +1,29 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Network on cheon's blog</title><link>https://number317.github.io/blog/tags/network/</link><description>Recent content in Network on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 14 Jun 2019 01:21:26 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/network/index.xml" rel="self" type="application/rss+xml"/><item><title>Connection Reset Error</title><link>https://number317.github.io/blog/solved/connection_reset_error/</link><pubDate>Fri, 19 Oct 2018 18:03:25 +0800</pubDate><guid>https://number317.github.io/blog/solved/connection_reset_error/</guid><description>&lt;h1 id="k8s-应用接口请求-connection-reset-错误">k8s 应用接口请求 connection reset 错误&lt;/h1>
-&lt;p>测试人员在进行压力测试时发现应用A的接口出现了 connection reset 的错误，出错率大概为十分之一，猜想可能是代码问题或是网络问题或是连接数限制问题。&lt;/p>
-&lt;h2 id="问题排查">问题排查&lt;/h2>
-&lt;p>应用A有三个环境，dev，uat和prod。其中dev和uat在同一集群中，因此网络环境相同，在代码上，三个环境都是一样的。&lt;/p>
-&lt;ul>
-&lt;li>测试prod环境的同一接口，并没有出现相同错误，说明代码没有问题。&lt;/li>
-&lt;li>如果是连接数限制问题，那么应该不止此次压测出现，而之前几次压测都没有出现改问题，所以暂时先排除。&lt;/li>
-&lt;li>验证网络问题，测试应用B的一个静态文件请求，也发现了相同的错误，现在基本可以确定是网络问题。&lt;/li>
-&lt;/ul>
-&lt;h2 id="原因查找">原因查找&lt;/h2>
-&lt;p>要想排查网络问题，要先了解一下系统的网络架构。&lt;/p>
-&lt;p>首先最外面是一个A10负载均衡，80端口代理到k8s集群三个master节点的80端口，所有的域名都解析在这个A10上。&lt;/p>
-&lt;p>三台master节点的ip地址和80端口被用作集群中ingress controller的service的externalIP，域名通过ingress controller找到对应的应用。&lt;/p>
-&lt;p>网络问题需要一层一层排查，首先是应用本身。用循环来发送100次请求，查看应用日志：&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Network on cheon's blog</title><link>https://number317.github.io/blog/tags/network/</link><description>Recent content in Network on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 14 Jun 2019 01:21:26 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/network/index.xml" rel="self" type="application/rss+xml"/><item><title>Connection Reset Error</title><link>https://number317.github.io/blog/solved/connection_reset_error/</link><pubDate>Fri, 19 Oct 2018 18:03:25 +0800</pubDate><guid>https://number317.github.io/blog/solved/connection_reset_error/</guid><description>&lt;h1 id="k8s-应用接口请求-connection-reset-错误"&gt;k8s 应用接口请求 connection reset 错误&lt;/h1&gt;
+&lt;p&gt;测试人员在进行压力测试时发现应用A的接口出现了 connection reset 的错误，出错率大概为十分之一，猜想可能是代码问题或是网络问题或是连接数限制问题。&lt;/p&gt;
+&lt;h2 id="问题排查"&gt;问题排查&lt;/h2&gt;
+&lt;p&gt;应用A有三个环境，dev，uat和prod。其中dev和uat在同一集群中，因此网络环境相同，在代码上，三个环境都是一样的。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;测试prod环境的同一接口，并没有出现相同错误，说明代码没有问题。&lt;/li&gt;
+&lt;li&gt;如果是连接数限制问题，那么应该不止此次压测出现，而之前几次压测都没有出现改问题，所以暂时先排除。&lt;/li&gt;
+&lt;li&gt;验证网络问题，测试应用B的一个静态文件请求，也发现了相同的错误，现在基本可以确定是网络问题。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="原因查找"&gt;原因查找&lt;/h2&gt;
+&lt;p&gt;要想排查网络问题，要先了解一下系统的网络架构。&lt;/p&gt;
+&lt;p&gt;首先最外面是一个A10负载均衡，80端口代理到k8s集群三个master节点的80端口，所有的域名都解析在这个A10上。&lt;/p&gt;
+&lt;p&gt;三台master节点的ip地址和80端口被用作集群中ingress controller的service的externalIP，域名通过ingress controller找到对应的应用。&lt;/p&gt;
+&lt;p&gt;网络问题需要一层一层排查，首先是应用本身。用循环来发送100次请求，查看应用日志：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-d9bf8cf5b519491f31da51237508432a">for i in {1..100}; do curl http://www.test.com/api/example; echo $i;done&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-d9bf8cf5b519491f31da51237508432a', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-d9bf8cf5b519491f31da51237508432a"&gt;for i in {1..100}; do curl http://www.test.com/api/example; echo $i;done&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-d9bf8cf5b519491f31da51237508432a', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>通过日志发现请求出现connection reset时，应用没有对应日志，说明请求没有到应用这里。&lt;/p>
-&lt;p>应用上一层是域名，域名是通过ingress来配置的，查看ingress controller的日志，发现也没有报错日志，所以请求也没有到这里。&lt;/p>
-&lt;p>接下来查看三台master节点的80端口，发现其中一台master1的80端口不通。看来问题应该就出现在这里了，我们可以手动来验证一下。&lt;/p>
-&lt;p>将要请求的域名映射为master2的ip地址，在&lt;code>/etc/hosts&lt;/code>中加入&lt;code>www.test.com master2IP&lt;/code>，进行测试，发现没有出现错误。改成master1的ip地址则发现无法连接。&lt;/p>
-&lt;h2 id="问题解决">问题解决&lt;/h2>
-&lt;p>查看了k8s集群的网络组件，发现master1上的flannel一直处于container creating状态。将pod删除重启，再次进行测试，发现connection reset的错误已经没了。&lt;/p></description></item></channel></rss>
+&lt;p&gt;通过日志发现请求出现connection reset时，应用没有对应日志，说明请求没有到应用这里。&lt;/p&gt;
+&lt;p&gt;应用上一层是域名，域名是通过ingress来配置的，查看ingress controller的日志，发现也没有报错日志，所以请求也没有到这里。&lt;/p&gt;
+&lt;p&gt;接下来查看三台master节点的80端口，发现其中一台master1的80端口不通。看来问题应该就出现在这里了，我们可以手动来验证一下。&lt;/p&gt;
+&lt;p&gt;将要请求的域名映射为master2的ip地址，在&lt;code&gt;/etc/hosts&lt;/code&gt;中加入&lt;code&gt;www.test.com master2IP&lt;/code&gt;，进行测试，发现没有出现错误。改成master1的ip地址则发现无法连接。&lt;/p&gt;
+&lt;h2 id="问题解决"&gt;问题解决&lt;/h2&gt;
+&lt;p&gt;查看了k8s集群的网络组件，发现master1上的flannel一直处于container creating状态。将pod删除重启，再次进行测试，发现connection reset的错误已经没了。&lt;/p&gt;</description></item></channel></rss>

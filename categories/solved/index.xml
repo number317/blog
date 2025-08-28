@@ -1,234 +1,234 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Solved on cheon's blog</title><link>https://number317.github.io/blog/categories/solved/</link><description>Recent content in Solved on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/categories/solved/index.xml" rel="self" type="application/rss+xml"/><item><title>Proxy Settings</title><link>https://number317.github.io/blog/solved/proxy_settings/</link><pubDate>Mon, 16 Dec 2019 16:40:16 +0800</pubDate><guid>https://number317.github.io/blog/solved/proxy_settings/</guid><description>&lt;h1 id="常见代理设置">常见代理设置&lt;/h1>
-&lt;h2 id="git">git&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Solved on cheon's blog</title><link>https://number317.github.io/blog/categories/solved/</link><description>Recent content in Solved on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/categories/solved/index.xml" rel="self" type="application/rss+xml"/><item><title>Proxy Settings</title><link>https://number317.github.io/blog/solved/proxy_settings/</link><pubDate>Mon, 16 Dec 2019 16:40:16 +0800</pubDate><guid>https://number317.github.io/blog/solved/proxy_settings/</guid><description>&lt;h1 id="常见代理设置"&gt;常见代理设置&lt;/h1&gt;
+&lt;h2 id="git"&gt;git&lt;/h2&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-79a69188bd1dfbe28fdb7d8bdd7cb90c">git config --global http.proxy http://ip:port
-git config --global https.proxy http://ip:port&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-79a69188bd1dfbe28fdb7d8bdd7cb90c', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-79a69188bd1dfbe28fdb7d8bdd7cb90c"&gt;git config --global http.proxy http://ip:port
+git config --global https.proxy http://ip:port&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-79a69188bd1dfbe28fdb7d8bdd7cb90c', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>或者编辑 &lt;code>$HOME/.gitconfig&lt;/code>:&lt;/p>
+&lt;p&gt;或者编辑 &lt;code&gt;$HOME/.gitconfig&lt;/code&gt;:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-72fdf3809fdaa78229f051e9723f0aed">[http]
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-72fdf3809fdaa78229f051e9723f0aed"&gt;[http]
  proxy = http://ip:port
 [https]
- proxy = http://ip:port&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-72fdf3809fdaa78229f051e9723f0aed', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+ proxy = http://ip:port&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-72fdf3809fdaa78229f051e9723f0aed', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>删除代理:&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-f19562f2fd3f37cf5ed3501cb71c0769">git config --global --unset http.proxy
-git config --global --unset https.proxy&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-f19562f2fd3f37cf5ed3501cb71c0769', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>git 也支持 socks5 代理，把 &lt;code>http&lt;/code> 替换为 &lt;code>socks5&lt;/code> 即可。&lt;/p>
-&lt;h2 id="npm">npm&lt;/h2>
-&lt;p>临时代理:&lt;/p>
+&lt;p&gt;删除代理:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-e142562be3a877d32953869bb739a4cf">npm --registry=https://registry.npm.taobao.org install&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-e142562be3a877d32953869bb739a4cf', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-f19562f2fd3f37cf5ed3501cb71c0769"&gt;git config --global --unset http.proxy
+git config --global --unset https.proxy&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-f19562f2fd3f37cf5ed3501cb71c0769', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>全局配置:&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-4efccfbdfbe3c2c4b954b1cf7ed508e9">npm config set registry https://registry.npm.taobao.org&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-4efccfbdfbe3c2c4b954b1cf7ed508e9', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>或者编辑 &lt;code>$HOME/.npmrc&lt;/code>:&lt;/p>
+&lt;p&gt;git 也支持 socks5 代理，把 &lt;code&gt;http&lt;/code&gt; 替换为 &lt;code&gt;socks5&lt;/code&gt; 即可。&lt;/p&gt;
+&lt;h2 id="npm"&gt;npm&lt;/h2&gt;
+&lt;p&gt;临时代理:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-d8cb34490294c8f4478d6ae7511c6cc5">registry=https://registry.npm.taobao.org&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-d8cb34490294c8f4478d6ae7511c6cc5', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-e142562be3a877d32953869bb739a4cf"&gt;npm --registry=https://registry.npm.taobao.org install&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-e142562be3a877d32953869bb739a4cf', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>pathonjs&lt;/p></description></item><item><title>Ssh Config</title><link>https://number317.github.io/blog/solved/ssh_config/</link><pubDate>Fri, 14 Jun 2019 17:22:12 +0800</pubDate><guid>https://number317.github.io/blog/solved/ssh_config/</guid><description>&lt;h1 id="ssh-错误排查">ssh 错误排查&lt;/h1>
-&lt;p>新拿到的6台服务器，通过&lt;a href="https://github.com/jumpserver/jumpserver" target="_blank" rel="noopener noreferrer" >
+&lt;p&gt;全局配置:&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-4efccfbdfbe3c2c4b954b1cf7ed508e9"&gt;npm config set registry https://registry.npm.taobao.org&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-4efccfbdfbe3c2c4b954b1cf7ed508e9', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;p&gt;或者编辑 &lt;code&gt;$HOME/.npmrc&lt;/code&gt;:&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-d8cb34490294c8f4478d6ae7511c6cc5"&gt;registry=https://registry.npm.taobao.org&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-d8cb34490294c8f4478d6ae7511c6cc5', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;p&gt;pathonjs&lt;/p&gt;</description></item><item><title>Ssh Config</title><link>https://number317.github.io/blog/solved/ssh_config/</link><pubDate>Fri, 14 Jun 2019 17:22:12 +0800</pubDate><guid>https://number317.github.io/blog/solved/ssh_config/</guid><description>&lt;h1 id="ssh-错误排查"&gt;ssh 错误排查&lt;/h1&gt;
+&lt;p&gt;新拿到的6台服务器，通过&lt;a href="https://github.com/jumpserver/jumpserver" target="_blank" rel="noopener noreferrer" &gt;
  jumpserver
-&lt;/a>
-用密钥登录到其中一台服务器，用 ssh 以账户密码的方式登录到其中另外一台服务器时遇见如下错误:&lt;/p>
+&lt;/a&gt;
+用密钥登录到其中一台服务器，用 ssh 以账户密码的方式登录到其中另外一台服务器时遇见如下错误:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-7fa12cf86017b099c457a16e39bfbf17">Permission denied (publickey,gssapi-keyex,gssapi-with-mic).&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-7fa12cf86017b099c457a16e39bfbf17', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-7fa12cf86017b099c457a16e39bfbf17"&gt;Permission denied (publickey,gssapi-keyex,gssapi-with-mic).&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-7fa12cf86017b099c457a16e39bfbf17', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>测试登录另外一台服务器，发现可以正常登录；测试登录自己，报相同的错误。可以判断应该是 ssh 服务端配置有问题。&lt;br>
-经过排查，发现应该是服务端没有开启密码认证，修改&lt;code>/etc/ssh/sshd_config&lt;/code>，修改为如下配置，将&lt;code>no&lt;/code>替换为&lt;code>yes&lt;/code>:&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-cd94e87e5216cd088acdc4de0e9c30f1">PasswordAuthentication yes&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-cd94e87e5216cd088acdc4de0e9c30f1', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>保存配置重新启动 sshd 服务:&lt;/p>
+&lt;p&gt;测试登录另外一台服务器，发现可以正常登录；测试登录自己，报相同的错误。可以判断应该是 ssh 服务端配置有问题。&lt;br&gt;
+经过排查，发现应该是服务端没有开启密码认证，修改&lt;code&gt;/etc/ssh/sshd_config&lt;/code&gt;，修改为如下配置，将&lt;code&gt;no&lt;/code&gt;替换为&lt;code&gt;yes&lt;/code&gt;:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-e06691039677b69f72b0d32bc8826664">systemctl restart sshd&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-e06691039677b69f72b0d32bc8826664', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-cd94e87e5216cd088acdc4de0e9c30f1"&gt;PasswordAuthentication yes&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-cd94e87e5216cd088acdc4de0e9c30f1', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>再次测试发现已经可以登录了&lt;/p></description></item><item><title>Connection Reset Error</title><link>https://number317.github.io/blog/solved/connection_reset_error/</link><pubDate>Fri, 19 Oct 2018 18:03:25 +0800</pubDate><guid>https://number317.github.io/blog/solved/connection_reset_error/</guid><description>&lt;h1 id="k8s-应用接口请求-connection-reset-错误">k8s 应用接口请求 connection reset 错误&lt;/h1>
-&lt;p>测试人员在进行压力测试时发现应用A的接口出现了 connection reset 的错误，出错率大概为十分之一，猜想可能是代码问题或是网络问题或是连接数限制问题。&lt;/p>
-&lt;h2 id="问题排查">问题排查&lt;/h2>
-&lt;p>应用A有三个环境，dev，uat和prod。其中dev和uat在同一集群中，因此网络环境相同，在代码上，三个环境都是一样的。&lt;/p>
-&lt;ul>
-&lt;li>测试prod环境的同一接口，并没有出现相同错误，说明代码没有问题。&lt;/li>
-&lt;li>如果是连接数限制问题，那么应该不止此次压测出现，而之前几次压测都没有出现改问题，所以暂时先排除。&lt;/li>
-&lt;li>验证网络问题，测试应用B的一个静态文件请求，也发现了相同的错误，现在基本可以确定是网络问题。&lt;/li>
-&lt;/ul>
-&lt;h2 id="原因查找">原因查找&lt;/h2>
-&lt;p>要想排查网络问题，要先了解一下系统的网络架构。&lt;/p>
-&lt;p>首先最外面是一个A10负载均衡，80端口代理到k8s集群三个master节点的80端口，所有的域名都解析在这个A10上。&lt;/p>
-&lt;p>三台master节点的ip地址和80端口被用作集群中ingress controller的service的externalIP，域名通过ingress controller找到对应的应用。&lt;/p>
-&lt;p>网络问题需要一层一层排查，首先是应用本身。用循环来发送100次请求，查看应用日志：&lt;/p>
+&lt;p&gt;保存配置重新启动 sshd 服务:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-d9bf8cf5b519491f31da51237508432a">for i in {1..100}; do curl http://www.test.com/api/example; echo $i;done&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-d9bf8cf5b519491f31da51237508432a', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-e06691039677b69f72b0d32bc8826664"&gt;systemctl restart sshd&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-e06691039677b69f72b0d32bc8826664', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>通过日志发现请求出现connection reset时，应用没有对应日志，说明请求没有到应用这里。&lt;/p>
-&lt;p>应用上一层是域名，域名是通过ingress来配置的，查看ingress controller的日志，发现也没有报错日志，所以请求也没有到这里。&lt;/p>
-&lt;p>接下来查看三台master节点的80端口，发现其中一台master1的80端口不通。看来问题应该就出现在这里了，我们可以手动来验证一下。&lt;/p>
-&lt;p>将要请求的域名映射为master2的ip地址，在&lt;code>/etc/hosts&lt;/code>中加入&lt;code>www.test.com master2IP&lt;/code>，进行测试，发现没有出现错误。改成master1的ip地址则发现无法连接。&lt;/p>
-&lt;h2 id="问题解决">问题解决&lt;/h2>
-&lt;p>查看了k8s集群的网络组件，发现master1上的flannel一直处于container creating状态。将pod删除重启，再次进行测试，发现connection reset的错误已经没了。&lt;/p></description></item><item><title>Redis Somaxconn</title><link>https://number317.github.io/blog/solved/redis_somaxconn/</link><pubDate>Mon, 13 Aug 2018 11:07:55 +0800</pubDate><guid>https://number317.github.io/blog/solved/redis_somaxconn/</guid><description>&lt;h1 id="kubernetes-redis-最大连接数设置">kubernetes redis 最大连接数设置&lt;/h1>
-&lt;p>应用在进行压力测试的时候发现请求多（5000并发）的时候会报出redis连接超时错误，查看了redis的配置，发现如下配置：&lt;/p>
+&lt;p&gt;再次测试发现已经可以登录了&lt;/p&gt;</description></item><item><title>Connection Reset Error</title><link>https://number317.github.io/blog/solved/connection_reset_error/</link><pubDate>Fri, 19 Oct 2018 18:03:25 +0800</pubDate><guid>https://number317.github.io/blog/solved/connection_reset_error/</guid><description>&lt;h1 id="k8s-应用接口请求-connection-reset-错误"&gt;k8s 应用接口请求 connection reset 错误&lt;/h1&gt;
+&lt;p&gt;测试人员在进行压力测试时发现应用A的接口出现了 connection reset 的错误，出错率大概为十分之一，猜想可能是代码问题或是网络问题或是连接数限制问题。&lt;/p&gt;
+&lt;h2 id="问题排查"&gt;问题排查&lt;/h2&gt;
+&lt;p&gt;应用A有三个环境，dev，uat和prod。其中dev和uat在同一集群中，因此网络环境相同，在代码上，三个环境都是一样的。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;测试prod环境的同一接口，并没有出现相同错误，说明代码没有问题。&lt;/li&gt;
+&lt;li&gt;如果是连接数限制问题，那么应该不止此次压测出现，而之前几次压测都没有出现改问题，所以暂时先排除。&lt;/li&gt;
+&lt;li&gt;验证网络问题，测试应用B的一个静态文件请求，也发现了相同的错误，现在基本可以确定是网络问题。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="原因查找"&gt;原因查找&lt;/h2&gt;
+&lt;p&gt;要想排查网络问题，要先了解一下系统的网络架构。&lt;/p&gt;
+&lt;p&gt;首先最外面是一个A10负载均衡，80端口代理到k8s集群三个master节点的80端口，所有的域名都解析在这个A10上。&lt;/p&gt;
+&lt;p&gt;三台master节点的ip地址和80端口被用作集群中ingress controller的service的externalIP，域名通过ingress controller找到对应的应用。&lt;/p&gt;
+&lt;p&gt;网络问题需要一层一层排查，首先是应用本身。用循环来发送100次请求，查看应用日志：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-613973e7a69fce8ca9840d8695f0ce9b"># TCP listen() backlog.
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-d9bf8cf5b519491f31da51237508432a"&gt;for i in {1..100}; do curl http://www.test.com/api/example; echo $i;done&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-d9bf8cf5b519491f31da51237508432a', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;p&gt;通过日志发现请求出现connection reset时，应用没有对应日志，说明请求没有到应用这里。&lt;/p&gt;
+&lt;p&gt;应用上一层是域名，域名是通过ingress来配置的，查看ingress controller的日志，发现也没有报错日志，所以请求也没有到这里。&lt;/p&gt;
+&lt;p&gt;接下来查看三台master节点的80端口，发现其中一台master1的80端口不通。看来问题应该就出现在这里了，我们可以手动来验证一下。&lt;/p&gt;
+&lt;p&gt;将要请求的域名映射为master2的ip地址，在&lt;code&gt;/etc/hosts&lt;/code&gt;中加入&lt;code&gt;www.test.com master2IP&lt;/code&gt;，进行测试，发现没有出现错误。改成master1的ip地址则发现无法连接。&lt;/p&gt;
+&lt;h2 id="问题解决"&gt;问题解决&lt;/h2&gt;
+&lt;p&gt;查看了k8s集群的网络组件，发现master1上的flannel一直处于container creating状态。将pod删除重启，再次进行测试，发现connection reset的错误已经没了。&lt;/p&gt;</description></item><item><title>Redis Somaxconn</title><link>https://number317.github.io/blog/solved/redis_somaxconn/</link><pubDate>Mon, 13 Aug 2018 11:07:55 +0800</pubDate><guid>https://number317.github.io/blog/solved/redis_somaxconn/</guid><description>&lt;h1 id="kubernetes-redis-最大连接数设置"&gt;kubernetes redis 最大连接数设置&lt;/h1&gt;
+&lt;p&gt;应用在进行压力测试的时候发现请求多（5000并发）的时候会报出redis连接超时错误，查看了redis的配置，发现如下配置：&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-613973e7a69fce8ca9840d8695f0ce9b"&gt;# TCP listen() backlog.
 #
 # In high requests-per-second environments you need an high backlog in order
 # to avoid slow clients connections issues. Note that the Linux kernel
 # will silently truncate it to the value of /proc/sys/net/core/somaxconn so
 # make sure to raise both the value of somaxconn and tcp_max_syn_backlog
 # in order to get the desired effect.
-tcp-backlog 511&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-613973e7a69fce8ca9840d8695f0ce9b', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+tcp-backlog 511&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-613973e7a69fce8ca9840d8695f0ce9b', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>从这个配置可以看到，reids的最大连接数配置了511，所以应该将这个配置调高。注释里有提醒这个配置会受到linux内核配置的限制，查看&lt;code>/proc/sys/net/core/somaxconn&lt;/code>，发现这个值只有128，所以redis配置&lt;code>tcp-backlog 511&lt;/code>并没有生效，实际值只有128。&lt;/p></description></item><item><title>Firefox Open Markdown</title><link>https://number317.github.io/blog/solved/firefox_open_markdown/</link><pubDate>Tue, 17 Apr 2018 01:17:33 +0800</pubDate><guid>https://number317.github.io/blog/solved/firefox_open_markdown/</guid><description>&lt;h1 id="使用firefox打开并渲染markdown">使用firefox打开并渲染markdown&lt;/h1>
-&lt;p>如果用firefox打开markdown文件只有下载选项，需要更新mime的数据库:&lt;/p>
-&lt;p>在&lt;code>~/.local/share/mime/packages&lt;/code>目录下创建&lt;code>text-markdown.xml&lt;/code>文件，内容如下&lt;/p>
+&lt;p&gt;从这个配置可以看到，reids的最大连接数配置了511，所以应该将这个配置调高。注释里有提醒这个配置会受到linux内核配置的限制，查看&lt;code&gt;/proc/sys/net/core/somaxconn&lt;/code&gt;，发现这个值只有128，所以redis配置&lt;code&gt;tcp-backlog 511&lt;/code&gt;并没有生效，实际值只有128。&lt;/p&gt;</description></item><item><title>Firefox Open Markdown</title><link>https://number317.github.io/blog/solved/firefox_open_markdown/</link><pubDate>Tue, 17 Apr 2018 01:17:33 +0800</pubDate><guid>https://number317.github.io/blog/solved/firefox_open_markdown/</guid><description>&lt;h1 id="使用firefox打开并渲染markdown"&gt;使用firefox打开并渲染markdown&lt;/h1&gt;
+&lt;p&gt;如果用firefox打开markdown文件只有下载选项，需要更新mime的数据库:&lt;/p&gt;
+&lt;p&gt;在&lt;code&gt;~/.local/share/mime/packages&lt;/code&gt;目录下创建&lt;code&gt;text-markdown.xml&lt;/code&gt;文件，内容如下&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-9c6e11a2c61dff36a14886cf2d90056b">&amp;lt;?xml version=&amp;#34;1.0&amp;#34;?&amp;gt;
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-9c6e11a2c61dff36a14886cf2d90056b"&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34;?&amp;gt;
 &amp;lt;mime-info xmlns=&amp;#39;http://www.freedesktop.org/standards/shared-mime-info&amp;#39;&amp;gt;
  &amp;lt;mime-type type=&amp;#34;text/plain&amp;#34;&amp;gt;
  &amp;lt;glob pattern=&amp;#34;*.md&amp;#34;/&amp;gt;
  &amp;lt;glob pattern=&amp;#34;*.mkd&amp;#34;/&amp;gt;
  &amp;lt;glob pattern=&amp;#34;*.markdown&amp;#34;/&amp;gt;
  &amp;lt;/mime-type&amp;gt;
-&amp;lt;/mime-info&amp;gt;&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-9c6e11a2c61dff36a14886cf2d90056b', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&amp;lt;/mime-info&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-9c6e11a2c61dff36a14886cf2d90056b', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>然后执行&lt;code>update-mime-database ~/.local/share/mime&lt;/code>&lt;/p>
-&lt;p>完成后即可用firefox打开markdown文件。若想要查看markdown的渲染效果，可以安装markdown的插件，如markdow viewer webext等&lt;/p></description></item><item><title>Openshift Restart Node</title><link>https://number317.github.io/blog/solved/openshift_restart_node/</link><pubDate>Thu, 08 Mar 2018 18:09:41 +0800</pubDate><guid>https://number317.github.io/blog/solved/openshift_restart_node/</guid><description>&lt;h1 id="openshift-节点无法连接集群">openshift 节点无法连接集群&lt;/h1>
-&lt;p>在openshift master 节点上执行&lt;code>oc get node&lt;/code>:&lt;/p>
+&lt;p&gt;然后执行&lt;code&gt;update-mime-database ~/.local/share/mime&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;完成后即可用firefox打开markdown文件。若想要查看markdown的渲染效果，可以安装markdown的插件，如markdow viewer webext等&lt;/p&gt;</description></item><item><title>Openshift Restart Node</title><link>https://number317.github.io/blog/solved/openshift_restart_node/</link><pubDate>Thu, 08 Mar 2018 18:09:41 +0800</pubDate><guid>https://number317.github.io/blog/solved/openshift_restart_node/</guid><description>&lt;h1 id="openshift-节点无法连接集群"&gt;openshift 节点无法连接集群&lt;/h1&gt;
+&lt;p&gt;在openshift master 节点上执行&lt;code&gt;oc get node&lt;/code&gt;:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-8f2a3c624b7987d563537f97536bdddc">$ oc get node
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-8f2a3c624b7987d563537f97536bdddc"&gt;$ oc get node
 NAME STATUS AGE
 node1 NotReady,SchedulingDisabled 301d
 master1 Ready 308d
 master2 Ready 308d
 master3 Ready 308d
 master4 Ready 308d
-master5 Ready 31d&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-8f2a3c624b7987d563537f97536bdddc', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+master5 Ready 31d&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-8f2a3c624b7987d563537f97536bdddc', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>其中的node1状态为&lt;code>NotReady,SchedulingDisabled&lt;/code>，改节点没有准备好，并且是无法调度的，其中无法调度是手动设置的：&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-274c61e7c4a8887c3e5422ffbfbd523a">$ openshift admin manage-node node1 --schedulable=false&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-274c61e7c4a8887c3e5422ffbfbd523a', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>重启&lt;code>origin-node&lt;/code>服务，让节点重新连接集群：&lt;/p>
+&lt;p&gt;其中的node1状态为&lt;code&gt;NotReady,SchedulingDisabled&lt;/code&gt;，改节点没有准备好，并且是无法调度的，其中无法调度是手动设置的：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-9d846fb0e63c73a2503e07223620dca6">$ systemctl restart origin-node&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-9d846fb0e63c73a2503e07223620dca6', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-274c61e7c4a8887c3e5422ffbfbd523a"&gt;$ openshift admin manage-node node1 --schedulable=false&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-274c61e7c4a8887c3e5422ffbfbd523a', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>重新查看节点状态：&lt;/p>
+&lt;p&gt;重启&lt;code&gt;origin-node&lt;/code&gt;服务，让节点重新连接集群：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-9d3c9e21558272cdc0a93324f5518942">$ oc get node
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-9d846fb0e63c73a2503e07223620dca6"&gt;$ systemctl restart origin-node&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-9d846fb0e63c73a2503e07223620dca6', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;p&gt;重新查看节点状态：&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-9d3c9e21558272cdc0a93324f5518942"&gt;$ oc get node
 NAME STATUS AGE
 node1 Ready,SchedulingDisabled 301d
 master1 Ready 308d
 master2 Ready 308d
 master3 Ready 308d
 master4 Ready 308d
-master5 Ready 31d&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-9d3c9e21558272cdc0a93324f5518942', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+master5 Ready 31d&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-9d3c9e21558272cdc0a93324f5518942', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>节点已经 ready，再将其设置为可调度的：&lt;/p></description></item><item><title>Tomcat Deploy Error</title><link>https://number317.github.io/blog/solved/tomcat_deploy_error/</link><pubDate>Tue, 06 Feb 2018 18:44:13 +0800</pubDate><guid>https://number317.github.io/blog/solved/tomcat_deploy_error/</guid><description>&lt;h1 id="tomcat部署war包出错">tomcat部署war包出错&lt;/h1>
-&lt;h2 id="错误1">错误1&lt;/h2>
-&lt;p>错误日志如下：&lt;/p>
+&lt;p&gt;节点已经 ready，再将其设置为可调度的：&lt;/p&gt;</description></item><item><title>Tomcat Deploy Error</title><link>https://number317.github.io/blog/solved/tomcat_deploy_error/</link><pubDate>Tue, 06 Feb 2018 18:44:13 +0800</pubDate><guid>https://number317.github.io/blog/solved/tomcat_deploy_error/</guid><description>&lt;h1 id="tomcat部署war包出错"&gt;tomcat部署war包出错&lt;/h1&gt;
+&lt;h2 id="错误1"&gt;错误1&lt;/h2&gt;
+&lt;p&gt;错误日志如下：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-7b1faca3aca246a88ee331cea073378d">Caused by: java.lang.IllegalStateException: Unable to complete the scan for annotations for web application [/capitalplan] due to a StackOverflowError. Possible root causes include a too low setting for -Xss and illegal cyclic inheritance dependencies. The class hierarchy being processed was [org.bouncycastle.asn1.ASN1EncodableVector-&amp;gt;org.bouncycastle.asn1.DEREncodableVector-&amp;gt;org.bouncycastle.asn1.ASN1EncodableVector]
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-7b1faca3aca246a88ee331cea073378d"&gt;Caused by: java.lang.IllegalStateException: Unable to complete the scan for annotations for web application [/capitalplan] due to a StackOverflowError. Possible root causes include a too low setting for -Xss and illegal cyclic inheritance dependencies. The class hierarchy being processed was [org.bouncycastle.asn1.ASN1EncodableVector-&amp;gt;org.bouncycastle.asn1.DEREncodableVector-&amp;gt;org.bouncycastle.asn1.ASN1EncodableVector]
 	at org.apache.catalina.startup.ContextConfig.checkHandlesTypes(ContextConfig.java:2099)
 	at org.apache.catalina.startup.ContextConfig.processAnnotationsStream(ContextConfig.java:2043)
 	at org.apache.catalina.startup.ContextConfig.processAnnotationsJar(ContextConfig.java:1989)
@@ -240,10 +240,10 @@ master5 Ready 31d&lt;/code>&lt;/pre>
 	at org.apache.catalina.util.LifecycleBase.fireLifecycleEvent(LifecycleBase.java:94)
 	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5093)
 	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:152)
-	... 10 more&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-7b1faca3aca246a88ee331cea073378d', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+	... 10 more&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-7b1faca3aca246a88ee331cea073378d', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>解决方案：&lt;/p></description></item></channel></rss>
+&lt;p&gt;解决方案：&lt;/p&gt;</description></item></channel></rss>

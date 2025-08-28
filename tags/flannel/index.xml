@@ -1,22 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Flannel on cheon's blog</title><link>https://number317.github.io/blog/tags/flannel/</link><description>Recent content in Flannel on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/flannel/index.xml" rel="self" type="application/rss+xml"/><item><title>Etcd &amp; Flannel</title><link>https://number317.github.io/blog/struct/etcd_and_flannel/</link><pubDate>Wed, 01 Nov 2017 17:58:29 +0800</pubDate><guid>https://number317.github.io/blog/struct/etcd_and_flannel/</guid><description>&lt;h1 id="etcd--flannel-实现跨主机容器通信">etcd &amp;amp; flannel 实现跨主机容器通信&lt;/h1>
-&lt;h2 id="准备工作">准备工作&lt;/h2>
-&lt;ol>
-&lt;li>测试环境：vagrant + centos7.2 虚拟机&lt;/li>
-&lt;li>主机说明：
-&lt;ul>
-&lt;li>ip: &lt;code>192.168.12.101&lt;/code> hostname: &lt;code>node1&lt;/code> 安装软件：etcd, flannel, docker&lt;/li>
-&lt;li>ip: &lt;code>192.168.12.102&lt;/code> hostname: &lt;code>node2&lt;/code> 安装软件：flannel, docker&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ol>
-&lt;h2 id="启动虚拟机">启动虚拟机&lt;/h2>
-&lt;p>vagrant配置文件：&lt;/p>
-&lt;details>
-&lt;summary>Vagrantfile&lt;/summary>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Flannel on cheon's blog</title><link>https://number317.github.io/blog/tags/flannel/</link><description>Recent content in Flannel on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/flannel/index.xml" rel="self" type="application/rss+xml"/><item><title>Etcd &amp; Flannel</title><link>https://number317.github.io/blog/struct/etcd_and_flannel/</link><pubDate>Wed, 01 Nov 2017 17:58:29 +0800</pubDate><guid>https://number317.github.io/blog/struct/etcd_and_flannel/</guid><description>&lt;h1 id="etcd--flannel-实现跨主机容器通信"&gt;etcd &amp;amp; flannel 实现跨主机容器通信&lt;/h1&gt;
+&lt;h2 id="准备工作"&gt;准备工作&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;测试环境：vagrant + centos7.2 虚拟机&lt;/li&gt;
+&lt;li&gt;主机说明：
+&lt;ul&gt;
+&lt;li&gt;ip: &lt;code&gt;192.168.12.101&lt;/code&gt; hostname: &lt;code&gt;node1&lt;/code&gt; 安装软件：etcd, flannel, docker&lt;/li&gt;
+&lt;li&gt;ip: &lt;code&gt;192.168.12.102&lt;/code&gt; hostname: &lt;code&gt;node2&lt;/code&gt; 安装软件：flannel, docker&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="启动虚拟机"&gt;启动虚拟机&lt;/h2&gt;
+&lt;p&gt;vagrant配置文件：&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;Vagrantfile&lt;/summary&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-79bc2db050898cf217e1170ae6fe9ae4"># -*- mode: ruby -*-
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-79bc2db050898cf217e1170ae6fe9ae4"&gt;# -*- mode: ruby -*-
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
@@ -37,11 +37,11 @@ Vagrant.configure(2) do |config|
  end
  end
  end
-end&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-79bc2db050898cf217e1170ae6fe9ae4', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+end&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-79bc2db050898cf217e1170ae6fe9ae4', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;/details>
-&lt;p>在该配置文件的目录下执行&lt;code>vagrant up&lt;/code>启动两台测试用虚拟机&lt;/p></description></item></channel></rss>
+&lt;/details&gt;
+&lt;p&gt;在该配置文件的目录下执行&lt;code&gt;vagrant up&lt;/code&gt;启动两台测试用虚拟机&lt;/p&gt;</description></item></channel></rss>

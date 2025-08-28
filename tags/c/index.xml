@@ -1,49 +1,49 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>C on cheon's blog</title><link>https://number317.github.io/blog/tags/c/</link><description>Recent content in C on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 14 Jun 2019 01:21:26 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/c/index.xml" rel="self" type="application/rss+xml"/><item><title>C Sonarcloud</title><link>https://number317.github.io/blog/c/c_sonarcloud/</link><pubDate>Mon, 06 May 2019 14:55:56 +0800</pubDate><guid>https://number317.github.io/blog/c/c_sonarcloud/</guid><description>&lt;h1 id="c-配置-sonarcloud">C 配置 Sonarcloud&lt;/h1>
-&lt;p>SonarQube 用于代码质量分析，可以检测出代码的 bug，代码异味，测试覆盖率等，有助于提高代码质量。SonarCloud 是 SonarQube 的在线使用版本，可以集成 github，travisCI。具体操作可以看&lt;a href="https://sonarcloud.io/documentation" target="_blank" rel="noopener noreferrer" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>C on cheon's blog</title><link>https://number317.github.io/blog/tags/c/</link><description>Recent content in C on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 14 Jun 2019 01:21:26 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/c/index.xml" rel="self" type="application/rss+xml"/><item><title>C Sonarcloud</title><link>https://number317.github.io/blog/c/c_sonarcloud/</link><pubDate>Mon, 06 May 2019 14:55:56 +0800</pubDate><guid>https://number317.github.io/blog/c/c_sonarcloud/</guid><description>&lt;h1 id="c-配置-sonarcloud"&gt;C 配置 Sonarcloud&lt;/h1&gt;
+&lt;p&gt;SonarQube 用于代码质量分析，可以检测出代码的 bug，代码异味，测试覆盖率等，有助于提高代码质量。SonarCloud 是 SonarQube 的在线使用版本，可以集成 github，travisCI。具体操作可以看&lt;a href="https://sonarcloud.io/documentation" target="_blank" rel="noopener noreferrer" &gt;
  官方文档
-&lt;/a>
-。&lt;/p>
-&lt;p>之前写了一个终端管理 ssh 登录的小工具，想着检测一下代码质量，就想到用这个工具来检测一下。由于不需要每次提交都进行质量检测，所以没有集成到 CI 里面，而是在服务器上利用 SonarQube Scanner 手动执行。从&lt;a href="https://sonarcloud.io/dashboard?id=number317_ssh-tool" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+。&lt;/p&gt;
+&lt;p&gt;之前写了一个终端管理 ssh 登录的小工具，想着检测一下代码质量，就想到用这个工具来检测一下。由于不需要每次提交都进行质量检测，所以没有集成到 CI 里面，而是在服务器上利用 SonarQube Scanner 手动执行。从&lt;a href="https://sonarcloud.io/dashboard?id=number317_ssh-tool" target="_blank" rel="noopener noreferrer" &gt;
  检测结果
-&lt;/a>
-来看，代码中确实有一些 bug 和代码异味。&lt;/p>
-&lt;h2 id="安装-build-wrapper">安装 build wrapper&lt;/h2>
-&lt;p>在&lt;a href="https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+来看，代码中确实有一些 bug 和代码异味。&lt;/p&gt;
+&lt;h2 id="安装-build-wrapper"&gt;安装 build wrapper&lt;/h2&gt;
+&lt;p&gt;在&lt;a href="https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip" target="_blank" rel="noopener noreferrer" &gt;
  下载页
-&lt;/a>
-下载 linux 版的 build wrapper，解压出来应该有两个可执行文件。&lt;/p>
+&lt;/a&gt;
+下载 linux 版的 build wrapper，解压出来应该有两个可执行文件。&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-c8f3fee7b9612ed434d2eee5e7357fd9">build-wrapper-linux-x86/
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-c8f3fee7b9612ed434d2eee5e7357fd9"&gt;build-wrapper-linux-x86/
 ├── build-wrapper-linux-x86-32
 ├── build-wrapper-linux-x86-64
 ├── libinterceptor-i686.so
-└── libinterceptor-x86_64.so&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-c8f3fee7b9612ed434d2eee5e7357fd9', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+└── libinterceptor-x86_64.so&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-c8f3fee7b9612ed434d2eee5e7357fd9', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>可以将该目录加进&lt;code>PATH&lt;/code>变量，方便调用。&lt;/p>
-&lt;h2 id="安装-sonarqube-scanner">安装 SonarQube Scanner&lt;/h2>
-&lt;p>在&lt;a href="https://docs.sonarqube.org/display/SCAN/Analyzing&amp;#43;with&amp;#43;SonarQube&amp;#43;Scanner" target="_blank" rel="noopener noreferrer" >
+&lt;p&gt;可以将该目录加进&lt;code&gt;PATH&lt;/code&gt;变量，方便调用。&lt;/p&gt;
+&lt;h2 id="安装-sonarqube-scanner"&gt;安装 SonarQube Scanner&lt;/h2&gt;
+&lt;p&gt;在&lt;a href="https://docs.sonarqube.org/display/SCAN/Analyzing&amp;#43;with&amp;#43;SonarQube&amp;#43;Scanner" target="_blank" rel="noopener noreferrer" &gt;
  下载页
-&lt;/a>
-找到对应的平台，下载压缩包。解压后得到如下目录：&lt;/p>
+&lt;/a&gt;
+找到对应的平台，下载压缩包。解压后得到如下目录：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-3bd9bc5f9c7fa1a561dfa30f097d2f52">sonar-scanner-3.3.0.1492-linux
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-3bd9bc5f9c7fa1a561dfa30f097d2f52"&gt;sonar-scanner-3.3.0.1492-linux
 ├── bin
 ├── conf
 ├── jre
-└── lib&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-3bd9bc5f9c7fa1a561dfa30f097d2f52', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+└── lib&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-3bd9bc5f9c7fa1a561dfa30f097d2f52', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>可以将上面的&lt;code>bin&lt;/code>目录添加到&lt;code>PATH&lt;/code>环境变量中。&lt;/p>
-&lt;h2 id="构建并分析代码">构建并分析代码&lt;/h2>
-&lt;p>在项目的根目录下执行命令：&lt;/p></description></item></channel></rss>
+&lt;p&gt;可以将上面的&lt;code&gt;bin&lt;/code&gt;目录添加到&lt;code&gt;PATH&lt;/code&gt;环境变量中。&lt;/p&gt;
+&lt;h2 id="构建并分析代码"&gt;构建并分析代码&lt;/h2&gt;
+&lt;p&gt;在项目的根目录下执行命令：&lt;/p&gt;</description></item></channel></rss>

@@ -1,114 +1,114 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Knowledge is infinite on cheon's blog</title><link>https://number317.github.io/blog/struct/</link><description>Recent content in Knowledge is infinite on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/struct/index.xml" rel="self" type="application/rss+xml"/><item><title>Emqx Backend Mysql</title><link>https://number317.github.io/blog/struct/emqx_backend_mysql/</link><pubDate>Wed, 14 Oct 2020 18:19:31 +0800</pubDate><guid>https://number317.github.io/blog/struct/emqx_backend_mysql/</guid><description>&lt;ul>
-&lt;li>&lt;a href="#orgc3804b0" target="_blank" rel="noopener noreferrer" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Knowledge is infinite on cheon's blog</title><link>https://number317.github.io/blog/struct/</link><description>Recent content in Knowledge is infinite on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/struct/index.xml" rel="self" type="application/rss+xml"/><item><title>Emqx Backend Mysql</title><link>https://number317.github.io/blog/struct/emqx_backend_mysql/</link><pubDate>Wed, 14 Oct 2020 18:19:31 +0800</pubDate><guid>https://number317.github.io/blog/struct/emqx_backend_mysql/</guid><description>&lt;ul&gt;
+&lt;li&gt;&lt;a href="#orgc3804b0" target="_blank" rel="noopener noreferrer" &gt;
  emqx mysql 插件
-&lt;/a>
+&lt;/a&gt;
 
-&lt;ul>
-&lt;li>&lt;a href="#org5864efb" target="_blank" rel="noopener noreferrer" >
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="#org5864efb" target="_blank" rel="noopener noreferrer" &gt;
  erlang 环境配置
-&lt;/a>
-&lt;/li>
-&lt;li>&lt;a href="#orgeb79a2a" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#orgeb79a2a" target="_blank" rel="noopener noreferrer" &gt;
  emacs 编辑器配置
-&lt;/a>
-&lt;/li>
-&lt;li>&lt;a href="#org0232e02" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#org0232e02" target="_blank" rel="noopener noreferrer" &gt;
  emqx 源码编译
-&lt;/a>
-&lt;/li>
-&lt;li>&lt;a href="#org63abe84" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#org63abe84" target="_blank" rel="noopener noreferrer" &gt;
  添加自定义插件
-&lt;/a>
-&lt;/li>
-&lt;li>&lt;a href="#org91c1187" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#org91c1187" target="_blank" rel="noopener noreferrer" &gt;
  启用自定义插件
-&lt;/a>
-&lt;/li>
-&lt;li>&lt;a href="#org8c85d4f" target="_blank" rel="noopener noreferrer" >
- 反编译 &lt;code>emqx_backend_mysql&lt;/code> 插件
-&lt;/a>
-&lt;/li>
-&lt;li>&lt;a href="#org4dafec4" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#org8c85d4f" target="_blank" rel="noopener noreferrer" &gt;
+ 反编译 &lt;code&gt;emqx_backend_mysql&lt;/code&gt; 插件
+&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#org4dafec4" target="_blank" rel="noopener noreferrer" &gt;
  构造插件
-&lt;/a>
-&lt;/li>
-&lt;li>&lt;a href="#orgaadf956" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#orgaadf956" target="_blank" rel="noopener noreferrer" &gt;
  搭建临时 git 服务
-&lt;/a>
-&lt;/li>
-&lt;li>&lt;a href="#org2054d0d" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#org2054d0d" target="_blank" rel="noopener noreferrer" &gt;
  重新编译
-&lt;/a>
-&lt;/li>
-&lt;li>&lt;a href="#org773634b" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#org773634b" target="_blank" rel="noopener noreferrer" &gt;
  测试插件
-&lt;/a>
-&lt;/li>
-&lt;li>&lt;a href="#org314e5bf" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#org314e5bf" target="_blank" rel="noopener noreferrer" &gt;
  构建镜像
-&lt;/a>
-&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;p>&lt;a id="orgc3804b0">&lt;/a>&lt;/p>
-&lt;h1 id="emqx-mysql-插件">emqx mysql 插件&lt;/h1>
-&lt;p>&lt;a id="org5864efb">&lt;/a>&lt;/p>
-&lt;h2 id="erlang-环境配置">erlang 环境配置&lt;/h2>
-&lt;p>erlang 推荐使用 22 版本，经过测试用 23 版本编译出来运行有问题。各平台安装 erlang 详情请参考官方文档。 linux 系统可以使用 kerl 脚本安装，构建最新版本的 emqx 时注意编译的 gcc 版本不能用 10，编译通不过，推荐用 gcc-9&lt;/p></description></item><item><title>用 hugo 组织 org 文件写博客</title><link>https://number317.github.io/blog/struct/org_blog_with_hugo/</link><pubDate>Mon, 14 Sep 2020 20:03:07 +0800</pubDate><guid>https://number317.github.io/blog/struct/org_blog_with_hugo/</guid><description>用 hugo 和 emacs org 格式来构建博客</description></item><item><title>K8s Note</title><link>https://number317.github.io/blog/struct/k8s_note/</link><pubDate>Thu, 01 Aug 2019 16:34:31 +0800</pubDate><guid>https://number317.github.io/blog/struct/k8s_note/</guid><description>&lt;h1 id="k8s-备忘">k8s 备忘&lt;/h1>
-&lt;h2 id="ingress-配置证书">ingress 配置证书&lt;/h2>
-&lt;p>首先要在 &lt;code>ingress&lt;/code> 所在 &lt;code>namespace&lt;/code> 下创建 &lt;code>tls&lt;/code> 类型的 &lt;code>secret&lt;/code>:&lt;/p>
+&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a id="orgc3804b0"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id="emqx-mysql-插件"&gt;emqx mysql 插件&lt;/h1&gt;
+&lt;p&gt;&lt;a id="org5864efb"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="erlang-环境配置"&gt;erlang 环境配置&lt;/h2&gt;
+&lt;p&gt;erlang 推荐使用 22 版本，经过测试用 23 版本编译出来运行有问题。各平台安装 erlang 详情请参考官方文档。 linux 系统可以使用 kerl 脚本安装，构建最新版本的 emqx 时注意编译的 gcc 版本不能用 10，编译通不过，推荐用 gcc-9&lt;/p&gt;</description></item><item><title>用 hugo 组织 org 文件写博客</title><link>https://number317.github.io/blog/struct/org_blog_with_hugo/</link><pubDate>Mon, 14 Sep 2020 20:03:07 +0800</pubDate><guid>https://number317.github.io/blog/struct/org_blog_with_hugo/</guid><description>用 hugo 和 emacs org 格式来构建博客</description></item><item><title>K8s Note</title><link>https://number317.github.io/blog/struct/k8s_note/</link><pubDate>Thu, 01 Aug 2019 16:34:31 +0800</pubDate><guid>https://number317.github.io/blog/struct/k8s_note/</guid><description>&lt;h1 id="k8s-备忘"&gt;k8s 备忘&lt;/h1&gt;
+&lt;h2 id="ingress-配置证书"&gt;ingress 配置证书&lt;/h2&gt;
+&lt;p&gt;首先要在 &lt;code&gt;ingress&lt;/code&gt; 所在 &lt;code&gt;namespace&lt;/code&gt; 下创建 &lt;code&gt;tls&lt;/code&gt; 类型的 &lt;code&gt;secret&lt;/code&gt;:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-b795fed6f423e782289ca60c94d88932">kubectl create secret tls https-certs --key /path/to/keyfile --cert /path/to/certfile -n the-namespace&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-b795fed6f423e782289ca60c94d88932', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-b795fed6f423e782289ca60c94d88932"&gt;kubectl create secret tls https-certs --key /path/to/keyfile --cert /path/to/certfile -n the-namespace&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-b795fed6f423e782289ca60c94d88932', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>修改 &lt;code>ingress&lt;/code> 配置，&lt;code>kubectl edit ing ingname -n the-namespace&lt;/code>，在 &lt;code>spec&lt;/code> 添加如下内容，注意和 &lt;code>rules&lt;/code> 同级:&lt;/p>
+&lt;p&gt;修改 &lt;code&gt;ingress&lt;/code&gt; 配置，&lt;code&gt;kubectl edit ing ingname -n the-namespace&lt;/code&gt;，在 &lt;code&gt;spec&lt;/code&gt; 添加如下内容，注意和 &lt;code&gt;rules&lt;/code&gt; 同级:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-5f6755384e3f237b74ccad358e6f5d4a">tls:
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-5f6755384e3f237b74ccad358e6f5d4a"&gt;tls:
 - hosts:
  - www.test.com
- secretName: https-certs&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-5f6755384e3f237b74ccad358e6f5d4a', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+ secretName: https-certs&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-5f6755384e3f237b74ccad358e6f5d4a', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>&lt;code>ingress&lt;/code> 配置了 https 证书后默认会强制跳转到 https 协议，如果不想强制跳转，可以在 &lt;code>annotations&lt;/code> 添加如下配置:&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-220fd225f172caed21181d8de7347068">nginx.ingress.kubernetes.io/ssl-redirect: &amp;#34;false&amp;#34;&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-220fd225f172caed21181d8de7347068', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>旧版本的配置无需加上 nginx 前缀:&lt;/p>
+&lt;p&gt;&lt;code&gt;ingress&lt;/code&gt; 配置了 https 证书后默认会强制跳转到 https 协议，如果不想强制跳转，可以在 &lt;code&gt;annotations&lt;/code&gt; 添加如下配置:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-499ba2a0889678c1b7bd47834e75d553">ingress.kubernetes.io/ssl-redirect: &amp;#34;false&amp;#34;&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-499ba2a0889678c1b7bd47834e75d553', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-220fd225f172caed21181d8de7347068"&gt;nginx.ingress.kubernetes.io/ssl-redirect: &amp;#34;false&amp;#34;&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-220fd225f172caed21181d8de7347068', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>更多的 annotations 配置可以查看 &lt;a href="https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/annotations.md" target="_blank" rel="noopener noreferrer" >
+&lt;p&gt;旧版本的配置无需加上 nginx 前缀:&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-499ba2a0889678c1b7bd47834e75d553"&gt;ingress.kubernetes.io/ssl-redirect: &amp;#34;false&amp;#34;&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-499ba2a0889678c1b7bd47834e75d553', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;p&gt;更多的 annotations 配置可以查看 &lt;a href="https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/annotations.md" target="_blank" rel="noopener noreferrer" &gt;
  github 文档
-&lt;/a>
-&lt;/p></description></item><item><title>Logstash to ES</title><link>https://number317.github.io/blog/struct/logstash_to_es/</link><pubDate>Thu, 04 Jul 2019 09:26:33 +0800</pubDate><guid>https://number317.github.io/blog/struct/logstash_to_es/</guid><description>&lt;h1 id="logstash-配置日志发送-es">logstash 配置日志发送 ES&lt;/h1>
-&lt;p>日志收集的架构如下所示:&lt;/p>
+&lt;/a&gt;
+&lt;/p&gt;</description></item><item><title>Logstash to ES</title><link>https://number317.github.io/blog/struct/logstash_to_es/</link><pubDate>Thu, 04 Jul 2019 09:26:33 +0800</pubDate><guid>https://number317.github.io/blog/struct/logstash_to_es/</guid><description>&lt;h1 id="logstash-配置日志发送-es"&gt;logstash 配置日志发送 ES&lt;/h1&gt;
+&lt;p&gt;日志收集的架构如下所示:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-dd776a9148333f861a20a507e07ee50e">┌────────────┐
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-dd776a9148333f861a20a507e07ee50e"&gt;┌────────────┐
 │Java logback│\
 └────────────┘ \
  ┌─────┐ ┌────────┐ ┌──────┐ ┌────────┐
@@ -116,20 +116,20 @@
  └─────┘ └────────┘ └──────┘ └────────┘
 ┌────────────┐ /
 │Java logback│/
-└────────────┘&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-dd776a9148333f861a20a507e07ee50e', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+└────────────┘&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-dd776a9148333f861a20a507e07ee50e', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>java 应用日志通过 logback 发送给 kafka，logstash 从 kafka 消费日志，并将日志转发给 ES。一开始一个应用一个 kafka topic，logstash 消费了之后根据 topic 来确定 ES 的索引。&lt;/p>
-&lt;p>logback 的配置:&lt;/p>
-&lt;details>
-&lt;summary>logback.xml&lt;/summary>
+&lt;p&gt;java 应用日志通过 logback 发送给 kafka，logstash 从 kafka 消费日志，并将日志转发给 ES。一开始一个应用一个 kafka topic，logstash 消费了之后根据 topic 来确定 ES 的索引。&lt;/p&gt;
+&lt;p&gt;logback 的配置:&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;logback.xml&lt;/summary&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-83d902ab8f9eb43f320752d9fbc549f6">&amp;lt;appender name=&amp;#34;KAFKA&amp;#34; class=&amp;#34;com.github.danielwegener.logback.kafka.KafkaAppender&amp;#34;&amp;gt;
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-83d902ab8f9eb43f320752d9fbc549f6"&gt;&amp;lt;appender name=&amp;#34;KAFKA&amp;#34; class=&amp;#34;com.github.danielwegener.logback.kafka.KafkaAppender&amp;#34;&amp;gt;
  &amp;lt;encoder class=&amp;#34;ch.qos.logback.classic.encoder.PatternLayoutEncoder&amp;#34; charset=&amp;#34;UTF-8&amp;#34; &amp;gt;
  &amp;lt;pattern&amp;gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n&amp;lt;/pattern&amp;gt;
  &amp;lt;/encoder&amp;gt;
@@ -144,200 +144,200 @@
 &amp;lt;/appender&amp;gt;
 &amp;lt;logger name=&amp;#34;com.cheon.demo&amp;#34; level=&amp;#34;INFO&amp;#34; additivity=&amp;#34;false&amp;#34;&amp;gt;
  &amp;lt;appender-ref ref=&amp;#34;KAFKA&amp;#34; /&amp;gt;
-&amp;lt;/logger&amp;gt;&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-83d902ab8f9eb43f320752d9fbc549f6', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&amp;lt;/logger&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-83d902ab8f9eb43f320752d9fbc549f6', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;/details>
-&lt;p>pom 文件依赖:&lt;/p></description></item><item><title>Ceph Ansible</title><link>https://number317.github.io/blog/struct/ceph_ansible/</link><pubDate>Sun, 23 Jun 2019 16:45:52 +0800</pubDate><guid>https://number317.github.io/blog/struct/ceph_ansible/</guid><description>&lt;h1 id="ceph-介绍">Ceph 介绍&lt;/h1>
-&lt;p>无论是想要为云平台提供 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-object-storage" target="_blank" rel="noopener noreferrer" >
+&lt;/details&gt;
+&lt;p&gt;pom 文件依赖:&lt;/p&gt;</description></item><item><title>Ceph Ansible</title><link>https://number317.github.io/blog/struct/ceph_ansible/</link><pubDate>Sun, 23 Jun 2019 16:45:52 +0800</pubDate><guid>https://number317.github.io/blog/struct/ceph_ansible/</guid><description>&lt;h1 id="ceph-介绍"&gt;Ceph 介绍&lt;/h1&gt;
+&lt;p&gt;无论是想要为云平台提供 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-object-storage" target="_blank" rel="noopener noreferrer" &gt;
  Ceph Object Storage
-&lt;/a>
- 或 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-block-device" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+ 或 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-block-device" target="_blank" rel="noopener noreferrer" &gt;
  Ceph Block Device
-&lt;/a>
- 服务，部署一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-filesystem" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+ 服务，部署一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-filesystem" target="_blank" rel="noopener noreferrer" &gt;
  Ceph Filesystem
-&lt;/a>
- 总是从设置每一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-node" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+ 总是从设置每一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-node" target="_blank" rel="noopener noreferrer" &gt;
  Ceph 节点
-&lt;/a>
-，网络和 Ceph 存储集群开始。一个 Ceph 存储集群至少需要一个 Ceph Monitor，Ceph Manger，和 Ceph OSD(Object Storage Daemon)。当运行 Ceph 文件系统客户端时也需要 Ceph Metadata Server。&lt;/p>
-&lt;ul>
-&lt;li>
-&lt;p>Monitors: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-monitor" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+，网络和 Ceph 存储集群开始。一个 Ceph 存储集群至少需要一个 Ceph Monitor，Ceph Manger，和 Ceph OSD(Object Storage Daemon)。当运行 Ceph 文件系统客户端时也需要 Ceph Metadata Server。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Monitors: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-monitor" target="_blank" rel="noopener noreferrer" &gt;
  Ceph 监视器(ceph-mon)
-&lt;/a>
- 维护集群状态的映射，包括监视器，管理，OSD 和 CURSH 映射。这些映射是 Ceph 守护进程之间相互协调的关键。监视器还负责管理守护进程和客户端之间的身份验证。为了保证冗余和高可用，至少需要3个监视器。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>Mangers: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-manager" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+ 维护集群状态的映射，包括监视器，管理，OSD 和 CURSH 映射。这些映射是 Ceph 守护进程之间相互协调的关键。监视器还负责管理守护进程和客户端之间的身份验证。为了保证冗余和高可用，至少需要3个监视器。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Mangers: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-manager" target="_blank" rel="noopener noreferrer" &gt;
  Ceph 管理(ceph-mgr)
-&lt;/a>
-守护进程负责保持追踪 Ceph 集群运行时指标和当前集群状态，包括存储利用率，当前的性能指标和系统负载。Ceph 管理进程还托管基于 python 的模块来管理和公开 Ceph 集群信息，包括一个基于网页的 &lt;a href="http://docs.ceph.com/docs/master/mgr/dashboard/#mgr-dashboard" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+守护进程负责保持追踪 Ceph 集群运行时指标和当前集群状态，包括存储利用率，当前的性能指标和系统负载。Ceph 管理进程还托管基于 python 的模块来管理和公开 Ceph 集群信息，包括一个基于网页的 &lt;a href="http://docs.ceph.com/docs/master/mgr/dashboard/#mgr-dashboard" target="_blank" rel="noopener noreferrer" &gt;
  Ceph Dashboard
-&lt;/a>
- 和 &lt;a href="http://docs.ceph.com/docs/master/mgr/restful" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+ 和 &lt;a href="http://docs.ceph.com/docs/master/mgr/restful" target="_blank" rel="noopener noreferrer" &gt;
  REST API
-&lt;/a>
-。为了保证高可用，至少需要2个管理节点。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>Ceph OSDs: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-osd" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+。为了保证高可用，至少需要2个管理节点。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Ceph OSDs: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-osd" target="_blank" rel="noopener noreferrer" &gt;
  Ceph OSD(object storage daemon, ceph-osd)
-&lt;/a>
-存储数据，处理数据复制、恢复、重新平衡，并通过检查其他 Ceph OSD 进程的心跳来提供一些监控信息给 Ceph 监视器和管理。为了保证冗余和高可用，至少需要3个 Ceph OSDs。&lt;/p></description></item><item><title>Docker Graph Migrate</title><link>https://number317.github.io/blog/struct/docker_graph_migrate/</link><pubDate>Tue, 14 May 2019 19:33:12 +0800</pubDate><guid>https://number317.github.io/blog/struct/docker_graph_migrate/</guid><description>&lt;h1 id="docker-目录迁移">docker 目录迁移&lt;/h1>
-&lt;p>服务器根目录磁盘空间比较小，只有50G，在使用一段时间后镜像增多，磁盘不够用，准备将 docker 的目录挂载到新加的磁盘。挂载硬盘后如下：&lt;/p>
+&lt;/a&gt;
+存储数据，处理数据复制、恢复、重新平衡，并通过检查其他 Ceph OSD 进程的心跳来提供一些监控信息给 Ceph 监视器和管理。为了保证冗余和高可用，至少需要3个 Ceph OSDs。&lt;/p&gt;</description></item><item><title>Docker Graph Migrate</title><link>https://number317.github.io/blog/struct/docker_graph_migrate/</link><pubDate>Tue, 14 May 2019 19:33:12 +0800</pubDate><guid>https://number317.github.io/blog/struct/docker_graph_migrate/</guid><description>&lt;h1 id="docker-目录迁移"&gt;docker 目录迁移&lt;/h1&gt;
+&lt;p&gt;服务器根目录磁盘空间比较小，只有50G，在使用一段时间后镜像增多，磁盘不够用，准备将 docker 的目录挂载到新加的磁盘。挂载硬盘后如下：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-ce7aeef8519f77a3c574ce87b688ffd0">NAME MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-ce7aeef8519f77a3c574ce87b688ffd0"&gt;NAME MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
 sr0 11:0 1 3.7M 0 rom
 vda 253:0 0 50G 0 disk
 └─vda1 253:1 0 50G 0 part /
-vdb 253:16 0 200G 0 disk&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-ce7aeef8519f77a3c574ce87b688ffd0', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+vdb 253:16 0 200G 0 disk&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-ce7aeef8519f77a3c574ce87b688ffd0', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;h2 id="创建-lvm">创建 lvm&lt;/h2>
-&lt;p>为了以后方便扩容，准备使用 lvm。首先创建 pv：&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-cf251ec788f2e49006c9f1e14662fcec">pvcreate /dev/vdb&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-cf251ec788f2e49006c9f1e14662fcec', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>创建 vg，命名为 docker：&lt;/p>
+&lt;h2 id="创建-lvm"&gt;创建 lvm&lt;/h2&gt;
+&lt;p&gt;为了以后方便扩容，准备使用 lvm。首先创建 pv：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-89b87f5e74e4ec2ab94e68ad3ce2480e">vgcreate docker /dev/vdb&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-89b87f5e74e4ec2ab94e68ad3ce2480e', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-cf251ec788f2e49006c9f1e14662fcec"&gt;pvcreate /dev/vdb&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-cf251ec788f2e49006c9f1e14662fcec', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>创建 lv，命名为 registry：&lt;/p>
+&lt;p&gt;创建 vg，命名为 docker：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-92db4c007d2c9588fc09f674b646c2f7">lvcreate -l &amp;#43;100%Free docker --name registry&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-92db4c007d2c9588fc09f674b646c2f7', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-89b87f5e74e4ec2ab94e68ad3ce2480e"&gt;vgcreate docker /dev/vdb&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-89b87f5e74e4ec2ab94e68ad3ce2480e', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>将 lv 格式化为 xfs 文件系统：&lt;/p></description></item><item><title>Skywalking Deploy</title><link>https://number317.github.io/blog/struct/skywalking_deploy/</link><pubDate>Thu, 25 Apr 2019 17:16:15 +0800</pubDate><guid>https://number317.github.io/blog/struct/skywalking_deploy/</guid><description>&lt;h1 id="skywalking-部署">skywalking 部署&lt;/h1>
-&lt;p>skywalking 是一个国产开源的调用链监控工具，可用于分析请求中哪些操作比较慢。&lt;a href="https://github.com/apache/skywalking-kubernetes" target="_blank" rel="noopener noreferrer" >
+&lt;p&gt;创建 lv，命名为 registry：&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-92db4c007d2c9588fc09f674b646c2f7"&gt;lvcreate -l &amp;#43;100%Free docker --name registry&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-92db4c007d2c9588fc09f674b646c2f7', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;p&gt;将 lv 格式化为 xfs 文件系统：&lt;/p&gt;</description></item><item><title>Skywalking Deploy</title><link>https://number317.github.io/blog/struct/skywalking_deploy/</link><pubDate>Thu, 25 Apr 2019 17:16:15 +0800</pubDate><guid>https://number317.github.io/blog/struct/skywalking_deploy/</guid><description>&lt;h1 id="skywalking-部署"&gt;skywalking 部署&lt;/h1&gt;
+&lt;p&gt;skywalking 是一个国产开源的调用链监控工具，可用于分析请求中哪些操作比较慢。&lt;a href="https://github.com/apache/skywalking-kubernetes" target="_blank" rel="noopener noreferrer" &gt;
  官方
-&lt;/a>
-提供了 k8s 的部署配置，但这个配置里的镜像是不对的，具体版本对应的镜像可以在&lt;a href="https://hub.docker.com/r/apache/skywalking-oap-server" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+提供了 k8s 的部署配置，但这个配置里的镜像是不对的，具体版本对应的镜像可以在&lt;a href="https://hub.docker.com/r/apache/skywalking-oap-server" target="_blank" rel="noopener noreferrer" &gt;
  Dockerhub
-&lt;/a>
-上找到。如果想要更换版本，最好把 ES 中的索引先删除，否则可能会导致应用报错。&lt;/p>
-&lt;h2 id="架构说明">架构说明&lt;/h2>
-&lt;ul>
-&lt;li>elasticsearch: 用于存储 skywalking 数据，这里使用的是腾讯云的 ES 服务，因此无需搭建&lt;/li>
-&lt;li>skywalking-oap-server: skywalking 后端&lt;/li>
-&lt;li>ui: 默认 ui 界面&lt;/li>
-&lt;li>&lt;a href="https://github.com/apache/skywalking-rocketbot-ui" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+上找到。如果想要更换版本，最好把 ES 中的索引先删除，否则可能会导致应用报错。&lt;/p&gt;
+&lt;h2 id="架构说明"&gt;架构说明&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;elasticsearch: 用于存储 skywalking 数据，这里使用的是腾讯云的 ES 服务，因此无需搭建&lt;/li&gt;
+&lt;li&gt;skywalking-oap-server: skywalking 后端&lt;/li&gt;
+&lt;li&gt;ui: 默认 ui 界面&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/apache/skywalking-rocketbot-ui" target="_blank" rel="noopener noreferrer" &gt;
  rocketbot-ui
-&lt;/a>
-: skywalking 的另一个官方前端界面，没有现成的镜像，需要自己构建&lt;/li>
-&lt;/ul>
-&lt;h2 id="部署">部署&lt;/h2>
-&lt;p>将官方的部署文件克隆到本地，将 oap， ui 的镜像换成对应的版本镜像。修改 oap 配置中的 ES 地址：&lt;/p>
+&lt;/a&gt;
+: skywalking 的另一个官方前端界面，没有现成的镜像，需要自己构建&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="部署"&gt;部署&lt;/h2&gt;
+&lt;p&gt;将官方的部署文件克隆到本地，将 oap， ui 的镜像换成对应的版本镜像。修改 oap 配置中的 ES 地址：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-3ae6d3faa77420609b72248e47aae35d">storage:
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-3ae6d3faa77420609b72248e47aae35d"&gt;storage:
  elasticsearch:
- clusterNodes: elasticsearch:9200&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-3ae6d3faa77420609b72248e47aae35d', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+ clusterNodes: elasticsearch:9200&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-3ae6d3faa77420609b72248e47aae35d', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>先创建命名空间：&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-9913ba93459ca53e19605a2037cfc70f">kubectl create ns skywalking&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-9913ba93459ca53e19605a2037cfc70f', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>接着部署 oap 后端：&lt;/p>
+&lt;p&gt;先创建命名空间：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-0c383f50b102b983a9d4459d8e47871b">kubectl apply -f oap/&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-0c383f50b102b983a9d4459d8e47871b', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-9913ba93459ca53e19605a2037cfc70f"&gt;kubectl create ns skywalking&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-9913ba93459ca53e19605a2037cfc70f', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>再部署前端：&lt;/p>
+&lt;p&gt;接着部署 oap 后端：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-a3fbf1dcbbbdff45c9974ac7c3dfad27">kubectl apply -f ui/&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-a3fbf1dcbbbdff45c9974ac7c3dfad27', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-0c383f50b102b983a9d4459d8e47871b"&gt;kubectl apply -f oap/&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-0c383f50b102b983a9d4459d8e47871b', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>为了集群外部访问，可以为前端配置一个域名或者在 service 中添加 externalIPs。&lt;/p></description></item><item><title>Graylog Sidecar</title><link>https://number317.github.io/blog/struct/graylog_sidecar/</link><pubDate>Wed, 14 Nov 2018 17:24:04 +0800</pubDate><guid>https://number317.github.io/blog/struct/graylog_sidecar/</guid><description>&lt;h1 id="graylog-sidecar-部署配置">graylog sidecar 部署配置&lt;/h1>
-&lt;p>graylog sidecar 用于配置从文件读取日志，具体读取文件可以采用filebeat和nxlog。这里在debian的容器中部署sidecar来示例。&lt;/p>
-&lt;h2 id="安装sidecar">安装sidecar&lt;/h2>
-&lt;p>从&lt;a href="https://github.com/Graylog2/collector-sidecar/releases" target="_blank" rel="noopener noreferrer" >
+&lt;p&gt;再部署前端：&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-a3fbf1dcbbbdff45c9974ac7c3dfad27"&gt;kubectl apply -f ui/&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-a3fbf1dcbbbdff45c9974ac7c3dfad27', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;p&gt;为了集群外部访问，可以为前端配置一个域名或者在 service 中添加 externalIPs。&lt;/p&gt;</description></item><item><title>Graylog Sidecar</title><link>https://number317.github.io/blog/struct/graylog_sidecar/</link><pubDate>Wed, 14 Nov 2018 17:24:04 +0800</pubDate><guid>https://number317.github.io/blog/struct/graylog_sidecar/</guid><description>&lt;h1 id="graylog-sidecar-部署配置"&gt;graylog sidecar 部署配置&lt;/h1&gt;
+&lt;p&gt;graylog sidecar 用于配置从文件读取日志，具体读取文件可以采用filebeat和nxlog。这里在debian的容器中部署sidecar来示例。&lt;/p&gt;
+&lt;h2 id="安装sidecar"&gt;安装sidecar&lt;/h2&gt;
+&lt;p&gt;从&lt;a href="https://github.com/Graylog2/collector-sidecar/releases" target="_blank" rel="noopener noreferrer" &gt;
  下载页面
-&lt;/a>
-下载对应的包，这里是debian系统，graylog版本是2.4。所以根据文档，下载&lt;code>collector-sidecar_0.1.7-1_amd64.deb&lt;/code>：&lt;/p>
+&lt;/a&gt;
+下载对应的包，这里是debian系统，graylog版本是2.4。所以根据文档，下载&lt;code&gt;collector-sidecar_0.1.7-1_amd64.deb&lt;/code&gt;：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-0e2bc5b8c0291399e63a0940370f4c54">curl -OL &amp;#34;https://github.com/Graylog2/collector-sidecar/releases/download/0.1.7/collector-sidecar_0.1.7-1_amd64.deb&amp;#34;&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-0e2bc5b8c0291399e63a0940370f4c54', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-0e2bc5b8c0291399e63a0940370f4c54"&gt;curl -OL &amp;#34;https://github.com/Graylog2/collector-sidecar/releases/download/0.1.7/collector-sidecar_0.1.7-1_amd64.deb&amp;#34;&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-0e2bc5b8c0291399e63a0940370f4c54', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>下载好后安装：&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-000bd49e39ed30b1c5a0457b05aca32e">dpkg -i collector-sidecar_0.1.7-1_amd64.deb&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-000bd49e39ed30b1c5a0457b05aca32e', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>安装好后配置system服务：&lt;/p>
+&lt;p&gt;下载好后安装：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-280a7782acdc4aff590046950709e3c9">graylog-collector-sidecar -service install&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-280a7782acdc4aff590046950709e3c9', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-000bd49e39ed30b1c5a0457b05aca32e"&gt;dpkg -i collector-sidecar_0.1.7-1_amd64.deb&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-000bd49e39ed30b1c5a0457b05aca32e', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>这个命令会生成&lt;code>/etc/init.d/collector-sidecar&lt;/code>脚步，但是在容器中可能systemctl命令执行不了，可以直接执行该脚本。&lt;/p>
-&lt;h2 id="配置sidecar">配置sidecar&lt;/h2>
-&lt;p>编辑配置文件&lt;code>/etc/graylog/collector-sidecar&lt;/code>，改为以下内容：&lt;/p>
+&lt;p&gt;安装好后配置system服务：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-1b3d2131eb0dc8acdb078abe7cd29206">server_url: http://graylog.test.com/api/
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-280a7782acdc4aff590046950709e3c9"&gt;graylog-collector-sidecar -service install&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-280a7782acdc4aff590046950709e3c9', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;p&gt;这个命令会生成&lt;code&gt;/etc/init.d/collector-sidecar&lt;/code&gt;脚步，但是在容器中可能systemctl命令执行不了，可以直接执行该脚本。&lt;/p&gt;
+&lt;h2 id="配置sidecar"&gt;配置sidecar&lt;/h2&gt;
+&lt;p&gt;编辑配置文件&lt;code&gt;/etc/graylog/collector-sidecar&lt;/code&gt;，改为以下内容：&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-1b3d2131eb0dc8acdb078abe7cd29206"&gt;server_url: http://graylog.test.com/api/
 update_interval: 10
 tls_skip_verify: false
 send_status: true
@@ -358,18 +358,18 @@ backends:
  - name: filebeat
  enabled: true
  binary_path: /usr/bin/filebeat
- configuration_path: /etc/graylog/collector-sidecar/generated/filebeat.yml&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-1b3d2131eb0dc8acdb078abe7cd29206', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+ configuration_path: /etc/graylog/collector-sidecar/generated/filebeat.yml&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-1b3d2131eb0dc8acdb078abe7cd29206', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>主要是修改&lt;code>server_url&lt;/code>和&lt;code>tags&lt;/code>两项内容。&lt;/p></description></item><item><title>Graylog K8s Install</title><link>https://number317.github.io/blog/struct/graylog_k8s_install/</link><pubDate>Wed, 14 Nov 2018 16:20:50 +0800</pubDate><guid>https://number317.github.io/blog/struct/graylog_k8s_install/</guid><description>&lt;h1 id="graylog-k8s-部署">graylog k8s 部署&lt;/h1>
-&lt;p>graylog是一个日志聚合工具，用于统一展示应用日志。这里基于官方文档，在k8s集群中部署一套简单的单节点graylog服务。&lt;/p>
-&lt;h2 id="mongodb-部署">mongodb 部署&lt;/h2>
-&lt;p>mongodb 在服务中用于存储graylog的配置信息。以下是部署文件（没有进行数据持久化操作）：&lt;/p>
-&lt;details>
-&lt;summary>mongodb deploy&lt;/summary>
+&lt;p&gt;主要是修改&lt;code&gt;server_url&lt;/code&gt;和&lt;code&gt;tags&lt;/code&gt;两项内容。&lt;/p&gt;</description></item><item><title>Graylog K8s Install</title><link>https://number317.github.io/blog/struct/graylog_k8s_install/</link><pubDate>Wed, 14 Nov 2018 16:20:50 +0800</pubDate><guid>https://number317.github.io/blog/struct/graylog_k8s_install/</guid><description>&lt;h1 id="graylog-k8s-部署"&gt;graylog k8s 部署&lt;/h1&gt;
+&lt;p&gt;graylog是一个日志聚合工具，用于统一展示应用日志。这里基于官方文档，在k8s集群中部署一套简单的单节点graylog服务。&lt;/p&gt;
+&lt;h2 id="mongodb-部署"&gt;mongodb 部署&lt;/h2&gt;
+&lt;p&gt;mongodb 在服务中用于存储graylog的配置信息。以下是部署文件（没有进行数据持久化操作）：&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;mongodb deploy&lt;/summary&gt;
 ```yaml
 # {{{ deploy
 ---
@@ -435,80 +435,80 @@ status:
  loadBalancer: {}
 # }}}
 ```
-&lt;/details>
-&lt;h2 id="elasticsearch-部署">elasticsearch 部署&lt;/h2>
-&lt;p>elasticsearch 在服务中用于存储日志数据。以下是部署文件（没有进行数据持久化操作）：&lt;/p></description></item><item><title>Ansible Variables</title><link>https://number317.github.io/blog/struct/ansible_variables/</link><pubDate>Fri, 25 May 2018 11:06:47 +0800</pubDate><guid>https://number317.github.io/blog/struct/ansible_variables/</guid><description>&lt;h1 id="ansible-变量">ansible 变量&lt;/h1>
-&lt;p>ansible 变量以&lt;code>[A-Za-z]&lt;/code>开头，可以包含下划线&lt;code>_&lt;/code>和数字&lt;code>[0-9]&lt;/code>，标准是全部使用小写字母。在清单(inventory)文件里，变量使用&lt;code>=&lt;/code>赋值，如：&lt;/p>
+&lt;/details&gt;
+&lt;h2 id="elasticsearch-部署"&gt;elasticsearch 部署&lt;/h2&gt;
+&lt;p&gt;elasticsearch 在服务中用于存储日志数据。以下是部署文件（没有进行数据持久化操作）：&lt;/p&gt;</description></item><item><title>Ansible Variables</title><link>https://number317.github.io/blog/struct/ansible_variables/</link><pubDate>Fri, 25 May 2018 11:06:47 +0800</pubDate><guid>https://number317.github.io/blog/struct/ansible_variables/</guid><description>&lt;h1 id="ansible-变量"&gt;ansible 变量&lt;/h1&gt;
+&lt;p&gt;ansible 变量以&lt;code&gt;[A-Za-z]&lt;/code&gt;开头，可以包含下划线&lt;code&gt;_&lt;/code&gt;和数字&lt;code&gt;[0-9]&lt;/code&gt;，标准是全部使用小写字母。在清单(inventory)文件里，变量使用&lt;code&gt;=&lt;/code&gt;赋值，如：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-06ad47d8e64bd28de537b62ff85357c4">foo=bar&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-06ad47d8e64bd28de537b62ff85357c4', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-06ad47d8e64bd28de537b62ff85357c4"&gt;foo=bar&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-06ad47d8e64bd28de537b62ff85357c4', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>在剧本(playbook)或变量文件里，变量用&lt;code>:&lt;/code>赋值，如：&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-e1dcf98b4c823827be0a0524052ae95a">foo: bar&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-e1dcf98b4c823827be0a0524052ae95a', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;h2 id="playbook-variables">Playbook Variables&lt;/h2>
-&lt;p>变量可以在使用&lt;code>ansible-playbook&lt;/code>时通过命令行参数&lt;code>--extra-vars&lt;/code>选项传递：&lt;/p>
+&lt;p&gt;在剧本(playbook)或变量文件里，变量用&lt;code&gt;:&lt;/code&gt;赋值，如：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-484feec47e4bd8de85f27c7697db1e53">ansible-playbook example.yml --extra-vars &amp;#34;foo=bar&amp;#34;&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-484feec47e4bd8de85f27c7697db1e53', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-e1dcf98b4c823827be0a0524052ae95a"&gt;foo: bar&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-e1dcf98b4c823827be0a0524052ae95a', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>也可以在参数中传递json，yaml格式的数据，甚至是json和yaml文件，就像&lt;code>--extra-vars &amp;quot;@even_more_vars.json&amp;quot;&lt;/code>或者&lt;code>--extra-vars &amp;quot;@even_more_vars.yml&amp;quot;&lt;/code>，但这种方式不建议使用。&lt;/p>
-&lt;p>变量可以直接在playbook中的&lt;code>vars&lt;/code>部分定义：&lt;/p>
+&lt;h2 id="playbook-variables"&gt;Playbook Variables&lt;/h2&gt;
+&lt;p&gt;变量可以在使用&lt;code&gt;ansible-playbook&lt;/code&gt;时通过命令行参数&lt;code&gt;--extra-vars&lt;/code&gt;选项传递：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-5fe217b69094bcd77d05ab7dcd671912">---
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-484feec47e4bd8de85f27c7697db1e53"&gt;ansible-playbook example.yml --extra-vars &amp;#34;foo=bar&amp;#34;&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-484feec47e4bd8de85f27c7697db1e53', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;p&gt;也可以在参数中传递json，yaml格式的数据，甚至是json和yaml文件，就像&lt;code&gt;--extra-vars &amp;quot;@even_more_vars.json&amp;quot;&lt;/code&gt;或者&lt;code&gt;--extra-vars &amp;quot;@even_more_vars.yml&amp;quot;&lt;/code&gt;，但这种方式不建议使用。&lt;/p&gt;
+&lt;p&gt;变量可以直接在playbook中的&lt;code&gt;vars&lt;/code&gt;部分定义：&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-5fe217b69094bcd77d05ab7dcd671912"&gt;---
 - hosts: example
  vars:
  foo: bar
  tasks:
  # Prints &amp;#34;Variable &amp;#39;foo&amp;#39; is set to bar&amp;#34;.
- - debug: msg=&amp;#34;Variable &amp;#39;foo&amp;#39; is set to {{ foo }}&amp;#34;&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-5fe217b69094bcd77d05ab7dcd671912', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+ - debug: msg=&amp;#34;Variable &amp;#39;foo&amp;#39; is set to {{ foo }}&amp;#34;&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-5fe217b69094bcd77d05ab7dcd671912', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>变量也可以在单独的文件中定义，然后在playbook中通过&lt;code>vars_files&lt;/code>引用：&lt;/p>
+&lt;p&gt;变量也可以在单独的文件中定义，然后在playbook中通过&lt;code&gt;vars_files&lt;/code&gt;引用：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-6327da43f56ba52e80cfb4227542efe9"># Main playbook file.
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-6327da43f56ba52e80cfb4227542efe9"&gt;# Main playbook file.
 - hosts: example
  vars_files:
  - vars.yml
  tasks:
-	- debug: msg=&amp;#34;Variable &amp;#39;foo&amp;#39; is set to {{ foo }}&amp;#34;&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-6327da43f56ba52e80cfb4227542efe9', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+	- debug: msg=&amp;#34;Variable &amp;#39;foo&amp;#39; is set to {{ foo }}&amp;#34;&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-6327da43f56ba52e80cfb4227542efe9', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>和playbook同目录下的&lt;code>vars.yml&lt;/code>：&lt;/p></description></item><item><title>Glusterfs Deploy</title><link>https://number317.github.io/blog/struct/glusterfs_deploy/</link><pubDate>Tue, 09 Jan 2018 10:09:35 +0800</pubDate><guid>https://number317.github.io/blog/struct/glusterfs_deploy/</guid><description>&lt;h1 id="glusterfs-centos-部署">glusterfs centos 部署&lt;/h1>
-&lt;p>GlusterFS是一个开源的分布式文件系统，这里部署它主要为了解决文件存储的单点问题。&lt;/p>
-&lt;h2 id="虚拟机配置">虚拟机配置&lt;/h2>
-&lt;p>此处采用vagrant部署centos的虚拟机三台，box可以采用bento/centos7.2，配置文件如下：&lt;/p>
+&lt;p&gt;和playbook同目录下的&lt;code&gt;vars.yml&lt;/code&gt;：&lt;/p&gt;</description></item><item><title>Glusterfs Deploy</title><link>https://number317.github.io/blog/struct/glusterfs_deploy/</link><pubDate>Tue, 09 Jan 2018 10:09:35 +0800</pubDate><guid>https://number317.github.io/blog/struct/glusterfs_deploy/</guid><description>&lt;h1 id="glusterfs-centos-部署"&gt;glusterfs centos 部署&lt;/h1&gt;
+&lt;p&gt;GlusterFS是一个开源的分布式文件系统，这里部署它主要为了解决文件存储的单点问题。&lt;/p&gt;
+&lt;h2 id="虚拟机配置"&gt;虚拟机配置&lt;/h2&gt;
+&lt;p&gt;此处采用vagrant部署centos的虚拟机三台，box可以采用bento/centos7.2，配置文件如下：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-0dbaa6085bc2e658d20f713b5fc0fdcc">Vagrant.configure(&amp;#34;2&amp;#34;) do |config|
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-0dbaa6085bc2e658d20f713b5fc0fdcc"&gt;Vagrant.configure(&amp;#34;2&amp;#34;) do |config|
  (1..3).each do |i|
  config.vm.define &amp;#34;gluster-node#{i}&amp;#34; do |node|
  file_to_disk = &amp;#34;tmp/gluster_node#{i}_disk.vdi&amp;#34;
@@ -527,31 +527,31 @@ status:
  end
  end
  end
-end&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-0dbaa6085bc2e658d20f713b5fc0fdcc', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+end&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-0dbaa6085bc2e658d20f713b5fc0fdcc', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>该配置文件根据官方&lt;a href="http://docs.gluster.org/en/latest/Quick-Start-Guide/Quickstart/" target="_blank" rel="noopener noreferrer" >
+&lt;p&gt;该配置文件根据官方&lt;a href="http://docs.gluster.org/en/latest/Quick-Start-Guide/Quickstart/" target="_blank" rel="noopener noreferrer" &gt;
  quick start
-&lt;/a>
-文档，为虚拟机配置了第二磁盘，用于GlusterFS存储，大小为10G。&lt;/p></description></item><item><title>Fluentd Config</title><link>https://number317.github.io/blog/struct/fluentd_config/</link><pubDate>Fri, 05 Jan 2018 10:14:58 +0800</pubDate><guid>https://number317.github.io/blog/struct/fluentd_config/</guid><description>&lt;h1 id="命令列表">命令列表&lt;/h1>
-&lt;p>Fluentd配置文件由以下配置文件组成：&lt;/p>
-&lt;ol>
-&lt;li>&lt;code>source&lt;/code>命令 指明数据输入源&lt;/li>
-&lt;li>&lt;code>match&lt;/code>命令 指明数据输出源&lt;/li>
-&lt;li>&lt;code>filter&lt;/code>命令 指明事件处理的管道&lt;/li>
-&lt;li>&lt;code>system&lt;/code>命令 指明系统级别配置&lt;/li>
-&lt;li>&lt;code>label&lt;/code>命令 为输出分组并过滤内部路由&lt;/li>
-&lt;li>&lt;code>include&lt;/code>命令 包含其他文件&lt;/li>
-&lt;/ol>
-&lt;h1 id="命令详解">命令详解&lt;/h1>
-&lt;ol>
-&lt;li>
-&lt;p>&lt;code>source&lt;/code>: 数据的来源&lt;/p>
-&lt;p>Fluentd的输入源通过&lt;code>source&lt;/code>命令选择和配置想要的输入插件来启用。Fluentd的标准输入插件包括&lt;code>http&lt;/code>和&lt;code>forward&lt;/code>。&lt;code>http&lt;/code>使得Fluentd转变为一个HTTP终端用于接收到来的HTTP信息，而&lt;code>forward&lt;/code>将fluentd转变为一个TCP终端用于接收TCP包。当然，它们可以被同时启用。&lt;/p>
-&lt;pre>&lt;code> # Receive events from 24224/tcp
+&lt;/a&gt;
+文档，为虚拟机配置了第二磁盘，用于GlusterFS存储，大小为10G。&lt;/p&gt;</description></item><item><title>Fluentd Config</title><link>https://number317.github.io/blog/struct/fluentd_config/</link><pubDate>Fri, 05 Jan 2018 10:14:58 +0800</pubDate><guid>https://number317.github.io/blog/struct/fluentd_config/</guid><description>&lt;h1 id="命令列表"&gt;命令列表&lt;/h1&gt;
+&lt;p&gt;Fluentd配置文件由以下配置文件组成：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;source&lt;/code&gt;命令 指明数据输入源&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;match&lt;/code&gt;命令 指明数据输出源&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;filter&lt;/code&gt;命令 指明事件处理的管道&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;system&lt;/code&gt;命令 指明系统级别配置&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;label&lt;/code&gt;命令 为输出分组并过滤内部路由&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;include&lt;/code&gt;命令 包含其他文件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id="命令详解"&gt;命令详解&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;source&lt;/code&gt;: 数据的来源&lt;/p&gt;
+&lt;p&gt;Fluentd的输入源通过&lt;code&gt;source&lt;/code&gt;命令选择和配置想要的输入插件来启用。Fluentd的标准输入插件包括&lt;code&gt;http&lt;/code&gt;和&lt;code&gt;forward&lt;/code&gt;。&lt;code&gt;http&lt;/code&gt;使得Fluentd转变为一个HTTP终端用于接收到来的HTTP信息，而&lt;code&gt;forward&lt;/code&gt;将fluentd转变为一个TCP终端用于接收TCP包。当然，它们可以被同时启用。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; # Receive events from 24224/tcp
  # This is used by log forwarding and the fluent-cat command
  &amp;lt;source&amp;gt;
  @type forward
@@ -563,13 +563,13 @@ end&lt;/code>&lt;/pre>
  @type http
  port 9880
  &amp;lt;/source&amp;gt;
-&lt;/code>&lt;/pre>
-&lt;p>每一个&lt;code>source&lt;/code>命令必须包含一个&lt;code>type&lt;/code>参数。&lt;code>type&lt;/code>参数指定使用哪一个输入插件。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;code>match&lt;/code>: 告诉fluentd做什么&lt;/p>
-&lt;p>&lt;code>match&lt;/code>命令寻找匹配标签的事件并且处理它们。&lt;code>match&lt;/code>命令最常见的用法是将事件输出到其他系统（由于这个原因，这些插件被称为”输出插件“）。Fluentd的标准输出插件包括&lt;code>file&lt;/code>和&lt;code>forward&lt;/code>。&lt;/p>
-&lt;pre>&lt;code> # Receive events from 24224/tcp
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;每一个&lt;code&gt;source&lt;/code&gt;命令必须包含一个&lt;code&gt;type&lt;/code&gt;参数。&lt;code&gt;type&lt;/code&gt;参数指定使用哪一个输入插件。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;match&lt;/code&gt;: 告诉fluentd做什么&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;match&lt;/code&gt;命令寻找匹配标签的事件并且处理它们。&lt;code&gt;match&lt;/code&gt;命令最常见的用法是将事件输出到其他系统（由于这个原因，这些插件被称为”输出插件“）。Fluentd的标准输出插件包括&lt;code&gt;file&lt;/code&gt;和&lt;code&gt;forward&lt;/code&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; # Receive events from 24224/tcp
  # This is used by log forwarding and the fluent-cat command
  &amp;lt;source&amp;gt;
  @type forward
@@ -590,30 +590,30 @@ end&lt;/code>&lt;/pre>
  @type file
  path /var/log/fluent/access
  &amp;lt;/match&amp;gt;
-&lt;/code>&lt;/pre>
-&lt;p>每一个&lt;code>match&lt;/code>命令必须包括一个匹配的样式(match pattern)和一个&lt;code>type&lt;/code>参数。只有拥有一个和匹配样式(match pattern)匹配的标签的事件才会被送到输出源（在上面的例子中，只有拥有&amp;quot;myapp.access&amp;quot;标签的事件是匹配的）。&lt;code>type&lt;/code>参数指定了哪个输出插件被使用。&lt;/p></description></item><item><title>K8s Cluster Deploy</title><link>https://number317.github.io/blog/struct/k8s_cluster_deploy/</link><pubDate>Mon, 04 Dec 2017 09:19:26 +0800</pubDate><guid>https://number317.github.io/blog/struct/k8s_cluster_deploy/</guid><description>&lt;h1 id="vagrant-kubernetes-集群部署">vagrant kubernetes 集群部署&lt;/h1>
-&lt;h2 id="集群说明">集群说明&lt;/h2>
-&lt;p>集群共有四个节点，一个master节点，四个子节点，其中一个节点即是master节点，也是node节点，系统均为centos-7.2。&lt;/p>
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;每一个&lt;code&gt;match&lt;/code&gt;命令必须包括一个匹配的样式(match pattern)和一个&lt;code&gt;type&lt;/code&gt;参数。只有拥有一个和匹配样式(match pattern)匹配的标签的事件才会被送到输出源（在上面的例子中，只有拥有&amp;quot;myapp.access&amp;quot;标签的事件是匹配的）。&lt;code&gt;type&lt;/code&gt;参数指定了哪个输出插件被使用。&lt;/p&gt;</description></item><item><title>K8s Cluster Deploy</title><link>https://number317.github.io/blog/struct/k8s_cluster_deploy/</link><pubDate>Mon, 04 Dec 2017 09:19:26 +0800</pubDate><guid>https://number317.github.io/blog/struct/k8s_cluster_deploy/</guid><description>&lt;h1 id="vagrant-kubernetes-集群部署"&gt;vagrant kubernetes 集群部署&lt;/h1&gt;
+&lt;h2 id="集群说明"&gt;集群说明&lt;/h2&gt;
+&lt;p&gt;集群共有四个节点，一个master节点，四个子节点，其中一个节点即是master节点，也是node节点，系统均为centos-7.2。&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-65b9cc52d4025169e1ab47cc4ac119d3">k8s-node1 192.168.12.81 master, node
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-65b9cc52d4025169e1ab47cc4ac119d3"&gt;k8s-node1 192.168.12.81 master, node
 k8s-node2 192.168.12.82 node
 k8s-node3 192.168.12.83 node
-k8s-node4 192.168.12.84 node&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-65b9cc52d4025169e1ab47cc4ac119d3', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+k8s-node4 192.168.12.84 node&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-65b9cc52d4025169e1ab47cc4ac119d3', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;h2 id="vagrant-配置">vagrant 配置&lt;/h2>
-&lt;p>vagrant 的 box 可选用 bento/centos-7.2:&lt;/p>
-&lt;details>
-&lt;summary>Vagrantfile&lt;/summary>
+&lt;h2 id="vagrant-配置"&gt;vagrant 配置&lt;/h2&gt;
+&lt;p&gt;vagrant 的 box 可选用 bento/centos-7.2:&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;Vagrantfile&lt;/summary&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-788a0ef8ab46f096ec685e5aacee50b7"># -*- mode: ruby -*-
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-788a0ef8ab46f096ec685e5aacee50b7"&gt;# -*- mode: ruby -*-
 # vi: set ft=ruby :
 
 # All Vagrant configuration is done below. The &amp;#34;2&amp;#34; in Vagrant.configure
@@ -642,21 +642,21 @@ Vagrant.configure(&amp;#34;2&amp;#34;) do |config|
  end
  end
  end
-end&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-788a0ef8ab46f096ec685e5aacee50b7', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+end&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-788a0ef8ab46f096ec685e5aacee50b7', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;/details>
-&lt;p>其中的 playbook.yml 主要用于一些软件的安装和简单的配置，内容如下：&lt;/p></description></item><item><title>Maven &amp; Nexus</title><link>https://number317.github.io/blog/struct/maven_nexus/</link><pubDate>Thu, 09 Nov 2017 10:47:30 +0800</pubDate><guid>https://number317.github.io/blog/struct/maven_nexus/</guid><description>&lt;h1 id="maven-配置使用-nexus-私服">maven 配置使用 nexus 私服&lt;/h1>
-&lt;p>修改~/.m2/settings.xml内容如下：&lt;/p>
-&lt;details>
-&lt;summary>mvn config&lt;/summary>
+&lt;/details&gt;
+&lt;p&gt;其中的 playbook.yml 主要用于一些软件的安装和简单的配置，内容如下：&lt;/p&gt;</description></item><item><title>Maven &amp; Nexus</title><link>https://number317.github.io/blog/struct/maven_nexus/</link><pubDate>Thu, 09 Nov 2017 10:47:30 +0800</pubDate><guid>https://number317.github.io/blog/struct/maven_nexus/</guid><description>&lt;h1 id="maven-配置使用-nexus-私服"&gt;maven 配置使用 nexus 私服&lt;/h1&gt;
+&lt;p&gt;修改~/.m2/settings.xml内容如下：&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;mvn config&lt;/summary&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-d8fa3395edc36936174f2b1448cba094">&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-d8fa3395edc36936174f2b1448cba094"&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;
 &amp;lt;settings xmlns=&amp;#34;http://maven.apache.org/SETTINGS/1.0.0&amp;#34;
  xmlns:xsi=&amp;#34;http://www.w3.org/2001/XMLSchema-instance&amp;#34;
  xsi:schemaLocation=&amp;#34;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&amp;#34;&amp;gt;
@@ -687,20 +687,20 @@ end&lt;/code>&lt;/pre>
  &amp;lt;/mirror&amp;gt;
  &amp;lt;/mirrors&amp;gt;
 
-&amp;lt;/settings&amp;gt;&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-d8fa3395edc36936174f2b1448cba094', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&amp;lt;/settings&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-d8fa3395edc36936174f2b1448cba094', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;/details>
-&lt;p>在项目的 pom.xml 文件中添加如下内容：&lt;/p>
-&lt;details>
-&lt;summary>pom config&lt;/summary>
+&lt;/details&gt;
+&lt;p&gt;在项目的 pom.xml 文件中添加如下内容：&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;pom config&lt;/summary&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-b1596d3d190666d8d0dfbeac4244120f">&amp;lt;distributionManagement&amp;gt;
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-b1596d3d190666d8d0dfbeac4244120f"&gt;&amp;lt;distributionManagement&amp;gt;
  &amp;lt;snapshotRepository&amp;gt;
  &amp;lt;id&amp;gt;snapshots&amp;lt;/id&amp;gt;
  &amp;lt;name&amp;gt;Snapshot Repository&amp;lt;/name&amp;gt;
@@ -758,35 +758,35 @@ end&lt;/code>&lt;/pre>
  &amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;
  &amp;lt;/snapshots&amp;gt;
  &amp;lt;/pluginRepository&amp;gt;
-&amp;lt;/pluginRepositories&amp;gt;&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-b1596d3d190666d8d0dfbeac4244120f', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&amp;lt;/pluginRepositories&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-b1596d3d190666d8d0dfbeac4244120f', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;/details>
-&lt;h1 id="向-nexus-中部署-snapshot-版本的包">向 nexus 中部署 snapshot 版本的包&lt;/h1>
-&lt;ol>
-&lt;li>
-&lt;p>如果是在项目中(已配置好私服环境)，可以直接运行&lt;code>mvn deploy&lt;/code>来将文件上传到nexus私服中&lt;/p></description></item><item><title>Etcd &amp; Flannel</title><link>https://number317.github.io/blog/struct/etcd_and_flannel/</link><pubDate>Wed, 01 Nov 2017 17:58:29 +0800</pubDate><guid>https://number317.github.io/blog/struct/etcd_and_flannel/</guid><description>&lt;h1 id="etcd--flannel-实现跨主机容器通信">etcd &amp;amp; flannel 实现跨主机容器通信&lt;/h1>
-&lt;h2 id="准备工作">准备工作&lt;/h2>
-&lt;ol>
-&lt;li>测试环境：vagrant + centos7.2 虚拟机&lt;/li>
-&lt;li>主机说明：
-&lt;ul>
-&lt;li>ip: &lt;code>192.168.12.101&lt;/code> hostname: &lt;code>node1&lt;/code> 安装软件：etcd, flannel, docker&lt;/li>
-&lt;li>ip: &lt;code>192.168.12.102&lt;/code> hostname: &lt;code>node2&lt;/code> 安装软件：flannel, docker&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ol>
-&lt;h2 id="启动虚拟机">启动虚拟机&lt;/h2>
-&lt;p>vagrant配置文件：&lt;/p>
-&lt;details>
-&lt;summary>Vagrantfile&lt;/summary>
+&lt;/details&gt;
+&lt;h1 id="向-nexus-中部署-snapshot-版本的包"&gt;向 nexus 中部署 snapshot 版本的包&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;如果是在项目中(已配置好私服环境)，可以直接运行&lt;code&gt;mvn deploy&lt;/code&gt;来将文件上传到nexus私服中&lt;/p&gt;</description></item><item><title>Etcd &amp; Flannel</title><link>https://number317.github.io/blog/struct/etcd_and_flannel/</link><pubDate>Wed, 01 Nov 2017 17:58:29 +0800</pubDate><guid>https://number317.github.io/blog/struct/etcd_and_flannel/</guid><description>&lt;h1 id="etcd--flannel-实现跨主机容器通信"&gt;etcd &amp;amp; flannel 实现跨主机容器通信&lt;/h1&gt;
+&lt;h2 id="准备工作"&gt;准备工作&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;测试环境：vagrant + centos7.2 虚拟机&lt;/li&gt;
+&lt;li&gt;主机说明：
+&lt;ul&gt;
+&lt;li&gt;ip: &lt;code&gt;192.168.12.101&lt;/code&gt; hostname: &lt;code&gt;node1&lt;/code&gt; 安装软件：etcd, flannel, docker&lt;/li&gt;
+&lt;li&gt;ip: &lt;code&gt;192.168.12.102&lt;/code&gt; hostname: &lt;code&gt;node2&lt;/code&gt; 安装软件：flannel, docker&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="启动虚拟机"&gt;启动虚拟机&lt;/h2&gt;
+&lt;p&gt;vagrant配置文件：&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;Vagrantfile&lt;/summary&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-79bc2db050898cf217e1170ae6fe9ae4"># -*- mode: ruby -*-
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-79bc2db050898cf217e1170ae6fe9ae4"&gt;# -*- mode: ruby -*-
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
@@ -807,58 +807,58 @@ Vagrant.configure(2) do |config|
  end
  end
  end
-end&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-79bc2db050898cf217e1170ae6fe9ae4', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+end&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-79bc2db050898cf217e1170ae6fe9ae4', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;/details>
-&lt;p>在该配置文件的目录下执行&lt;code>vagrant up&lt;/code>启动两台测试用虚拟机&lt;/p></description></item><item><title>Rabbitmq Access Control</title><link>https://number317.github.io/blog/struct/rabbitmq_access_control/</link><pubDate>Mon, 30 Oct 2017 09:48:14 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_access_control/</guid><description>&lt;h1 id="rabbitmq-权限控制">Rabbitmq 权限控制&lt;/h1>
-&lt;p>在rabbitmq中，身份验证和授权是分开的。身份验证用于判断用户是谁，授权用于确定用户能做什么和不能做什么。&lt;/p>
-&lt;h2 id="默认虚拟主机和用户">默认虚拟主机和用户&lt;/h2>
-&lt;p>当服务第一次启动或者检测到数据库梅雨初始化或已经被删除，rabbitmq会初始化一个新的数据库，拥有如下资源：&lt;/p>
-&lt;ul>
-&lt;li>一个虚拟主机&lt;code>/&lt;/code>&lt;/li>
-&lt;li>一个用户名和密码都为&lt;code>guest&lt;/code>的用户，拥有&lt;code>/&lt;/code>虚拟主机的所有权限&lt;/li>
-&lt;/ul>
-&lt;p>建议是删除默认用户或者修改默认用户的密码。&lt;code>guest&lt;/code>用户默认情况只能通过localhost连接，无法通过远程连接。这可以通过配置文件修改，设置&lt;code>loopback_users.guest = false&lt;/code>即可。&lt;/p>
-&lt;h2 id="权限工作方式">权限工作方式&lt;/h2>
-&lt;p>rabbitmq的权限控制主要分为两层，第一层是虚拟主机的权限，第二层是资源的权限。&lt;/p>
-&lt;h2 id="虚拟主机virtual-host">虚拟主机(Virtual Host)&lt;/h2>
-&lt;p>当客户端连接到服务器，它会指定一个要操作的虚拟主机，第一层权限控制被启用，服务器会检查用户对该虚拟主机是否有权限，没有权限连接会被拒绝。&lt;/p>
-&lt;p>示例：&lt;/p>
-&lt;p>首先创建一个用户：&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-ba34622ccbb0f3d027260dce1ade3cf8">rabbitmqctl add_user cheon 123&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-ba34622ccbb0f3d027260dce1ade3cf8', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>这里创建了一个用户cheon，密码为123（如果rabbitmq是集群，那么在集群中一个节点上创建了用户，虚拟主机等，在其他节点上也都会存在。）。刚创建的用户是没有任何权限的。可以确认一下用户的权限：&lt;/p>
+&lt;/details&gt;
+&lt;p&gt;在该配置文件的目录下执行&lt;code&gt;vagrant up&lt;/code&gt;启动两台测试用虚拟机&lt;/p&gt;</description></item><item><title>Rabbitmq Access Control</title><link>https://number317.github.io/blog/struct/rabbitmq_access_control/</link><pubDate>Mon, 30 Oct 2017 09:48:14 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_access_control/</guid><description>&lt;h1 id="rabbitmq-权限控制"&gt;Rabbitmq 权限控制&lt;/h1&gt;
+&lt;p&gt;在rabbitmq中，身份验证和授权是分开的。身份验证用于判断用户是谁，授权用于确定用户能做什么和不能做什么。&lt;/p&gt;
+&lt;h2 id="默认虚拟主机和用户"&gt;默认虚拟主机和用户&lt;/h2&gt;
+&lt;p&gt;当服务第一次启动或者检测到数据库梅雨初始化或已经被删除，rabbitmq会初始化一个新的数据库，拥有如下资源：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;一个虚拟主机&lt;code&gt;/&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;一个用户名和密码都为&lt;code&gt;guest&lt;/code&gt;的用户，拥有&lt;code&gt;/&lt;/code&gt;虚拟主机的所有权限&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;建议是删除默认用户或者修改默认用户的密码。&lt;code&gt;guest&lt;/code&gt;用户默认情况只能通过localhost连接，无法通过远程连接。这可以通过配置文件修改，设置&lt;code&gt;loopback_users.guest = false&lt;/code&gt;即可。&lt;/p&gt;
+&lt;h2 id="权限工作方式"&gt;权限工作方式&lt;/h2&gt;
+&lt;p&gt;rabbitmq的权限控制主要分为两层，第一层是虚拟主机的权限，第二层是资源的权限。&lt;/p&gt;
+&lt;h2 id="虚拟主机virtual-host"&gt;虚拟主机(Virtual Host)&lt;/h2&gt;
+&lt;p&gt;当客户端连接到服务器，它会指定一个要操作的虚拟主机，第一层权限控制被启用，服务器会检查用户对该虚拟主机是否有权限，没有权限连接会被拒绝。&lt;/p&gt;
+&lt;p&gt;示例：&lt;/p&gt;
+&lt;p&gt;首先创建一个用户：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-1bbcd6d76dde15cc0020c6b0a2b1d2c0">root@rabbitmq-node1:/# rabbitmqctl list_user_permissions cheon
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-ba34622ccbb0f3d027260dce1ade3cf8"&gt;rabbitmqctl add_user cheon 123&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-ba34622ccbb0f3d027260dce1ade3cf8', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;p&gt;这里创建了一个用户cheon，密码为123（如果rabbitmq是集群，那么在集群中一个节点上创建了用户，虚拟主机等，在其他节点上也都会存在。）。刚创建的用户是没有任何权限的。可以确认一下用户的权限：&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-1bbcd6d76dde15cc0020c6b0a2b1d2c0"&gt;root@rabbitmq-node1:/# rabbitmqctl list_user_permissions cheon
 Listing permissions for user &amp;#34;cheon&amp;#34; ...
 
 root@rabbitmq-node1:/# rabbitmqctl list_user_permissions guest
 Listing permissions for user &amp;#34;guest&amp;#34; ...
-/	.*	.*	.*&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-1bbcd6d76dde15cc0020c6b0a2b1d2c0', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+/	.*	.*	.*&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-1bbcd6d76dde15cc0020c6b0a2b1d2c0', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>可以看到新用户cheon没有任何权限，guest用户拥有虚拟主机&lt;code>/&lt;/code>的全部权限。&lt;/p>
-&lt;p>编写一个简单的脚本，通过用户cheon连接&lt;code>/&lt;/code>虚拟主机，发送Hello World：&lt;/p>
+&lt;p&gt;可以看到新用户cheon没有任何权限，guest用户拥有虚拟主机&lt;code&gt;/&lt;/code&gt;的全部权限。&lt;/p&gt;
+&lt;p&gt;编写一个简单的脚本，通过用户cheon连接&lt;code&gt;/&lt;/code&gt;虚拟主机，发送Hello World：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-cff890a549acc4ec7c284405cb9758c9">#!/usr/bin/env python
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-cff890a549acc4ec7c284405cb9758c9"&gt;#!/usr/bin/env python
 
 import pika
 
@@ -875,33 +875,33 @@ channel.basic_publish(
 
 print(&amp;#34; [x] Sent &amp;#39;Helllo World!&amp;#39;&amp;#34;)
 
-connection.close()&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-cff890a549acc4ec7c284405cb9758c9', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+connection.close()&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-cff890a549acc4ec7c284405cb9758c9', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>执行代码：&lt;/p></description></item><item><title>Rabbitmq Topic</title><link>https://number317.github.io/blog/struct/rabbitmq_topic/</link><pubDate>Sun, 29 Oct 2017 20:32:52 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_topic/</guid><description>&lt;h1 id="rabbitmq-主题">rabbitmq 主题&lt;/h1>
-&lt;p>虽然之前使用了&lt;code>direct&lt;/code>交换来路由不同级别的日志，但是它无法做到根据设备来路由。在我们的日志系统中，可能不止是想要通过日志级别来订阅，还想通过日志来源订阅。这将会给我们带来更大的灵活性，比如我们可以只监听来自cron的error和来自kern的所有日志。为了达到这个效果，我们可以采用一个更复杂的交换&amp;ndash;&lt;code>topic&lt;/code>。&lt;/p>
-&lt;h2 id="topic-exchange">Topic exchange&lt;/h2>
-&lt;p>发送给&lt;code>topic&lt;/code>交换的信息的&lt;code>routing_key&lt;/code>的属性不能是任意的&amp;ndash;它必须是一个单词的列表，通过&lt;code>.&lt;/code>分隔。单词可以是任意的，但是通常是一些描述信息特征的词语。例如&lt;code>stock.usd.nyse&lt;/code>，&lt;code>nyse.vmw&lt;/code>，&lt;code>quick.orange.rabbit&lt;/code>。你可以设置任意多的词语，只要不超过255字节的限制。&lt;/p>
-&lt;p>&lt;code>binding key&lt;/code>也必须是相同的格式。&lt;code>topic&lt;/code>背后的交换逻辑和&lt;code>direct&lt;/code>是相似的，一个带有特殊&lt;code>routing key&lt;/code>的信息会被发送到所有拥有匹配&lt;code>binding key&lt;/code>的队列，但有两个需要注意的地方：&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>*&lt;/code> 可以代表一个单词&lt;/li>
-&lt;li>&lt;code>#&lt;/code> 可以代表0或多个单词&lt;/li>
-&lt;/ul>
-&lt;p>示例：&lt;/p>
-&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_topic_img1.png" alt="topic example">&lt;/p>
-&lt;p>在这个示例中，我们发送描述动物的消息。消息会带有由三个单词组成的&lt;code>routing key&lt;/code>，单词间用&lt;code>.&lt;/code>分隔，用于描述不同的特征。我们创建了三个绑定：&lt;code>Q1&lt;/code>和&lt;code>*.orange.*&lt;/code>绑定，&lt;code>Q2&lt;/code>和&lt;code>*.*.rabbit&lt;/code>，&lt;code>lazy.#&lt;/code>绑定。可以简单得概括为&lt;code>Q1&lt;/code>只关心所有橙色的动物，&lt;code>Q2&lt;/code>只关心兔子和慢吞吞的动物。&lt;/p>
-&lt;p>一条带有&lt;code>quick.orange.rabbit&lt;/code>的&lt;code>routing key&lt;/code>的信息会发送给两个队列，&lt;code>quick.orange.fox&lt;/code>也会发送给两个，&lt;code>lazy.brown.fox&lt;/code>只发送给&lt;code>Q2&lt;/code>，&lt;code>lazy.pink.rabbit&lt;/code>只发送给&lt;code>Q2&lt;/code>一次，即使它匹配了两个绑定。&lt;code>quick.brown.fox&lt;/code>不匹配任何绑定所以会被丢弃。如果我们发送的信息带有一个或四个单词，像&lt;code>orange&lt;/code>，&lt;code>quick.orange.male.rabbit&lt;/code>之类的，也不匹配任何绑定，也会被丢弃 。但是&lt;code>lazy.orange.male.rabbit&lt;/code>虽然有四个单词，也匹配&lt;code>lazy.#&lt;/code>，因为&lt;code>#&lt;/code>代表0或多个单词，所以会被发送给&lt;code>Q2&lt;/code>。&lt;/p>
-&lt;p>&lt;code>topic&lt;/code>是一个强大的交换，可以实现其他交换的功能。当一个队列绑定&lt;code>#&lt;/code>，它可以接收所有信息，就像&lt;code>fanout&lt;/code>交换。当没有使用&lt;code>*&lt;/code>和&lt;code>#&lt;/code>，而是指定明确的字符串，就可以表现地像&lt;code>direct&lt;/code>交换。&lt;/p>
-&lt;h2 id="最终实现">最终实现&lt;/h2>
-&lt;p>我们假设日志的&lt;code>routing key&lt;/code>有两个单词&lt;code>&amp;lt;facility&amp;gt;.&amp;lt;severity&amp;gt;&lt;/code>，那么代码如下：&lt;/p>
-&lt;p>&lt;code>emit_log_topic.py&lt;/code>：&lt;/p>
+&lt;p&gt;执行代码：&lt;/p&gt;</description></item><item><title>Rabbitmq Topic</title><link>https://number317.github.io/blog/struct/rabbitmq_topic/</link><pubDate>Sun, 29 Oct 2017 20:32:52 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_topic/</guid><description>&lt;h1 id="rabbitmq-主题"&gt;rabbitmq 主题&lt;/h1&gt;
+&lt;p&gt;虽然之前使用了&lt;code&gt;direct&lt;/code&gt;交换来路由不同级别的日志，但是它无法做到根据设备来路由。在我们的日志系统中，可能不止是想要通过日志级别来订阅，还想通过日志来源订阅。这将会给我们带来更大的灵活性，比如我们可以只监听来自cron的error和来自kern的所有日志。为了达到这个效果，我们可以采用一个更复杂的交换&amp;ndash;&lt;code&gt;topic&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id="topic-exchange"&gt;Topic exchange&lt;/h2&gt;
+&lt;p&gt;发送给&lt;code&gt;topic&lt;/code&gt;交换的信息的&lt;code&gt;routing_key&lt;/code&gt;的属性不能是任意的&amp;ndash;它必须是一个单词的列表，通过&lt;code&gt;.&lt;/code&gt;分隔。单词可以是任意的，但是通常是一些描述信息特征的词语。例如&lt;code&gt;stock.usd.nyse&lt;/code&gt;，&lt;code&gt;nyse.vmw&lt;/code&gt;，&lt;code&gt;quick.orange.rabbit&lt;/code&gt;。你可以设置任意多的词语，只要不超过255字节的限制。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;binding key&lt;/code&gt;也必须是相同的格式。&lt;code&gt;topic&lt;/code&gt;背后的交换逻辑和&lt;code&gt;direct&lt;/code&gt;是相似的，一个带有特殊&lt;code&gt;routing key&lt;/code&gt;的信息会被发送到所有拥有匹配&lt;code&gt;binding key&lt;/code&gt;的队列，但有两个需要注意的地方：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;*&lt;/code&gt; 可以代表一个单词&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;#&lt;/code&gt; 可以代表0或多个单词&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;示例：&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_topic_img1.png" alt="topic example"&gt;&lt;/p&gt;
+&lt;p&gt;在这个示例中，我们发送描述动物的消息。消息会带有由三个单词组成的&lt;code&gt;routing key&lt;/code&gt;，单词间用&lt;code&gt;.&lt;/code&gt;分隔，用于描述不同的特征。我们创建了三个绑定：&lt;code&gt;Q1&lt;/code&gt;和&lt;code&gt;*.orange.*&lt;/code&gt;绑定，&lt;code&gt;Q2&lt;/code&gt;和&lt;code&gt;*.*.rabbit&lt;/code&gt;，&lt;code&gt;lazy.#&lt;/code&gt;绑定。可以简单得概括为&lt;code&gt;Q1&lt;/code&gt;只关心所有橙色的动物，&lt;code&gt;Q2&lt;/code&gt;只关心兔子和慢吞吞的动物。&lt;/p&gt;
+&lt;p&gt;一条带有&lt;code&gt;quick.orange.rabbit&lt;/code&gt;的&lt;code&gt;routing key&lt;/code&gt;的信息会发送给两个队列，&lt;code&gt;quick.orange.fox&lt;/code&gt;也会发送给两个，&lt;code&gt;lazy.brown.fox&lt;/code&gt;只发送给&lt;code&gt;Q2&lt;/code&gt;，&lt;code&gt;lazy.pink.rabbit&lt;/code&gt;只发送给&lt;code&gt;Q2&lt;/code&gt;一次，即使它匹配了两个绑定。&lt;code&gt;quick.brown.fox&lt;/code&gt;不匹配任何绑定所以会被丢弃。如果我们发送的信息带有一个或四个单词，像&lt;code&gt;orange&lt;/code&gt;，&lt;code&gt;quick.orange.male.rabbit&lt;/code&gt;之类的，也不匹配任何绑定，也会被丢弃 。但是&lt;code&gt;lazy.orange.male.rabbit&lt;/code&gt;虽然有四个单词，也匹配&lt;code&gt;lazy.#&lt;/code&gt;，因为&lt;code&gt;#&lt;/code&gt;代表0或多个单词，所以会被发送给&lt;code&gt;Q2&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;topic&lt;/code&gt;是一个强大的交换，可以实现其他交换的功能。当一个队列绑定&lt;code&gt;#&lt;/code&gt;，它可以接收所有信息，就像&lt;code&gt;fanout&lt;/code&gt;交换。当没有使用&lt;code&gt;*&lt;/code&gt;和&lt;code&gt;#&lt;/code&gt;，而是指定明确的字符串，就可以表现地像&lt;code&gt;direct&lt;/code&gt;交换。&lt;/p&gt;
+&lt;h2 id="最终实现"&gt;最终实现&lt;/h2&gt;
+&lt;p&gt;我们假设日志的&lt;code&gt;routing key&lt;/code&gt;有两个单词&lt;code&gt;&amp;lt;facility&amp;gt;.&amp;lt;severity&amp;gt;&lt;/code&gt;，那么代码如下：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;emit_log_topic.py&lt;/code&gt;：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-ba74fd4cc400b5dcbde10e52ccd6d02c">#!/usr/bin/env python
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-ba74fd4cc400b5dcbde10e52ccd6d02c"&gt;#!/usr/bin/env python
 
 import pika
 import sys
@@ -922,85 +922,85 @@ channel.basic_publish(
  body=message
  )
 print(&amp;#34; [x] Sent %r:%r&amp;#34; % (severity, message))
-connection.close()&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-ba74fd4cc400b5dcbde10e52ccd6d02c', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+connection.close()&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-ba74fd4cc400b5dcbde10e52ccd6d02c', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>&lt;code>receive_logs_topic.py&lt;/code>：&lt;/p></description></item><item><title>Rabbitmq Routing</title><link>https://number317.github.io/blog/struct/rabbitmq_routing/</link><pubDate>Sat, 28 Oct 2017 09:26:49 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_routing/</guid><description>&lt;h1 id="rabbitmq-路由">Rabbitmq 路由&lt;/h1>
-&lt;p>这里我们将为日志系统增加一个特性&amp;ndash;只订阅一部分信息。例如，我们可以将错误信息存入日志文件，将其他信息打印出来。&lt;/p>
-&lt;h2 id="绑定bindings">绑定（Bindings）&lt;/h2>
-&lt;p>在日志系统中我们已经使用过绑定，像这样调用代码：&lt;/p>
+&lt;p&gt;&lt;code&gt;receive_logs_topic.py&lt;/code&gt;：&lt;/p&gt;</description></item><item><title>Rabbitmq Routing</title><link>https://number317.github.io/blog/struct/rabbitmq_routing/</link><pubDate>Sat, 28 Oct 2017 09:26:49 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_routing/</guid><description>&lt;h1 id="rabbitmq-路由"&gt;Rabbitmq 路由&lt;/h1&gt;
+&lt;p&gt;这里我们将为日志系统增加一个特性&amp;ndash;只订阅一部分信息。例如，我们可以将错误信息存入日志文件，将其他信息打印出来。&lt;/p&gt;
+&lt;h2 id="绑定bindings"&gt;绑定（Bindings）&lt;/h2&gt;
+&lt;p&gt;在日志系统中我们已经使用过绑定，像这样调用代码：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-9bf980e2b47d5e6ea2adc66088cb7aeb">channel.queue_bind(
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-9bf980e2b47d5e6ea2adc66088cb7aeb"&gt;channel.queue_bind(
  exchange=exchange_name,
  queue=queue_name
-)&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-9bf980e2b47d5e6ea2adc66088cb7aeb', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+)&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-9bf980e2b47d5e6ea2adc66088cb7aeb', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>一个绑定是交换和队列之间的关系，可以简单地理解为这个队列只对这个交换的信息感兴趣。绑定可以指定额外的&lt;code>routing_key&lt;/code>参数。为了避免和一个&lt;code>basic_publish&lt;/code>参数混淆，我们称它&lt;code>binding key&lt;/code>，可以通过一下方式创建一个带有key的绑定：&lt;/p>
+&lt;p&gt;一个绑定是交换和队列之间的关系，可以简单地理解为这个队列只对这个交换的信息感兴趣。绑定可以指定额外的&lt;code&gt;routing_key&lt;/code&gt;参数。为了避免和一个&lt;code&gt;basic_publish&lt;/code&gt;参数混淆，我们称它&lt;code&gt;binding key&lt;/code&gt;，可以通过一下方式创建一个带有key的绑定：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-7367e6d23435468c2923ec4a94da88a2">channel.queue_bind(
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-7367e6d23435468c2923ec4a94da88a2"&gt;channel.queue_bind(
  exchange=exchange_name,
  queue=queue_name,
  routing_key=&amp;#39;black&amp;#39;
-)&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-7367e6d23435468c2923ec4a94da88a2', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+)&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-7367e6d23435468c2923ec4a94da88a2', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>&lt;code>binding key&lt;/code>的含义依赖于交换的类型。&lt;code>fanout&lt;/code>交换类型会直接忽略这个值。&lt;/p>
-&lt;h2 id="direct-exchange">Direct exchange&lt;/h2>
-&lt;p>我们之前的日志系统使用&lt;code>fanout&lt;/code>交换类型，直接将信息广播给所有消费者。现在我们想要扩展它允许根据根据级别来过滤。例如，将错误级别的日志存入磁盘，将普通的日志直接输出而不浪费磁盘空间。为了达到这个目的，这里将使用&lt;code>direct&lt;/code>交换。&lt;code>direct&lt;/code>交换的路由算法也比较简单，一个消息只推送到&lt;code>binding key&lt;/code>和&lt;code>routing key&lt;/code>匹配的队列，举例如下图：&lt;/p>
-&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_routing_img1.png" alt="direct routing">&lt;/p>
-&lt;p>在上述例子中可以看到&lt;code>direct&lt;/code>交换&lt;code>x&lt;/code>有两个与之绑定的队列。第一个队列的&lt;code>binding key&lt;/code>是&lt;code>orange&lt;/code>，第二个队列有两个&lt;code>binding key&lt;/code>，分别是&lt;code>black&lt;/code>和&lt;code>green&lt;/code>。通过这个配置，一个带有&lt;code>orage&lt;/code>的&lt;code>routing key&lt;/code>的信息推送到交换后会被路由到队列&lt;code>Q1&lt;/code>；一个带有&lt;code>black&lt;/code>或者&lt;code>green&lt;/code>的&lt;code>routing key&lt;/code>的信息推送到交换后会被路由到队列&lt;code>Q2&lt;/code>，其他的信息会被丢弃。&lt;/p>
-&lt;h2 id="多绑定muliple-bindings">多绑定（Muliple bindings）&lt;/h2>
-&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_routing_img2.png" alt="multiple bindings">&lt;/p>
-&lt;p>用相同的&lt;code>binding key&lt;/code>绑定多个队列完全是可行的。在我们的例子中可以在&lt;code>x&lt;/code>和&lt;code>Q1&lt;/code>之间添加一个名为&lt;code>black&lt;/code>的&lt;code>binding key&lt;/code>，这样的话，&lt;code>direct&lt;/code>交换将会表现得像&lt;code>fanout&lt;/code>并且会将信息广播到所有匹配的队列。一个带有&lt;code>black&lt;/code>的&lt;code>routing key&lt;/code>的信息会递送到&lt;code>Q1&lt;/code>和&lt;code>Q2&lt;/code>队列。&lt;/p>
-&lt;h2 id="发送日志">发送日志&lt;/h2>
-&lt;p>我们将使用这个模型来构建日志系统，我们将会发送信息到&lt;code>direct&lt;/code>交换，我们将会以日志的级别作为&lt;code>routing key&lt;/code>。首先创建交换：&lt;/p>
+&lt;p&gt;&lt;code&gt;binding key&lt;/code&gt;的含义依赖于交换的类型。&lt;code&gt;fanout&lt;/code&gt;交换类型会直接忽略这个值。&lt;/p&gt;
+&lt;h2 id="direct-exchange"&gt;Direct exchange&lt;/h2&gt;
+&lt;p&gt;我们之前的日志系统使用&lt;code&gt;fanout&lt;/code&gt;交换类型，直接将信息广播给所有消费者。现在我们想要扩展它允许根据根据级别来过滤。例如，将错误级别的日志存入磁盘，将普通的日志直接输出而不浪费磁盘空间。为了达到这个目的，这里将使用&lt;code&gt;direct&lt;/code&gt;交换。&lt;code&gt;direct&lt;/code&gt;交换的路由算法也比较简单，一个消息只推送到&lt;code&gt;binding key&lt;/code&gt;和&lt;code&gt;routing key&lt;/code&gt;匹配的队列，举例如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_routing_img1.png" alt="direct routing"&gt;&lt;/p&gt;
+&lt;p&gt;在上述例子中可以看到&lt;code&gt;direct&lt;/code&gt;交换&lt;code&gt;x&lt;/code&gt;有两个与之绑定的队列。第一个队列的&lt;code&gt;binding key&lt;/code&gt;是&lt;code&gt;orange&lt;/code&gt;，第二个队列有两个&lt;code&gt;binding key&lt;/code&gt;，分别是&lt;code&gt;black&lt;/code&gt;和&lt;code&gt;green&lt;/code&gt;。通过这个配置，一个带有&lt;code&gt;orage&lt;/code&gt;的&lt;code&gt;routing key&lt;/code&gt;的信息推送到交换后会被路由到队列&lt;code&gt;Q1&lt;/code&gt;；一个带有&lt;code&gt;black&lt;/code&gt;或者&lt;code&gt;green&lt;/code&gt;的&lt;code&gt;routing key&lt;/code&gt;的信息推送到交换后会被路由到队列&lt;code&gt;Q2&lt;/code&gt;，其他的信息会被丢弃。&lt;/p&gt;
+&lt;h2 id="多绑定muliple-bindings"&gt;多绑定（Muliple bindings）&lt;/h2&gt;
+&lt;p&gt;&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_routing_img2.png" alt="multiple bindings"&gt;&lt;/p&gt;
+&lt;p&gt;用相同的&lt;code&gt;binding key&lt;/code&gt;绑定多个队列完全是可行的。在我们的例子中可以在&lt;code&gt;x&lt;/code&gt;和&lt;code&gt;Q1&lt;/code&gt;之间添加一个名为&lt;code&gt;black&lt;/code&gt;的&lt;code&gt;binding key&lt;/code&gt;，这样的话，&lt;code&gt;direct&lt;/code&gt;交换将会表现得像&lt;code&gt;fanout&lt;/code&gt;并且会将信息广播到所有匹配的队列。一个带有&lt;code&gt;black&lt;/code&gt;的&lt;code&gt;routing key&lt;/code&gt;的信息会递送到&lt;code&gt;Q1&lt;/code&gt;和&lt;code&gt;Q2&lt;/code&gt;队列。&lt;/p&gt;
+&lt;h2 id="发送日志"&gt;发送日志&lt;/h2&gt;
+&lt;p&gt;我们将使用这个模型来构建日志系统，我们将会发送信息到&lt;code&gt;direct&lt;/code&gt;交换，我们将会以日志的级别作为&lt;code&gt;routing key&lt;/code&gt;。首先创建交换：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-7cf2079eb4d334d8fb3f47b5f9ed6443">channel.exchange_declare(
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-7cf2079eb4d334d8fb3f47b5f9ed6443"&gt;channel.exchange_declare(
  exchange=&amp;#39;direct_logs&amp;#39;,
  exchange_type=&amp;#39;direct&amp;#39;
- )&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-7cf2079eb4d334d8fb3f47b5f9ed6443', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+ )&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-7cf2079eb4d334d8fb3f47b5f9ed6443', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>然后发送消息：&lt;/p>
+&lt;p&gt;然后发送消息：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-b38c04936ccff3e28d5338c64f20c72e">channel.basic_publish(
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-b38c04936ccff3e28d5338c64f20c72e"&gt;channel.basic_publish(
  exchange=&amp;#39;direct_logs&amp;#39;,
  routing_key=serverity,
  body=message
-)&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-b38c04936ccff3e28d5338c64f20c72e', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+)&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-b38c04936ccff3e28d5338c64f20c72e', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>为了简化程序，我们假设日志级别只有&lt;code>info&lt;/code>，&lt;code>warning&lt;/code>，&lt;code>error&lt;/code>三种情况。&lt;/p>
-&lt;h2 id="订阅">订阅&lt;/h2>
-&lt;p>我们将为每一个需要的日志级别创建一个新的绑定：&lt;/p>
+&lt;p&gt;为了简化程序，我们假设日志级别只有&lt;code&gt;info&lt;/code&gt;，&lt;code&gt;warning&lt;/code&gt;，&lt;code&gt;error&lt;/code&gt;三种情况。&lt;/p&gt;
+&lt;h2 id="订阅"&gt;订阅&lt;/h2&gt;
+&lt;p&gt;我们将为每一个需要的日志级别创建一个新的绑定：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-92d844f1877c9141b976ecc376cf953a">result = channel.queue_declare(exclusive=True)
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-92d844f1877c9141b976ecc376cf953a"&gt;result = channel.queue_declare(exclusive=True)
 queue_name = result.method.queue
 
 for severity in severities:
@@ -1008,134 +1008,134 @@ for severity in severities:
  exchange=&amp;#39;direct_logs&amp;#39;,
  queue=queue_name,
  routing_key=severity
- )&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-92d844f1877c9141b976ecc376cf953a', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+ )&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-92d844f1877c9141b976ecc376cf953a', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;h2 id="最终结果">最终结果&lt;/h2>
-&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_routing_img3.png" alt="multiple bindings">&lt;/p></description></item><item><title>Rabbitmq Publish Subscribe</title><link>https://number317.github.io/blog/struct/rabbitmq_publish_subscribe/</link><pubDate>Fri, 27 Oct 2017 15:18:38 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_publish_subscribe/</guid><description>&lt;h1 id="publish-subcribe">Publish Subcribe&lt;/h1>
-&lt;p>发布和订阅模式简单而言就是将一个消息发送个多个消费者。为了阐明这个模式，这里将会构建一个简单的日志系统，这个系统由两部分组成，第一个程序发送消息，第二个程序接收和打印消息。&lt;/p>
-&lt;p>在该日志系统中，接收程序的每一个运行副本都将得到消息，这样我们可以运行一个接收器，并将日志存放在磁盘；同时运行另一个接收器将日志在屏幕上打印出来。&lt;/p>
-&lt;h2 id="交换exchanges">交换(Exchanges)&lt;/h2>
-&lt;p>rabbitmq 消息模型的核心是生产者从不直接发送任何消息到队列。事实上，一个生产者经常不知道一个消息是否被发送到了队列。生产者只能将消息发送给交换。交换是一个非常简单的东西，它一边接收来自生产者的消息，另一边它把消息推入消息队列。交换是一定知道要怎么处理它接收到的消息的。应该被追加到一个特定的队列后，还是应该追加到多个队列中，还是应该被丢弃。这些规则都由交换类型（exchange type）定义。&lt;/p>
-&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_publish_subscribe_img1.png" alt="exchange">&lt;/p>
-&lt;p>有一些可用的交换类型：&lt;code>direct&lt;/code>, &lt;code>topic&lt;/code>, &lt;code>headers&lt;/code> 和 &lt;code>fanout&lt;/code>，这里将使用最后一个类型&amp;ndash;&lt;code>fanout&lt;/code>。创建一个名为&lt;code>logs&lt;/code>的该类型交换：&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-42119b434e68b013904293cc2777c71d">channel.exchange_declare(exchange=&amp;#39;logs&amp;#39;, exchange_type=&amp;#39;fanout&amp;#39;)&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-42119b434e68b013904293cc2777c71d', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>&lt;code>fanout&lt;/code>类型的交换非常简单。就如它的名字一样，它只是将它接收到的信息广播到它知道的所有队列，这正是我们日志系统所需要的。&lt;/p>
-&lt;h2 id="查看交换">查看交换&lt;/h2>
-&lt;p>列出服务器上可用的交换可以使用&lt;code>rabbitmqctl&lt;/code>命令:&lt;/p>
+&lt;h2 id="最终结果"&gt;最终结果&lt;/h2&gt;
+&lt;p&gt;&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_routing_img3.png" alt="multiple bindings"&gt;&lt;/p&gt;</description></item><item><title>Rabbitmq Publish Subscribe</title><link>https://number317.github.io/blog/struct/rabbitmq_publish_subscribe/</link><pubDate>Fri, 27 Oct 2017 15:18:38 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_publish_subscribe/</guid><description>&lt;h1 id="publish-subcribe"&gt;Publish Subcribe&lt;/h1&gt;
+&lt;p&gt;发布和订阅模式简单而言就是将一个消息发送个多个消费者。为了阐明这个模式，这里将会构建一个简单的日志系统，这个系统由两部分组成，第一个程序发送消息，第二个程序接收和打印消息。&lt;/p&gt;
+&lt;p&gt;在该日志系统中，接收程序的每一个运行副本都将得到消息，这样我们可以运行一个接收器，并将日志存放在磁盘；同时运行另一个接收器将日志在屏幕上打印出来。&lt;/p&gt;
+&lt;h2 id="交换exchanges"&gt;交换(Exchanges)&lt;/h2&gt;
+&lt;p&gt;rabbitmq 消息模型的核心是生产者从不直接发送任何消息到队列。事实上，一个生产者经常不知道一个消息是否被发送到了队列。生产者只能将消息发送给交换。交换是一个非常简单的东西，它一边接收来自生产者的消息，另一边它把消息推入消息队列。交换是一定知道要怎么处理它接收到的消息的。应该被追加到一个特定的队列后，还是应该追加到多个队列中，还是应该被丢弃。这些规则都由交换类型（exchange type）定义。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_publish_subscribe_img1.png" alt="exchange"&gt;&lt;/p&gt;
+&lt;p&gt;有一些可用的交换类型：&lt;code&gt;direct&lt;/code&gt;, &lt;code&gt;topic&lt;/code&gt;, &lt;code&gt;headers&lt;/code&gt; 和 &lt;code&gt;fanout&lt;/code&gt;，这里将使用最后一个类型&amp;ndash;&lt;code&gt;fanout&lt;/code&gt;。创建一个名为&lt;code&gt;logs&lt;/code&gt;的该类型交换：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-fe8529258c2e6a31681463d365d1192c">rabbitmqctl list_exchanges&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-fe8529258c2e6a31681463d365d1192c', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-42119b434e68b013904293cc2777c71d"&gt;channel.exchange_declare(exchange=&amp;#39;logs&amp;#39;, exchange_type=&amp;#39;fanout&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-42119b434e68b013904293cc2777c71d', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>在列表中会有一些&lt;code>amq.*&lt;/code>的交换和默认（未命名）的交换。这些是默认配置的，但是这里目前用不到他们。&lt;/p>
-&lt;p>有时候我们通过空字符串&lt;code>''&lt;/code>来使用默认的交换：&lt;/p>
+&lt;p&gt;&lt;code&gt;fanout&lt;/code&gt;类型的交换非常简单。就如它的名字一样，它只是将它接收到的信息广播到它知道的所有队列，这正是我们日志系统所需要的。&lt;/p&gt;
+&lt;h2 id="查看交换"&gt;查看交换&lt;/h2&gt;
+&lt;p&gt;列出服务器上可用的交换可以使用&lt;code&gt;rabbitmqctl&lt;/code&gt;命令:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-65059426646634072d6c75c399df085e">channel.basic_publish(exchange=&amp;#39;&amp;#39;,
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-fe8529258c2e6a31681463d365d1192c"&gt;rabbitmqctl list_exchanges&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-fe8529258c2e6a31681463d365d1192c', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;p&gt;在列表中会有一些&lt;code&gt;amq.*&lt;/code&gt;的交换和默认（未命名）的交换。这些是默认配置的，但是这里目前用不到他们。&lt;/p&gt;
+&lt;p&gt;有时候我们通过空字符串&lt;code&gt;''&lt;/code&gt;来使用默认的交换：&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-65059426646634072d6c75c399df085e"&gt;channel.basic_publish(exchange=&amp;#39;&amp;#39;,
  routing_key=&amp;#39;hello&amp;#39;,
- body=message)&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-65059426646634072d6c75c399df085e', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+ body=message)&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-65059426646634072d6c75c399df085e', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>现在我们可以推送到我们的命名交换中：&lt;/p>
+&lt;p&gt;现在我们可以推送到我们的命名交换中：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-f960d287d0bdb44e4e3538a20b1d50a5">channel.basic_publish(
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-f960d287d0bdb44e4e3538a20b1d50a5"&gt;channel.basic_publish(
  exchange=&amp;#39;logs&amp;#39;
  routing_key=&amp;#39;&amp;#39;,
  body=message
- )&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-f960d287d0bdb44e4e3538a20b1d50a5', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+ )&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-f960d287d0bdb44e4e3538a20b1d50a5', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;h2 id="临时队列">临时队列&lt;/h2>
-&lt;p>有时我们使用的队列有指定的名字，能够为队列命名是至关重要的，我们需要指定工作到相同的队列。当你想要在生产者和消费者间共享队列时为队列命名是很重要的。但是在我们的日志系统中，我们想要监听所有的日志，而不是一些；我们也只对当前流动的信息感兴趣而不是旧的信息。要达到这个效果我们需要两件事。&lt;/p>
-&lt;p>第一，无论何时连接到rabbitmq我们需要刷新，清空队列。为了做到这个我们可以用随机名字创建一个队列，或者更好的是让服务器为我们选择一个随机的队列名字。可以通过不给&lt;code>queue&lt;/code>参数到&lt;code>queue_declare&lt;/code>来做到这一点：&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-335b918329e5af6c3b864655da098623">result = channel.queue_declare()&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-335b918329e5af6c3b864655da098623', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>这个时候&lt;code>result.method.queue&lt;/code>包含了一个随机的队列名。例如它可能看起来像&lt;code>amq.gen-JzTY20BRgKO-HjmUJj0wLg&lt;/code>&lt;/p>
-&lt;p>第二，一旦消费者连接被关闭，队列应该被删除，有一个&lt;code>exclusive&lt;/code>标签：&lt;/p>
+&lt;h2 id="临时队列"&gt;临时队列&lt;/h2&gt;
+&lt;p&gt;有时我们使用的队列有指定的名字，能够为队列命名是至关重要的，我们需要指定工作到相同的队列。当你想要在生产者和消费者间共享队列时为队列命名是很重要的。但是在我们的日志系统中，我们想要监听所有的日志，而不是一些；我们也只对当前流动的信息感兴趣而不是旧的信息。要达到这个效果我们需要两件事。&lt;/p&gt;
+&lt;p&gt;第一，无论何时连接到rabbitmq我们需要刷新，清空队列。为了做到这个我们可以用随机名字创建一个队列，或者更好的是让服务器为我们选择一个随机的队列名字。可以通过不给&lt;code&gt;queue&lt;/code&gt;参数到&lt;code&gt;queue_declare&lt;/code&gt;来做到这一点：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-27a98c5afdf848826dc46ace59a822c0">result = channel.queue_declare(excusive=True)&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-27a98c5afdf848826dc46ace59a822c0', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-335b918329e5af6c3b864655da098623"&gt;result = channel.queue_declare()&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-335b918329e5af6c3b864655da098623', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>可以在&lt;a href="http://www.rabbitmq.com/queues.html" target="_blank" rel="noopener noreferrer" >
+&lt;p&gt;这个时候&lt;code&gt;result.method.queue&lt;/code&gt;包含了一个随机的队列名。例如它可能看起来像&lt;code&gt;amq.gen-JzTY20BRgKO-HjmUJj0wLg&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;第二，一旦消费者连接被关闭，队列应该被删除，有一个&lt;code&gt;exclusive&lt;/code&gt;标签：&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-27a98c5afdf848826dc46ace59a822c0"&gt;result = channel.queue_declare(excusive=True)&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-27a98c5afdf848826dc46ace59a822c0', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;p&gt;可以在&lt;a href="http://www.rabbitmq.com/queues.html" target="_blank" rel="noopener noreferrer" &gt;
  队列指南
-&lt;/a>
-获取更多&lt;code>exclusive&lt;/code>标签和其他队列属性。&lt;/p>
-&lt;h2 id="绑定bindings">绑定（Bindings）&lt;/h2>
-&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_publish_subscribe_img2.png" alt="绑定">&lt;/p>
-&lt;p>我们已经创建了一个&lt;code>fanout&lt;/code>类型的交换。现在我们需要告诉交换发送信息给我们的队列。交换和队列之间的关系叫做绑定：&lt;/p>
+&lt;/a&gt;
+获取更多&lt;code&gt;exclusive&lt;/code&gt;标签和其他队列属性。&lt;/p&gt;
+&lt;h2 id="绑定bindings"&gt;绑定（Bindings）&lt;/h2&gt;
+&lt;p&gt;&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_publish_subscribe_img2.png" alt="绑定"&gt;&lt;/p&gt;
+&lt;p&gt;我们已经创建了一个&lt;code&gt;fanout&lt;/code&gt;类型的交换。现在我们需要告诉交换发送信息给我们的队列。交换和队列之间的关系叫做绑定：&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-67648d8d550c438dfc9399ec05b19e46">channel.queue_bind(exchange=&amp;#39;logs&amp;#39;, queue=result.method.queue)&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-67648d8d550c438dfc9399ec05b19e46', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-67648d8d550c438dfc9399ec05b19e46"&gt;channel.queue_bind(exchange=&amp;#39;logs&amp;#39;, queue=result.method.queue)&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-67648d8d550c438dfc9399ec05b19e46', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>现在&lt;code>logs&lt;/code>交换将会追加信息到我们的队列。&lt;/p></description></item><item><title>Rabbitmq Work Queue</title><link>https://number317.github.io/blog/struct/rabbitmq_work_queue/</link><pubDate>Thu, 26 Oct 2017 19:06:17 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_work_queue/</guid><description>&lt;h1 id="work-queue">Work Queue&lt;/h1>
-&lt;p>&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_work_queue_img1.png" alt="Work Queue 架构图">&lt;/p>
-&lt;p>工作队列背后的思想是尽量避免立即做资源密集型任务并等待它完成，而是将这些任务放到计划表中，等会儿完成。我们将一个任务封装为一条信息并把它送入一个队列。一个在后台运行的进程将会弹出这些任务并最终执行这个工作。当你运行很多个进程时，任务将会被他们共享。这个概念在web应用中尤为有用，因为在一个简短的HTTP请求中不太可能去处理过于复杂的任务。&lt;/p></description></item><item><title>Rabbitmq Hello World</title><link>https://number317.github.io/blog/struct/rabbitmq_hello_world/</link><pubDate>Thu, 26 Oct 2017 17:17:47 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_hello_world/</guid><description>&lt;h1 id="hello-world">Hello World&lt;/h1>
-&lt;p>我们将用python写两个简单的程序，一个生产者发送一条信息，一个消费者接受并打印信息。图中的&amp;quot;P&amp;quot;指代生产者，&amp;ldquo;C&amp;quot;指代消费者，中间的盒子指代一个队列——RabbitMQ 的一个消息缓存。&lt;/p></description></item><item><title>Rabbitmq Cluster</title><link>https://number317.github.io/blog/struct/rabbitmq_cluster/</link><pubDate>Thu, 26 Oct 2017 16:28:26 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_cluster/</guid><description>&lt;h1 id="rabbitmq-docker-运行">RabbitMQ docker 运行&lt;/h1>
+&lt;p&gt;现在&lt;code&gt;logs&lt;/code&gt;交换将会追加信息到我们的队列。&lt;/p&gt;</description></item><item><title>Rabbitmq Work Queue</title><link>https://number317.github.io/blog/struct/rabbitmq_work_queue/</link><pubDate>Thu, 26 Oct 2017 19:06:17 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_work_queue/</guid><description>&lt;h1 id="work-queue"&gt;Work Queue&lt;/h1&gt;
+&lt;p&gt;&lt;img src="https://number317.github.io/blog/struct/images/rabbitmq_work_queue_img1.png" alt="Work Queue 架构图"&gt;&lt;/p&gt;
+&lt;p&gt;工作队列背后的思想是尽量避免立即做资源密集型任务并等待它完成，而是将这些任务放到计划表中，等会儿完成。我们将一个任务封装为一条信息并把它送入一个队列。一个在后台运行的进程将会弹出这些任务并最终执行这个工作。当你运行很多个进程时，任务将会被他们共享。这个概念在web应用中尤为有用，因为在一个简短的HTTP请求中不太可能去处理过于复杂的任务。&lt;/p&gt;</description></item><item><title>Rabbitmq Hello World</title><link>https://number317.github.io/blog/struct/rabbitmq_hello_world/</link><pubDate>Thu, 26 Oct 2017 17:17:47 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_hello_world/</guid><description>&lt;h1 id="hello-world"&gt;Hello World&lt;/h1&gt;
+&lt;p&gt;我们将用python写两个简单的程序，一个生产者发送一条信息，一个消费者接受并打印信息。图中的&amp;quot;P&amp;quot;指代生产者，&amp;ldquo;C&amp;quot;指代消费者，中间的盒子指代一个队列——RabbitMQ 的一个消息缓存。&lt;/p&gt;</description></item><item><title>Rabbitmq Cluster</title><link>https://number317.github.io/blog/struct/rabbitmq_cluster/</link><pubDate>Thu, 26 Oct 2017 16:28:26 +0800</pubDate><guid>https://number317.github.io/blog/struct/rabbitmq_cluster/</guid><description>&lt;h1 id="rabbitmq-docker-运行"&gt;RabbitMQ docker 运行&lt;/h1&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-e547502136fee14cac6315bf6f950fd3">docker run -d -p 15672:15672 -p 5672:5672 --hostname rabbit --name rabbit -e TZ=Asia/Shanghai -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin rabbitmq:3-management&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-e547502136fee14cac6315bf6f950fd3', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div></description></item><item><title>Discourse Digest</title><link>https://number317.github.io/blog/struct/discourse_digest/</link><pubDate>Tue, 24 Oct 2017 19:27:59 +0800</pubDate><guid>https://number317.github.io/blog/struct/discourse_digest/</guid><description>&lt;h1 id="问题说明">问题说明&lt;/h1>
-&lt;ul>
-&lt;li>discourse 版本：v1.9.0.beta12 +49&lt;/li>
-&lt;li>discourse 域名: &lt;a href="http://test.test.com/community" target="_blank" rel="noopener noreferrer" >
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-e547502136fee14cac6315bf6f950fd3"&gt;docker run -d -p 15672:15672 -p 5672:5672 --hostname rabbit --name rabbit -e TZ=Asia/Shanghai -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin rabbitmq:3-management&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-e547502136fee14cac6315bf6f950fd3', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;</description></item><item><title>Discourse Digest</title><link>https://number317.github.io/blog/struct/discourse_digest/</link><pubDate>Tue, 24 Oct 2017 19:27:59 +0800</pubDate><guid>https://number317.github.io/blog/struct/discourse_digest/</guid><description>&lt;h1 id="问题说明"&gt;问题说明&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;discourse 版本：v1.9.0.beta12 +49&lt;/li&gt;
+&lt;li&gt;discourse 域名: &lt;a href="http://test.test.com/community" target="_blank" rel="noopener noreferrer" &gt;
  http://test.test.com/community
-&lt;/a>
-&lt;/li>
-&lt;li>详细情况：discourse 配置好二级域名后，摘要邮件中取消订阅链接错误&lt;/li>
-&lt;/ul></description></item><item><title>Discourse Cas</title><link>https://number317.github.io/blog/struct/discourse_cas/</link><pubDate>Mon, 23 Oct 2017 09:15:44 +0800</pubDate><guid>https://number317.github.io/blog/struct/discourse_cas/</guid><description>&lt;h1 id="discourse-cas-登录配置">discourse cas 登录配置&lt;/h1>
-&lt;h2 id="插件安装">插件安装&lt;/h2>
-&lt;p>cas插件使用&lt;a href="https://github.com/tyl3k/cas_sso.git" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;详细情况：discourse 配置好二级域名后，摘要邮件中取消订阅链接错误&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>Discourse Cas</title><link>https://number317.github.io/blog/struct/discourse_cas/</link><pubDate>Mon, 23 Oct 2017 09:15:44 +0800</pubDate><guid>https://number317.github.io/blog/struct/discourse_cas/</guid><description>&lt;h1 id="discourse-cas-登录配置"&gt;discourse cas 登录配置&lt;/h1&gt;
+&lt;h2 id="插件安装"&gt;插件安装&lt;/h2&gt;
+&lt;p&gt;cas插件使用&lt;a href="https://github.com/tyl3k/cas_sso.git" target="_blank" rel="noopener noreferrer" &gt;
  tyl3k/cas_sso
-&lt;/a>
-，在&lt;code>discourse.yml&lt;/code>中添加&lt;code>git clone https://github.com/tyl3k/cas_sso.git&lt;/code>:&lt;/p></description></item><item><title>Discourse Deploy</title><link>https://number317.github.io/blog/struct/discourse_deploy/</link><pubDate>Wed, 18 Oct 2017 20:03:58 +0800</pubDate><guid>https://number317.github.io/blog/struct/discourse_deploy/</guid><description>&lt;h1 id="discourse-docker-部署">discourse docker 部署&lt;/h1>
-&lt;h2 id="部署说明">部署说明&lt;/h2>
-&lt;ul>
-&lt;li>目标：以容器的方式部署discourse到网站的二级域名，如 &lt;code>http://test.test.com/community/&lt;/code>&lt;/li>
-&lt;li>架构：1个postgres数据库，1个redis数据库，1个discourse服务器&lt;/li>
-&lt;/ul></description></item></channel></rss>
+&lt;/a&gt;
+，在&lt;code&gt;discourse.yml&lt;/code&gt;中添加&lt;code&gt;git clone https://github.com/tyl3k/cas_sso.git&lt;/code&gt;:&lt;/p&gt;</description></item><item><title>Discourse Deploy</title><link>https://number317.github.io/blog/struct/discourse_deploy/</link><pubDate>Wed, 18 Oct 2017 20:03:58 +0800</pubDate><guid>https://number317.github.io/blog/struct/discourse_deploy/</guid><description>&lt;h1 id="discourse-docker-部署"&gt;discourse docker 部署&lt;/h1&gt;
+&lt;h2 id="部署说明"&gt;部署说明&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;目标：以容器的方式部署discourse到网站的二级域名，如 &lt;code&gt;http://test.test.com/community/&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;架构：1个postgres数据库，1个redis数据库，1个discourse服务器&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>

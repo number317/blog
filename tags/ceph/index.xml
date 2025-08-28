@@ -1,38 +1,38 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ceph on cheon's blog</title><link>https://number317.github.io/blog/tags/ceph/</link><description>Recent content in Ceph on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/ceph/index.xml" rel="self" type="application/rss+xml"/><item><title>Ceph Ansible</title><link>https://number317.github.io/blog/struct/ceph_ansible/</link><pubDate>Sun, 23 Jun 2019 16:45:52 +0800</pubDate><guid>https://number317.github.io/blog/struct/ceph_ansible/</guid><description>&lt;h1 id="ceph-介绍">Ceph 介绍&lt;/h1>
-&lt;p>无论是想要为云平台提供 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-object-storage" target="_blank" rel="noopener noreferrer" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ceph on cheon's blog</title><link>https://number317.github.io/blog/tags/ceph/</link><description>Recent content in Ceph on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/ceph/index.xml" rel="self" type="application/rss+xml"/><item><title>Ceph Ansible</title><link>https://number317.github.io/blog/struct/ceph_ansible/</link><pubDate>Sun, 23 Jun 2019 16:45:52 +0800</pubDate><guid>https://number317.github.io/blog/struct/ceph_ansible/</guid><description>&lt;h1 id="ceph-介绍"&gt;Ceph 介绍&lt;/h1&gt;
+&lt;p&gt;无论是想要为云平台提供 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-object-storage" target="_blank" rel="noopener noreferrer" &gt;
  Ceph Object Storage
-&lt;/a>
- 或 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-block-device" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+ 或 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-block-device" target="_blank" rel="noopener noreferrer" &gt;
  Ceph Block Device
-&lt;/a>
- 服务，部署一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-filesystem" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+ 服务，部署一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-filesystem" target="_blank" rel="noopener noreferrer" &gt;
  Ceph Filesystem
-&lt;/a>
- 总是从设置每一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-node" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+ 总是从设置每一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-node" target="_blank" rel="noopener noreferrer" &gt;
  Ceph 节点
-&lt;/a>
-，网络和 Ceph 存储集群开始。一个 Ceph 存储集群至少需要一个 Ceph Monitor，Ceph Manger，和 Ceph OSD(Object Storage Daemon)。当运行 Ceph 文件系统客户端时也需要 Ceph Metadata Server。&lt;/p>
-&lt;ul>
-&lt;li>
-&lt;p>Monitors: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-monitor" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+，网络和 Ceph 存储集群开始。一个 Ceph 存储集群至少需要一个 Ceph Monitor，Ceph Manger，和 Ceph OSD(Object Storage Daemon)。当运行 Ceph 文件系统客户端时也需要 Ceph Metadata Server。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Monitors: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-monitor" target="_blank" rel="noopener noreferrer" &gt;
  Ceph 监视器(ceph-mon)
-&lt;/a>
- 维护集群状态的映射，包括监视器，管理，OSD 和 CURSH 映射。这些映射是 Ceph 守护进程之间相互协调的关键。监视器还负责管理守护进程和客户端之间的身份验证。为了保证冗余和高可用，至少需要3个监视器。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>Mangers: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-manager" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+ 维护集群状态的映射，包括监视器，管理，OSD 和 CURSH 映射。这些映射是 Ceph 守护进程之间相互协调的关键。监视器还负责管理守护进程和客户端之间的身份验证。为了保证冗余和高可用，至少需要3个监视器。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Mangers: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-manager" target="_blank" rel="noopener noreferrer" &gt;
  Ceph 管理(ceph-mgr)
-&lt;/a>
-守护进程负责保持追踪 Ceph 集群运行时指标和当前集群状态，包括存储利用率，当前的性能指标和系统负载。Ceph 管理进程还托管基于 python 的模块来管理和公开 Ceph 集群信息，包括一个基于网页的 &lt;a href="http://docs.ceph.com/docs/master/mgr/dashboard/#mgr-dashboard" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+守护进程负责保持追踪 Ceph 集群运行时指标和当前集群状态，包括存储利用率，当前的性能指标和系统负载。Ceph 管理进程还托管基于 python 的模块来管理和公开 Ceph 集群信息，包括一个基于网页的 &lt;a href="http://docs.ceph.com/docs/master/mgr/dashboard/#mgr-dashboard" target="_blank" rel="noopener noreferrer" &gt;
  Ceph Dashboard
-&lt;/a>
- 和 &lt;a href="http://docs.ceph.com/docs/master/mgr/restful" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+ 和 &lt;a href="http://docs.ceph.com/docs/master/mgr/restful" target="_blank" rel="noopener noreferrer" &gt;
  REST API
-&lt;/a>
-。为了保证高可用，至少需要2个管理节点。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>Ceph OSDs: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-osd" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+。为了保证高可用，至少需要2个管理节点。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Ceph OSDs: 一个 &lt;a href="http://docs.ceph.com/docs/master/glossary/#term-ceph-osd" target="_blank" rel="noopener noreferrer" &gt;
  Ceph OSD(object storage daemon, ceph-osd)
-&lt;/a>
-存储数据，处理数据复制、恢复、重新平衡，并通过检查其他 Ceph OSD 进程的心跳来提供一些监控信息给 Ceph 监视器和管理。为了保证冗余和高可用，至少需要3个 Ceph OSDs。&lt;/p></description></item></channel></rss>
+&lt;/a&gt;
+存储数据，处理数据复制、恢复、重新平衡，并通过检查其他 Ceph OSD 进程的心跳来提供一些监控信息给 Ceph 监视器和管理。为了保证冗余和高可用，至少需要3个 Ceph OSDs。&lt;/p&gt;</description></item></channel></rss>

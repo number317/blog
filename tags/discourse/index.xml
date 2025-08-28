@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Discourse on cheon's blog</title><link>https://number317.github.io/blog/tags/discourse/</link><description>Recent content in Discourse on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/discourse/index.xml" rel="self" type="application/rss+xml"/><item><title>Discourse Digest</title><link>https://number317.github.io/blog/struct/discourse_digest/</link><pubDate>Tue, 24 Oct 2017 19:27:59 +0800</pubDate><guid>https://number317.github.io/blog/struct/discourse_digest/</guid><description>&lt;h1 id="问题说明">问题说明&lt;/h1>
-&lt;ul>
-&lt;li>discourse 版本：v1.9.0.beta12 +49&lt;/li>
-&lt;li>discourse 域名: &lt;a href="http://test.test.com/community" target="_blank" rel="noopener noreferrer" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Discourse on cheon's blog</title><link>https://number317.github.io/blog/tags/discourse/</link><description>Recent content in Discourse on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 17 Dec 2024 19:51:41 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/discourse/index.xml" rel="self" type="application/rss+xml"/><item><title>Discourse Digest</title><link>https://number317.github.io/blog/struct/discourse_digest/</link><pubDate>Tue, 24 Oct 2017 19:27:59 +0800</pubDate><guid>https://number317.github.io/blog/struct/discourse_digest/</guid><description>&lt;h1 id="问题说明"&gt;问题说明&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;discourse 版本：v1.9.0.beta12 +49&lt;/li&gt;
+&lt;li&gt;discourse 域名: &lt;a href="http://test.test.com/community" target="_blank" rel="noopener noreferrer" &gt;
  http://test.test.com/community
-&lt;/a>
-&lt;/li>
-&lt;li>详细情况：discourse 配置好二级域名后，摘要邮件中取消订阅链接错误&lt;/li>
-&lt;/ul></description></item><item><title>Discourse Cas</title><link>https://number317.github.io/blog/struct/discourse_cas/</link><pubDate>Mon, 23 Oct 2017 09:15:44 +0800</pubDate><guid>https://number317.github.io/blog/struct/discourse_cas/</guid><description>&lt;h1 id="discourse-cas-登录配置">discourse cas 登录配置&lt;/h1>
-&lt;h2 id="插件安装">插件安装&lt;/h2>
-&lt;p>cas插件使用&lt;a href="https://github.com/tyl3k/cas_sso.git" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;详细情况：discourse 配置好二级域名后，摘要邮件中取消订阅链接错误&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>Discourse Cas</title><link>https://number317.github.io/blog/struct/discourse_cas/</link><pubDate>Mon, 23 Oct 2017 09:15:44 +0800</pubDate><guid>https://number317.github.io/blog/struct/discourse_cas/</guid><description>&lt;h1 id="discourse-cas-登录配置"&gt;discourse cas 登录配置&lt;/h1&gt;
+&lt;h2 id="插件安装"&gt;插件安装&lt;/h2&gt;
+&lt;p&gt;cas插件使用&lt;a href="https://github.com/tyl3k/cas_sso.git" target="_blank" rel="noopener noreferrer" &gt;
  tyl3k/cas_sso
-&lt;/a>
-，在&lt;code>discourse.yml&lt;/code>中添加&lt;code>git clone https://github.com/tyl3k/cas_sso.git&lt;/code>:&lt;/p></description></item><item><title>Discourse Deploy</title><link>https://number317.github.io/blog/struct/discourse_deploy/</link><pubDate>Wed, 18 Oct 2017 20:03:58 +0800</pubDate><guid>https://number317.github.io/blog/struct/discourse_deploy/</guid><description>&lt;h1 id="discourse-docker-部署">discourse docker 部署&lt;/h1>
-&lt;h2 id="部署说明">部署说明&lt;/h2>
-&lt;ul>
-&lt;li>目标：以容器的方式部署discourse到网站的二级域名，如 &lt;code>http://test.test.com/community/&lt;/code>&lt;/li>
-&lt;li>架构：1个postgres数据库，1个redis数据库，1个discourse服务器&lt;/li>
-&lt;/ul></description></item></channel></rss>
+&lt;/a&gt;
+，在&lt;code&gt;discourse.yml&lt;/code&gt;中添加&lt;code&gt;git clone https://github.com/tyl3k/cas_sso.git&lt;/code&gt;:&lt;/p&gt;</description></item><item><title>Discourse Deploy</title><link>https://number317.github.io/blog/struct/discourse_deploy/</link><pubDate>Wed, 18 Oct 2017 20:03:58 +0800</pubDate><guid>https://number317.github.io/blog/struct/discourse_deploy/</guid><description>&lt;h1 id="discourse-docker-部署"&gt;discourse docker 部署&lt;/h1&gt;
+&lt;h2 id="部署说明"&gt;部署说明&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;目标：以容器的方式部署discourse到网站的二级域名，如 &lt;code&gt;http://test.test.com/community/&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;架构：1个postgres数据库，1个redis数据库，1个discourse服务器&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>

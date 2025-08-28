@@ -1,52 +1,52 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Icons on cheon's blog</title><link>https://number317.github.io/blog/tags/icons/</link><description>Recent content in Icons on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 21 Jun 2019 16:50:17 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/icons/index.xml" rel="self" type="application/rss+xml"/><item><title>Nerd Font</title><link>https://number317.github.io/blog/system/nerd_font/</link><pubDate>Fri, 21 Jun 2019 14:32:35 +0800</pubDate><guid>https://number317.github.io/blog/system/nerd_font/</guid><description>&lt;h1 id="图标字体">图标字体&lt;/h1>
-&lt;p>在用 &lt;a href="https://github.com/robm/dzen" target="_blank" rel="noopener noreferrer" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Icons on cheon's blog</title><link>https://number317.github.io/blog/tags/icons/</link><description>Recent content in Icons on cheon's blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Fri, 21 Jun 2019 16:50:17 +0800</lastBuildDate><atom:link href="https://number317.github.io/blog/tags/icons/index.xml" rel="self" type="application/rss+xml"/><item><title>Nerd Font</title><link>https://number317.github.io/blog/system/nerd_font/</link><pubDate>Fri, 21 Jun 2019 14:32:35 +0800</pubDate><guid>https://number317.github.io/blog/system/nerd_font/</guid><description>&lt;h1 id="图标字体"&gt;图标字体&lt;/h1&gt;
+&lt;p&gt;在用 &lt;a href="https://github.com/robm/dzen" target="_blank" rel="noopener noreferrer" &gt;
  dzen2
-&lt;/a>
- 给桌面添加一个 panel 的时候用到了 &lt;a href="http://fontawesome.com" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+ 给桌面添加一个 panel 的时候用到了 &lt;a href="http://fontawesome.com" target="_blank" rel="noopener noreferrer" &gt;
  FontAwesome
-&lt;/a>
-，但是在 urxvt 终端下 FontAwesome 无法正常显示出来（不知是不是配置有误）。这样在用 vim 写脚本时不够直观。又不想换终端，所以只能从字体下手。&lt;/p>
-&lt;p>之前就了解到过 &lt;a href="https://github.com/ryanoasis/nerd-fonts" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+，但是在 urxvt 终端下 FontAwesome 无法正常显示出来（不知是不是配置有误）。这样在用 vim 写脚本时不够直观。又不想换终端，所以只能从字体下手。&lt;/p&gt;
+&lt;p&gt;之前就了解到过 &lt;a href="https://github.com/ryanoasis/nerd-fonts" target="_blank" rel="noopener noreferrer" &gt;
  nerd-fonts
-&lt;/a>
- 这个项目，可以将图标字体整合进一个你想要的字体中。项目主页提供了一些已经预先构建好的字体，可以在&lt;a href="https://nerdfonts.com/" target="_blank" rel="noopener noreferrer" >
+&lt;/a&gt;
+ 这个项目，可以将图标字体整合进一个你想要的字体中。项目主页提供了一些已经预先构建好的字体，可以在&lt;a href="https://nerdfonts.com/" target="_blank" rel="noopener noreferrer" &gt;
  官网
-&lt;/a>
-直接下载使用。目前终端用的字体是从另一台 Mac 上复制出来的 SFMono，这也是 Mac 内置终端默认的字体。已经习惯了这款字体后就不想换了，因此准备构建自己的字体。&lt;/p>
-&lt;p>根据项目主页的教程，执行它提供给你的 &lt;code>font-patcher&lt;/code> 脚本前需要安装 &lt;code>fontforge&lt;/code>:&lt;/p>
+&lt;/a&gt;
+直接下载使用。目前终端用的字体是从另一台 Mac 上复制出来的 SFMono，这也是 Mac 内置终端默认的字体。已经习惯了这款字体后就不想换了，因此准备构建自己的字体。&lt;/p&gt;
+&lt;p&gt;根据项目主页的教程，执行它提供给你的 &lt;code&gt;font-patcher&lt;/code&gt; 脚本前需要安装 &lt;code&gt;fontforge&lt;/code&gt;:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-ae96ead43bb8ee44d7d067c253707e89">pacman -S fontforge&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-ae96ead43bb8ee44d7d067c253707e89', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-ae96ead43bb8ee44d7d067c253707e89"&gt;pacman -S fontforge&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-ae96ead43bb8ee44d7d067c253707e89', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;p>安装完依赖，下载 &lt;code>font-patcher&lt;/code> 脚本并添加可执行权限:&lt;/p>
-
-
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-802d0a9bb95b903bc578e9153d38d6c2">curl -OL https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/font-patcher
-chmod &amp;#43;x font-patcher&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-802d0a9bb95b903bc578e9153d38d6c2', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
-
-&lt;p>执行脚本进行构建字体:&lt;/p>
+&lt;p&gt;安装完依赖，下载 &lt;code&gt;font-patcher&lt;/code&gt; 脚本并添加可执行权限:&lt;/p&gt;
 
 
-&lt;div class="code-block code-block-container-indented">
- &lt;pre>&lt;code id="code-69f567c89c65863623ec9bc893ca6e94">./font-patcher path/to/SFMono-Regular.otf -out path/to/SFMono-Nerd/ -c -l -s&lt;/code>&lt;/pre>
- &lt;button class="copy-code-button" onclick="copyCode('code-69f567c89c65863623ec9bc893ca6e94', this)" title="copy">
- &lt;i class="fa fa-copy">&lt;/i>
- &lt;/button>
-&lt;/div>
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-802d0a9bb95b903bc578e9153d38d6c2"&gt;curl -OL https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/font-patcher
+chmod &amp;#43;x font-patcher&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-802d0a9bb95b903bc578e9153d38d6c2', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
 
-&lt;ul>
-&lt;li>&lt;code>-c&lt;/code> 表示添加所有可用字形&lt;/li>
-&lt;li>&lt;code>-l&lt;/code> 表示适应行高（尝试将 powerline 的分隔符均匀地放在中间）&lt;/li>
-&lt;li>&lt;code>-s&lt;/code> 表示使用单个字符宽度&lt;/li>
-&lt;/ul>
-&lt;p>运行脚本发现报错，提示找不到 &lt;code>src&lt;/code> 目录下的字体文件。这提示我们还需要去下载 &lt;code>src&lt;/code> 目录下的字体文件。这里有一个技巧，关于如何从 github 下载某个文件夹。&lt;/p></description></item></channel></rss>
+&lt;p&gt;执行脚本进行构建字体:&lt;/p&gt;
+
+
+&lt;div class="code-block code-block-container-indented"&gt;
+ &lt;pre&gt;&lt;code id="code-69f567c89c65863623ec9bc893ca6e94"&gt;./font-patcher path/to/SFMono-Regular.otf -out path/to/SFMono-Nerd/ -c -l -s&lt;/code&gt;&lt;/pre&gt;
+ &lt;button class="copy-code-button" onclick="copyCode('code-69f567c89c65863623ec9bc893ca6e94', this)" title="copy"&gt;
+ &lt;i class="fa fa-copy"&gt;&lt;/i&gt;
+ &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;-c&lt;/code&gt; 表示添加所有可用字形&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-l&lt;/code&gt; 表示适应行高（尝试将 powerline 的分隔符均匀地放在中间）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-s&lt;/code&gt; 表示使用单个字符宽度&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;运行脚本发现报错，提示找不到 &lt;code&gt;src&lt;/code&gt; 目录下的字体文件。这提示我们还需要去下载 &lt;code&gt;src&lt;/code&gt; 目录下的字体文件。这里有一个技巧，关于如何从 github 下载某个文件夹。&lt;/p&gt;</description></item></channel></rss>
