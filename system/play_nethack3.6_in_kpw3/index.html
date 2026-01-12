@@ -1,0 +1,136 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=description content="Aloha! Welcome to cheon's blog."><meta name=HandheldFriendly content="True"><meta name=MobileOptimized content="320"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=76x76 href=https://number317.github.io/blog/img/apple-touch-icon.png><link rel=icon href=https://number317.github.io/blog/img/pen.svg><link rel=stylesheet href=https://number317.github.io/blog/css/global.css><link rel=stylesheet href=https://number317.github.io/blog/css/nav.css><link rel=stylesheet href=https://number317.github.io/blog/css/header.css><link rel=stylesheet href=https://number317.github.io/blog/css/index.css><link rel=stylesheet href=https://number317.github.io/blog/css/list.css><link rel=stylesheet href=https://number317.github.io/blog/css/single.css><link rel=stylesheet href=https://number317.github.io/blog/css/footer.css><link href="https://fonts.font.im/css?family=Fira+Mono|Noto+Sans|Old+Standard+TT" rel=preload as=style onload='this.onload=null,this.rel="stylesheet"'><link href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css rel=preload as=style onload='this.onload=null,this.rel="stylesheet"'><script src=https://number317.github.io/blog/js/single.js></script><link href=https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.min.css rel=preload as=style onload='this.onload=null,this.rel="stylesheet"'><script src=https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.min.js async></script><title>cheon's blog</title></head><body><section id=header><ul id=menus><li class=menu><a href=https://number317.github.io><span>Home</span></a></li><li class=menu><a href=https://number317.github.io/blog/categories><span>Categories</span></a></li><li class=menu><a href=https://number317.github.io/blog/tags><span>Tags</span></a></li><li class=menu><a href=https://github.com/number317><span>Projects</span></a></li></ul><h1 id=title><a href=https://number317.github.io/blog/>cheon's blog</a></h1></section><ul id=nav><li>»
+<a href=https://number317.github.io/blog/>cheon's blog</a></li><li>»
+<a href=https://number317.github.io/blog/system/>system</a></li><li class=active>»
+<a href=https://number317.github.io/blog/system/play_nethack3.6_in_kpw3/>Play Nethack3.6 in KPW3</a></li></ul><div id=content><main id=main><h1>Play Nethack3.6 in KPW3</h1><time>Last updated Mon Jan 12, 2026</time><div><aside><h2>Table of Content</h1><nav id=TableOfContents><ul><li><a href=#前提条件>前提条件</a></li><li><a href=#环境准备>环境准备</a></li><li><a href=#动态库提取>动态库提取</a></li><li><a href=#编译配置>编译配置</a></li><li><a href=#编译安装>编译安装</a></li><li><a href=#相关配置>相关配置</a></li></ul></nav></aside><article id=content><h1 id=play-nethack36-in-kpw3>Play Nethack3.6 in KPW3</h1><h2 id=前提条件>前提条件</h2><ol><li>KPW3 需要越狱，并且安装了 <a href="https://www.mobileread.com/forums/showthread.php?t=186645" target=_blank rel="noopener noreferrer"><code>usbnetwork</code>
+</a>插件，可以通过 <code>ssh</code> 连接到 kindle 上</li><li>编译的 nethack 是终端版本，所以需要安装 <a href=https://github.com/bfabiszewski/kterm target=_blank rel="noopener noreferrer"><code>kterm</code>
+</a>插件，用于运行 nethack</li></ol><p>关于如何越狱 kindle 和安装插件，网上有很多教程，不再赘述</p><h2 id=环境准备>环境准备</h2><p>为了保持系统整洁，我习惯上在容器中执行这种临时任务。由于 kindle 的 linux 版本比较老，所以我选择了 ubuntu:trusty，可以方便安装老版本的 gcc 等工具。</p><div class="code-block code-block-container-indented"><pre><code id=code-ee825cd0a66bb4e71e29e5c4d3b4d48d>podman run -it --name kpw3 -v ~/Codes:/workspace ubuntu:trusty bash</code></pre><button class=copy-code-button onclick='copyCode("code-ee825cd0a66bb4e71e29e5c4d3b4d48d",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>先安装 arm 版本的 gcc 等工具，ncurses 是因为在代码里有用到 <code>ncurses.h</code></p><div class="code-block code-block-container-indented"><pre><code id=code-9809fa6c95b893cad4046f57d419125f>apt update
+apt install -y gcc-4.7-arm-linux-gnueabi make libncurses5-dev libncursesw5-dev</code></pre><button class=copy-code-button onclick='copyCode("code-9809fa6c95b893cad4046f57d419125f",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>gcc 安装完成后，需要在系统中创建一些软链接，防止编译的时候找不到文件</p><div class="code-block code-block-container-indented"><pre><code id=code-185f1b824dc65f9769b86e5295cdd39f>ln -sfv /usr/arm-linux-gnueabi/lib/ld-linux.so.3 /lib/ld-linux.so.3
+ln -sfv /usr/arm-linux-gnueabi/lib/libc.so.6 /lib/libc.so.6
+ln -sfv /usr/arm-linux-gnueabi/lib/libc_nonshared.a /usr/lib/libc_nonshared.a</code></pre><button class=copy-code-button onclick='copyCode("code-185f1b824dc65f9769b86e5295cdd39f",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><h2 id=动态库提取>动态库提取</h2><p>编译需要用到一些 kindle 的动态库文件，需要从 kindle 中提取出来，方法如下：</p><div class="code-block code-block-container-indented"><pre><code id=code-953e66ee1bc9647076c9dd8e78fb108f>ssh root@&lt;your kindle ip address&gt;
+cd /usr
+tar -cpvzf /mnt/us/libs.tar.gz lib
+scp root@&lt;your kindles ip address&gt;:/mnt/us/libs.tar.gz .</code></pre><button class=copy-code-button onclick='copyCode("code-953e66ee1bc9647076c9dd8e78fb108f",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><details><summary>将提取的动态库文件拷贝到容器中，并做一些软链接：</summary><div class="code-block code-block-container-indented"><pre><code id=code-7a1acfee087d76935c07f4a8cae89c40>podman cp lib.tar.gz kpw3:/root
+
+tar -xzvf lib.tar.gz
+mv lib kindle_libs
+
+cd kindle_libs
+
+rm libglib-2.0.so
+rm libglib-2.0.so.0
+ln -s libglib-2.0.so.0.2918.0 libglib-2.0.so
+ln -s libglib-2.0.so.0.2918.0 libglib-2.0.so.0
+rm libgio-2.0.so
+rm libgio-2.0.so.0
+ln -s libgio-2.0.so.0.2918.0 libgio-2.0.so
+ln -s libgio-2.0.so.0.2918.0 libgio-2.0.so.0
+rm libgobject-2.0.so
+rm libgobject-2.0.so.0
+ln -s libgobject-2.0.so.0.2918.0 libgobject-2.0.so
+ln -s libgobject-2.0.so.0.2918.0 libgobject-2.0.so.0
+rm libffi.so
+rm libffi.so.5
+ln -s libffi.so.5.0.10 libffi.so
+ln -s libffi.so.5.0.10 libffi.so.5
+rm libgmodule-2.0.so
+rm libgmodule-2.0.so.0
+ln -s libgmodule-2.0.so.0.2918.0 libgmodule-2.0.so
+ln -s libgmodule-2.0.so.0.2918.0 libgmodule-2.0.so.0
+rm libgthread-2.0.so
+rm libgthread-2.0.so.0
+ln -s libgthread-2.0.so.0.2918.0 libgthread-2.0.so
+ln -s libgthread-2.0.so.0.2918.0 libgthread-2.0.so.0
+ln -sf libncurses.so libtermlib.so
+ln -sf libncurses.so.5 libtermlib.so.5</code></pre><button class=copy-code-button onclick='copyCode("code-7a1acfee087d76935c07f4a8cae89c40",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></details><h2 id=编译配置>编译配置</h2><p>先设置一些编译器信息</p><div class="code-block code-block-container-indented"><pre><code id=code-17a3b98d6b71fcb1203ff1d77d18537d>export CC=arm-linux-gnueabi-gcc-4.7
+export LD=arm-linux-gnueabi-ld
+export AR=arm-linux-gnueabi-ar
+export RANLIB=arm-linux-gnueabi-ranlib
+export STRIP=arm-linux-gnueabi-strip</code></pre><button class=copy-code-button onclick='copyCode("code-17a3b98d6b71fcb1203ff1d77d18537d",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>为了方便 nethack 在运行时自动找到资源文件，要创建安装的目录，这个目录需要和 kindle 保持一致：</p><div class="code-block code-block-container-indented"><pre><code id=code-862d1613b7a13cea2d086d8c3e5792b4>mkdir -p /mnt/us/downloads/nethack-3.6</code></pre><button class=copy-code-button onclick='copyCode("code-862d1613b7a13cea2d086d8c3e5792b4",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>修改 hints 文件，更改 <code>PREFIX</code> 为安装的目录以适配 KPW3:</p><details><summary>git diff</summary><div class="code-block code-block-container-indented"><pre><code id=code-fca75f562abe5dface626ab87ec88534>git diff sys/unix/hints/unix
+diff --git a/sys/unix/hints/unix b/sys/unix/hints/unix
+index bd2ef8684..8e4826ac7 100644
+--- a/sys/unix/hints/unix
+&#43;&#43;&#43; b/sys/unix/hints/unix
+@@ -10,7 &#43;10,7 @@
+ # and Makefiles.
+
+
+-PREFIX=/usr
+&#43;PREFIX=/mnt/us/downloads/nethack-3.6
+ HACKDIR=$(PREFIX)/games/lib/$(GAME)dir
+ INSTDIR=$(HACKDIR)
+ VARDIR=$(HACKDIR)</code></pre><button class=copy-code-button onclick='copyCode("code-fca75f562abe5dface626ab87ec88534",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></details><p>运行配置，使用最简单的unix配置，生成Makefile</p><div class="code-block code-block-container-indented"><pre><code id=code-be44f9febb2d4cd36869f8a8e0e8db15>sh sys/unix/setup.sh sys/unix/hints/unix</code></pre><button class=copy-code-button onclick='copyCode("code-be44f9febb2d4cd36869f8a8e0e8db15",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>修改 src/Makefiles，添加 kindle_libs 的路径，将 <code>-ltermlib</code> 修改为如下：</p><div class="code-block code-block-container-indented"><pre><code id=code-163b546ad34cfe17a90b401c1258d364>WINTTYLIB=-ltermlib -L /root/kindle_libs</code></pre><button class=copy-code-button onclick='copyCode("code-163b546ad34cfe17a90b401c1258d364",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>修改 include/config.h，配置存档的压缩方式，以适配 kindle 存在的压缩工具：</p><details><summary>`git diff`</summary><div class="code-block code-block-container-indented"><pre><code id=code-a992fc315dca6294c37607f2c22b47c8>diff --git a/include/config.h b/include/config.h
+index b606b5db1..db0b0f948 100644
+--- a/include/config.h
+&#43;&#43;&#43; b/include/config.h
+@@ -263,11 &#43;263,11 @@
+
+ #if defined(UNIX) &amp;&amp; !defined(ZLIB_COMP) &amp;&amp; !defined(COMPRESS)
+ /* path and file name extension for compression program */
+-#define COMPRESS &#34;/usr/bin/compress&#34; /* Lempel-Ziv compression */
+-#define COMPRESS_EXTENSION &#34;.Z&#34;      /* compress&#39;s extension */
+&#43;/* #define COMPRESS &#34;/usr/bin/compress&#34; */ /* Lempel-Ziv compression */
+&#43;/* #define COMPRESS_EXTENSION &#34;.Z&#34; */     /* compress&#39;s extension */
+ /* An example of one alternative you might want to use: */
+-/* #define COMPRESS &#34;/usr/local/bin/gzip&#34; */ /* FSF gzip compression */
+-/* #define COMPRESS_EXTENSION &#34;.gz&#34; */       /* normal gzip extension */
+&#43;#define COMPRESS &#34;/bin/gzip&#34; /* FSF gzip compression */
+&#43;#define COMPRESS_EXTENSION &#34;.gz&#34; /* normal gzip extension */
+ #endif
+
+ #ifndef COMPRESS</code></pre><button class=copy-code-button onclick='copyCode("code-a992fc315dca6294c37607f2c22b47c8",this)' title=copy>
+<i class="fa fa-copy"></i></button></div></details><h2 id=编译安装>编译安装</h2><div class="code-block code-block-container-indented"><pre><code id=code-08693bc0cdcadc5c7ff1598d9bcb36b4>make
+make install</code></pre><button class=copy-code-button onclick='copyCode("code-08693bc0cdcadc5c7ff1598d9bcb36b4",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>执行完成后，可以在 <code>/mnt/us/downloads/nethack-3.6/</code> 中找到编译生成的文件。</p><p>将整个 <code>nethack-3.6</code> 目录拷贝到 kindle 上的 <code>/mnt/us/downloads</code> 。</p><div class="code-block code-block-container-indented"><pre><code id=code-fe6a929d646a075ac15906172e97a8c8>podman cp -r /mnt/us/downloads/nethack-3.6 .
+scp -r nethack-3.6 root@&lt;your kindle ip address&gt;:/mnt/us/downloads</code></pre><button class=copy-code-button onclick='copyCode("code-fe6a929d646a075ac15906172e97a8c8",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><h2 id=相关配置>相关配置</h2><p>为了在 <code>kterm</code> 中方便运行，可以创建一个软链接:</p><div class="code-block code-block-container-indented"><pre><code id=code-fe27a7454ad3c0bc1cfd0ebd942a9435>mntroot rw
+cd /mnt/us/downloads/nethack-3.6
+ln -s /mnt/us/downloads/nethack-3.6/games/nethack /usr/local/bin/nethack</code></pre><button class=copy-code-button onclick='copyCode("code-fe27a7454ad3c0bc1cfd0ebd942a9435",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>nethack 推荐的最小终端列数是 80，测试下来可以用 <code>Maple Mono</code> 的 5 号字体，这样有 82 列宽，可以完整显示 nethack 界面。</p><p>为了方便启动，可以修改下 <code>kterm</code> 的 <code>menu.json</code>：</p><div class="code-block code-block-container-indented"><pre><code id=code-8476d6f6f490265da6c8c50930f0c8ee>{
+    &#34;items&#34;: [
+        {
+            &#34;name&#34;: &#34;Kterm&#34;,
+            &#34;priority&#34;: 0,
+            &#34;items&#34;: [
+                {&#34;name&#34;: &#34;Kterm&#34;, &#34;priority&#34;: 1, &#34;action&#34;: &#34;bin/kterm.sh&#34;},
+                {&#34;name&#34;: &#34;maple-mono&#34;, &#34;priority&#34;: 2, &#34;action&#34;: &#34;bin/kterm.sh -f &#39;Maple Mono&#39; -s 5&#34;}
+            ]
+        }
+    ]
+}</code></pre><button class=copy-code-button onclick='copyCode("code-8476d6f6f490265da6c8c50930f0c8ee",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>字体文件可以上传到 kindle 的 <code>/mnt/us/downloads/fonts</code> 目录下，然后在 <code>/usr/share/fonts</code> 中创建一个软链接，再更新字体缓存：</p><div class="code-block code-block-container-indented"><pre><code id=code-78ddcac266fe76c3c7d379dc3b53ea45>ln -sfv /mnt/us/downloads/fonts /usr/share/fonts/root
+fc-cache -r</code></pre><button class=copy-code-button onclick='copyCode("code-78ddcac266fe76c3c7d379dc3b53ea45",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>由于 kpw3 的 eink 屏幕，nethack 的配置也需要修改，禁用颜色：</p><div class="code-block code-block-container-indented"><pre><code id=code-8f182b9219aaad6b888c4d61331f44e3>OPTIONS=number_pad:0
+
+OPTIONS=hilite_pet,lit_corridor,boulder:0
+OPTIONS=showexp
+OPTIONS=time
+OPTIONS=autodig,autopickup,pickup_types:$
+
+OPTIONS=windowtype:tty,toptenwin,symset:DECgraphics
+OPTIONS=fixinv,safe_pet,sortpack,tombsto
+OPTIONS=verbose,news
+OPTIONS=msghistory:500,msg_window:reversed
+OPTIONS=hilite_status:characteristics/up/green/down/red
+
+MSGTYPE=hide &#34;You swap places with .*&#34;
+MSGTYPE=hide &#34;You stop[^!]*is in the way!&#34;
+MSGTYPE=hide &#34;You hear crashing rock.&#34;
+MSGTYPE=hide &#34;A mysterious force prevents the tengu from teleporting!&#34;
+MSGTYPE=norep &#34;You see here a .*&#34;
+MSGTYPE=norep &#34;You see here an .*&#34;
+MSGTYPE=norep &#34;You start digging.  You hit the rock with all your might.  You succeed in cutting away some rock.&#34;
+MSGTYPE=stop &#34;You are slowing down.&#34;
+MSGTYPE=stop &#34;You find it hard to breathe.&#34;
+MSGTYPE=stop &#34;You are turning a little .*&#34;</code></pre><button class=copy-code-button onclick='copyCode("code-8f182b9219aaad6b888c4d61331f44e3",this)' title=copy>
+<i class="fa fa-copy"></i></button></div><p>最后来一个游戏截图：</p><p><img src=https://number317.github.io/blog/system/images/play_nethack3.6_in_kpw3_img1.png alt=nethack-3.6></p></article></div></main><div><h4 id=signature>Fri Jan 9, 2026
+cheon</h4><ul class=tags><li><a href=https://number317.github.io/blog/tags/kindle>kindle</a></li><li><a href=https://number317.github.io/blog/tags/nethack>nethack</a></li><li><a href=https://number317.github.io/blog/tags/eink>eink</a></li><li><a href=https://number317.github.io/blog/tags/cross-compile>cross-compile</a></li></ul><ul class=related><li><a class=previous href=https://number317.github.io/blog/system/hanvon_ed310b_adb/>Hanvon Ed310B Adb</a></li></ul></div></div><section id=footer><div id=author><h2>About Author</h2><hr><img src=https://number317.github.io/images/author.jpg></img><p>Life is dance we all have to do.</p></div><ul id=link><li><a href=https://github.com/number317/aloha.git target=_blank><i class="fa fa-github" alt=github></i></a></li><li><a href="mailto:cheon0112358d@gmail.com?subject=blog%27s%20feedback" target=_blank><i class="fa fa-envelope" alt=email></i></a></li><li id=wechat><i class="fa fa-wechat"></i></li><img class=qrcode src=https://number317.github.io/images/wechat.jpg></ul></section></body></html>
